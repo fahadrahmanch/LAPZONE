@@ -1,0 +1,104 @@
+<!-- Edit Address Modal -->
+<div class="address-modal-overlay" id="edit-modal-overlay">
+    <div class="address-modal">
+      <form id="edit-address-form" onsubmit="submitEditForm(event)">
+        <h2>Edit Address</h2>
+  
+        <input type="hidden" id="edit-id">
+  
+        <label for="edit-name">Full Name</label>
+        <input type="text" id="edit-name" placeholder="Enter your full name">
+  
+        <label for="edit-address">Address</label>
+        <input type="text" id="edit-address" placeholder="Enter your address">
+  
+        <label for="edit-landmark">Landmark</label>
+        <input type="text" id="edit-landmark" placeholder="Enter Landmark">
+  
+        <label for="edit-city">City</label>
+        <input type="text" id="edit-city" placeholder="Enter your city">
+  
+        <label for="edit-state">State</label>
+        <input type="text" id="edit-state" placeholder="Enter your state">
+  
+        <label for="edit-postal-code">Pincode</label>
+        <input type="text" id="edit-postal-code" placeholder="Enter your postal code">
+  
+        <label for="edit-phone">Phone</label>
+        <input type="tel" id="edit-phone" placeholder="Enter your phone number">
+  
+        <div class="address-button-row">
+          <button type="submit" class="address-save-button">Save Changes</button>
+          <button type="button" class="address-cancel-button" onclick="closeEditModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="custom-address-list" id="address-list">
+    <% for (let i = 0; i < addressData.length; i++) { %>
+      <div class="address-display">
+        <p><strong>Name:</strong> <span><%= addressData[i].name %></span></p>
+        <p><strong>Street Address:</strong> <span><%= addressData[i].streetaddress %></span></p>
+        <p><strong>Landmark:</strong> <span><%= addressData[i].landmark %></span></p>
+        <p><strong>City:</strong> <span><%= addressData[i].city %></span></p>
+        <p><strong>State:</strong> <span><%= addressData[i].state %></span></p>
+        <p><strong>Pincode:</strong> <span><%= addressData[i].pincode %></span></p>
+        <p><strong>Phone:</strong> <span><%= addressData[i].phone %></span></p>
+        <button class="edit-btn" onclick="openEditModal('<%= JSON.stringify(addressData[i]) %>')">Edit</button>
+        <button class="delete-btn" onclick="deleteAddress('<%= addressData[i]._id %>')">Delete</button>
+      </div>
+    <% } %>
+  </div>
+  
+  <script>
+  function openEditModal(addressDataString) {
+    const addressData = JSON.parse(addressDataString);
+    document.getElementById("edit-id").value = addressData._id;
+    document.getElementById("edit-name").value = addressData.name;
+    document.getElementById("edit-address").value = addressData.streetaddress;
+    document.getElementById("edit-landmark").value = addressData.landmark;
+    document.getElementById("edit-city").value = addressData.city;
+    document.getElementById("edit-state").value = addressData.state;
+    document.getElementById("edit-postal-code").value = addressData.pincode;
+    document.getElementById("edit-phone").value = addressData.phone;
+    
+    document.getElementById("edit-modal-overlay").style.display = "flex";
+  }
+  
+  function closeEditModal() {
+    document.getElementById("edit-modal-overlay").style.display = "none";
+  }
+  
+  function submitEditForm(event) {
+    event.preventDefault();
+    // Add your logic here to submit the edited address data
+    // You can use AJAX to send the data to your server
+    closeEditModal();
+  }
+  </script>
+  
+  <style>
+  .address-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .address-modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+  }
+  
+  /* Add any additional styles you need for your form elements */
+  </style>

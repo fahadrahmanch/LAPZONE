@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laptop E-commerce</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem 0;
+        }
+        .navbar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            transition: color 0.3s ease;
+        }
+        .navbar-links a:hover {
+            color: #ffd700;
+        }
+
+        /* Main content styles */
+        main {
+            padding: 2rem 0;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Category styles */
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .category {
+            background-color: white;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Product styles */
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .product {
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .product:hover {
+            transform: scale(1.05);
+        }
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 1rem;
+        }
+        .product-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .product-price {
+            color: #e44d26;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .product-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .product-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 2rem 0;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        .footer-section h3 {
+            margin-bottom: 1rem;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: #ffd700;
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #555;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 1s ease-out;
+        }
+        .animate-slideIn {
+            animation: slideIn 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container navbar-content">
+            <div class="navbar-brand">Laptop Store</div>
+            <div class="navbar-links">
+                <a href="#">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="#">Login</a>
+                <a href="#">Account</a>
+                <a href="#">Cart (0)</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="categories animate-fadeIn">
+            <h2>Categories</h2>
+            <div class="categories">
+                <div class="category">Gaming Laptops</div>
+                <div class="category">Business Laptops</div>
+                <div class="category">Student Laptops</div>
+                <div class="category">Creator Laptops</div>
+            </div>
+        </section>
+
+        <section class="featured-products animate-fadeIn">
+            <h2>Featured Products</h2>
+            <div class="products">
+                <div class="product animate-slideIn" style="animation-delay: 0.1s;">
+                    <img src="https://via.placeholder.com/300x200?text=Gaming+Laptop" alt="Gaming Laptop">
+                    <div class="product-info">
+                        <div class="product-title">Gaming Powerhouse X1</div>
+                        <div class="product-price">$1,499.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product animate-slideIn" style="animation-delay: 0.2s;">
+                    <img src="https://via.placeholder.com/300x200?text=Business+Laptop" alt="Business Laptop">
+                    <div class="product-info">
+                        <div class="product-title">Business Pro B2</div>
+                        <div class="product-price">$1,299.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product animate-slideIn" style="animation-delay: 0.3s;">
+                    <img src="https://via.placeholder.com/300x200?text=Student+Laptop" alt="Student Laptop">
+                    <div class="product-info">
+                        <div class="product-title">Student Essential S3</div>
+                        <div class="product-price">$799.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="best-sellers animate-fadeIn">
+            <h2>Best Sellers</h2>
+            <div class="products">
+                <div class="product animate-slideIn" style="animation-delay: 0.1s;">
+                    <img src="https://via.placeholder.com/300x200?text=Best+Seller+1" alt="Best Seller 1">
+                    <div class="product-info">
+                        <div class="product-title">UltraBook U1</div>
+                        <div class="product-price">$1,099.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product animate-slideIn" style="animation-delay: 0.2s;">
+                    <img src="https://via.placeholder.com/300x200?text=Best+Seller+2" alt="Best Seller 2">
+                    <div class="product-info">
+                        <div class="product-title">Creator's Dream C2</div>
+                        <div class="product-price">$1,599.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product animate-slideIn" style="animation-delay: 0.3s;">
+                    <img src="https://via.placeholder.com/300x200?text=Best+Seller+3" alt="Best Seller 3">
+                    <div class="product-info">
+                        <div class="product-title">Budget King B3</div>
+                        <div class="product-price">$599.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product animate-slideIn" style="animation-delay: 0.4s;">
+                    <img src="/p/pictures/asus 2.jpeg" alt="Best Seller 4">
+                    <div class="product-info">
+                        <div class="product-title">All-Rounder A4</div>
+                        <div class="product-price">$999.99</div>
+                        <button class="product-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Us</h3>
+                    <p>We offer the best laptops for all your needs, from gaming to business and everything in between.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <div class="footer-links">
+                        <a href="#">Home</a>
+                        <a href="#">Shop</a>
+                        <a href="#">About</a>
+                        <a href="#">Contact</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: info@laptopstore.com</p>
+                    <p>Phone: (123) 456-7890</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <form>
+                        <input type="email" placeholder="Your email" style="padding: 0.5rem; margin-bottom: 0.5rem; width: 100%;">
+                        <button type="submit" style="background-color: #4CAF50; color: white; border: none; padding: 0.5rem 1rem; cursor: pointer;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Laptop Store. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Add your JavaScript here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example: Add to cart functionality
+            const addToCartButtons = document.querySelectorAll('.product-button');
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    alert('Product added to cart!');
+                    // You would typically update the cart count and possibly show a mini-cart here
+                });
+            });
+
+            // Example: Search functionality (you would need to add a search input in the navbar)
+            // const searchInput = document.querySelector('#search-input');
+            // searchInput.addEventListener('input', function() {
+            //     console.log('Searching for:', this.value);
+            //     // Implement search logic here
+            // });
+        });
+    </script>
+</body>
+</html>

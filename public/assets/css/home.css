@@ -1,0 +1,43 @@
+.onhover-show-div {
+    position: relative; /* Ensure dropdown is positioned relative to this container */
+    display: inline-block;
+}
+
+.onhover-show-div ul {
+    display: none; /* Hidden initially */
+    position: absolute; /* Position relative to .onhover-show-div */
+    top: 100%; /* Show below the hover element */
+    left: 0;
+    background-color: white;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow for visibility */
+    z-index: 1000; /* Ensure it appears above other content */
+    list-style: none; /* Remove default bullet points */
+    padding: 10px;
+    margin: 0;
+    max-height: none; /* Prevent height restrictions */
+    overflow: visible; /* Allow full dropdown to display */
+}
+
+.onhover-show-div:hover ul {
+    display: block; /* Show dropdown on hover */
+}
+
+.onhover-show-div ul li {
+    padding: 5px 10px; /* Add spacing between items */
+    white-space: nowrap; /* Prevent line breaks */
+    line-height: 1.5; /* Add spacing for better visibility */
+}
+
+.onhover-show-div ul li a {
+    text-decoration: none; /* Remove underline */
+    color: black; /* Default text color */
+}
+
+.onhover-show-div ul li a:hover {
+    color: rgb(14, 15, 12); /* Change color on hover */
+}
+
+/* New rule for the icon inside the .onhover-show-div */
+.onhover-show-div > i {
+    color: rgb(0, 0, 0); /* Change icon color to white */
+}
