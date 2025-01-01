@@ -19,12 +19,10 @@ const editMyaccount = async (req, res) => {
     });
     console.log(existemail);
     if (existemail) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "user already exists with this email",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "user already exists with this email",
+      });
     }
     const user = User.find({ _id: usersId });
     if (!user) {
@@ -102,12 +100,10 @@ const changePassword = async (req, res) => {
     res.json({ success: true, message: "Password changed successfully!" });
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Internal server error. Please try again later.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error. Please try again later.",
+    });
   }
 };
 
@@ -186,7 +182,7 @@ const editAddress = async (req, res) => {
     if (!findAddress) {
       return res.status(400).json({ message: "user is not exists" });
     }
-    await addressSchema.updateOne(
+    const newAddress = await addressSchema.updateOne(
       { "address._id": id },
       {
         $set: {
@@ -203,26 +199,108 @@ const editAddress = async (req, res) => {
         },
       }
     );
-    // const Address = await addressSchema.find({ "address._id": id });
-    
-    return res.status(400).json({ message: "Address add successfully" });
+
+    return res.status(200).json({ address: newAddress });
   } catch (error) {
     console.log(error);
   }
 };
 
+const deleteAddress = async (req, res) => {
+  try {
+    const { addressId } = req.body;
+    const userId = req.session.user;
 
-const deleteAddress= async (req,res)=>{
-try{
- const deleteAddressId=req.body;
- console.log("hi")
- console.log(deleteAddressId)
-  const deleteaddress=await addressSchema.findByIdAndDelete(deleteAddressId)
-  console.log(deleteaddress)
-}
-catch(error){
+    const deleteAddress = await addressSchema.findOneAndUpdate(
+      { userId },
+      { $pull: { address: { _id: addressId } } },
+      { new: true }
+    );
 
+    if (deleteAddress) {
+      res.status(200).json({ deletedAddressId: addressId });
+    } else {
+      res.status(404).json({ message: "Address not found" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const forgotPassword = async (req, res) => {
+  try {
+    res.render("user/forgot-password");
+  } catch (error) {
+    res.redirect("user/pageNotFound");
+  }
+};
+const forgetEmailpassword=async(req,res)=>{
+  const {email}=req.body;
+  console.log(email)
+  const findemail=await User.findOne({email:email});
+  if(!findemail){
+    return res.status(400).json("email not found")
+  }
+  const otp =generateOtp()
+  console.log(otp)
+  
+ const verifyemail=sendVerificationEmailpassword(email,otp)
+ if(!verifyemail){
+  return res.json("email-error") ;
+ } 
+ req.session.otp=otp;
+ res.render('user/forget-otp')
 }
+function generateOtp(){
+  return Math.floor(100000+Math.random()*900000).toString();
+}
+async function sendVerificationEmailpassword(email,otp){
+  console.log(email,"inverify")
+  try{
+    const transporter=nodemailer.createTransport({
+      service:"gmail",
+      port:587,
+      secure:false,
+      requireTLS:true,
+      auth:{
+        user:process.env.NODEMAILER_EMAIL,
+        pass:process.env.NODEMAILER_PASSWORD
+      }
+    })
+    const info =await transporter.sendMail({
+      from:process.env.NODEMAILER_EMAIL,
+      to:email,
+      subject:"Verify your account",
+      text:`<b>Your OTP ${otp}</b>`,
+      html:`<b>Your OTP ${otp}</b>`      
+    })
+   console.log(info.accepted.length,"inf0")
+    return info.accepted.length>0
+  }catch(error){
+    console.log("Error sending email",error)
+    return false
+  }
+}
+const verifyOtpemail=async(req,res)=>{
+  
+  try{
+    const {otp}=req.body;
+   
+
+    if(otp===req.session.otp){
+      
+      
+      res.render("user/changepassword")
+    }else{
+      console.log("hiiiiiiiiiiiiiiiiiiiiiiiii")
+      return res.status(400).json({success:false,message:"Invalid OTP,Please try again"})
+    }
+  }catch(error){
+     console.log("Error verufying OTP",error);
+     res.status(500).json({success:false,message:"An orror occured"})
+
+  }
 }
 
 module.exports = {
@@ -232,4 +310,7 @@ module.exports = {
   addAddress,
   deleteAddress,
   editAddress,
+  forgotPassword,
+  forgetEmailpassword,
+  verifyOtpemail
 };

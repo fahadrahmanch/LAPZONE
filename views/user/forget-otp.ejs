@@ -14,20 +14,20 @@
                                 </div>
                             </div>
                             <!-- End Header Logo -->
-               
+
                             <!-- Start Header Main Menu -->
                             <div class="main-menu menu-color--black menu-hover-color--golden">
                                 <nav>
                                     <ul>
                                         <li class="has-dropdown">
-                                            <a class="active main-menu-link" href="/">Home </a>
+                                            <a class="active main-menu-link" href="index.html">Home </a>
                                             
                                         </li>
-                                        <li class="">
-                                            <a href="/shop">Shop </i></a>
+                                        <li class="has-dropdown has-megaitem">
+                                            <a href="product-details-default.html">Shop </i></a>
                                             <!-- Mega Menu -->
-                                            <!-- <div class="mega-menu">
-                                            </div> -->
+                                            <div class="mega-menu">
+                                            </div>
                                         </li>
                                         <li>
                                             <a href="about-us.html">About Us</a>
@@ -472,12 +472,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h3 class="breadcrumb-title">Login</h3>
+                        <h3 class="breadcrumb-title">OTP VERIFY</h3>
                         <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li><a href="/">Home</a></li>
-                                    <li class="active" aria-current="page">Login</li>
+                                    <li><a href="index.html">Home</a></li>
+                                   
+                                    <li class="active" aria-current="page">signup</li>
                                 </ul>
                             </nav>
                         </div>
@@ -486,43 +487,153 @@
             </div>
         </div>
     </div> <!-- ...:::: End Breadcrumb Section:::... -->
+
     <!-- ...:::: Start Customer Login Section :::... -->
     <div class="customer-login ">
         <div class="container ">
             <div class="row justify-content-center align-items-center vh-1">
                 <!--login area start-->
                 <div class="col-lg-6 col-md-6 ">
-                   <!-- Assuming you're inside a form or another structure in your EJS -->
-
-
                     <div class="account_form " data-aos="fade-up" data-aos-delay="0">
-                        <h3 >login</h3>
                         
-                        <span class="text-danger"><%=message%></span>
-                        <form action="/login" method="POST" id="userloginForm">
-                            <div class="default-form-box">
-                                <label>Enter you email <span>*</span></label>
-                                <input type="text" name="email" id="email" oninput="validateEmail()">
-                                <span id="email_error" class="text-danger"></span>
+                        <form  onsubmit=" return verifyOTP(event)" class="text-center bg-white p-4 rounded shadow">
+                            <h2 class="mb-3">Verify OTP</h2>
+                            <p class="text-muted mb-4">Enter the 6-digit code sent to your registered email</p>
+                            
+                            <div class="mb-4">
+                                <label for="otp" class="form-label fw-bold">Enter OTP <span class="text-danger">*</span></label>
+                                <input 
+                                    type="text" 
+                                    class="form-control form-control-lg text-center" 
+                                    name="otp" 
+                                    id="otp" 
+                                    placeholder="123456" 
+                                    maxlength="6" 
+                                    required>
+                                <div id="otp_error" class="form-text text-danger"></div>
+                                <small id="otp_timer" class="text-muted d-block mt-1">Expires in <span id="countdown">30</span> seconds</small>
                             </div>
-                            <div class="default-form-box">
-                                <label>Passwords <span>*</span></label>
-                                <input type="text" name="password" id="password" oninput="validatePassword()">
-                                <span id="password_error" class="text-danger"></span>
-                            </div>
-                            <div class="login_submit">
-                                <button class="btn btn-md btn-black-default-hover mb-4" type="submit">login</button>
-                                <!-- <label class="checkbox-default mb-4" for="offer">
-                                    <input type="checkbox" id="offer">
-                                    <span>Remember me</span>
-                                </label> -->
-                              
-                                <a href="/signup">Don't Have an Account?</a>
-                                <div class="form-group d-flex justify-content-end">
-                                    <a href="/forget-password">forget password ?</a>
-                                </div>
+                        
+                            <div class="d-flex justify-content-between gap-2">
+                                <button class="btn btn-dark btn-lg w-100" type="submit">Confirm OTP</button>
+                                <!-- <a
+                                    class="btn btn-outline-dark btn-lg w-100" 
+                                    id="resend_button"
+                                    disabled 
+                                    onclick="sendOTP()" 
+                                    >Resend OTP</a> -->
+                                    <a
+                                    class="btn btn-outline-dark btn-lg w-100"
+                                    id="resend_button"
+                                    onclick="sendOTP()"
+                                    style="pointer-events: none; opacity: 0.6;"
+                                >Resend OTP</a>
                             </div>
                         </form>
+
+                      
+    <script>
+        let countdown = 120; // Countdown in seconds
+        const timerElement = document.getElementById('countdown');
+        const resendButton = document.getElementById('resend_button');
+    
+        function updateTimer() {
+            if (countdown > 0) {
+                timerElement.textContent = countdown;
+                countdown--;
+                resendButton.style.pointerEvents = "none";
+                resendButton.style.opacity = "0.6";
+                setTimeout(updateTimer, 1000);
+            } else {
+                timerElement.textContent = "0";
+                document.getElementById('otp_timer').style.display = 'none';
+                resendButton.style.pointerEvents = "auto";
+                resendButton.style.opacity = "1";
+            }
+        }
+    
+        function verifyOTP(event) {
+            event.preventDefault();
+            console.log("Verify OTP triggered");
+    
+            const otp = document.getElementById('otp').value;
+    
+            $.ajax({
+                type: "POST",
+                url: "/Otpemail",
+                data: { otp: otp },
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "OTP Verified Successfully",
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "otp verification failed"
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Internal error",
+                        text: "Please try again"
+                    });
+                }
+            });
+    
+            // Disable "Resend OTP" button
+            countdown = 0;
+            resendButton.style.pointerEvents = "none";
+            resendButton.style.opacity = "0.6";
+    
+            return false;
+        }
+    
+        function sendOTP() {
+            console.log("Resending OTP");
+    
+            $.ajax({
+                type: "POST",
+                url: "/resend-Otp",
+                success: function (response) {
+                    if (response.success) {
+                        countdown = 120; // Reset countdown
+                        updateTimer();
+                        document.getElementById("otp_timer").style.display = "block";
+                        Swal.fire({
+                            icon: "success",
+                            title: "OTP Resent Successfully",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: response.message
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "An error occurred",
+                        text: "Please try again"
+                    });
+                }
+            });
+        }
+    
+        // Initialize the timer
+        updateTimer();
+    </script>
+                        
                     </div>
                 </div>
                
@@ -750,9 +861,12 @@
 
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
-
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
+    
+
 </body>
- <script src="/js_folder/validation.js"></script>
+
+    
+    
 <%- include('../partials/user/footer') %>

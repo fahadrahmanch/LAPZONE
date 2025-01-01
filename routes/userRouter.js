@@ -21,11 +21,20 @@ router.get('/auth/google',passport.authenticate('google',{scope:['profile','emai
 router.get('/myaccount',myaccountController.myaccount)
 router.post('/update-user/:id',myaccountController.editMyaccount)
 router.post('/change-password/:id',myaccountController.changePassword)
+router.get('/forget-password',myaccountController.forgotPassword)
+router.post('/forget-password',myaccountController.forgetEmailpassword)
+router.post('/Otpemail',myaccountController.verifyOtpemail)
 
 router.post('/addAddress',myaccountController.addAddress)
 router.post('/editAddress',myaccountController.editAddress)
 
 router.post("/deleteAddress",myaccountController.deleteAddress)
+
+
+
+
+
+
 
 router.get('/logout',userController.logout)
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{

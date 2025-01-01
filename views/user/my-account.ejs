@@ -1537,8 +1537,8 @@
                         Edit
                         <button
                         class="delete-btn"
-                        id="delete"
-                        value="<%=addressData[i]._id%>"
+                      
+                        data-id="<%= addressData[i]._id %>"
                       >
                         Delete
                       </form>
@@ -1552,35 +1552,47 @@
 
               <!-- delete address  -->
                <script>
-                const addressId=document.getElementById('delete').value
-                 document
-                  .getElementById("delete")
-                  .addEventListener("click", async (event) => {
-                    try{
-                  alert("h")
-                const response= await fetch('/deleteAddress',{
-                  method:'POST',
-                  headers:{
-                    'Content-Type':'application/json',
+             document.addEventListener('DOMContentLoaded', function() {
 
-                  },
-                  body:JSON.stringify({ addressId })
-                })
-                if(response.ok){
-                  alert("succes")
-                }else{
-                  console.log("error")
-                }
-                }
-                catch(error){
+  const deleteButtons = document.querySelectorAll(".delete-btn");
 
-                }
-              
-                    
-                  })
-                
+ 
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", async (event) => {
+      try {
+        const addressId = event.target.getAttribute('data-id');
+
+        
+        const response = await fetch('/deleteAddress', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ addressId }),
+        });
+
+        if (response.ok) {
+          const result = await response.json();
+
           
+          if (result.deletedAddressId) {
             
+            const addressDiv = event.target.closest('.address-display');
+            addressDiv.remove(); 
+            alert("Address deleted successfully!");
+          } else {
+            alert("Failed to delete the address. Please try again.");
+          }
+        } else {
+          alert("Error in deleting the address.");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+  });
+});
+
             </script>
 
 
@@ -1900,6 +1912,8 @@
                           text: "Edit address successfully",
                           icon: "success",
                         });
+                        // const addressDiv = event.target.closest('.address-display');
+                        // addressDiv.innerHTML=result.address
                         // pushAddress(result.address);
                       } else {
                         await closeEditModal();
@@ -1913,6 +1927,7 @@
                       }
                     } catch (error) {
                       console.log(error)
+                      alert((error))
                       // console.error('Error occurred while updating address:', error);
                       // await Swal.fire({
                       //   title: "Error",

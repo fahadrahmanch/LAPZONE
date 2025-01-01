@@ -135,6 +135,7 @@ const verifyOtp=async(req,res)=>{
       // return res.redirect("/login")
       return res.json({success:true,redirectUrl: '/' })
     }else{
+      console.log("hi")
       return res.status(400).json({success:false,message:"Invalid OTP,Please try again"})
     }
   }catch(error){
