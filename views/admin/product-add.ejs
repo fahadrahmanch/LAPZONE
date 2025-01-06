@@ -151,7 +151,7 @@
 
                             <!-- form Starter -->
 
-                            <form method="POST" action="/admin/addProducts"  enctype="multipart/form-data" onsubmit="return validateAndSubmit()">
+                            <form method="POST" action="/admin/addProducts"  enctype="multipart/form-data" onsubmit=" validateAndSubmit()">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here"  name="productName"
@@ -177,7 +177,7 @@
                                         class="form-control border" rows="4"></textarea>
                                     <div id="description-error" class="error-message"></div>
                                 </div>
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-4">
                                             <label class="form-label">Regular price</label>
@@ -203,41 +203,53 @@
                                             <div id="quantity-error" class="error-message"></div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <!-- color -->
-                                    <!-- <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Color</label>
-                                            <input  name="color" type="text" class="form-control border">
-                                        </div>
-                                        <div id="color-error" class="error-message"></div>
-                                    </div> -->
-
-                                </div>
-                                <!-- category  -->
-                                <!-- <div class="card mb-4">
-                                    <div class="card-body">
-                                        <div class="row gx-2">
-                                            <div class="col-sm-6 mb-3">
-                                                <label class="form-label">Category</label>
-                                                <select class="form-select border" style="width: 150px;" name="category">
-                                                    
-     
-     
-                                                   
-                                                        <option value="">
-                                                            
-                                                        </option>
-                                                       
-                                                      
-                                                        
-                                                </select>
-                                                <div id="category-error" class="error-message"></div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div> -->
+                               
+                            
+                                  <!-- Variants Section -->
+                                  <!-- <h3 class="mt-4">Product Variants</h3> -->
+                                  <div id="variantsContainer">
+                                    <div class="variant-section">
+                                      <h5>Variant 1</h5>
+                                      <div class="mb-3">
+                                        <label for="ram-0" class="form-label">RAM</label>
+                                        <input type="text" class="form-control" name="variants[0][ram]" id="ram-0" value="" placeholder="Enter RAM (e.g., 8GB)">
+                                      </div>
+                                      <div class="mb-3">
+                                        <label for="storage-0" class="form-label">Storage</label>
+                                        <input type="text" class="form-control" name="variants[0][storage]" id="storage-0" value=" placeholder="Enter Storage (e.g., 512GB SSD)">
+                                      </div>
+                                      <div class="mb-3">
+                                        <label for="processor-0" class="form-label">Processor</label>
+                                        <input type="text" class="form-control" name="variants[0][processor]" id="processor-0" value="" placeholder="Enter Processor (e.g., Intel i5)">
+                                      </div>
+                                      <div class="row g-3">
+                                        <div class="col-md-6">
+                                          <label for="regularPrice-0" class="form-label">Regular Price</label>
+                                          <input type="number" class="form-control" name="variants[0][regularPrice]" id="regularPrice-0" placeholder="Enter regular price" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                          <label for="salePrice-0" class="form-label">Sale Price</label>
+                                          <input type="number" class="form-control" name="variants[0][salePrice]" id="salePrice-0" placeholder="Enter sale price" required>
+                                        </div>
+                                      </div>
+                                      <div class="mb-3 mt-3">
+                                        <label for="stock-0" class="form-label">Stock</label>
+                                        <input type="number" class="form-control" name="variants[0][stock]" id="stock-0" placeholder="Enter stock quantity" required>
+                                      </div>
+                                      <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
+                                    </div>
+                                  </div>
+                                  
+                                  <button type="button" class="btn btn-secondary mb-3" id="addVariantBtn">Add Another Variant</button>
+                                  
+                            
+                                  <!-- Add Variant Button -->
+                                  <!-- <button type="button" class="btn btn-secondary mb-3" id="addVariantBtn">Add Another Variant</button> -->
+                            
+                                  <!-- Submit Button -->
+                                  <!-- <button type="submit" class="btn btn-primary w-100">Add Product</button> -->
+                                
                                 <div class="card mb-2">
                                     <div class="card-header">
                                         <h4>Choose images</h4>
@@ -327,10 +339,66 @@
             </div>
             </div>
         </section>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+              let variantCount = 1; // Start at 1 since the first variant is already there
+          
+              const addVariantBtn = document.getElementById("addVariantBtn");
+              const variantsContainer = document.getElementById("variantsContainer");
+          
+              addVariantBtn.addEventListener("click", () => {
+                const newVariant = document.createElement("div");
+                newVariant.className = "variant-section";
+                newVariant.innerHTML = `
+                  <h5>Variant ${variantCount + 1}</h5>
+                  <div class="mb-3">
+                    <label for="ram-${variantCount}" class="form-label">RAM</label>
+                    <input type="text" class="form-control" name="variants[${variantCount}][ram]" id="ram-${variantCount}" placeholder="Enter RAM (e.g., 8GB)">
+                  </div>
+                  <div class="mb-3">
+                    <label for="storage-${variantCount}" class="form-label">Storage</label>
+                    <input type="text" class="form-control" name="variants[${variantCount}][storage]" id="storage-${variantCount}" placeholder="Enter Storage (e.g., 512GB SSD)">
+                  </div>
+                  <div class="mb-3">
+                    <label for="processor-${variantCount}" class="form-label">Processor</label>
+                    <input type="text" class="form-control" name="variants[${variantCount}][processor]" id="processor-${variantCount}" placeholder="Enter Processor (e.g., Intel i5)">
+                  </div>
+                  <div class="row g-3">
+                    <div class="col-md-6">
+                      <label for="regularPrice-${variantCount}" class="form-label">Regular Price</label>
+                      <input type="number" class="form-control" name="variants[${variantCount}][regularPrice]" id="regularPrice-${variantCount}" placeholder="Enter regular price" required>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="salePrice-${variantCount}" class="form-label">Sale Price</label>
+                      <input type="number" class="form-control" name="variants[${variantCount}][salePrice]" id="salePrice-${variantCount}" placeholder="Enter sale price" required>
+                    </div>
+                  </div>
+                  <div class="mb-3 mt-3">
+                    <label for="stock-${variantCount}" class="form-label">Stock</label>
+                    <input type="number" class="form-control" name="variants[${variantCount}][stock]" id="stock-${variantCount}" placeholder="Enter stock quantity" required>
+                  </div>
+                  <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
+                `;
+                variantsContainer.appendChild(newVariant);
+                variantCount++; // Increment only once after adding a new variant
+              });
+          
+              variantsContainer.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove-variant-btn")) {
+                  e.target.closest(".variant-section").remove();
+                }
+              });
+            });
+          </script>
+          
+
+      
+        
+        
         <script>
            
     function validateAndSubmit() {
-    
     const errorElements = document.querySelectorAll('.error-message');
     errorElements.forEach(element => element.innerHTML = '');
 

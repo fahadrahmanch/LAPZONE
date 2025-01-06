@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Piv4xVNRyMGpqk5Igr6JLyac3xb9EstN3fFJCUk5nKEwSk+KnF2CJqRZw7D+E6UG" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -149,19 +153,13 @@
             <div class="mobile-menu-bottom">
                 <!-- Start Mobile Menu Nav -->
                 <div class="offcanvas-menu">
-                    <ul>
-                        <li>
+                    <!-- <ul>
+                        <li> -->
                             <a href="/"><span>Home</span></a>
-                            <ul class="mobile-sub-menu">
-                                <li><a href="index.html">Home 1</a></li>
-                                <li><a href="index-2.html">Home 2</a></li>
-                                <li><a href="index-3.html">Home 3</a></li>
-                                <li><a href="index-4.html">Home 4</a></li>
-                            </ul>
-                        </li>
+                            
                         <li>
                             <a href="#"><span>Shop</span></a>
-                            <ul class="mobile-sub-menu">
+                            <!-- <ul class="mobile-sub-menu">
                                 <li>
                                     <a href="#">Shop Layout</a>
                                     <ul class="mobile-sub-menu">
@@ -172,7 +170,7 @@
                                         <li><a href="shop-list-sidebar-right.html">List Right Sidebar</a></li>
                                     </ul>
                                 </li>
-                            </ul>
+                            </ul> -->
                             <ul class="mobile-sub-menu">
                                 <li>
                                     <a href="#">Shop Pages</a>
@@ -571,6 +569,7 @@
                         data-aos-delay="200">
                         <!-- Start  Product Details Text Area-->
                         <div class="product-details-text">
+                           
                             <h4 class="title"><%=products.productName%></h4>
                             <div class="d-flex align-items-center">
                                 <ul class="review-star">
@@ -582,7 +581,8 @@
                                 </ul>
                                 <a href="#" class="customer-review ml-2">(customer review )</a>
                             </div>
-                            <div class="price">$<%=products.regularPrice%></div>
+                            
+                            <div class="price" id="saleprice">$<%=products.variants[0].salePrice%></div>
                             <p><%=products.description%></p>
                         </div> <!-- End  Product Details Text Area-->
                         <!-- Start Product Variable Area -->
@@ -591,7 +591,7 @@
                             <!-- Product Variable Single Item -->
                             <div class="variable-single-item">
                                 <div class="product-stock"> <span class="product-stock-in"><i
-                                            class="ion-checkmark-circled"></i></span> <%=products.quantity%> IN STOCK</div>
+                                            class="ion-checkmark-circled" ></i></span> <small  id="stock"><%=products.variants[0].stock%></small> IN STOCK</div>
                             </div>
                             <!-- Product Variable Single Item -->
                             <div class="d-flex align-items-center ">
@@ -640,7 +640,40 @@
             </div>
         </div>
     </div> <!-- End Product Details Section -->
+    <div class="justify-content-center">
 
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <div class="bg-white p-5 rounded shadow">
+                    <h4 class="mb-4">Product Variants</h4>
+                    <% if (products.variants && products.variants.length > 0) { %>
+                    <div class="mb-3">
+                        <label for="variantSelect" class="form-label">Choose a variant:</label>
+                        <select onchange="variantSelect(this, <%= JSON.stringify(products.variants) %>)" id="variantSelect" class="form-select">
+                            <% products.variants.forEach((variant, index) => { %>
+
+                               
+                            <option value="<%=variant._id%>" ><%=variant.ram%>%> GB RAM / <%=variant.storage%> GB Storage / <%=variant. processor%> Proccessor</option>
+                            
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="mt-3">
+                        <small class="text-muted"> variants available.</small>
+                    </div>
+                    <% } else { %>
+
+                    <div class="mt-3">
+                        <small class="text-muted">No variants available.</small>
+                    </div>
+                    <%}%>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
     <!-- Start Product Content Tab Section -->
     <div class="product-details-content-tab-section section-top-gap-100">
         <div class="container">
@@ -687,15 +720,15 @@
                                         <table class="table table-bordered mb-20">
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">Compositions</th>
-                                                    <td>Polyester</td>
+                                                    <th scope="row">RAM</th>
+                                                    <td id="ram"><%=products.variants[0].ram%><small>GB RAM</small></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">Styles</th>
-                                                    <td>Girly</td>
+                                                    <th scope="row">STORAGE</th>
+                                                    <td id="storage"><%=products.variants[0].storage%></td>
                                                 <tr>
-                                                    <th scope="row">Properties</th>
-                                                    <td>Short Dress</td>
+                                                    <th scope="row">PROCESSOR</th>
+                                                    <td id="processor"><%=products.variants[0].processor%></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -914,8 +947,8 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-9.jpg" alt="">
-                                                <img src="assets/images/product/default/home-1/default-10.jpg" alt="">
+                                                <img src="/uploads/<%= relatedProducts[0].productImage[0] %>" alt="">
+                                                <!-- <img src="assets/images/product/default/home-1/default-10.jpg" alt=""> -->
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
@@ -933,8 +966,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href="product-details-default.html">Epicuri per
-                                                        lobortis</a></h6>
+                                                <h6 class="title"><a href=""><%= relatedProducts[0].productName %></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -954,8 +986,8 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-11.jpg" alt="">
-                                                <img src="assets/images/product/default/home-1/default-3.jpg" alt="">
+                                                <img src="/uploads/<%= relatedProducts[1].productImage[0] %>" alt="">
+                                                <!-- <img src="assets/images/product/default/home-1/default-3.jpg" alt=""> -->
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
@@ -973,8 +1005,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href="product-details-default.html">Kaoreet
-                                                        lobortis sagit</a></h6>
+                                                <h6 class="title"><a href="product-details-default.html"><%= relatedProducts[1].productName %></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -994,8 +1025,8 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-5.jpg" alt="">
-                                                <img src="assets/images/product/default/home-1/default-7.jpg" alt="">
+                                                <img src="/uploads/<%= relatedProducts[2].productImage[0] %>" alt="">
+                                                <!-- <img src="assets/images/product/default/home-1/default-7.jpg" alt=""> -->
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
@@ -1013,8 +1044,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href="product-details-default.html">Condimentum
-                                                        posuere</a></h6>
+                                                <h6 class="title"><a href="product-details-default.html"><%= relatedProducts[2].productName %></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -1034,8 +1064,8 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-6.jpg" alt="">
-                                                <img src="assets/images/product/default/home-1/default-9.jpg" alt="">
+                                                <img src="/uploads/<%= relatedProducts[3].productImage[0] %>" alt="">
+                                                <!-- <img src="assets/images/product/default/home-1/default-9.jpg" alt=""> -->
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
@@ -1053,8 +1083,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href="product-details-default.html">Convallis quam
-                                                        sit</a></h6>
+                                                <h6 class="title"><a href="product-details-default.html"><%= relatedProducts[3].productName %></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -1074,8 +1103,8 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-1.jpg" alt="">
-                                                <img src="assets/images/product/default/home-1/default-2.jpg" alt="">
+                                                <img src="" alt="">
+                                                <!-- <img src="assets/images/product/default/home-1/default-2.jpg" alt=""> -->
                                             </a>
                                             <div class="tag">
                                                 <span>sale</span>
@@ -1117,7 +1146,7 @@
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
                                             <a href="product-details-default.html" class="image-link">
-                                                <img src="assets/images/product/default/home-1/default-3.jpg" alt="">
+                                                <img src="/uploads/<%= relatedProducts[1].productImage[0] %>" alt="">
                                                 <img src="assets/images/product/default/home-1/default-4.jpg" alt="">
                                             </a>
                                             <div class="tag">
@@ -1603,34 +1632,41 @@
             </div>
         </div>
     </div> <!-- End Modal Quickview cart -->
+    <!-- //to send variend data backend -->
+    <script>
+        function variantSelect(selectedElement,variantsData){
+         
+            console.log("selected",selectedElement)
+            console.log("varaint",variantsData)
+        // document.addEventListener('DOMContentLoaded',()=>{
+            const selectedVariantId = selectedElement.value;
+            const selectedVariant = variantsData.find(variant => variant._id === selectedVariantId);
+            if (selectedVariant) {
+                let salePriceElement = document.getElementById('saleprice');
+                let stockElement=document.getElementById('stock')
+                let ramElement=document.getElementById('ram')
+                let storageElement=document.getElementById('storage')
+                let processorElement=document.getElementById('processor')
+                ramElement.innerHTML=`${selectedVariant.ram}`
+                storageElement.innerHTML=`${selectedVariant.storage}`
+                processorElement.innerHTML=`${selectedVariant.processor}`
+                stockElement.innerHTML=`${selectedVariant.stock}`
+                salePriceElement.innerHTML = `$${selectedVariant.salePrice}`;
+            }
+        }
 
-    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
-    <!-- Global Vendor, plugins JS -->
-    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
-    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
-
-    <!--Plugins JS-->
-    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-    <script src="assets/js/plugins/material-scrolltop.js"></script>
-    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
-    <script src="assets/js/plugins/venobox.min.js"></script>
-    <script src="assets/js/plugins/jquery.waypoints.js"></script>
-    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
-    <script src="assets/js/plugins/aos.min.js"></script>
-    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
-    <script src="assets/js/plugins/ajax-mail.js"></script> -->
-
-    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    //    })
+    </script>
+   
+     
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
 
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-GNbAC0zHKx4IwXk5T2lB1cPnvHnvKwE5nY5Bq4j8DN8DeXgxNuylR7c89PFPdBsX" crossorigin="anonymous"></script>
+
 </body>
 
 

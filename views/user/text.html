@@ -3,203 +3,174 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Edit Address Modal</title>
+  <title>Add Laptop with Variants</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    /* Apply standard font-family */
-    body {
-      font-family: Arial, sans-serif;
-    }
-
-    /* Overlay for the Address modal */
-    .address-modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6); /* Transparent dark background */
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    /* Modal container */
-    .address-modal {
-      width: 90%;
-      max-width: 400px;  /* Limit max width */
-      border-radius: 10px;
-      padding: 20px;
-      z-index: 2001;
-      animation: fadeIn 0.3s ease-in-out;
-      background-color: #eadec9; /* Custom background color */
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      gap: 10px;  /* Space between form elements */
-    }
-
-    /* Label styling */
-    .address-modal label {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    /* Input field styling */
-    .address-modal input[type="text"],
-    .address-modal input[type="tel"],
-    .address-modal input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
+    .variant-section {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 15px;
       border-radius: 5px;
-      font-size: 14px;
-      box-sizing: border-box; /* Ensures padding doesn't affect total width */
-    }
-
-    /* Special larger input for address */
-    #address-line-1 {
-      height: 60px;  /* Increased height for Address input */
-      font-size: 16px;  /* Larger text for easier reading */
-    }
-
-    /* Header */
-    .address-modal h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-
-    /* Button styling */
-    .address-button-row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15px;
-    }
-
-    .address-modal button {
-      padding: 8px 12px;
-      font-size: 14px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      width: 48%;
-    }
-
-    .address-save-button {
-      background-color: #28a745;
-      color: white;
-    }
-
-    .address-save-button:hover {
-      background-color: #1e7e34;
-    }
-
-    .address-cancel-button {
-      background-color: #ffc107;
-      color: white;
-    }
-
-    .address-cancel-button:hover {
-      background-color: #e0a800;
-    }
-
-    /* Fade-in animation */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-      }
-      to {
-        opacity: 1;
-      }
     }
   </style>
 </head>
 <body>
-  <!-- Trigger button to open the address modal -->
-  <button onclick="openAddressModal()">Open Address Modal</button>
+  <div class="container mt-5">
+    <h1 class="text-center mb-4">Add Laptop with Variants</h1>
+    <form id="productForm">
+      <!-- Laptop Details -->
+      <div class="mb-3">
+        <label for="productName" class="form-label">Laptop Name</label>
+        <input type="text" class="form-control" id="productName" placeholder="Enter laptop name" required>
+      </div>
+      <div class="mb-3">
+        <label for="brand" class="form-label">Brand</label>
+        <input type="text" class="form-control" id="brand" placeholder="Enter brand name" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" rows="4" placeholder="Enter product description" required></textarea>
+      </div>
 
-  <div class="address-modal-overlay" id="address-modal-overlay">
-    <div class="address-modal">
-      <form id="editaddress">
-        <h2>Edit Address</h2>
+      <!-- Variants Section -->
+      <h3 class="mt-4">Product Variants</h3>
+      <div id="variantsContainer">
+        <div class="variant-section">
+          <h5>Variant 1</h5>
+          <!-- RAM -->
+          <div class="mb-3">
+            <label for="ram-1" class="form-label">RAM</label>
+            <select class="form-select" id="ram-1" name="ram" required>
+              <option value="" disabled selected>Select RAM</option>
+              <option value="8GB">8GB</option>
+              <option value="16GB">16GB</option>
+              <option value="32GB">32GB</option>
+            </select>
+          </div>
 
-        <label for="name">Full Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          placeholder="Enter your full name"
-        >
+          <!-- Storage -->
+          <div class="mb-3">
+            <label for="storage-1" class="form-label">Storage</label>
+            <select class="form-select" id="storage-1" name="storage" required>
+              <option value="" disabled selected>Select Storage</option>
+              <option value="256GB SSD">256GB SSD</option>
+              <option value="512GB SSD">512GB SSD</option>
+              <option value="1TB SSD">1TB SSD</option>
+            </select>
+          </div>
 
-        <label for="address-line-1">Address</label>
-        <input
-          type="text"
-          name="address-line-1"
-          id="address-line-1"
-          placeholder="Enter your address"
-        >
+          <!-- Processor -->
+          <div class="mb-3">
+            <label for="processor-1" class="form-label">Processor</label>
+            <select class="form-select" id="processor-1" name="processor" required>
+              <option value="" disabled selected>Select Processor</option>
+              <option value="Intel i5">Intel i5</option>
+              <option value="Intel i7">Intel i7</option>
+              <option value="AMD Ryzen 5">AMD Ryzen 5</option>
+              <option value="AMD Ryzen 7">AMD Ryzen 7</option>
+            </select>
+          </div>
 
-        <label for="landmark">Landmark</label>
-        <input
-          type="text"
-          name="landmark"
-          id="landmark"
-          placeholder="Enter Landmark"
-        >
+          <!-- Pricing -->
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="regularPrice-1" class="form-label">Regular Price</label>
+              <input type="number" class="form-control" id="regularPrice-1" name="regularPrice" placeholder="Enter regular price" required>
+            </div>
+            <div class="col-md-6">
+              <label for="salePrice-1" class="form-label">Sale Price</label>
+              <input type="number" class="form-control" id="salePrice-1" name="salePrice" placeholder="Enter sale price" required>
+            </div>
+          </div>
 
-        <label for="city">City</label>
-        <input
-          type="text"
-          name="city"
-          id="city"
-          placeholder="Enter your city"
-        >
+          <!-- Stock -->
+          <div class="mb-3 mt-3">
+            <label for="stock-1" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stock-1" name="stock" placeholder="Enter stock quantity" required>
+          </div>
 
-        <label for="state">State</label>
-        <input
-          type="text"
-          name="state"
-          id="state"
-          placeholder="Enter your state"
-        >
-
-        <label for="postal-code">Pincode</label>
-        <input
-          type="text"
-          name="postal-code"
-          id="postal-code"
-          placeholder="Enter your postal code"
-        >
-
-        <label for="phone">Phone</label>
-        <input
-          type="tel"
-          name="phone"
-          id="phone"
-          placeholder="Enter your phone number"
-        >
-
-        <div class="address-button-row">
-          <button type="submit" class="address-save-button">Save Changes</button>
-          <button type="button" class="address-cancel-button" onclick="closeAddressModal()">Cancel</button>
+          <!-- Remove Variant Button -->
+          <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <!-- Add Variant Button -->
+      <button type="button" class="btn btn-secondary mb-3" id="addVariantBtn">Add Another Variant</button>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary w-100">Add Product</button>
+    </form>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Function to open the address modal
-    function openAddressModal() {
-      document.getElementById('address-modal-overlay').style.display = 'flex';
-    }
-    // Function to close the address modal
-    function closeAddressModal() {
-      document.getElementById('address-modal-overlay').style.display = 'none';
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      let variantCount = 1;
+
+      // Add new variant dynamically
+      const addVariantBtn = document.getElementById("addVariantBtn");
+      const variantsContainer = document.getElementById("variantsContainer");
+
+      addVariantBtn.addEventListener("click", () => {
+        variantCount++;
+        const newVariant = document.createElement("div");
+        newVariant.className = "variant-section";
+        newVariant.innerHTML = `
+          <h5>Variant ${variantCount}</h5>
+          <div class="mb-3">
+            <label for="ram-${variantCount}" class="form-label">RAM</label>
+            <select class="form-select" id="ram-${variantCount}" name="ram" required>
+              <option value="" disabled selected>Select RAM</option>
+              <option value="8GB">8GB</option>
+              <option value="16GB">16GB</option>
+              <option value="32GB">32GB</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="storage-${variantCount}" class="form-label">Storage</label>
+            <select class="form-select" id="storage-${variantCount}" name="storage" required>
+              <option value="" disabled selected>Select Storage</option>
+              <option value="256GB SSD">256GB SSD</option>
+              <option value="512GB SSD">512GB SSD</option>
+              <option value="1TB SSD">1TB SSD</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label for="processor-${variantCount}" class="form-label">Processor</label>
+            <select class="form-select" id="processor-${variantCount}" name="processor" required>
+              <option value="" disabled selected>Select Processor</option>
+              <option value="Intel i5">Intel i5</option>
+              <option value="Intel i7">Intel i7</option>
+              <option value="AMD Ryzen 5">AMD Ryzen 5</option>
+              <option value="AMD Ryzen 7">AMD Ryzen 7</option>
+            </select>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="regularPrice-${variantCount}" class="form-label">Regular Price</label>
+              <input type="number" class="form-control" id="regularPrice-${variantCount}" name="regularPrice" placeholder="Enter regular price" required>
+            </div>
+            <div class="col-md-6">
+              <label for="salePrice-${variantCount}" class="form-label">Sale Price</label>
+              <input type="number" class="form-control" id="salePrice-${variantCount}" name="salePrice" placeholder="Enter sale price" required>
+            </div>
+          </div>
+          <div class="mb-3 mt-3">
+            <label for="stock-${variantCount}" class="form-label">Stock</label>
+            <input type="number" class="form-control" id="stock-${variantCount}" name="stock" placeholder="Enter stock quantity" required>
+          </div>
+          <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
+        `;
+        variantsContainer.appendChild(newVariant);
+      });
+
+      // Remove variant
+      variantsContainer.addEventListener("click", (e) => {
+        if (e.target.classList.contains("remove-variant-btn")) {
+          e.target.closest(".variant-section").remove();
+        }
+      });
+    });
   </script>
 </body>
 </html>

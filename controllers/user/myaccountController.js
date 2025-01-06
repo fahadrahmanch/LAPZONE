@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer");
 const product = require("../../models/productSchema");
 
 const editMyaccount = async (req, res) => {
-  console.log("hi");
+ 
   try {
     const usersId = req.params.id;
     console.log(usersId);
@@ -40,7 +40,7 @@ const editMyaccount = async (req, res) => {
       { new: true }
     );
     if (updateUser) {
-      console.log("updateuser");
+      
       res
         .status(200)
         .json({ success: true, message: "edit user successfully" });
@@ -66,7 +66,7 @@ const myaccount = async (req, res) => {
     // console.log(addressData)
     // console.log(addressData)
     if (!users) {
-      return res.status(404).send("User not found");
+       return res.redirect('/')
     }
     // const message = req.session.err;
     //  req.session.err=null
@@ -108,6 +108,7 @@ const changePassword = async (req, res) => {
 };
 
 const addAddress = async (req, res) => {
+  
   try {
     const userId = req.session.user;
     if (!userId) {
@@ -250,6 +251,7 @@ const forgetEmailpassword=async(req,res)=>{
   return res.json("email-error") ;
  } 
  req.session.otp=otp;
+ req.session.email=email
  res.render('user/forget-otp')
 }
 function generateOtp(){
@@ -282,26 +284,59 @@ async function sendVerificationEmailpassword(email,otp){
     return false
   }
 }
-const verifyOtpemail=async(req,res)=>{
-  
-  try{
-    const {otp}=req.body;
-   
+const verifyOtpemail = async (req, res) => {
+  try {
+    const { otp } = req.body;
 
-    if(otp===req.session.otp){
-      
-      
-      res.render("user/changepassword")
-    }else{
-      console.log("hiiiiiiiiiiiiiiiiiiiiiiiii")
-      return res.status(400).json({success:false,message:"Invalid OTP,Please try again"})
+    if (otp === req.session.otp) {
+      // Redirect to the change password page
+      // return res.status(200).json({ redirectUrl: "/resetpassword" });
+      return res.render("user/changepassword", {
+        success: true,
+        message: "OTP verified successfully",
+      });
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP. Please try again."
+      });
     }
-  }catch(error){
-     console.log("Error verufying OTP",error);
-     res.status(500).json({success:false,message:"An orror occured"})
-
+  } catch (error) {
+    console.error("Error verifying OTP", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while verifying OTP"
+    });
   }
-}
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    let findemail = await User.findOne({email:req.session.email})
+    
+    console.log("hii")
+    console.log(findemail);
+    const {  newpassword } = req.body;
+    console.log(req.body)
+   
+    if (!findemail) {
+      return res.status(404).send("User not found");
+    }
+ 
+    const hashedPassword = await bcrypt.hash(newpassword, 10);
+    findemail.password = hashedPassword;
+    await findemail.save();
+    return res.json({ success: true, message: "Password changed successfully!"});
+    // return res.redirect('/')
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error. Please try again later.",
+    });
+  }
+};
+
 
 module.exports = {
   myaccount,
@@ -312,5 +347,7 @@ module.exports = {
   editAddress,
   forgotPassword,
   forgetEmailpassword,
-  verifyOtpemail
+  verifyOtpemail,
+  resetPassword ,
+ 
 };

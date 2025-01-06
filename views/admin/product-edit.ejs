@@ -175,67 +175,56 @@
                                         class="form-control border" rows="4" value="<%=product.description%>%>">
                                     <div id="description-error" class="error-message"></div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Regular price</label>
-                                            <input placeholder="$" name="regularPrice" type="text"
-                                                class="form-control border" value="<%=product.regularPrice%>">
-                                            <div id="regularPrice-error" class="error-message"></div>
+                                
+                                <div id="variantsContainer">
+                                    <% for (let i = 0; i < product.variants.length; i++) { %>
+                                      <div class="variant-section">
+                                        <h5>Variant <%= i + 1 %></h5>
+                                        
+                                        
+                                        <div class="mb-3">
+                                          <label for="ram-<%= i %>" class="form-label">RAM</label>
+                                          <input type="text" class="form-control" name="variants[<%= i %>][ram]" id="ram-<%= i %>" value="<%= product.variants[i].ram %>" placeholder="Enter RAM (e.g., 8GB)">
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Sale price</label>
-                                            <input placeholder="$" name="salePrice" type="text"
-                                                class="form-control border" value="<%=product.salePrice%>">
-
+                                        
+                                    
+                                        <div class="mb-3">
+                                          <label for="storage-<%= i %>" class="form-label">Storage</label>
+                                          <input type="text" class="form-control" name="variants[<%= i %>][storage]" id="storage-<%= i %>" value="<%= product.variants[i].storage %>" placeholder="Enter Storage (e.g., 512GB SSD)">
                                         </div>
-                                        <div id="salePrice-error" class="error-message"></div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Quantity</label>
-                                            <input placeholder="" name="quantity" type="text"
-                                                class="form-control border" value="<%=product.quantity%>">
-                                            <div id="quantity-error" class="error-message"></div>
+                                        
+                                        
+                                        <div class="mb-3">
+                                          <label for="processor-<%= i %>" class="form-label">Processor</label>
+                                          <input type="text" class="form-control" name="variants[<%= i %>][processor]" id="processor-<%= i %>" value="<%= product.variants[i].processor %>" placeholder="Enter Processor (e.g., Intel i5)">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <!-- color -->
-                                    <!-- <div class="col-lg-4">
-                                        <div class="mb-4">
-                                            <label class="form-label">Color</label>
-                                            <input  name="color" type="text" class="form-control border">
+                                        
+                                      
+                                        <div class="row g-3">
+                                          <div class="col-md-6">
+                                            <label for="regularPrice-<%= i %>" class="form-label">Regular Price</label>
+                                            <input type="number" class="form-control" name="variants[<%= i %>][regularPrice]" id="regularPrice-<%= i %>" value="<%= product.variants[i].regularPrice %>" placeholder="Enter regular price" required>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <label for="salePrice-<%= i %>" class="form-label">Sale Price</label>
+                                            <input type="number" class="form-control" name="variants[<%= i %>][salePrice]" id="salePrice-<%= i %>" value="<%= product.variants[i].salePrice %>" placeholder="Enter sale price" required>
+                                          </div>
                                         </div>
-                                        <div id="color-error" class="error-message"></div>
-                                    </div> -->
-
-                                </div>
-                                <!-- category  -->
-                                <!-- <div class="card mb-4">
-                                    <div class="card-body">
-                                        <div class="row gx-2">
-                                            <div class="col-sm-6 mb-3">
-                                                <label class="form-label">Category</label>
-                                                <select class="form-select border" style="width: 150px;" name="category">
-                                                    
-     
-     
-                                                   
-                                                        <option value="">
-                                                            
-                                                        </option>
-                                                       
-                                                      
-                                                        
-                                                </select>
-                                                <div id="category-error" class="error-message"></div>
-                                            </div>
+                                        
+                                        <div class="mb-3 mt-3">
+                                          <label for="stock-<%= i %>" class="form-label">Stock</label>
+                                          <input type="number" class="form-control" name="variants[<%= i %>][stock]" id="stock-<%= i %>" value="<%= product.variants[i].stock %>" placeholder="Enter stock quantity" required>
                                         </div>
-                                    </div>
-                                </div> -->
+                                  
+                                        <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
+                                      </div>
+                                    <% } %>
+                                  </div>
+                                  
+                               
+                                  <button type="button" class="btn btn-secondary mb-3" id="addVariantBtn">Add Another Variant</button>
+                                  
+                                  
                                 <div class="card mb-2">
                                     <div class="row">
                                         
@@ -337,6 +326,63 @@
 
                         <!-- form end -->
 
+
+                       
+                       
+                        <script>
+                            document.addEventListener("DOMContentLoaded", () => {
+   let variantCount = <%= product.variants.length %>; 
+  const addVariantBtn = document.getElementById("addVariantBtn");
+  const variantsContainer = document.getElementById("variantsContainer");
+
+  addVariantBtn.addEventListener("click", () => {
+    const newVariant = document.createElement("div");
+    newVariant.className = "variant-section";
+    newVariant.innerHTML = `
+      <h5>Variant ${variantCount + 1}</h5>
+      <div class="mb-3">
+        <label for="ram-${variantCount}" class="form-label">RAM</label>
+        <input type="text" class="form-control" name="variants[${variantCount}][ram]" id="ram-${variantCount}" placeholder="Enter RAM (e.g., 8GB)">
+      </div>
+      <div class="mb-3">
+        <label for="storage-${variantCount}" class="form-label">Storage</label>
+        <input type="text" class="form-control" name="variants[${variantCount}][storage]" id="storage-${variantCount}" placeholder="Enter Storage (e.g., 512GB SSD)">
+      </div>
+      <div class="mb-3">
+        <label for="processor-${variantCount}" class="form-label">Processor</label>
+        <input type="text" class="form-control" name="variants[${variantCount}][processor]" id="processor-${variantCount}" placeholder="Enter Processor (e.g., Intel i5)">
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label for="regularPrice-${variantCount}" class="form-label">Regular Price</label>
+          <input type="number" class="form-control" name="variants[${variantCount}][regularPrice]" id="regularPrice-${variantCount}" placeholder="Enter regular price" required>
+        </div>
+        <div class="col-md-6">
+          <label for="salePrice-${variantCount}" class="form-label">Sale Price</label>
+          <input type="number" class="form-control" name="variants[${variantCount}][salePrice]" id="salePrice-${variantCount}" placeholder="Enter sale price" required>
+        </div>
+      </div>
+      <div class="mb-3 mt-3">
+        <label for="stock-${variantCount}" class="form-label">Stock</label>
+        <input type="number" class="form-control" name="variants[${variantCount}][stock]" id="stock-${variantCount}" placeholder="Enter stock quantity" required>
+      </div>
+      <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
+    `;
+    variantsContainer.appendChild(newVariant);
+    variantCount++; 
+  });
+
+  variantsContainer.addEventListener("click", (e) => {
+    if (e.target.classList.contains("remove-variant-btn")) {
+      e.target.closest(".variant-section").remove();
+    }
+  });
+});
+
+                          </script>
+          
+                       
+
                     </div>
                 </div>
             </div>
@@ -344,6 +390,62 @@
             
            
         </section>
+        
+        <script>
+            const variantsContainer = document.getElementById('variants-container');
+            const addVariantBtn = document.getElementById('add-variant-btn');
+            let variantIndex = 0; // Track variant count
+        
+            // Add a new variant row
+            function addVariant() {
+               
+                const variantRow = `
+                 
+                    <div class="row mb-3" id="variant-${variantIndex}">
+                        <div class="col-lg-2">
+                            <input type="text" class="form-control"  name="variants[${variantIndex}][ram]" placeholder="RAM (e.g., 8GB)" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" class="form-control" name="variants[${variantIndex}][processor]" placeholder="Processor (e.g., Intel i5)" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="text" class="form-control" name="variants[${variantIndex}][storage]" placeholder="Storage (e.g., 256GB SSD)" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" name="variants[${variantIndex}][quantity]" placeholder="Quantity" min="0" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" name="variants[${variantIndex}][regularPrice]" placeholder="Regular Price ($)" min="0" required>
+                        </div>
+                        <div class="col-lg-2">
+                            <input type="number" class="form-control" name="variants[${variantIndex}][salePrice]" placeholder="Sale Price ($)" min="0">
+                        </div>
+                        <div class="col-lg-2 mt-2">
+                            <button type="button" class="btn btn-sm btn-danger" onclick="removeVariant(${variantIndex})">Remove</button>
+                        </div>
+                    </div>
+                `;
+                variantsContainer.insertAdjacentHTML('beforeend', variantRow);
+                variantIndex++; // Increment index for the next variant
+                
+            }
+        
+            // Remove a specific variant row
+            function removeVariant(index) {
+                alert(index)
+                const variantRow = document.getElementById(`variant-${index}`);
+                if (variantRow) {
+                    variantRow.remove();
+                }
+            }
+        
+            // Attach event to the "Add Variant" button
+            addVariantBtn.addEventListener('click', addVariant);
+        
+            // Add the first variant row by default
+            addVariant();
+        </script>
+        
         <script>
             function deleteSingleImage(imageId,productId){
                 $.ajax({

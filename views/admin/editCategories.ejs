@@ -169,30 +169,66 @@
         
         <section class="content-main">
             <div class="content-header">
-                <h2 class="content-title">Edit Category</h2>
+              <h2 class="content-title">Edit Category</h2>
             </div>
             <div class="card">
-                <div class="card-body">
-                <form id="editCategoryForm" action="/admin/editCategory/<%=category._id%>" method="POST">
-                        <input type="hidden" name="id" value="<%= category._id %>" />
-                        <div class="mb-4">
-                            <label for="name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="name" name="name" value="<%= category.name %>" required>
-                        </div>
-                        <div class="mb-4">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="4" required><%= category.description %></textarea>
-                        </div>
-                        
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
+              <div class="card-body">
+                <form id="editCategoryForm" action="/admin/editCategory/<%=category._id%>" method="POST" novalidate>
+                  <input type="hidden" name="id" value="<%= category._id %>" >
+                  <div class="mb-4">
+                    <label for="name" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= category.name %>">
+                    <small class="text-danger d-none" id="nameError">Category Name is required.</small>
+                  </div>
+                  <div class="mb-4">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4"><%= category.description %></textarea>
+                    <small class="text-danger d-none" id="descriptionError">Description is required.</small>
+                  </div>
+                  <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                  </div>
+                </form>
+              </div>
             </div>
-        </section>
+          </section>
+          
+          <script>
+            document.getElementById('editCategoryForm').addEventListener('submit', function(event){
+              
+              event.preventDefault();
+          
+              
+              const nameError = document.getElementById('nameError');
+              const descriptionError = document.getElementById('descriptionError');
+              nameError.classList.add('d-none');
+              descriptionError.classList.add('d-none');
+          
+              
+              let isValid = true;
+          
+              const name = document.getElementById('name').value.trim();
+              const description = document.getElementById('description').value.trim();
+          
+              if (!name) {
+                nameError.classList.remove('d-none');
+                isValid = false;
+              }
+              if (!description) {
+                descriptionError.classList.remove('d-none');
+                isValid = false;
+              }
+          
+              
+              if (isValid) {
+                this.submit();
+              }
+            });
+          </script>
+          
 
-
+       
+          
         <!-- Edit Category Modal -->
 
   <%- include('../partials/admin/footer') %>

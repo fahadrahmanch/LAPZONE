@@ -551,8 +551,8 @@
               >
                 <nav aria-label="breadcrumb">
                   <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                    <li><a href="/">Home</a></li>
+                    <!-- <li><a href="shop-grid-sidebar-left.html">Shop</a></li> -->
                     <li class="active" aria-current="page">My Account</li>
                   </ul>
                 </nav>
@@ -581,7 +581,7 @@
                     href="#dashboard"
                     data-bs-toggle="tab"
                     class="nav-link btn btn-block btn-md btn-black-default-hover active"
-                    >Dashboard</a
+                    >Profile</a
                   >
                 </li>
                 <li>
@@ -838,46 +838,49 @@
               <!-- Modal Overlay -->
               <div class="custom-modal-overlay" id="custom-modal-overlay">
                 <div class="custom-modal">
-                  <form id="editprofile">
+                  <form id="editprofile" >
                     <h2>Edit Profile</h2>
+                  
                     <input
                       type="text"
                       name="name"
                       id="username"
                       value="<%=users.name%>"
                       placeholder="Enter your name"
-                      oninput="username()"
-                    />
+                    >
+                    <span id="name_error" class="text-danger"></span>
+                  
                     <input
-                      type="email"
+                      type="text"
                       name="email"
                       id="email"
                       value="<%=users.email%>"
                       placeholder="Enter your email"
-                      oninput="email()"
-                    />
+                    >
+                    <span id="email_error" class="text-danger"></span>
+                  
                     <input
                       type="tel"
                       name="phone"
                       id="phone"
                       value="<%=users.phone%>"
                       placeholder="Enter your phone number"
-                      oninput="phone()"
                     />
-                    <label
+                    <span id="phone_error" class="text-danger"></span>
+                  
+                    <!-- <label
                       for="custom-profile-picture"
                       style="font-size: 16px; font-weight: bold"
-                      >Upload Profile Picture:</label
-                    >
+                      >Upload Profile Picture:</label>
                     <input
                       type="file"
                       id="custom-profile-picture"
                       name="profile-picture"
-                    />
+                    >
+                    <span id="picture-error" class="text-danger"></span> -->
+                  
                     <div class="custom-button-row">
-                      <button type="submit" class="custom-save-button">
-                        Save Changes
-                      </button>
+                      <button type="submit" class="custom-save-button">Save Changes</button>
                       <button
                         type="button"
                         class="custom-cancel-button"
@@ -887,19 +890,66 @@
                       </button>
                     </div>
                   </form>
+                  
                 </div>
               </div>
 
               <script>
+                
+                document.getElementById('editprofile').addEventListener('submit',async(event)=>{
+                  event.preventDefault()
+             
+                             
                 const editprofile = document.getElementById("editprofile");
-                if (editprofile) {
-                  editprofile.addEventListener("submit", async (event) => {
-                    event.preventDefault();
-
-                    const name = document.getElementById("username").value;
+                const name_error = document.getElementById("name_error");
+                const email_error=document.getElementById("email_error")
                     const email = document.getElementById("email").value;
                     const phone = document.getElementById("phone").value;
-
+                const name=document.getElementById('username').value
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const phone_error=document.getElementById('phone_error')
+              
+              
+              let isValid=true
+              
+                if(name===''){
+                     
+                      name_error.innerHTML="Name is required"
+                      isValid=false
+                    }else if(name.length<3){
+                      name_error.innerHTML="Name must be at least 3 characters"
+                      isValid=false
+                    }
+                    else{
+                      name_error.innerHTML=""
+                    }
+                    if(email===''){
+                      email_error.innerHTML='email is required'
+                      isValid=false
+                    }else if (!emailRegex.test(email)) {
+                     email_error.innerHTML = "Invalid email format";
+    
+                     isValid = false;
+                    }else{
+                      email_error.innerHTML=''
+                    }
+                    if(phone===''){
+                      phone_error.innerHTML='phone number is required'
+                      isValid=false
+                    }else if(!/^\d{10}$/.test(phone)){
+                      phone_error.innerHTML='phone number must be 10 digits'
+                      isValid=false
+                    }else {
+                      phone_error.innerHTML=''
+                    }
+               
+                    
+                if (isValid) {
+                 
+                    
+                    
+                     
+                 
                     try {
                       const response = await fetch(
                         `/update-user/<%=users._id%>`,
@@ -933,22 +983,24 @@
                         });
                       }
                     } catch (error) {}
-                  });
+                  // });
                 }
-
-                // Open modal
+              })
+                
                 function openCustomModal() {
                   document.getElementById(
                     "custom-modal-overlay"
                   ).style.display = "flex";
                 }
 
-                // Close modal
+               
                 function closeCustomModal() {
                   document.getElementById(
                     "custom-modal-overlay"
                   ).style.display = "none";
                 }
+           
+                
               </script>
 
               <!-- change-password popup  -->
@@ -1054,7 +1106,7 @@
               <!-- Modal Overlay for Change Password -->
               <div class="password-modal-overlay" id="password-modal-overlay">
                 <div class="password-modal">
-                  <form id="changepassword">
+                  <form id="changepassword">  
                     <h2>Change Password</h2>
                     <input
                       type="password"
@@ -1490,64 +1542,64 @@
                   background-color: #0056b3;
                 }
               </style>
+  <div class="tab-pane" id="address">
+    <div class="container">
+      <h1>Manage Addresses</h1>
 
-              <div class="tab-pane" id="address">
-                <div class="container">
-                  <h1>Manage Addresses</h1>
+      <button class="custom-btn" id="open-add-modal-btn">
+        Add New Address
+      </button>
 
-                  <button class="custom-btn" id="open-add-modal-btn">
-                    Add New Address
-                  </button>
+      <div class="custom-address-list" id="address-list">
+        <% for (let i = 0; i < addressData.length; i++) { %>
+        <div class="address-display">
+          <p>
+            <strong>Name:</strong>
+            <span><%= addressData[i].name %></span>
+          </p>
+          <p>
+            <strong>streetAddress:</strong>
+            <span><%= addressData[i].streetaddress%></span>
+          </p>
+          <p>
+            <strong>Landmark:</strong>
+            <span><%= addressData[i].landmark %></span>
+          </p>
+          <p>
+            <strong>City:</strong>
+            <span><%= addressData[i].city %></span>
+          </p>
+          <p>
+            <strong>State:</strong>
+            <span><%= addressData[i].state %></span>
+          </p>
+          <p>
+            <strong>Pincode:</strong>
+            <span><%= addressData[i].pincode %></span>
+          </p>
+          <p>
+            <strong>Phone:</strong>
+            <span><%= addressData[i].phone %></span>
+          </p>
+          <button
+            class="edit-btn"
+            onclick="openEditModal('<%= JSON.stringify(addressData[i]) %>')"
+          >
+            Edit
+            <button
+            class="delete-btn"
+          
+            data-id="<%= addressData[i]._id %>"
+          >
+            Delete
+          </form>
+        
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
 
-                  <div class="custom-address-list" id="address-list">
-                    <% for (let i = 0; i < addressData.length; i++) { %>
-                    <div class="address-display">
-                      <p>
-                        <strong>Name:</strong>
-                        <span><%= addressData[i].name %></span>
-                      </p>
-                      <p>
-                        <strong>streetAddress:</strong>
-                        <span><%= addressData[i].streetaddress%></span>
-                      </p>
-                      <p>
-                        <strong>Landmark:</strong>
-                        <span><%= addressData[i].landmark %></span>
-                      </p>
-                      <p>
-                        <strong>City:</strong>
-                        <span><%= addressData[i].city %></span>
-                      </p>
-                      <p>
-                        <strong>State:</strong>
-                        <span><%= addressData[i].state %></span>
-                      </p>
-                      <p>
-                        <strong>Pincode:</strong>
-                        <span><%= addressData[i].pincode %></span>
-                      </p>
-                      <p>
-                        <strong>Phone:</strong>
-                        <span><%= addressData[i].phone %></span>
-                      </p>
-                      <button
-                        class="edit-btn"
-                        onclick="openEditModal('<%= JSON.stringify(addressData[i]) %>')"
-                      >
-                        Edit
-                        <button
-                        class="delete-btn"
-                      
-                        data-id="<%= addressData[i]._id %>"
-                      >
-                        Delete
-                      </form>
-                    
-                    </div>
-                    <% } %>
-                  </div>
-                </div>
-              </div>
 
 
               <!-- delete address  -->
@@ -1599,395 +1651,405 @@
 
 
               <!-- Add Address Modal -->
-              <div class="address-modal-overlay" id="add-modal-overlay">
-                <div class="address-modal">
-                  <form id="add-address-form">
-                    <h2>Add Address</h2>
-                    <label for="add-name">Full Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      id="add-name"
-                      placeholder="Enter your full name"
-                      required
-                    />
-                    <label for="add-address"> Street Address</label>
-                    <input
-                      type="text"
-                      id="add-address"
-                      name="streetaddress"
-                      placeholder="Enter your address"
-                      required
-                    />
-                    <label for="add-landmark">Landmark</label>
-                    <input
-                      type="text"
-                      name="landmark"
-                      id="add-landmark"
-                      placeholder="Enter Landmark"
-                    />
-                    <label for="add-city">City</label>
-                    <input
-                      type="text"
-                      id="add-city"
-                      name="city"
-                      placeholder="Enter your city"
-                      required
-                    />
-                    <label for="add-state">State</label>
-                    <input
-                      type="text"
-                      id="add-state"
-                      name="state"
-                      placeholder="Enter your state"
-                      required
-                    />
-                    <label for="add-postal-code">Pincode</label>
-                    <input
-                      type="text"
-                      id="add-postal-code"
-                      name="pincode"
-                      placeholder="Enter your postal code"
-                      required
-                    />
-                    <label for="add-phone">Phone</label>
-                    <input
-                      type="tel"
-                      id="add-phone"
-                      name="phone"
-                      placeholder="Enter your phone number"
-                      required
-                    />
-                    <div class="address-button-row">
-                      <button type="submit" class="address-save-button">
-                        Save
-                      </button>
-                      <button
-                        type="button"
-                        class="address-cancel-button"
-                        onclick="closeAddModal()"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+           <!-- Add Modal Form -->
+<div class="address-modal-overlay" id="add-modal-overlay">
+  <div class="address-modal">
+    <form id="add-address-form">
+      <h2>Add Address</h2>
+      
+      <!-- <label for="add-name">Full Name</label> -->
+      <input
+        type="text"
+        name="name"
+        id="add-name"
+        placeholder="Enter your full name"
+        oninput="validateField('add-name', /^[a-zA-Z ]+$/, 'Full Name should only contain letters.')"
+      />
+      <span id="add-name-error" class="text-danger"></span><br>
+      
+      <!-- <label for="add-address">Street Address</label> -->
+      <input
+        type="text"
+        id="add-address"
+        name="streetaddress"
+        placeholder="Enter your address"
+        oninput="validateField('add-address', /^.{5,}$/, 'Street Address must be at least 5 characters long.')"
+      />
+      <span id="add-address-error" class="text-danger"></span><br>
+      
 
-              <script>
-                // document.getElementById("open-add-modal-btn").addEventListener("click", function() {
-                //   document.getElementById("add-modal-overlay").style.display = "flex";
-                // });
+      <input
+        type="text"
+        name="landmark"
+        id="add-landmark"
+        placeholder="Enter Landmark"
+        oninput="validateField('add-landmark', /^.{0,50}$/, 'Landmark should be less than 50 characters.')"
+      />
+      <span id="add-landmark-error" class="text-danger"></span>
+      
+      
+     
+      <input
+        type="text"
+        id="add-city"
+        name="city"
+        placeholder="Enter your city"
+        oninput="validateField('add-city', /^[a-zA-Z ]+$/, 'City should only contain letters.')"
+      />
+      <span id="add-city-error" class="text-danger"></span><br>
+      
+  
+      <input
+        type="text"
+        id="add-state"
+        name="state"
+        placeholder="Enter your state"
+        oninput="validateField('add-state', /^[a-zA-Z ]+$/, 'State should only contain letters.')"
+      />
+      <span id="add-state-error" class="text-danger"></span><br>
+      
+      <!-- <label for="add-postal-code">Pincode</label> -->
+      <input
+        type="text"
+        id="add-postal-code"
+        name="pincode"
+        placeholder="Enter your postal code"
+        oninput="validateField('add-postal-code', /^[0-9]{6}$/, 'Pincode must be 6 digits.')"
+      />
+      <span id="add-postal-code-error" class="text-danger"></span><br>
+      
+      <!-- <label for="add-phone">Phone</label> -->
+      <input
+        type="tel"
+        id="add-phone"
+        name="phone"
+        placeholder="Enter your phone number"
+        oninput="validateField('add-phone', /^[0-9]{10}$/, 'Phone number must be 10 digits.')"
+      />
+      <span id="add-phone-error" class="text-danger"></span>
+      
+      <div class="address-button-row">
+        <button type="submit" class="address-save-button">Save</button>
+        <button type="button" class="address-cancel-button" onclick="closeAddModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-                // function closeAddModal() {
-                //   document.getElementById("add-modal-overlay").style.display = "none";
-                //   document.getElementById("add-address-form").reset();
-                // }
+<script>
+  
+  function validateField(fieldId, regex, errorMessage) {
+    const field = document.getElementById(fieldId);
+    const errorSpan = document.getElementById(`${fieldId}-error`);
 
-                document
-                  .getElementById("add-address-form")
-                  .addEventListener("submit", async (event) => {
-                    event.preventDefault();
-                    const formData = {
-                      name: document.getElementById("add-name").value,
-                      streetaddress:
-                        document.getElementById("add-address").value,
-                      landmark: document.getElementById("add-landmark").value,
-                      city: document.getElementById("add-city").value,
-                      state: document.getElementById("add-state").value,
-                      pincode: document.getElementById("add-postal-code").value,
-                      phone: document.getElementById("add-phone").value,
-                    };
+    if (!field.value.trim()) {
+      errorSpan.textContent = `${field.placeholder} is required.`;
+      field.classList.add("is-invalid");
+    } else if (!regex.test(field.value.trim())) {
+      errorSpan.textContent = errorMessage;
+      field.classList.add("is-invalid");
+    } else {
+      errorSpan.textContent = "";
+      field.classList.remove("is-invalid");
+    }
+  }
 
-                    try {
-                      const response = await fetch("/addAddress", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(formData),
-                      });
+  
+  document.getElementById("add-address-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    
+   
+    const requiredFields = [
+      { id: "add-name", regex: /^[a-zA-Z ]+$/, error: "Full Name should only contain letters." },
+      { id: "add-address", regex: /^.{5,}$/, error: "Street Address must be at least 5 characters long." },
+      { id: "add-landmark", regex: /^.{3,}$/, error: "Landmark must be at least 3 characters long." },
+      { id: "add-city", regex: /^[a-zA-Z ]+$/, error: "City should only contain letters." },
+      { id: "add-state", regex: /^[a-zA-Z ]+$/, error: "State should only contain letters." },
+      { id: "add-postal-code", regex: /^[0-9]{6}$/, error: "Pincode must be 6 digits." },
+      { id: "add-phone", regex: /^[0-9]{10}$/, error: "Phone number must be 10 digits." },
+    ];
 
-                      if (response.ok) {
-                        const result = await response.json();
-                        alert("Address added successfully!");
-                        pushAddress(result.addressData);
-                        closeAddModal();
-                      } else {
-                        alert("Failed to add address. Please try again.");
-                      }
-                    } catch (error) {
-                      console.error("Error:", error);
-                      alert("An error occurred. Please try again.");
-                    }
-                  });
+    let formValid = true;
+    
+   
+    requiredFields.forEach(({ id, regex, error }) => {
+      const field = document.getElementById(id);
+      const errorSpan = document.getElementById(`${id}-error`);
+      if (!field.value.trim()) {
+        errorSpan.textContent = `${field.placeholder} is required.`;
+        formValid = false;
+      } else if (!regex.test(field.value.trim())) {
+        errorSpan.textContent = error;
+        formValid = false;
+      } else {
+        errorSpan.textContent = "";
+      }
+    });
 
-                function pushAddress(address) {
-                  if (!address) {
-                    alert("Address not found!");
-                    return;
-                  }
-                  const addressList = document.getElementById("address-list");
-                  const newAddressDiv = document.createElement("div");
-                  newAddressDiv.classList.add("address-display");
-                  newAddressDiv.innerHTML = `
-                  <p><strong>Name:</strong> <span>${address.name}</span></p>
-                  <p><strong>Address:</strong> <span>${
-                    address.streetaddress
-                  }</span></p>
-                  <p><strong>Landmark:</strong> <span>${
-                    address.landmark
-                  }</span></p>
-                  <p><strong>City:</strong> <span>${address.city}</span></p>
-                  <p><strong>State:</strong> <span>${address.state}</span></p>
-                  <p><strong>Pincode:</strong> <span>${
-                    address.pincode
-                  }</span></p>
-                  <p><strong>Phone:</strong> <span>${address.phone}</span></p>
-                  <button class="edit-btn" onclick="editAddress(${JSON.stringify(
-                    address
-                  )})">Edit</button>
-                  <button class="delete-btn" onclick="deleteAddress('${
-                    address._id
-                  }')">Delete</button>
-                `;
-                  addressList.appendChild(newAddressDiv);
-                }
+   
+    if (formValid) {
+      const formData = {
+        name: document.getElementById("add-name").value,
+        streetaddress: document.getElementById("add-address").value,
+        landmark: document.getElementById("add-landmark").value,
+        city: document.getElementById("add-city").value,
+        state: document.getElementById("add-state").value,
+        pincode: document.getElementById("add-postal-code").value,
+        phone: document.getElementById("add-phone").value,
+      };
 
-                // function editAddress(address) {
-                //   // Implement edit functionality
-                //   console.log("Edit address:", address);
-                // }
+      try {
+        const response = await fetch("/addAddress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-               
-                function closeAddModal() {
-                  document.getElementById("add-modal-overlay").style.display =
-                    "none";
-                  document.getElementById("add-address-form").reset();
-                }
-                function openAddModal() {
-                  document.getElementById("add-modal-overlay").style.display =
-                    "flex";
-                }
-              </script>
+        if (response.ok) {
+          const result = await response.json();
+          Swal.fire({
+            title: 'Success!',
+            text: 'Address added successfully!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+          pushAddress(result.addressData);
+          closeAddModal();
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Failed to add address. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          title: 'Error',
+          text: 'An error occurred. Please try again later.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      }
+    }
+  });
+
+ 
+  function pushAddress(address) {
+    if (!address) {
+      Swal.fire({
+        title: 'Error',
+        text: 'Address not found!',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    const addressList = document.getElementById("address-list");
+    const newAddressDiv = document.createElement("div");
+    newAddressDiv.classList.add("address-display");
+    newAddressDiv.innerHTML = `
+      <p><strong>Name:</strong> <span>${address.name}</span></p>
+      <p><strong>Address:</strong> <span>${address.streetaddress}</span></p>
+      <p><strong>Landmark:</strong> <span>${address.landmark}</span></p>
+      <p><strong>City:</strong> <span>${address.city}</span></p>
+      <p><strong>State:</strong> <span>${address.state}</span></p>
+      <p><strong>Pincode:</strong> <span>${address.pincode}</span></p>
+      <p><strong>Phone:</strong> <span>${address.phone}</span></p>
+      <button class="edit-btn" onclick="editAddress(${JSON.stringify(address)})">Edit</button>
+      <button class="delete-btn" onclick="deleteAddress('${address._id}')">Delete</button>
+    `;
+    addressList.appendChild(newAddressDiv);
+  }
+
+  
+  function closeAddModal() {
+    document.getElementById("add-modal-overlay").style.display = "none";
+    document.getElementById("add-address-form").reset();
+  }
+
+  
+  function openAddModal() {
+    document.getElementById("add-modal-overlay").style.display = "flex";
+  }
+</script>
+
+        
+ 
+            
 
               <!-- Edit Address Modal -->
-              <div class="address-modal-overlay" id="edit-modal-overlay">
-                <div class="address-modal">
-                  <form id="edit-address-form">
-                    <h2>Edit Address</h2>
+           <!-- Modal Form -->
+<div class="address-modal-overlay" id="edit-modal-overlay">
+  <div class="address-modal">
+    <form id="edit-address-form">
+      <h2>Edit Address</h2>
 
-                    <input type="hidden" id="edit-id" />
+      <!-- Hidden Field for ID -->
+      <input type="hidden" id="edit-id" />
 
-                    <label for="edit-name">Full Name</label>
-                    <input
-                      type="text"
-                      id="edit-name"
-                      placeholder="Enter your full name"
-                    />
+      <!-- Full Name -->
+      <input
+        type="text"
+        id="edit-name"
+        placeholder="Enter your full name"
+        oninput="validateField(this, /^[a-zA-Z ]+$/, 'Full Name should only contain letters.')"
+      />
+      <span id="edit-name-error" class="text-danger"></span>
 
-                    <label for="edit-address">Address</label>
-                    <input
-                      type="text"
-                      id="edit-address"
-                      placeholder="Enter your address"
-                    />
+      <!-- Address -->
+      <input
+        type="text"
+        id="edit-address"
+        placeholder="Enter your address"
+        oninput="validateField(this, /^.{5,}$/, 'Address must be at least 5 characters long.')"
+      />
+      <span id="edit-address-error" class="text-danger"></span>
 
-                    <label for="edit-landmark">Landmark</label>
-                    <input
-                      type="text"
-                      id="edit-landmark"
-                      placeholder="Enter Landmark"
-                    />
+      <!-- Landmark -->
+      <input
+        type="text"
+        id="edit-landmark"
+        placeholder="Enter Landmark"
+        oninput="validateField(this, /^.{3,}$/, 'Landmark must be at least 3 characters long.')"
+      />
+      <span id="edit-landmark-error" class="text-danger"></span>
 
-                    <label for="edit-city">City</label>
-                    <input
-                      type="text"
-                      id="edit-city"
-                      placeholder="Enter your city"
-                    />
+      <!-- City -->
+      <input
+        type="text"
+        id="edit-city"
+        placeholder="Enter your city"
+        oninput="validateField(this, /^[a-zA-Z ]+$/, 'City should only contain letters.')"
+      />
+      <span id="edit-city-error" class="text-danger"></span>
 
-                    <label for="edit-state">State</label>
-                    <input
-                      type="text"
-                      id="edit-state"
-                      placeholder="Enter your state"
-                    />
+      <!-- State -->
+      <input
+        type="text"
+        id="edit-state"
+        placeholder="Enter your state"
+        oninput="validateField(this, /^[a-zA-Z ]+$/, 'State should only contain letters.')"
+      />
+      <span id="edit-state-error" class="text-danger"></span>
 
-                    <label for="edit-postal-code">Pincode</label>
-                    <input
-                      type="text"
-                      id="edit-postal-code"
-                      placeholder="Enter your postal code"
-                    />
+      <!-- Pincode -->
+      <input
+        type="text"
+        id="edit-postal-code"
+        placeholder="Enter your postal code"
+        oninput="validateField(this, /^[0-9]{6}$/, 'Pincode must be 6 digits.')"
+      />
+      <span id="edit-postal-code-error" class="text-danger"></span>
 
-                    <label for="edit-phone">Phone</label>
-                    <input
-                      type="tel"
-                      id="edit-phone"
-                      placeholder="Enter your phone number"
-                    />
+      <!-- Phone -->
+      <input
+        type="tel"
+        id="edit-phone"
+        placeholder="Enter your phone number"
+        oninput="validateField(this, /^[0-9]{10}$/, 'Phone number must be 10 digits.')"
+      />
+      <span id="edit-phone-error" class="text-danger"></span>
 
-                    <div class="address-button-row">
-                      <button type="submit" class="address-save-button">
-                        Save Changes
-                      </button>
-                      <button
-                        type="button"
-                        class="address-cancel-button"
-                        onclick="closeEditModal()"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              <script>
-                function openEditModal(addressDataString) {
-                  const addressData = JSON.parse(addressDataString);
-                  document.getElementById("edit-id").value = addressData._id;
-                  document.getElementById("edit-name").value = addressData.name;
-                  document.getElementById("edit-address").value =
-                    addressData.streetaddress;
-                  document.getElementById("edit-landmark").value =
-                    addressData.landmark;
-                  document.getElementById("edit-city").value = addressData.city;
-                  document.getElementById("edit-state").value =
-                    addressData.state;
-                  document.getElementById("edit-postal-code").value =
-                    addressData.pincode;
-                  document.getElementById("edit-phone").value =
-                    addressData.phone;
+      <!-- Buttons -->
+      <div class="address-button-row">
+        <button type="submit" class="address-save-button">Save Changes</button>
+        <button type="button" class="address-cancel-button" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-                  document.getElementById("edit-modal-overlay").style.display =
-                    "flex";
-                }
-
-                function closeEditModal() {
-                  document.getElementById("edit-modal-overlay").style.display =
-                    "none";
-                }
-
-                // function submitEditForm(event) {
-                //   event.preventDefault();
-                //   // Add your logic here to submit the edited address data
-                //   // You can use AJAX to send the data to your server
-                //   closeEditModal();
-                // }
-             
-                document
-                  .getElementById("edit-address-form")
-                  .addEventListener("submit", async (event) => {
-                    event.preventDefault();
-
-                    const Data = {
-                      id: document.getElementById("edit-id").value,
-                      name: document.getElementById("edit-name").value,
-                      streetaddress:
-                        document.getElementById("edit-address").value,
-                      landmark: document.getElementById("edit-landmark").value,
-                      city: document.getElementById("edit-city").value,
-                      state: document.getElementById("edit-state").value,
-                      pincode:
-                        document.getElementById("edit-postal-code").value,
-                      phone: document.getElementById("edit-phone").value,
-                    };
-
-                    try {
-                      const response = await fetch("/editAddress", {
-                        method: "POST",
-                        headers: {
-                          "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(Data),
-                      });
-
-                      if (response.ok) {
-                        const result = await response.json();
-                        await closeEditModal();
-                        // console.log('Address updated successfully:', result);
-                        await Swal.fire({
-                          title: "Success",
-                          text: "Edit address successfully",
-                          icon: "success",
-                        });
-                        // const addressDiv = event.target.closest('.address-display');
-                        // addressDiv.innerHTML=result.address
-                        // pushAddress(result.address);
-                      } else {
-                        await closeEditModal();
-                        await Swal.fire({
-                          title: "Error",
-                          text: "Failed to update address:",
-                          icon: "error",
-                        });
-                       
-                        // console.error('Failed to update address:', response.statusText);
-                      }
-                    } catch (error) {
-                      console.log(error)
-                      alert((error))
-                      // console.error('Error occurred while updating address:', error);
-                      // await Swal.fire({
-                      //   title: "Error",
-                      //   text: "Error occurred while updating address:",
-                      //   icon: "error",
-                      // });
-                      // alert('Failed to update address. Please try again.');
-                    }
-                  });
+<!-- JavaScript -->
+<script>
+  // Function to validate individual fields
+  function validateField(inputElement, regex, errorMessage) {
+    const errorSpan = document.getElementById(`${inputElement.id}-error`);
+    if (!regex.test(inputElement.value.trim())) {
+      errorSpan.textContent = errorMessage;
+      return false;
+    } else {
+      errorSpan.textContent = "";
+      return true;
+    }
+  }
 
 
+  function openEditModal(addressDataString) {
+    const addressData = JSON.parse(addressDataString);
+    document.getElementById("edit-id").value = addressData._id;
+    document.getElementById("edit-name").value = addressData.name;
+    document.getElementById("edit-address").value = addressData.streetaddress;
+    document.getElementById("edit-landmark").value = addressData.landmark;
+    document.getElementById("edit-city").value = addressData.city;
+    document.getElementById("edit-state").value = addressData.state;
+    document.getElementById("edit-postal-code").value = addressData.pincode;
+    document.getElementById("edit-phone").value = addressData.phone;
+    document.getElementById("edit-modal-overlay").style.display = "flex";
+  }
 
+  function closeEditModal() {
+    document.getElementById("edit-modal-overlay").style.display = "none";
+  }
 
+  
+  document.getElementById("edit-address-form").addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-                 
-              </script>
+    const fields = [
+      { id: "edit-name", regex: /^[a-zA-Z ]+$/, errorMessage: "Full Name should only contain letters." },
+      { id: "edit-address", regex: /^.{5,}$/, errorMessage: "Address must be at least 5 characters long." },
+      { id: "edit-landmark", regex: /^.{3,}$/, errorMessage: "Landmark must be at least 3 characters long." },
+      { id: "edit-city", regex: /^[a-zA-Z ]+$/, errorMessage: "City should only contain letters." },
+      { id: "edit-state", regex: /^[a-zA-Z ]+$/, errorMessage: "State should only contain letters." },
+      { id: "edit-postal-code", regex: /^[0-9]{6}$/, errorMessage: "Pincode must be 6 digits." },
+      { id: "edit-phone", regex: /^[0-9]{10}$/, errorMessage: "Phone number must be 10 digits." },
+    ];
+
+    let isValid = true;
+    fields.forEach(({ id, regex, errorMessage }) => {
+      const inputElement = document.getElementById(id);
+      if (!validateField(inputElement, regex, errorMessage)) isValid = false;
+    });
+
+    if (!isValid) return; // Stop if validation fails
+
+    const Data = {
+      id: document.getElementById("edit-id").value,
+      name: document.getElementById("edit-name").value,
+      streetaddress: document.getElementById("edit-address").value,
+      landmark: document.getElementById("edit-landmark").value,
+      city: document.getElementById("edit-city").value,
+      state: document.getElementById("edit-state").value,
+      pincode: document.getElementById("edit-postal-code").value,
+      phone: document.getElementById("edit-phone").value,
+    };
+
+    try {
+      const response = await fetch("/editAddress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Data),
+      });
+
+      if (response.ok) {
+        closeEditModal();
+        await Swal.fire({ title: "Success", text: "Address updated successfully!", icon: "success" });
+      } else {
+        await Swal.fire({ title: "Error", text: "Failed to update address.", icon: "error" });
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      await Swal.fire({ title: "Error", text: "An error occurred while updating the address.", icon: "error" });
+    }
+  });
+</script>
+
               <script>
                 let currentEditingAddress = null;
 
-                // Open and close modals
-
-                // function openEditModal() {
-                //     document.getElementById('edit-modal-overlay').style.display = 'flex';
-                // }
-
-                // function closeEditModal() {
-                //     document.getElementById('edit-modal-overlay').style.display = 'none';
-                //     document.getElementById('edit-address-form').reset();
-                // }
-
-                // Add address
-                // function submitAddForm(event) {
-                //     event.preventDefault();
-
-                //     const name = document.getElementById('add-name').value;
-                //     const address = document.getElementById('add-address').value;
-                //     const landmark = document.getElementById('add-landmark').value;
-                //     const city = document.getElementById('add-city').value;
-                //     const state = document.getElementById('add-state').value;
-                //     const postalCode = document.getElementById('add-postal-code').value;
-                //     const phone = document.getElementById('add-phone').value;
-
-                //     const addressContainer = document.createElement('div');
-                //     addressContainer.classList.add('address-display');
-                //     addressContainer.innerHTML = `
-                //         <p><strong>Name:</strong> <span>$userAddress.name}</span></p>
-                //         <p><strong>Address:</strong> <span>${address}</span></p>
-                //         <p><strong>Landmark:</strong> <span>${landmark}</span></p>
-                //         <p><strong>City:</strong> <span>${city}</span></p>
-                //         <p><strong>State:</strong> <span>${state}</span></p>
-                //         <p><strong>Pincode:</strong> <span>${postalCode}</span></p>
-                //         <p><strong>Phone:</strong> <span>${phone}</span></p>
-                //         <button class="edit-btn" onclick="editAddress(this)">Edit</button>
-                //         <button class="delete-btn" onclick="deleteAddress(this)">Delete</button>
-                //     `;
-
-                //     document.getElementById('address-list').appendChild(addressContainer);
-                //     closeAddModal();
-
-                // }
+                
 
                 // Edit address
                 function submitEditForm(event) {

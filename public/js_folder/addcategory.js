@@ -18,7 +18,6 @@ button.addEventListener('click', async (e) => {
             // Handle error response
             const result = await response.json();
             
-            alert(`Error: ${result.message || 'Failed to add category'}`);
         } else {
             // Handle success response
             const result = await response.json();
@@ -27,7 +26,7 @@ button.addEventListener('click', async (e) => {
                 title:result.message,
                 showConfirmButton: false,
                 timer: 2000})
-            // location.reload()
+            location.reload()
            
         }
     } catch (error) {

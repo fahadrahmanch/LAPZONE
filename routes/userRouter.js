@@ -15,6 +15,8 @@ router.post('/login', userController.login)
 router.get('/shop',userController.loadShop)
 router.post('/resend-Otp', userController.resendOtp);
 router.get('/productdetails',singleProductController.loadSingleProduct)
+
+router.post("/variant",singleProductController.variant)
 router.post('/otp',userController.verifyOtp)
 router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}))
 
@@ -24,6 +26,9 @@ router.post('/change-password/:id',myaccountController.changePassword)
 router.get('/forget-password',myaccountController.forgotPassword)
 router.post('/forget-password',myaccountController.forgetEmailpassword)
 router.post('/Otpemail',myaccountController.verifyOtpemail)
+  
+// router.get('/resetpassword',myaccountController.resetPasswordpage)
+router.post('/resetpassword',myaccountController.resetPassword)
 
 router.post('/addAddress',myaccountController.addAddress)
 router.post('/editAddress',myaccountController.editAddress)

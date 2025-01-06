@@ -222,7 +222,6 @@ module.exports={loadHomepage,
   loadShop,
   verifyOtp,
   resendOtp,
-  
   logout,
   
 }
