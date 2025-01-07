@@ -148,10 +148,10 @@ const productSchema = new Schema(
           type: Number,
           required: false,
         },
-        quantity: {
-            type: Number,
-            default: 1, // Changed from 'true' to '1' as 'quantity' should be a number
-          },
+        // quantity: {
+        //     type: Number,
+        //     default: 1, // Changed from 'true' to '1' as 'quantity' should be a number
+        //   },
           regularPrice: {
             type: Number,
             required: true,

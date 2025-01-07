@@ -684,7 +684,7 @@
                                             </div>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a href="#" data-bs-toggle="modal"
+                                                    <a onclick="addToCart('<%=products[0]._id%>',1)" href="" data-bs-toggle="modal"
                                                         data-bs-target="#modalAddcart">Add to Cart</a>
                                                 </div>
                                                 <div class="action-link-right">
@@ -2052,6 +2052,42 @@
 <script src="/assets/js/plugins/icon.js"></script>
     
 </body>
+
+<script>
+       async function addToCart(product, qty) {
+        alert("hii")
+    try {
+        const response = await fetch('/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                product: product,
+                qty: qty, 
+            })
+        });
+
+        if (response.ok) {
+            
+            const result = await response.json();
+            console.log('Item added to cart:', result);
+
+           
+            alert(result.message || 'Item successfully added to the cart!');
+        } else {
+          
+            const error = await response.json();
+            console.error('Error adding item:', error);
+            alert(error.message || 'Failed to add item to the cart. Please try again.');
+        }
+    } catch (err) {
+     
+        console.error('Network error:', err);
+        alert('An error occurred. Please check your connection and try again.');
+    }
+}
+</script>
 
 
 

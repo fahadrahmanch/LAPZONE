@@ -5,6 +5,10 @@ const auth=require('../middlewares/auth')
 const userController=require("../controllers/user/userController")
 const singleProductController=require("../controllers/user/singleProudctController")
 const myaccountController=require("../controllers/user/myaccountController")
+const cartController=require('../controllers/user/cartController')
+const shopController=require('../controllers/user/shopController')
+
+
 router.get('/pagenotfound',userController.pageNotFound)
 router.get('/',userController.loadHomepage)
 router.get('/login',auth.userAuth,userController.loadLoginPage)
@@ -12,7 +16,7 @@ router.get('/signup',auth.userAuth,userController.loadregisterPage)
 router.post('/signup',userController.signup)
 router.post('/login', userController.login)
 // router.get('/otp',userController.otp)
-router.get('/shop',userController.loadShop)
+router.get('/shop',shopController.loadShop)
 router.post('/resend-Otp', userController.resendOtp);
 router.get('/productdetails',singleProductController.loadSingleProduct)
 
@@ -34,6 +38,11 @@ router.post('/addAddress',myaccountController.addAddress)
 router.post('/editAddress',myaccountController.editAddress)
 
 router.post("/deleteAddress",myaccountController.deleteAddress)
+
+
+//cart
+router.get("/cart",cartController.getCart)
+router.post('/addToCart',cartController.postCart)
 
 
 

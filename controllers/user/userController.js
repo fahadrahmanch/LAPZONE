@@ -4,6 +4,7 @@ const bcrypt=require('bcrypt')
 const env=require("dotenv").config()
 const nodemailer =require("nodemailer")
 const product=require('../../models/productSchema')
+const categorySchema=require('../../models/categorySchema')
 
 const pageNotFound=async (req,res)=>{
     try{
@@ -194,14 +195,7 @@ const login=async(req,res)=>{
     
   }
 }
-const loadShop=async(req,res)=>{
-  try{
-    res.render('user/Shop')
-  }
-  catch(error){
-    console.log(error)
-  }
-}
+
 
 
 
@@ -219,7 +213,7 @@ module.exports={loadHomepage,
   signup,
   login,
   otp,
-  loadShop,
+  
   verifyOtp,
   resendOtp,
   logout,
