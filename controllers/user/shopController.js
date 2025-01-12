@@ -50,6 +50,7 @@ const loadShop = async (req, res) => {
       products: products,
       cat: cat,
       // search: search,
+      message:req.session.user||null,
       limit:limit,
       currentPage:page,
       totalPages:Math.ceil(count/limit),

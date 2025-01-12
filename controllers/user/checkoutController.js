@@ -42,7 +42,7 @@ const getCheckout=async (req,res)=>{
         // console.log(cart,"hi")
          
         // console.log("cart",cart,"address",address,"addressData",addressData)
-        res.render('user/checkout', { cart, addressData , totalAmount});
+        res.render('user/checkout', { cart, addressData , totalAmount,message:req.session.user||""});
         // console.log(address)  
     }
     catch(error){

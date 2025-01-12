@@ -44,6 +44,7 @@ const getCart = async (req, res) => {
       cart: cartItems,
       products: cartItems.items,
       totalAmount,
+      message:req.session.user||"",
       user: user,
     });
   } catch (error) {

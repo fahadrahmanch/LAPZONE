@@ -13,13 +13,15 @@ const loadSingleProduct = async(req,res)=>{
    }).limit(5);     
 //    console.log("to show ",relatedProducts)
 
-
+     
+   console.log(product)
 
     // console.log('relatedProducts',relatedProducts);
     res.render("user/singleProduct",
         {
             products:product,
-            relatedProducts
+            relatedProducts,
+            message:req.session.user
         }
     )
     }

@@ -20,6 +20,7 @@ const productpage=async(req,res)=>{
     const count=await productSchema.find({
       $or:[{productName:{$regex:new RegExp(".*"+search+".*","i")}}]
     }).countDocuments();
+    console.log("products",productData)
     if(category){
      
       res.render("admin/product",{
@@ -29,6 +30,7 @@ const productpage=async(req,res)=>{
         cat:category,
         
       })
+
     }else{
       console.log("page-error")
     }

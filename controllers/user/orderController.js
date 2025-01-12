@@ -133,7 +133,7 @@ const createOrder = async (req, res) => {
 
       // console.log(orderDetails)
       console.log(id)
-     res.render('user/orderConfirm',{orderDetails})
+     res.render('user/orderConfirm',{orderDetails,message:req.session.user||"",})
      console.log("orderpage render")
     }catch(error){
     console.log(error)

@@ -59,6 +59,20 @@
                                         <li>
                                             <a href="contact-us.html">Contact Us</a>
                                         </li>
+                                        <div class="onhover-show-div user fa fa-user"> 
+                                            <ul > 
+                      
+                                               <% if(message) { %>
+                                                <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                                                <li><a class="text-decoration-none" href="/logout">Logout</a></li>
+                                              <% } else { %>
+                      
+                                                <li><a class="text-decoration-none" href="/login">Login</a></li>
+                                                <li><a class="text-decoration-none" href="/signup">Register</a></li> 
+                                                <% } %>
+                      
+                                              </ul>
+                                          </div>
                                     </ul>
                                 </nav>
                             </div>
