@@ -7,6 +7,9 @@ const singleProductController=require("../controllers/user/singleProudctControll
 const myaccountController=require("../controllers/user/myaccountController")
 const cartController=require('../controllers/user/cartController')
 const shopController=require('../controllers/user/shopController')
+const checkoutController=require('../controllers/user/checkoutController')
+const orderController=require('../controllers/user/orderController')
+
 
 
 router.get('/pagenotfound',userController.pageNotFound)
@@ -43,12 +46,19 @@ router.post("/deleteAddress",myaccountController.deleteAddress)
 //cart
 router.get("/cart",cartController.getCart)
 router.post('/addToCart',cartController.postCart)
+router.post('/cart/update-quantity',cartController.updateqty)
+router.post('/cart/delete-product',cartController.deleteCartProduct)
 
+//checkout
+router.get('/checkout',checkoutController.getCheckout)
+router.post('/createOrder',orderController.createOrder)
+router.get("/orderConfirm/:id",orderController.renderConfirmorder)
 
+//orderDetails
+router.get('/viewOrders/:id',orderController.orderDetails)
+router.post('/cancelorder',orderController.cancelOrder)
 
-
-
-
+// router.get('/search',shopController.searchInfo)
 
 router.get('/logout',userController.logout)
 router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{

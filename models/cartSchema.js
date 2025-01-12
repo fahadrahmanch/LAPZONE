@@ -1,3 +1,4 @@
+const { type } = require("jquery")
 const mongoose=require("mongoose")
 const {Schema}=mongoose
 const cartSchema=new Schema ({
@@ -12,14 +13,18 @@ const cartSchema=new Schema ({
             ref:"Product",
             required:true
         },
+        variantId:{
+            type:Schema.Types.ObjectId,
+            // required :true
+        },
         quantity:{
             type:Number,
             default:1
         },
-        price:{
-            type:Number,
-            required:true
-        },
+        // price:{
+        //     type:Number,
+        //     required:true
+        // },
         totalPrice:{
             type:Number,
             // required:true

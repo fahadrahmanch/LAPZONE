@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const env = require("dotenv").config();
 const nodemailer = require("nodemailer");
 const product = require("../../models/productSchema");
+const Order=require('../../models/orderSchema')
 
 const editMyaccount = async (req, res) => {
  
@@ -63,15 +64,18 @@ const myaccount = async (req, res) => {
     const userId = req.session.user;
     const users = await User.findById(userId);
     const addressData = await addressSchema.findOne({ userId: userId });
-    // console.log(addressData)
-    // console.log(addressData)
+   
     if (!users) {
        return res.redirect('/')
     }
-    // const message = req.session.err;
-    //  req.session.err=null
+    
+    const orders= await Order.find({userId});
+    // console.log(orders)
+
+
+
     const addresses = addressData ? addressData.address : [];
-    res.render("user/my-account", { users: users, addressData: addresses });
+    res.render("user/my-account", { users: users, addressData: addresses ,orders});
   } catch (error) {
     console.log("error fetching user data", error);
     res.status(500).send("Internal Server Error");
@@ -174,6 +178,7 @@ const addAddress = async (req, res) => {
 };
 
 const editAddress = async (req, res) => {
+  console.log("sfjhjs")
   try {
     const { id, name, streetaddress, landmark, city, state, pincode, phone } =
       req.body;

@@ -6,6 +6,7 @@ const adminController=require('../controllers/admin/adminController')
 const categoriesController=require('../controllers/admin/categoriesController')
 const customerController=require("../controllers/admin/customerController")
 const productController=require('../controllers/admin/productController')
+const orderController=require('../controllers/admin/orderController')
 router.get('/login',auth.isLogin,adminController.loadlogin)
 router.post('/login',adminController.login)
 router.get('/logout',adminController.isLogout)
@@ -34,6 +35,13 @@ router.post('/editProduct/:id',auth.checkSession,upload.array("images",4),produc
 router.post('/deleteImage',auth.checkSession,productController.deleteSingleImage)
 router.get('/searchProducts',auth.checkSession,productController.productsInfo)
 router.post('/listedProducts',productController.listed)
+
+router.get("/orders",orderController.orderInfo)
+
+
+router.get('/orderdetails/:id',orderController.orderDetails)
+
+router.post('/updateorderstatus',orderController.updateOrderstatus)
 
 
 module.exports=router;

@@ -1317,28 +1317,28 @@
                   <table>
                     <thead>
                       <tr>
-                        <th>Order</th>
+                        <th>Order Id</th>
                         <th>Date</th>
+                        <th>Items</th>
                         <th>Status</th>
                         <th>Total</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
+                      <%orders.forEach((item)=>{%>
+
+                      
                       <tr>
-                        <td>1</td>
-                        <td>May 10, 2018</td>
-                        <td><span class="success">Completed</span></td>
-                        <td>$25.00 for 1 item</td>
-                        <td><a href="cart.html" class="view">view</a></td>
+                        <td><%=item.orderId%></td>
+                        <td><%=item.createdOn%></td>
+                        <td><%=item.orderedItems.length%> items</td>
+                        <td><span class="success"><%=item.status%></span></td>
+                        <td><%=item.finalAmount%></td>
+                        <td><a href="/viewOrders/<%= item.orderId %>" class="view">view</a></td>
+
                       </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>May 10, 2018</td>
-                        <td>Processing</td>
-                        <td>$17.00 for 1 item</td>
-                        <td><a href="cart.html" class="view">view</a></td>
-                      </tr>
+                      <%})%>
                     </tbody>
                   </table>
                 </div>

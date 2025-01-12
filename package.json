@@ -27,6 +27,7 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "sharp": "^0.33.5",
-    "sweetalert2": "^11.14.5"
+    "sweetalert2": "^11.14.5",
+    "uuidv4": "^6.2.13"
   }
 }

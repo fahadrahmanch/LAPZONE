@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Save Alert</title>
+</head>
+<body>
+    <form id="editAddressForm">
+        <input
+            type="text"
+            name="name"
+            id="edit-id"
+            placeholder="Enter your full name"
+            required
+            disabled
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="name"
+            id="edit-name"
+            placeholder="Enter your full name"
+            required
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="streetaddress"
+            id="edit-address"
+            placeholder="Enter your address"
+            required
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="landmark"
+            id="edit-landmark"
+            placeholder="Enter Landmark"
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="city"
+            id="edit-city"
+            placeholder="Enter your city"
+            required
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="state"
+            id="edit-state"
+            placeholder="Enter your state"
+            required
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="pincode"
+            id="edit-postal-code"
+            placeholder="Enter your postal code"
+            required
+            class="custom-input"
+        />
+        <input
+            type="text"
+            name="phone"
+            id="edit-phone"
+            placeholder="Enter your phone number"
+            required
+            class="custom-input"
+        />
+        <button id="updateAddress" type="button">Save</button>
+        <button type="button" class="custom-btn custom-cancel" id="closeEditModal">Cancel</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const saveButton = document.getElementById('updateAddress');
+
+            // Add event listener to the "Save" button
+            saveButton.addEventListener("click", () => {
+                alert("Save button clicked!");
+            });
+        });
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ const User = require("../../models/userSchema");
 const loadShop = async (req, res) => {
   try {
     const search = req.query.search || "";
+    console.log(search)
     const page = req.query.page || 1;
     const limit = 15;
      const sort = req.query.sort||""
@@ -12,6 +13,7 @@ const loadShop = async (req, res) => {
      console.log(catt)
     let sortCriteria={};
     switch (sort) {
+        //  case 
         case "a-z":
           sortCriteria = { productName: 1 }; 
           break;
@@ -34,15 +36,20 @@ const loadShop = async (req, res) => {
         // default:
         //   sortCriteria = { salesCount: -1 }; 
       }
-    const count=await product.find({
-    productName:{$regex:new RegExp("."+search+".","i")}
-    }).countDocuments()
-    
-    const products = await product.find({productName:{$regex:new RegExp("."+search+".","i")}}).sort(sortCriteria).skip((page-1)*limit).limit(limit)
+    // const count=await product.find({
+    // productName:{$regex:new RegExp("."+search+".","i")}
+    // }).countDocuments()
+    let filterQuery = {
+      isListed: true,
+      productName: { $regex: new RegExp(".*" + search + ".*", "i") }, // Case-insensitive search
+  };
+  const count = await product.countDocuments(filterQuery);
+    const products = await product.find(filterQuery).sort(sortCriteria).skip((page-1)*limit).limit(limit)
     const cat = await categorySchema.find({});
     res.render("user/Shop", {
       products: products,
       cat: cat,
+      // search: search,
       limit:limit,
       currentPage:page,
       totalPages:Math.ceil(count/limit),
@@ -52,4 +59,6 @@ const loadShop = async (req, res) => {
     console.log(error);
   }
 };
-module.exports = { loadShop };
+
+
+module.exports = { loadShop};

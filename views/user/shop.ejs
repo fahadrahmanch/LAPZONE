@@ -319,16 +319,20 @@
     </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
 
     <!-- Start Offcanvas Addcart Section -->
+
+
+   <!-- after 9 th week offcanvas cart  -->
+
+
+
     <div id="offcanvas-add-cart" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
-        <!-- Start Offcanvas Header -->
+    
         <div class="offcanvas-header text-right">
             <button class="offcanvas-close"><i class="ion-android-close"></i></button>
-        </div> <!-- End Offcanvas Header -->
-
-        <!-- Start  Offcanvas Addcart Wrapper -->
+        </div> 
         <div class="offcanvas-add-cart-wrapper">
             <h4 class="offcanvas-title">Shopping Cart</h4>
-            <ul class="offcanvas-cart">
+            <!-- <ul class="offcanvas-cart">
                 <li class="offcanvas-cart-item-single">
                     <div class="offcanvas-cart-item-block">
                         <a href="#" class="offcanvas-cart-item-image-link">
@@ -383,18 +387,20 @@
                         <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
-            </ul>
-            <div class="offcanvas-cart-total-price">
+            </ul> -->
+            <!-- <div class="offcanvas-cart-total-price">
                 <span class="offcanvas-cart-total-price-text">Subtotal:</span>
                 <span class="offcanvas-cart-total-price-value">$170.00</span>
-            </div>
+            </div> -->
             <ul class="offcanvas-cart-action-button">
-                <li><a href="cart.html" class="btn btn-block btn-golden">View Cart</a></li>
-                <li><a href="compare.html" class=" btn btn-block btn-golden mt-5">Checkout</a></li>
+                <li><a href="/cart" class="btn btn-block btn-golden">View Cart</a></li>
+                <li><a href="/checkout" class=" btn btn-block btn-golden mt-5">Checkout</a></li>
             </ul>
-        </div> <!-- End  Offcanvas Addcart Wrapper -->
+        </div>
 
-    </div> <!-- End  Offcanvas Addcart Section -->
+    </div> 
+    
+    <!-- End  Offcanvas Addcart Section -->
 
     <!-- Start Offcanvas Mobile Menu Section -->
     <div id="offcanvas-wishlish" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
@@ -472,8 +478,8 @@
     <!-- Start Offcanvas Search Bar Section -->
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
-        <form>
-            <input type="search" placeholder="type keyword(s) here" />
+        <form action="/shop" method="get"  role="search">
+            <input type="search" placeholder="type keyword(s) here" name="search">
             <button type="submit" class="btn btn-lg btn-golden">Search</button>
         </form>
     </div>
@@ -697,7 +703,7 @@
                                             <fieldset>
                                                 <select id="sort-options" onchange="applySort()">
                                                     <!-- <option value="popularity">Sort by Popularity</option> -->
-                                                    <option value="" disabled selected>Sort By</option> 
+                                                    <option value="All"  >All</option> 
                                                     <option value="price-asc">Price: Low to High</option>
                                                     <option value="price-desc">Price: High to Low</option>
                                                     <!-- <option value="ratings">Average Ratings</option> -->
@@ -744,7 +750,7 @@
                                                             </a>
                                                             <div class="action-link">
                                                                 <div class="action-link-left">
-                                                                    <a onclick="addToCart('<%=products[i]._id%>',1)" href="#" data-bs-toggle="modal"
+                                                                    <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#modalAddcart">Add to Cart</a>
                                                                 </div>
                                                                 <div class="action-link-right">
@@ -972,8 +978,13 @@
     <!-- material-scrolltop button -->
     <button class="material-scrolltop" type="button"></button>
 
+
+
+ <!-- after 9 th week implement the modal  -->
+
+
     <!-- Start Modal Add cart -->
-    <div class="modal fade" id="modalAddcart" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- <div class="modal fade" id="modalAddcart" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-body">
@@ -1019,7 +1030,9 @@
                 </div>
             </div>
         </div>
-    </div> <!-- End Modal Add cart -->
+    </div> End Modal Add cart -->
+
+
 
     <!-- Start Modal Quickview cart -->
     <div class="modal fade" id="modalQuickview" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1224,9 +1237,11 @@
             window.location.search=urlParams.toString();
         }
 
-        
-        async function addToCart(product, qty) {
+
+        async function addToCart(product, qty, productDetails) {
     try {
+        const productData = JSON.parse(productDetails);
+
         const response = await fetch('/addToCart', {
             method: 'POST',
             headers: {
@@ -1234,27 +1249,44 @@
             },
             body: JSON.stringify({
                 product: product,
-                qty: qty, 
+                variant: productData.variants[0]._id,
+                qty: qty,
             })
         });
 
         if (response.ok) {
-            
             const result = await response.json();
             console.log('Item added to cart:', result);
 
-          
-            alert(result.message || 'Item successfully added to the cart!');
+         
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: result.message || 'Item successfully added to the cart!',
+                confirmButtonText: 'OK',
+            });
         } else {
-        
             const error = await response.json();
             console.error('Error adding item:', error);
-            alert(error.message || 'Failed to add item to the cart. Please try again.');
+
+           
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Failed to add item to the cart. Please try again.',
+                confirmButtonText: 'Retry',
+            });
         }
     } catch (err) {
-     
         console.error('Network error:', err);
-        alert('An error occurred. Please check your connection and try again.');
+
+      
+        Swal.fire({
+            icon: 'warning',
+            title: 'Network Error',
+            text: 'An error occurred. Please check your connection and try again.',
+            confirmButtonText: 'OK',
+        });
     }
 }
 
@@ -1266,6 +1298,7 @@
 
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>

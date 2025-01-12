@@ -14,7 +14,7 @@
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
-    <link href="assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/assets/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -35,40 +35,31 @@
                         <span class="text">Dashboard</span>
                     </a>
                 </li>
-                <li class="menu-item has-submenu">
-                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                <li class="menu-item">
+                    <a class="menu-link" href=""> <i class="icon material-icons md-shopping_bag"></i>
                         <span class="text">Products</span>
                     </a>
-                    <div class="submenu">
-                        <a href="page-products-list.html">Product List</a>
-                        <a href="page-products-grid.html">Product grid</a>
-                        <a href="page-products-grid-2.html">Product grid 2</a>
-                        <a href="page-categories.html">Categories</a>
-                    </div>
+                  
                 </li>
-                <li class="menu-item has-submenu active">
-                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
-                        <span class="text">Orders</span>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-stars"></i></i>
+                        <span class="text">Category</span>
                     </a>
-                    <div class="submenu">
-                        <a href="page-orders-1.html">Order list 1</a>
-                        <a href="page-orders-2.html">Order list 2</a>
-                        <a href="page-orders-detail.html" class="active">Order detail</a>
-                        <a href="page-orders-tracking.html">Order Tracking</a>
-                        <a href="page-invoice.html">Invoice</a>
-                    </div>
+                    
                 </li>
-                <li class="menu-item has-submenu">
+                <li class="menu-item active">
+                    <a class="menu-link " href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text" >Orders</span>
+                    </a>
+               
+                </li>
+                <li class="menu-item ">
                     <a class="menu-link" href="page-sellers-cards.html"> <i class="icon material-icons md-store"></i>
-                        <span class="text">Sellers</span>
+                        <span class="text">Users</span>
                     </a>
-                    <div class="submenu">
-                        <a href="page-sellers-cards.html">Sellers cards</a>
-                        <a href="page-sellers-list.html">Sellers list</a>
-                        <a href="page-seller-detail.html">Seller profile</a>
-                    </div>
+                   
                 </li>
-                <li class="menu-item has-submenu">
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
                     </a>
@@ -78,8 +69,8 @@
                         <a href="page-form-product-3.html">Add product 3</a>
                         <a href="page-form-product-4.html">Add product 4</a>
                     </div>
-                </li>
-                <li class="menu-item has-submenu">
+                </li> -->
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
                         <span class="text">Transactions</span>
                     </a>
@@ -88,8 +79,8 @@
                         <a href="page-transactions-2.html">Transaction 2</a>
                         <a href="page-transactions-details.html">Transaction Details</a>
                     </div>
-                </li>
-                <li class="menu-item has-submenu">
+                </li> -->
+                <!-- <li class="menu-item has-submenu">
                     <a class="menu-link" href="#"> <i class="icon material-icons md-person"></i>
                         <span class="text">Account</span>
                     </a>
@@ -98,24 +89,24 @@
                         <a href="page-account-register.html">User registration</a>
                         <a href="page-error-404.html">Error 404</a>
                     </div>
-                </li>
-                <li class="menu-item">
+                </li> -->
+                <!-- <li class="menu-item">
                     <a class="menu-link" href="page-reviews.html"> <i class="icon material-icons md-comment"></i>
                         <span class="text">Reviews</span>
                     </a>
-                </li>
-                <li class="menu-item">
+                </li> -->
+                <!-- <li class="menu-item">
                     <a class="menu-link" href="page-brands.html"> <i class="icon material-icons md-stars"></i>
                         <span class="text">Brands</span> </a>
-                </li>
-                <li class="menu-item">
+                </li> -->
+                <!-- <li class="menu-item">
                     <a class="menu-link" disabled href="#"> <i class="icon material-icons md-pie_chart"></i>
                         <span class="text">Statistics</span>
                     </a>
-                </li>
+                </li> -->
             </ul>
             <hr>
-            <ul class="menu-aside">
+            <!-- <ul class="menu-aside">
                 <li class="menu-item has-submenu">
                     <a class="menu-link" href="#"> <i class="icon material-icons md-settings"></i>
                         <span class="text">Settings</span>
@@ -130,7 +121,7 @@
                         <span class="text"> Starter page </span>
                     </a>
                 </li>
-            </ul>
+            </ul> -->
             <br>
             <br>
         </nav>
@@ -194,7 +185,7 @@
             <div class="content-header">
                 <div>
                     <h2 class="content-title card-title">Order detail</h2>
-                    <p>Details for Order ID: 3453012</p>
+                    <p>Details for Order ID: <%=details.orderId %></p>
                 </div>
             </div>
             <div class="card">
@@ -202,21 +193,22 @@
                     <div class="row align-items-center">
                         <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
                             <span>
-                                <i class="material-icons md-calendar_today"></i> <b>Wed, Aug 13, 2022, 4:34PM</b>
+                                <i class="material-icons md-calendar_today"></i> <b> <%=details.createdOn%></b>
                             </span> <br>
-                            <small class="text-muted">Order ID: 3453012</small>
+                            <small class="text-muted">Order ID:<%=details.orderId %></small>
                         </div>
-                        <div class="col-lg-6 col-md-6 ms-auto text-md-end">
-                            <select class="form-select d-inline-block mb-lg-0 mb-15 mw-200">
-                                <option>Change status</option>
-                                <option>Awaiting payment</option>
-                                <option>Confirmed</option>
-                                <option>Shipped</option>
-                                <option>Delivered</option>
+                        <div class="col-lg-6 col-md-6 ms-auto text-md-end" id="orderId" orderId="<%=details.orderId%>">
+                            <select class="status-select"  id="statusSelect">
+                                <option value="Pending" <%= details.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                <option value="Processing" <%= details.status === 'Processing' ? 'selected' : '' %>>Processing</option>
+                                <option value="Shipped" <%= details.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
+                                <option value="Delivered" <%= details.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
+                                <option value="Cancelled" <%= details.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
                             </select>
-                            <a class="btn btn-primary" href="#">Save</a>
+                            <a class="btn btn-primary save-status" id="save">Save</a>
                             <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
                         </div>
+                        
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
@@ -229,7 +221,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Customer</h6>
                                     <p class="mb-1">
-                                        John Alexander <br> alex@example.com <br> +998 99 22123456
+                                        <%=details.userId.name %> <br> <%=details.userId.email%> <br> <%=details.userId.phone%>
                                     </p>
                                     <a href="#">View profile</a>
                                 </div>
@@ -243,7 +235,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Order info</h6>
                                     <p class="mb-1">
-                                        Shipping: Fargo express <br> Pay method: card <br> Status: new
+                                        Shipping: Fargo express <br> Pay method: <%=details.paymentMethod%>  <br> Status:<%=details.status%>
                                     </p>
                                     <a href="#">Download info</a>
                                 </div>
@@ -257,7 +249,7 @@
                                 <div class="text">
                                     <h6 class="mb-1">Deliver to</h6>
                                     <p class="mb-1">
-                                        City: Tashkent, Uzbekistan <br>Block A, House 123, Floor 2 <br> Po Box 10000
+                                        City: <%=details.address.city%> <br><%=details.address.state%> <br> Pinocode:<%=details.address.pincode%>
                                     </p>
                                     <a href="#">View profile</a>
                                 </div>
@@ -271,83 +263,47 @@
                                     <thead>
                                         <tr>
                                             <th width="40%">Product</th>
-                                            <th width="20%">Unit Price</th>
+                                            <th width="20%">Price</th>
                                             <th width="20%">Quantity</th>
                                             <th width="20%" class="text-end">Total</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <%for(let i=0;i<details.orderedItems.length;i++){%>
                                         <tr>
                                             <td>
                                                 <a class="itemside" href="#">
                                                     <div class="left">
-                                                        <img src="assets/imgs/items/1.jpg" width="40" height="40" class="img-xs" alt="Item">
+                                                        <img src="/uploads/<%=details.orderedItems[i].Product.productImage[0]%>" width="40" height="40" class="img-xs" alt="Item">
                                                     </div>
-                                                    <div class="info"> T-shirt blue, XXL size </div>
+                                                    <div class="info"><%=details.orderedItems[0].Product.productName%></div>
                                                 </a>
                                             </td>
-                                            <td> $44.25 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $99.50 </td>
+                                            <td> <%=details.orderedItems[i].price%></td>
+                                            <td> <%=details.orderedItems[i].quantity%> </td>
+                                            <td class="text-end"> <%=details.orderedItems[i].totalPrice%></td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/2.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Winter jacket for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $7.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $15.00 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/3.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Jeans wear for men </div>
-                                                </a>
-                                            </td>
-                                            <td> $43.50 </td>
-                                            <td> 2 </td>
-                                            <td class="text-end"> $102.04 </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="assets/imgs/items/4.jpg" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"> Product name color and size </div>
-                                                </a>
-                                            </td>
-                                            <td> $99.00 </td>
-                                            <td> 3 </td>
-                                            <td class="text-end"> $297.00 </td>
-                                        </tr>
+                                      <%}%>
+                                      
                                         <tr>
                                             <td colspan="4">
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd>$973.35</dd>
+                                                        <dd><%=details.orderedItems[0].totalPrice%></dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Shipping cost:</dt>
-                                                        <dd>$10.00</dd>
+                                                        <dd>0</dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd> <b class="h5">$983.00</b> </dd>
+                                                        <dd> <b class="h5"><%=details.finalAmount%></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill alert-success text-success">Payment done</span>
+                                                            <span class="badge rounded-pill alert-success text-success"><%=details.status%></span>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -395,6 +351,61 @@
             </div>
         </footer>
     </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const button = document.getElementById('save');
+        const orderId = document.getElementById('orderId').getAttribute('orderId');
+        
+        button.addEventListener('click', async (event) => {
+            const status = document.getElementById('statusSelect').value;
+    
+            try {
+                const response = await fetch('/admin/updateorderstatus', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ status, orderId })
+                });
+    
+                if (response.ok) {
+                    const result = await response.json(); 
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'Success!',
+                        text: result.message || 'Order status updated successfully!'
+                    })
+                    .then(() => {
+                    // Redirect to orders page
+                    window.location.href = '/admin/orders';
+                });
+                   
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed to update order status. Please try again.'
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Something went wrong. Please try again later.'
+                });
+            }
+        });
+    </script>
+    
+   
+
+
+
+
+
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="assets/js/vendors/select2.min.js"></script>
@@ -403,5 +414,39 @@
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
 </body>
+<style>
+    /* Dropdown */
+.status-select {
+    padding: 10px; /* Add spacing inside the dropdown */
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #ccc; /* Light gray border */
+    width: auto; /* Adjust width to content */
+    font-size: 14px; /* Adjust font size */
+}
 
+/* Save Button */
+.btn-primary {
+    background-color: #007bff; /* Bootstrap primary blue */
+    border: none;
+    padding: 8px 15px; /* Adjust padding */
+    font-size: 14px;
+}
+
+/* Print Button */
+.btn-secondary.print {
+    color: #6c757d; /* Bootstrap secondary gray */
+    background-color: #f8f9fa; /* Light gray */
+    border: 1px solid #ddd; /* Subtle border */
+    padding: 8px 12px;
+}
+
+/* Align the dropdown and buttons in a single line */
+.col-lg-6 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Align content to the right */
+    gap: 10px; /* Add spacing between elements */
+}
+
+</style>
 </html>

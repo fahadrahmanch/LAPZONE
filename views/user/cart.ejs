@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -43,7 +43,7 @@
                                          
                                         </li>
                                         <li class="has-dropdown has-megaitem">
-                                            <a href="">Shop <i
+                                            <a href="/shop">Shop <i
                                                     ></i></a>
                                             
                                     
@@ -498,8 +498,8 @@
                         <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
                             <nav aria-label="breadcrumb">
                                 <ul>
-                                    <li><a href="index.html">Home</a></li>
-                                    <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="/shop">Shop</a></li>
                                     <li class="active" aria-current="page">Cart</li>
                                 </ul>
                             </nav>
@@ -537,16 +537,16 @@
 
                                          
                                         <tr>
-                                            <td class="product_remove"><a href="#"><i class="fa fa-trash-o"></i></a>
+                                            <td class="product_remove"><a href="" class="deleteButton" onclick="dltCartItem('<%=item.productId._id %>', '<%= item.variantId._id %>')"><i class="fa fa-trash-o"></i></a>
                                             </td>
-                                            <td class="product_thumb"><a href="product-details-default.html"><img
+                                            <td class="product_thumb"><a href=""><img
                                                         src="/uploads/<%=item.productId.productImage[0]%>"
                                                         alt=""></a></td>
-                                            <td class="product_name"><a href="product-details-default.html"><%=item.productId.productName%></a></td>
-                                            <td class="product-price"><%=products[0].price%></td>
+                                            <td class="product_name"><a href="product-details-default.html" ><%=item.productId.productName%></a></td>
+                                            <td class="product-price"><%=item.variantId.salePrice%></td>
                                             <td class="product_quantity"><label></label> <input min="1"
-                                                    max="100" value="<%=item.quantity%>" type="number"></td>
-                                            <td class="product_total"><%=item.totalPrice%></td>
+                                                    max="5" value="<%=item.quantity%>" type="number"    onchange="updateQuantity('<%= item.productId?._id %>','<%= item.variantId._id %>', this.value)"></td>
+                                            <td class="product_total" data-id="<%=item.productId%>"><%=item.quantity * item.variantId.salePrice%></td>
                                         </tr> <!-- End Cart Single Item-->
                                         <!-- Start Cart Single Item-->
                                        <%})%>
@@ -554,7 +554,7 @@
                                 </table>
                             </div>
                             <div class="cart_submit">
-                                <button class="btn btn-md btn-golden" type="submit">update cart</button>
+                                <!-- <button class="btn btn-md btn-golden" type="submit">update cart</button> -->
                             </div>
                         </div>
                     </div>
@@ -582,21 +582,27 @@
                             <div class="coupon_inner">
                                 <div class="cart_subtotal">
                                     <p>Subtotal</p>
-                                    <p class="cart_amount">$215.00</p>
+                                    <p class="cart_amount"><%=totalAmount%></p>
                                 </div>
                                 <div class="cart_subtotal ">
                                     <p>Shipping</p>
-                                    <p class="cart_amount"><span>Flat Rate:</span> $255.00</p>
+                                    <p class="cart_amount"><span>Flat Rate:</span> 0</p>
                                 </div>
                                 <a href="#">Calculate shipping</a>
 
                                 <div class="cart_subtotal">
                                     <p>Total</p>
-                                    <p class="cart_amount">$215.00</p>
+                                    <p class="cart_amount"><%=totalAmount%></p>
                                 </div>
+                                <%if(cart.length===0){%>
                                 <div class="checkout_btn">
-                                    <a href="#" class="btn btn-md btn-golden">Proceed to Checkout</a>
+                                    <a href="/cart" class="btn btn-md btn-golden">Proceed to Checkout</a>
                                 </div>
+                                <%}else{%>
+                                    <div class="checkout_btn">
+                                        <a href="/checkout" class="btn btn-md btn-golden">Proceed to Checkout</a>
+                                    </div>
+                                    <%}%>
                             </div>
                         </div>
                     </div>
@@ -962,48 +968,124 @@
 
 
 
-  <script>
-
-   
-  </script>
-
-
-
-
-
-
-
-
-
-
-
+    <script>
+     async function updateQuantity(productId,  variantId,quantity) {
+       fetch('/cart/update-quantity', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId, quantity ,variantId}),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.success) {
+                    //   alert(data.updatedTotalPrice);
 
 
+                // const totalElement = document.querySelector(`.product_total[data-id="${productId}"]`);
+
+                // if (totalElement) {
+                //     totalElement.innerHTML = data.updatedTotalPrice;
+                // } else {
+                //     console.warn(`Element with selector .product_total[data-id="${productId}"] not found.`);
+                // }
+
+               Swal.fire({
+                    icon: 'success',
+                    title: 'Quantity Updated',
+                    text: `The quantity was updated successfully!`,
+                    timer: 1500,
+                    showConfirmButton: false,
+                });
+                window.location.reload()
+
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Update Failed',
+                    text: data.message || 'Could not update the quantity.',
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert(error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An unexpected error occurred. Please try again later.',
+            });
+        });
+}
+
+    </script>
+
+    <script>
+   async function dltCartItem(productId, variantId) {
+    try {
+        console.log("Sending request to delete product with ID:", productId);
+
+        const response = await fetch('/cart/delete-product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId, variantId })
+        });
+
+        const result = await response.json();
+        console.log("Server response:", result);
+
+        if (response.status) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Deleted!',
+                text: result.message || 'Product removed from cart successfully.',
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+       
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: result.error || 'Failed to remove product from cart.',
+                showConfirmButton: true
+            });
+        }
+    } catch (error) {
+        console.error("Unexpected error:", error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: 'Something went wrong. Please try again later.',
+            showConfirmButton: true
+        });
+    }
+}
+
+    </script>
+    
 
 
 
-    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
-    <!-- Global Vendor, plugins JS -->
-    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
-    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
 
-    <!--Plugins JS-->
-    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-    <script src="assets/js/plugins/material-scrolltop.js"></script>
-    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
-    <script src="assets/js/plugins/venobox.min.js"></script>
-    <script src="assets/js/plugins/jquery.waypoints.js"></script>
-    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
-    <script src="assets/js/plugins/aos.min.js"></script>
-    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
-    <script src="assets/js/plugins/ajax-mail.js"></script> -->
 
-    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+
+
+
+
+
+
+
+
+
+
+
+    
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
 
