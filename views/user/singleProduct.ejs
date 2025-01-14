@@ -632,15 +632,16 @@
                             <!-- Product Variable Single Item -->
                            
                             <div class="d-flex align-items-center ">
-                                <div class="variable-single-item ">
+                                <div class="variable-single-item">
                                     <span>Quantity</span>
                                     <div class="product-variable-quantity">
-                                        <input min="1" max="100" value="1" type="number">
+                                        <input min="1" max="5" value="1" type="number" oninput="getQuantityValue(this)">
                                     </div>
                                 </div>
+                                
 
                                 <div class="product-add-to-cart-btn">
-                                    <a href="" onclick="addToCart('<%=products._id%>',1)" class="btn btn-block btn-lg btn-black-default-hover"
+                                    <a href="" onclick="addToCart('<%=products._id%>',quantity||1)" class="btn btn-block btn-lg btn-black-default-hover"
                                         data-bs-toggle="modal" data-bs-target="#modalAddcart">+ Add To Cart</a>
                                 </div>
                             </div>
@@ -991,7 +992,7 @@
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a href="" onclick="addToCart('<%=products._id%>',1)" data-bs-toggle="modal"
+                                                    <a href="" onclick="addToCart('<%=products._id%>')" data-bs-toggle="modal"
                                                         data-bs-target="#modalAddcart">Add to Cart</a>
                                                 </div>
                                                 <div class="action-link-right">
@@ -1533,7 +1534,17 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
+<script>
+ let quantity = 1;
 
+function getQuantityValue(inputElement) {
+    // Update the global quantity variable
+    quantity = inputElement.value;
+    
+    // Log the updated value
+    console.log("Quantity changed to:", quantity);
+}
+</script>
 <script src="/assets/js/plugins/icon.js"></script>
 </body>
 

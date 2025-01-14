@@ -9,7 +9,7 @@ const cartController=require('../controllers/user/cartController')
 const shopController=require('../controllers/user/shopController')
 const checkoutController=require('../controllers/user/checkoutController')
 const orderController=require('../controllers/user/orderController')
-
+const users=require('../models/userSchema')
 
 
 router.get('/pagenotfound',userController.pageNotFound)
@@ -61,7 +61,20 @@ router.post('/cancelorder',orderController.cancelOrder)
 // router.get('/search',shopController.searchInfo)
 
 router.get('/logout',userController.logout)
-router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{
-    res.redirect('/')
-})
+// router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{
+//     res.redirect('/')
+// })
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/auth/google/callback', passport.authenticate('google', {
+    failureRedirect: '/signup', 
+}), async (req, res) => {
+    const user = await users.findOne({googleId:req.user.googleId});
+    if(user.isBlocked){
+        return res.status(400).send("your account is blocked");
+    }
+    req.session.user = req.session.passport.user
+    res.redirect('/'); 
+});
+
 module.exports=router

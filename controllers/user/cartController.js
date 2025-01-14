@@ -5,6 +5,9 @@ const productSchema = require("../../models/productSchema");
 const getCart = async (req, res) => {
   try {
     const userId = req.session.user;
+    if(!userId){
+      return res.redirect('/')
+    }
     const user = await User.findById(userId);
     const cartItems = await Cart.findOne({ userId })
       .populate({
@@ -147,7 +150,7 @@ const updateqty = async (req, res) => {
   try {
     const vr = String(variantId);
     
-    if (quantity < 1 || quantity >= 5) {
+    if (quantity < 1 || quantity > 5) {
       return res
         .status(400)
         .json({ success: false, message: "Quantity must be 1 and 5" });

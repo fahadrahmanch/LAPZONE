@@ -75,7 +75,7 @@ const myaccount = async (req, res) => {
 
 
     const addresses = addressData ? addressData.address : [];
-    res.render("user/my-account", { users: users, addressData: addresses ,orders});
+    res.render("user/my-account", { users: users, addressData: addresses ,orders,message:req.session.user||""});
   } catch (error) {
     console.log("error fetching user data", error);
     res.status(500).send("Internal Server Error");

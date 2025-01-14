@@ -31,6 +31,10 @@ const orderSchema=new Schema({
             type:Number,
             required:true
         },
+        variants:{
+            type:Schema.Types.ObjectId,
+            required:false
+        }
     }],
    
     discount:{

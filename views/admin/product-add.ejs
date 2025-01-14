@@ -223,7 +223,7 @@
                                       </div>
                                       <div class="mb-3">
                                         <label for="storage-0" class="form-label">Storage</label>
-                                        <input type="text" class="form-control" name="variants[0][storage]" id="storage-0" value=" placeholder="Enter Storage (e.g., 512GB SSD)">
+                                        <input type="text" class="form-control" name="variants[0][storage]" id="storage-0"  placeholder="Enter Storage (e.g., 512GB SSD)">
                                       </div>
                                       <div class="mb-3">
                                         <label for="processor-0" class="form-label">Processor</label>
@@ -583,6 +583,113 @@ document.head.appendChild(style);
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+
+
+
+
+
+
+
+ <!-- <script>
+    function validateAndSubmit(event) {
+    // Prevent form submission if validation fails
+    event.preventDefault();
+
+    // Clear previous error messages
+    clearErrors();
+
+    // Get form fields
+    const productName = document.getElementById('product_name');
+    const category = document.querySelector('[name="category"]');
+    const description = document.getElementById('descriptionid');
+    const variants = document.querySelectorAll('[id^="ram-"]'); // Select all variant inputs
+
+    // Validation flag
+    let isValid = true;
+
+    // Validate Product Name
+    if (productName.value.trim() === "") {
+        isValid = false;
+        displayError('productName-error', 'Product Name is required.');
+    }
+
+    // Validate Category
+    if (category.value === "") {
+        isValid = false;
+        displayError('brand-error', 'Category is required.');
+    }
+
+    // Validate Description
+    if (description.value.trim() === "") {
+        isValid = false;
+        displayError('description-error', 'Description is required.');
+    }
+
+    // Validate Variant Fields
+    variants.forEach((variant, index) => {
+        const ram = document.getElementById(`ram-${index}`);
+        const storage = document.getElementById(`storage-${index}`);
+        const processor = document.getElementById(`processor-${index}`);
+        const regularPrice = document.getElementById(`regularPrice-${index}`);
+        const salePrice = document.getElementById(`salePrice-${index}`);
+        const stock = document.getElementById(`stock-${index}`);
+
+        // Validate variant fields
+        if (ram.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-ram-error`, 'RAM is required.');
+        }
+        if (storage.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-storage-error`, 'Storage is required.');
+        }
+        if (processor.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-processor-error`, 'Processor is required.');
+        }
+        if (regularPrice.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-regularPrice-error`, 'Regular Price is required.');
+        }
+        if (salePrice.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-salePrice-error`, 'Sale Price is required.');
+        }
+        if (stock.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-stock-error`, 'Stock quantity is required.');
+        }
+    });
+
+    // If valid, submit the form
+    if (isValid) {
+        document.querySelector('form').submit();
+    }
+}
+
+// Function to display error messages
+function displayError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+}
+
+// Function to clear previous error messages
+function clearErrors() {
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(error => {
+        error.textContent = '';
+        error.style.display = 'none';
+    });
+}
+
+ </script> -->
+
+
+
+
 </body>
 
 </html>
+
+

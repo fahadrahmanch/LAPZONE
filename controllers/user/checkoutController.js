@@ -9,7 +9,7 @@ const getCheckout=async (req,res)=>{
         const user=req.session.user;
         // console.log(user)
         if(!user){
-          return res.redirect('/login')
+          return res.redirect('/')
         }
         
         const cart=await Cart.findOne({userId:user}).populate({
@@ -42,7 +42,11 @@ const getCheckout=async (req,res)=>{
         // console.log(cart,"hi")
          
         // console.log("cart",cart,"address",address,"addressData",addressData)
-        res.render('user/checkout', { cart, addressData , totalAmount,message:req.session.user||""});
+        res.render('user/checkout', { 
+          cart, 
+          addressData , 
+          totalAmount,
+          message:req.session.user||""});
         // console.log(address)  
     }
     catch(error){

@@ -3,6 +3,7 @@ const User = require("../../models/userSchema");
 const Order=require("../../models/orderSchema")
 const Address=require("../../models/addressSchema")
 const productSchema = require("../../models/productSchema");
+const mongoose = require('mongoose')
 
 const createOrder = async (req, res) => {
   try {
@@ -51,6 +52,7 @@ const createOrder = async (req, res) => {
       quantity: item.quantity,
       price: item.variant.salePrice,
       totalPrice: item.variant.salePrice * item.quantity,
+      variants:item.variant._id
     }));
 
     const addressObject = address.address[0];
@@ -161,7 +163,7 @@ const createOrder = async (req, res) => {
 
     }
   }
-
+  const Variants = []; 
   const cancelOrder = async (req, res) => {
     console.log("cancel order");
     try {
@@ -181,14 +183,29 @@ const createOrder = async (req, res) => {
         order.status = 'Cancelled';
         await order.save();
        
-        // for(const item of order.orderedItems){
-        //   const product=await productSchema.findById(item);
-        //   console.log("products",product)
-        //   if(product){
-        //     // const variant=product.variants.find()
-        //   }
-        //   console.log(item)
-        // }
+        for(const item of order.orderedItems){
+          console.log("item",item)
+          const product = await productSchema.findOne({
+            variants: { $elemMatch: { _id: item.variants } },
+          });
+          const variant = product.variants.find((variant)=>variant._id.toString() === item.variants.toString())
+          console.log("orderd", variant)
+          console.log("products",product)
+          if(variant){
+            // const variant=product.variants.find()
+            Variants.push(variant); 
+            const quantityToIncrease = item.quantity; 
+            variant.stock += quantityToIncrease;
+          }
+         
+         
+        }
+        for (const item of Variants) {
+          await productSchema.updateOne(
+              { "variants._id": item._id },
+              { $set: { "variants.$.stock": item.stock } }
+          );
+      }
     
         return res.status(200).json({ success: true, message: "Order cancelled successfully" });
     } catch (error) {

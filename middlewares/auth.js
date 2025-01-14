@@ -5,6 +5,7 @@ const User=require("../models/userSchema")
 const userAuth = async (req,res,next)=>{
   
     try {
+        console.log("auth session", req.session)
         if(req.session.user){
             
           const user=await User.findById(req.session.user)
@@ -16,12 +17,12 @@ const userAuth = async (req,res,next)=>{
            
         }else{
             res.locals.user = null;
-            next()
+            return next()
         }
     } catch (error) {
-        console.log('Error in user auth middleware');
-        res.status(500).send('Internal server error')
+        console.log('Error in user auth middleware', error);
         res.locals.user = null;
+        return res.status(500).send('Internal server error')
     }
 
 }

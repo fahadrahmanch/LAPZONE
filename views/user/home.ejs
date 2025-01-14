@@ -33,10 +33,10 @@
                                         </li>
                                      
                                         <li>
-                                            <a href="about-us.html">About Us</a>
+                                            <a href="">About Us</a>
                                         </li>
                                         <li>
-                                            <a href="contact-us.html">Contact Us</a>
+                                            <a href="">Contact Us</a>
                                         </li>
                                     
                                     <div class="onhover-show-div user fa fa-user"> 
@@ -1301,44 +1301,57 @@
     
 </body>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-       async function addToCart(product, qty,productDetails) {
-       
-    try {
-        const productData = JSON.parse(productDetails);
-        const response = await fetch('/addToCart', {
-            
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                product: product,
-                variant: productData.variants[0]._id,
-                qty: qty, 
-            })
-        });
+    async function addToCart(product, qty, productDetails) {
+        try {
+            const productData = JSON.parse(productDetails);
+            const response = await fetch('/addToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    product: product,
+                    variant: productData.variants[0]._id,
+                    qty: qty,
+                })
+            });
 
-        if (response.ok) {
-            
-            const result = await response.json();
-            console.log('Item added to cart:', result);
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Item added to cart:', result);
 
-           
-            alert(result.message || 'Item successfully added to the cart!');
-        } else {
+             
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: result.message || 'Item successfully added to the cart!',
+                });
+            } else {
+                const error = await response.json();
+                console.error('Error adding item:', error);
+
           
-            const error = await response.json();
-            console.error('Error adding item:', error);
-            alert(error.message || 'Failed to add item to the cart. Please try again.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: error.message || 'Failed to add item to the cart. Please try again.',
+                });
+            }
+        } catch (err) {
+            console.error('Network error:', err);
+
+          
+            Swal.fire({
+                icon: 'error',
+                title: 'Network Error',
+                text: 'An error occurred. Please check your connection and try again.',
+            });
         }
-    } catch (err) {
-     
-        console.error('Network error:', err);
-        alert('An error occurred. Please check your connection and try again.');
     }
-}
 </script>
+
 
 
 

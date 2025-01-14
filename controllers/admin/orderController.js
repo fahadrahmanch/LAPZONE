@@ -1,9 +1,10 @@
 const Order=require("../../models/orderSchema");
-
+const Product=require("../../models/productSchema")
 
 const orderInfo= async (req, res) => {
     try {
-        console.log("hi")
+        // console.log("hi")
+        
       const order = await Order.find()
         .populate("userId", "name email")
         // .populate("items.productId") 
@@ -35,7 +36,7 @@ const orderDetails=async(req,res)=>{
           console.log(error)
     }
 }
-
+const Variants = []; 
 const updateOrderstatus=async(req,res)=>{
     console.log("work")
     
@@ -47,7 +48,10 @@ const updateOrderstatus=async(req,res)=>{
      if(!order){
         return res.status(400).json({success:false,message:"order not found"})
      }
+     console.log("ordered",order)
      if(order.status=='Delivered'||order.status=='Cancelled'){
+        
+      
         return res.status(401).json({
             success: false,
             message: `The order status cannot be changed because it is already "${order.status}".`
@@ -55,6 +59,29 @@ const updateOrderstatus=async(req,res)=>{
 
     }
     order.status=status;
+    if(order.status=='Cancelled'){
+      for(let item of order.orderedItems){
+        const product = await Product.findOne({
+          variants: { $elemMatch: { _id: item.variants } },
+        });
+        const variant = product.variants.find((variant)=>variant._id.toString() === item.variants.toString())
+        console.log("orderd", variant)
+        console.log("products",product)
+        if(variant){
+          
+          Variants.push(variant); 
+          const quantityToIncrease = item.quantity; 
+          variant.stock += quantityToIncrease;
+        }
+      }
+      for (const item of Variants) {
+        await Product.updateOne(
+            { "variants._id": item._id },
+            { $set: { "variants.$.stock": item.stock } }
+        );
+    }
+    
+    }
     await order.save()
     return res.status(200).json({
         success: true,

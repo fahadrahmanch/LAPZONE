@@ -7,7 +7,7 @@ const loadShop = async (req, res) => {
     const search = req.query.search || "";
     console.log(search)
     const page = req.query.page || 1;
-    const limit = 15;
+    const limit = 5;
      const sort = req.query.sort||""
      const catt=req.query.cat||"";
      console.log(catt)

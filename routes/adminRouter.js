@@ -36,10 +36,10 @@ router.post('/deleteImage',auth.checkSession,productController.deleteSingleImage
 router.get('/searchProducts',auth.checkSession,productController.productsInfo)
 router.post('/listedProducts',productController.listed)
 
-router.get("/orders",orderController.orderInfo)
+router.get("/orders",auth.checkSession,orderController.orderInfo)
 
 
-router.get('/orderdetails/:id',orderController.orderDetails)
+router.get('/orderdetails/:id',auth.checkSession,orderController.orderDetails)
 
 router.post('/updateorderstatus',orderController.updateOrderstatus)
 
