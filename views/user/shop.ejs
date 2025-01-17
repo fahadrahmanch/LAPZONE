@@ -766,19 +766,45 @@
                                                             </a>
                                                             <div class="action-link">
                                                                 <div class="action-link-left">
-                                                                    <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="#" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalAddcart">Add to Cart</a>
+                                                                  <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">
+                                                                    Add to Cart
+                                                                  </a>
                                                                 </div>
                                                                 <div class="action-link-right">
-                                                                    <a href="#" data-bs-toggle="modal"
-                                                                        data-bs-target="#modalQuickview"><i
-                                                                            class="icon-magnifier"></i></a>
-                                                                    <a href="wishlist.html"><i
-                                                                            class="icon-heart"></i></a>
-                                                                    <a href="compare.html"><i
-                                                                            class="icon-shuffle"></i></a>
+                                                                  <!-- Quickview Icon -->
+                                                                  <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview">
+                                                                    <i class="icon-magnifier"></i>
+                                                                  </a>
+                                                              
+                                                                  <!-- Wishlist Icon -->
+                                                               
+                                                                  <a href="wishlist.html" class="wishlist-link" data-product-id="<%= products[i]._id %>"data-variant-id="<%= products[i].variants[0]._id %>" >
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                                                    </svg>
+                                                                  </a>
+                                                         
+                                                                  <!-- Compare Icon -->
+                                                                  <a href="compare.html">
+                                                                    <i class="icon-shuffle"></i>
+                                                                  </a>
                                                                 </div>
-                                                            </div>
+                                                              </div>
+                                                              
+                                                           
+                                                              
+                                                              <!-- CSS for Styling -->
+                                                              <style>
+                                                                .wishlist-heart {
+                                                                  cursor: pointer; /* Make it look clickable */
+                                                                  transition: fill 0.3s ease; /* Smooth transition for fill color */
+                                                                }
+                                                              
+                                                                .wishlist-heart:hover {
+                                                                  fill: #fef7f79d; /* Add a light red hover effect */
+                                                                }
+                                                              </style>
+                                                              
                                                         </div>
                                                         <div class="content">
                                                             <div class="content-left">
@@ -1370,6 +1396,69 @@
 }
 
      </style>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.wishlist-link').forEach(link => {
+        const heartIcon = link.querySelector('svg');
+        const productId = link.dataset.productId;
+        const variantId = link.dataset.variantId;
+        const isInWishlist = link.dataset.inWishlist === 'true'; // Use data from server
+  
+        // Set initial fill color based on wishlist status
+        heartIcon.setAttribute('fill', isInWishlist ? 'red' : 'none');
+  
+        link.addEventListener('click', async function (event) {
+          event.preventDefault();
+  
+          const isCurrentlyInWishlist = heartIcon.getAttribute('fill') === 'red';
+  
+          // Toggle the fill color
+          heartIcon.setAttribute('fill', isCurrentlyInWishlist ? 'none' : 'red');
+  
+          // Update the wishlist status on the server
+          await toggleWishlist(productId, !isCurrentlyInWishlist, variantId);
+        });
+      });
+    });
+  
+    async function toggleWishlist(productId, isAdding, variantId) {
+      try {
+        const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ productId, variantId }),
+        });
+  
+        const data = await response.json();
+        if (data.success) {
+          console.log(isAdding ? 'Added to wishlist' : 'Removed from wishlist');
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert('An error occurred while updating the wishlist.');
+        console.error(error);
+      }
+    }
+  </script>
+  
+  
+  <!-- CSS -->
+  <style>
+    .wishlist-heart {
+      cursor: pointer;
+      transition: fill 0.3s ease;
+    }
+  
+    .wishlist-heart:hover {
+      fill: #f5c6cb; /* Light red on hover */
+    }
+  </style>
 </body>
 
 

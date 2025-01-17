@@ -1,9 +1,12 @@
 const product = require("../../models/productSchema");
 const categorySchema = require("../../models/categorySchema");
 const User = require("../../models/userSchema");
+const wishlistSchema=require("../../models/WhislistSchema")
 
 const loadShop = async (req, res) => {
   try {
+    let user=req.session.user
+console.log(user)
     const search = req.query.search || "";
     console.log(search)
     const page = req.query.page || 1;
@@ -43,13 +46,22 @@ const loadShop = async (req, res) => {
       isListed: true,
       productName: { $regex: new RegExp(".*" + search + ".*", "i") }, // Case-insensitive search
   };
+
   const count = await product.countDocuments(filterQuery);
     const products = await product.find(filterQuery).sort(sortCriteria).skip((page-1)*limit).limit(limit)
     const cat = await categorySchema.find({});
+  //  if(user){
+   const wishlist=await wishlistSchema.findOne({})
+  //  console.log("dfbdhaf",wishlist.products)
+  //  console.log(wishlist)
+   
+  //  }
+
     res.render("user/Shop", {
       products: products,
       cat: cat,
       // search: search,
+      // wishlist: wishlist.products,
       message:req.session.user||null,
       limit:limit,
       currentPage:page,

@@ -7,6 +7,7 @@ const categoriesController=require('../controllers/admin/categoriesController')
 const customerController=require("../controllers/admin/customerController")
 const productController=require('../controllers/admin/productController')
 const orderController=require('../controllers/admin/orderController')
+const coupenController=require('../controllers/admin/coupenController')
 router.get('/login',auth.isLogin,adminController.loadlogin)
 router.post('/login',adminController.login)
 router.get('/logout',adminController.isLogout)
@@ -42,6 +43,13 @@ router.get("/orders",auth.checkSession,orderController.orderInfo)
 router.get('/orderdetails/:id',auth.checkSession,orderController.orderDetails)
 
 router.post('/updateorderstatus',orderController.updateOrderstatus)
+
+//coupen
+router.get('/coupen',coupenController.getcoupen)
+router.get('/addCoupen',coupenController.addCoupen)
+router.get('/editCoupen',coupenController.editCoupen)
+
+router.post('/addCoupen',coupenController.addCoupenPost)
 
 
 module.exports=router;

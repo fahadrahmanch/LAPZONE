@@ -648,8 +648,24 @@
                            
                             <!-- Start  Product Details Meta Area-->
                             <div class="product-details-meta mb-20">
-                                <a href="wishlist.html" class="icon-space-right"><i class="icon-heart"></i>Add to
-                                    wishlist</a>
+                                <!-- <a href="wishlist.html" class="icon-space-right"><i class="icon-heart"></i>Add to
+                                    wishlist</a> -->
+                                    <a href="wishlist.html" class="wishlist-link" data-product-id="<%=products._id%>"data-variant-id="<%=products.variants[0]._id%>" >
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                          <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                        </svg>
+                                        Add to
+                                        wishlist </a>
+                                      <style>
+                                        .wishlist-heart {
+                                          cursor: pointer; /* Make it look clickable */
+                                          transition: fill 0.3s ease; /* Smooth transition for fill color */
+                                        }
+                                      
+                                        .wishlist-heart:hover {
+                                          fill: #fef7f79d; /* Add a light red hover effect */
+                                        }
+                                      </style>
                                 <a href="compare.html" class="icon-space-right"><i class="icon-refresh"></i>Compare</a>
                             </div> <!-- End  Product Details Meta Area-->
                         </div> <!-- End Product Variable Area -->
@@ -1545,6 +1561,56 @@ function getQuantityValue(inputElement) {
     console.log("Quantity changed to:", quantity);
 }
 </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.wishlist-link').forEach(link => {
+        const heartIcon = link.querySelector('svg');
+        const productId = link.dataset.productId;
+        const variantId = link.dataset.variantId;
+        const isInWishlist = link.dataset.inWishlist === 'true'; // Use data from server
+  
+        // Set initial fill color based on wishlist status
+        heartIcon.setAttribute('fill', isInWishlist ? 'red' : 'none');
+  
+        link.addEventListener('click', async function (event) {
+          event.preventDefault();
+  
+          const isCurrentlyInWishlist = heartIcon.getAttribute('fill') === 'red';
+  
+          // Toggle the fill color
+          heartIcon.setAttribute('fill', isCurrentlyInWishlist ? 'none' : 'red');
+  
+          // Update the wishlist status on the server
+          await toggleWishlist(productId, !isCurrentlyInWishlist, variantId);
+        });
+      });
+    });
+  
+    async function toggleWishlist(productId, isAdding, variantId) {
+      try {
+        
+        const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ productId, variantId }),
+        });
+  
+        const data = await response.json();
+        if (data.success) {
+          console.log(isAdding ? 'Added to wishlist' : 'Removed from wishlist');
+        } else {
+          alert(data.message);
+        }
+      } catch (error) {
+        alert('An error occurred while updating the wishlist.');
+        console.error(error);
+      }
+    }
+  </script>
 <script src="/assets/js/plugins/icon.js"></script>
 </body>
 

@@ -1,4 +1,4 @@
-const { type } = require("jquery")
+    const { type } = require("jquery")
 const mongoose=require("mongoose")
 const {Schema}=mongoose
 const cartSchema=new Schema ({

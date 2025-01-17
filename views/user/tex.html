@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Coupon</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="form-container">
+    <div class="form-header">
+      <h1>Add New Coupon</h1>
+      <a href="#" class="back-btn">Back to Coupons</a>
+    </div>
+    <form>
+      <div class="form-group">
+        <label for="coupon-name">Coupon Name</label>
+        <input type="text" id="coupon-name" placeholder="Only letters and numbers, no spaces or special characters" required>
+      </div>
+      <div class="form-group">
+        <label for="offer-price">Offer Price (₹)</label>
+        <input type="number" id="offer-price" placeholder="Enter the offer price" required>
+      </div>
+      <div class="form-group">
+        <label for="min-price">Minimum Purchase Amount (₹)</label>
+        <input type="number" id="min-price" placeholder="Enter the minimum amount" required>
+      </div>
+      <div class="form-group">
+        <label for="expiry-date">Expiry Date</label>
+        <input type="date" id="expiry-date" required>
+      </div>
+      <button type="submit" class="create-btn">Create Coupon</button>
+    </form>
+  </div>
+</body>
+</html>
+<style>
+  /* General body styling */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8fafc; /* Light background */
+  margin: 0;
+  padding: 20px;
+  color: #333; /* Dark text for readability */
+}
+
+/* Form container styling */
+.form-container {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #ffffff; /* White card */
+  padding: 25px 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border: 1px solid #e5e7eb; /* Light gray border */
+}
+
+/* Header styling */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.form-header h1 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #374151; /* Neutral gray text */
+  margin: 0;
+}
+
+.back-btn {
+  text-decoration: none;
+  font-size: 14px;
+  color: #059669; /* Green for "Back to Coupons" */
+  background-color: #e7f7ef; /* Light green background */
+  padding: 8px 15px;
+  border-radius: 8px;
+  border: 1px solid #34d399; /* Soft green border */
+  font-weight: 500;
+}
+
+.back-btn:hover {
+  background-color: #34d399; /* Green hover */
+  color: #ffffff; /* White text */
+}
+
+/* Form group styling */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #374151; /* Neutral gray text */
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  font-size: 14px;
+  border: 1px solid #d1d5db; /* Light gray border */
+  border-radius: 8px;
+  background-color: #f9fafb; /* Light gray background */
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+  border-color: #059669; /* Green border focus */
+  outline: none;
+}
+
+/* Create button styling */
+.create-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ffffff; /* White text */
+  background-color: #059669; /* Green background */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.create-btn:hover {
+  background-color: #047857; /* Darker green hover */
+}
+
+</style>

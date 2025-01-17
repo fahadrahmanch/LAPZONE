@@ -10,7 +10,7 @@ const shopController=require('../controllers/user/shopController')
 const checkoutController=require('../controllers/user/checkoutController')
 const orderController=require('../controllers/user/orderController')
 const users=require('../models/userSchema')
-
+const whishlistController=require('../controllers/user/wishlistController')
 
 router.get('/pagenotfound',userController.pageNotFound)
 router.get('/',userController.loadHomepage)
@@ -53,6 +53,12 @@ router.post('/cart/delete-product',cartController.deleteCartProduct)
 router.get('/checkout',checkoutController.getCheckout)
 router.post('/createOrder',orderController.createOrder)
 router.get("/orderConfirm/:id",orderController.renderConfirmorder)
+
+//whishlist
+router.get('/wishlist',whishlistController.getwishlist)
+router.post('/wishlist/add',whishlistController.addWishlist);
+router.post('/wishlist/remove',whishlistController.removeWishlist);
+
 
 //orderDetails
 router.get('/viewOrders/:id',orderController.orderDetails)

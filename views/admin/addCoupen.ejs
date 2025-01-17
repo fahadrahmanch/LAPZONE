@@ -1,0 +1,417 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Evara Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
+    <!-- Template CSS -->
+    <link href="assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css">
+
+</head>
+
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
+                </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/Dashboard"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/products"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+
+                </li>
+                <!-- <li class="menu-item ">
+                    <a class="menu-link" href="page-orders-1.html"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                   
+                </li> -->
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/categories"> <i class="icon material-icons md-stars"></i></i>
+                        <span class="text">Category</span>
+                    </a>
+
+                </li>
+                <li class="menu-item ">
+                    <a class="menu-link" href="/admin/users"> <i class="icon material-icons md-store"></i>
+                        <span class="text">Users</span>
+                    </a>
+
+                </li>
+                <li class="menu-item  ">
+                    <a class="menu-link" href="/admin/orders"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                   
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/admin/coupen"> <i class="fa fa-gift" aria-hidden="true" ></i>
+                        <span class="text">Coupens</span>
+                    </a>
+                 
+                </li>
+            </ul>
+            <hr>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+                <form class="searchform">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
+                        <button class="btn btn-light bg" type="button"> <i
+                                class="material-icons md-search"></i></button>
+                    </div>
+                    <datalist id="search_terms">
+                        <option value="Products">
+                        <option value="New orders">
+                        <option value="Apple iphone">
+                        <option value="Ahmed Hassan">
+                    </datalist>
+                </form>
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon" href="#">
+                            <i class="material-icons md-notifications animation-shake"></i>
+                            <span class="badge rounded-pill">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="requestfullscreen nav-link btn-icon"><i
+                                class="material-icons md-cast"></i></a>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
+                            aria-expanded="false"><i class="material-icons md-public"></i></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
+                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png"
+                                    alt="English">English</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png"
+                                    alt="Français">Français</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png"
+                                    alt="Français">日本語</a>
+                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png"
+                                    alt="Français">中国人</a>
+                        </div>
+                    </li>
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
+                            aria-expanded="false"> <img class="img-xs rounded-circle"
+                                src="assets/imgs/people/avatar2.jpg" alt="User"></a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                                Profile</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
+                                Settings</a>
+                            <a class="dropdown-item" href="#"><i
+                                    class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help
+                                center</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item text-danger" href="/admin/logout"><i
+                                    class="material-icons md-exit_to_app"></i>Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="content-main">
+            <div class="form-container">
+                <div class="form-header">
+                  <h1>Add New Coupon</h1>
+                  <a href="#" class="back-btn">Back to Coupons</a>
+                </div>
+                <form method="post" action="/admin/addCoupen">
+                  <div class="form-group">
+                    <label for="coupon-name">Coupon Name</label>
+                    <input type="text" id="coupon-name" name="name" placeholder="Only letters and numbers, no spaces or special characters" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="offer-price">Offer Price (₹)</label>
+                    <input type="number" id="offer-price" name="price" placeholder="Enter the offer price" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="min-price">Minimum Purchase Amount (₹)</label>
+                    <input type="number" id="min-price" name="Amount" placeholder="Enter the minimum amount" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="expiry-date">Expiry Date</label>
+                    <input type="date" id="expiry-date" name="date" required>
+                  </div>
+                  <button type="submit" class="create-btn">Create Coupon</button>
+                </form>
+              </div>
+            </body>
+        </section>
+
+
+
+      
+        
+
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                        document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+    <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
+    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/vendors/select2.min.js"></script>
+    <script src="assets/js/vendors/perfect-scrollbar.js"></script>
+    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
+    <!-- Main Script -->
+    <script src="assets/js/main.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+
+
+
+
+
+
+
+ <!-- <script>
+    function validateAndSubmit(event) {
+    // Prevent form submission if validation fails
+    event.preventDefault();
+
+    // Clear previous error messages
+    clearErrors();
+
+    // Get form fields
+    const productName = document.getElementById('product_name');
+    const category = document.querySelector('[name="category"]');
+    const description = document.getElementById('descriptionid');
+    const variants = document.querySelectorAll('[id^="ram-"]'); // Select all variant inputs
+
+    // Validation flag
+    let isValid = true;
+
+    // Validate Product Name
+    if (productName.value.trim() === "") {
+        isValid = false;
+        displayError('productName-error', 'Product Name is required.');
+    }
+
+    // Validate Category
+    if (category.value === "") {
+        isValid = false;
+        displayError('brand-error', 'Category is required.');
+    }
+
+    // Validate Description
+    if (description.value.trim() === "") {
+        isValid = false;
+        displayError('description-error', 'Description is required.');
+    }
+
+    // Validate Variant Fields
+    variants.forEach((variant, index) => {
+        const ram = document.getElementById(`ram-${index}`);
+        const storage = document.getElementById(`storage-${index}`);
+        const processor = document.getElementById(`processor-${index}`);
+        const regularPrice = document.getElementById(`regularPrice-${index}`);
+        const salePrice = document.getElementById(`salePrice-${index}`);
+        const stock = document.getElementById(`stock-${index}`);
+
+        // Validate variant fields
+        if (ram.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-ram-error`, 'RAM is required.');
+        }
+        if (storage.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-storage-error`, 'Storage is required.');
+        }
+        if (processor.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-processor-error`, 'Processor is required.');
+        }
+        if (regularPrice.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-regularPrice-error`, 'Regular Price is required.');
+        }
+        if (salePrice.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-salePrice-error`, 'Sale Price is required.');
+        }
+        if (stock.value.trim() === "") {
+            isValid = false;
+            displayError(`variant-${index}-stock-error`, 'Stock quantity is required.');
+        }
+    });
+
+    // If valid, submit the form
+    if (isValid) {
+        document.querySelector('form').submit();
+    }
+}
+
+// Function to display error messages
+function displayError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+    errorElement.textContent = message;
+    errorElement.style.display = 'block';
+}
+
+// Function to clear previous error messages
+function clearErrors() {
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(error => {
+        error.textContent = '';
+        error.style.display = 'none';
+    });
+}
+
+ </script> -->
+
+
+ <style>
+    /* General body styling */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8fafc; /* Light background */
+    margin: 0;
+    padding: 20px;
+    color: #333; /* Dark text for readability */
+  }
+  
+  /* Form container styling */
+  .form-container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #ffffff; /* White card */
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    border: 1px solid #e5e7eb; /* Light gray border */
+  }
+  
+  /* Header styling */
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+  }
+  
+  .form-header h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #374151; /* Neutral gray text */
+    margin: 0;
+  }
+  
+  .back-btn {
+    text-decoration: none;
+    font-size: 14px;
+    color: #059669; /* Green for "Back to Coupons" */
+    background-color: #e7f7ef; /* Light green background */
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #34d399; /* Soft green border */
+    font-weight: 500;
+  }
+  
+  .back-btn:hover {
+    background-color: #34d399; /* Green hover */
+    color: #ffffff; /* White text */
+  }
+  
+  /* Form group styling */
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #374151; /* Neutral gray text */
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #d1d5db; /* Light gray border */
+    border-radius: 8px;
+    background-color: #f9fafb; /* Light gray background */
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #059669; /* Green border focus */
+    outline: none;
+  }
+  
+  /* Create button styling */
+  .create-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff; /* White text */
+    background-color: #059669; /* Green background */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .create-btn:hover {
+    background-color: #047857; /* Darker green hover */
+  }
+  
+  </style>
+
+</body>
+
+</html>
+
+

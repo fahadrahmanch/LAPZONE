@@ -12,6 +12,12 @@ const wishlistSchema=new Schema({
             ref:'Product',
             required:true
         },
+        variants: {
+            type: Schema.Types.ObjectId,
+            // ref: 'products.variants',
+            // required: true
+        },
+        
         addedOn:{
             type:Date,
             default:Date.now
