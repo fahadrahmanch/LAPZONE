@@ -47,9 +47,10 @@ router.post('/updateorderstatus',orderController.updateOrderstatus)
 //coupen
 router.get('/coupen',coupenController.getcoupen)
 router.get('/addCoupen',coupenController.addCoupen)
-router.get('/editCoupen',coupenController.editCoupen)
+// router.get('/editCoupen',coupenController.editCoupen)
 
 router.post('/addCoupen',coupenController.addCoupenPost)
+router.post('/list/:name',coupenController.islist)
 
 
 module.exports=router;

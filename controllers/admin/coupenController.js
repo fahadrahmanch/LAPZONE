@@ -38,21 +38,15 @@ const addCoupen=async(req,res)=>{
         console.log(error)
     }
 }
-const editCoupen=async(req,res)=>{
-    try{
-        const admin=req.session.admin
-        if(admin){
-
-        
-    res.render('admin/editCoupen')
-        }else{
-            res.redirect('/admin/login')
-        }
-    }
-    catch(error){
-        console.log(error)
-    }
-}
+// const editCoupen=async(req,res)=>{
+//     try{
+//         const admin=req.session.admin
+//         if(!admin) return res.redirect('/admin/login')
+//     }
+//     catch(error){
+//         console.log(error)
+//     }
+// }
 
 
 const addCoupenPost=async(req,res)=>{
@@ -78,7 +72,31 @@ const addCoupenPost=async(req,res)=>{
 
     })
     await newCoupen.save()
-  
+    
+}
+catch(error){
+    console.log(error)
+}
+}
+
+
+const islist=async(req,res)=>{
+    try{
+        const {name} =req.params
+        console.log(name)
+        const coupen=await Coupon.findOne({name:name})
+        if(coupen.isList){
+            console.log("sfh")
+            coupen.isList=false
+            console.log(coupen.isList)
+        }else{
+            coupen.isList=true
+            console.log(coupen.isList)
+        }
+        await coupen.save()
+       
+        return res.redirect('/admin/coupen')
+        
     }
     catch(error){
         console.log(error)
@@ -86,6 +104,4 @@ const addCoupenPost=async(req,res)=>{
 }
 
 
-
-
-module.exports={getcoupen,addCoupen,editCoupen,addCoupenPost}
+module.exports={getcoupen,addCoupen,addCoupenPost,islist,}

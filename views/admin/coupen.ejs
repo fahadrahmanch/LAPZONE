@@ -228,23 +228,47 @@
                       </tr>
                     </thead>
                     <tbody>
-                   
+                   <%coupons.forEach((item)=>{%>
+
+             
                       <tr>
-                        <td>MARIYA</td>
-                        <td>₹34</td>
-                        <td>₹500</td>
-                        <td>9/1/2025</td>
-                        <td><span class="expired">16/1/2025</span></td>
+                        <td><%=item.name%></td>
+                        <td>₹<%=item.offerPrice%></td>
+                        <td>₹<%=item.minimumPrice%></td>
+                        <td><%=item.createdOn%></td>
+                        <td><span class="expired"><%=item.expireOn%></span></td>
+                        <%if(item.isList){%>
                         <td><span class="status active">Active</span></td>
+                        <%}else{%>
+                            <td><span class="status " style="background-color: red;">InActive</span></td>
+                        <%}%>
                         <td>
-                          <a href="/admin/editCoupen" class="edit-btn newbtn" >Edit</a>
-                          <button class="block-btn">Block</button>
+                          <!-- <a href="/admin/editCoupen" class="edit-btn newbtn" >Edit</a> -->
+                           <form method="POST" action="/admin/list/<%=item.name%>">
+                          <%if(item.isList){%>
+                          <button  class="block-btn newbtn" style="background-color: green;">Block</button>
+                          <%}else{%>
+                            <button class="block-btn newbtn" style="background-color: red;">Unblock</button>
+                            <%}%>
+                        </form>
                         </td>
                       </tr>
+                      <% })%>
                     </tbody>
                   </table>
             </div> <!-- card end// -->
-           
+            <div class="pagination-area mt-15 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <%for(let i=1;i<=totalPages;i++){%>
+                            <li class="page-item <%=( i === currentPage) ? 'active' : '' %>"><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
+                          <%}%>
+                         
+                     
+                     
+                    </ul>
+                </nav>
+            </div>
         </section> <!-- content-main end// -->
 
 

@@ -6,14 +6,23 @@ const coupenSchema=new mongoose.Schema({
         required:true,
         unique:true
     },
-    createdOn:{
-        type:Date,
-        default:Date.now,
-        required:true
+    createdOn: {
+        type: String,
+        default: () => {
+            const now = new Date();
+            
+            return now.toISOString().split('T')[0]; // Get the date part only
+        },
+        required: true,
     },
     expireOn:{
-        type:Date,
-        required:true
+         type: String,
+        default: () => {
+            const now = new Date();
+            
+            return String.toISOString().split('T')[0]; // Get the date part only
+        },
+        required: true,
     },
     offerPrice:{
         type:Number,
