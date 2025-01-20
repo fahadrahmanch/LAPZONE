@@ -56,6 +56,7 @@ console.log(user)
   //  console.log(wishlist)
    
   //  }
+  // res.json(products);
 
     res.render("user/Shop", {
       products: products,
@@ -68,6 +69,8 @@ console.log(user)
       totalPages:Math.ceil(count/limit),
       
     });
+    
+    
   } catch (error) {
     console.log(error);
   }

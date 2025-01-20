@@ -612,7 +612,7 @@
                     href="#downloads"
                     data-bs-toggle="tab"
                     class="nav-link btn btn-block btn-md btn-black-default-hover"
-                    >Downloads</a
+                    >Wallets</a
                   >
                 </li>
                 <li>
@@ -1359,8 +1359,241 @@
                 </div>
               </div>
               <div class="tab-pane fade" id="downloads">
-                <h4>Downloads</h4>
-                <div class="table_page table-responsive">
+                <div class="wallet-section">
+                  <div class="wallet-card">
+                      <h3 class="wallet-title">My Wallet</h3>
+                      <div class="wallet-balance">
+                          <span class="balance-label">Available Balance</span>
+                          <span class="balance-amount">₹<%=wallet.totalBalance%></span>
+                      </div>
+                      
+                      <!-- <div class="add-money-section">
+                          <div class="input-group">
+                              <input type="number" id="amount" class="amount-input" placeholder="Enter amount">
+                              <button class="add-money-btn">Add Money</button>
+                          </div>
+                      </div> -->
+              
+                      <div class="transaction-history">
+                          <h4 class="history-title">Transaction History</h4>
+                         
+                          <div class="transaction-list">
+                            <%for(let i=0;i<wallet.transactions.length;i++){%>
+                              <div class="transaction-item">
+                                  <div class="transaction-info">
+                                      <span class="transaction-type credit"><%=wallet.transactions[i].type%></span>
+                                      <span class="transaction-date"><%=wallet.transactions[i].date%></span>
+                                  </div>
+                                  <span class="transaction-amount credit">+₹<%=wallet.transactions[i].amount%></span>
+                              </div>
+                              <%}%>
+                              <!-- <div class="transaction-item">
+                                  <div class="transaction-info">
+                                      <span class="transaction-type debit">Purchase</span>
+                                      <span class="transaction-date">Jan 18, 2024</span>
+                                  </div>
+                                  <span class="transaction-amount debit">-₹500.00</span>
+                              </div>
+                              <div class="transaction-item">
+                                  <div class="transaction-info">
+                                      <span class="transaction-type credit">Added Money</span>
+                                      <span class="transaction-date">Jan 17, 2024</span>
+                                  </div>
+                                  <span class="transaction-amount credit">+₹2,000.00</span>
+                              </div> -->
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              
+              <style>
+              .wallet-section {
+                  /* width: 300px; */
+                  /* position: fixed; */
+                  /* right: 20px; */
+                  /* top: 100px; */
+              }
+              
+              .wallet-card {
+                  background: white;
+                  border-radius: 8px;
+                  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                  padding: 20px;
+              }
+              
+              .wallet-title {
+                  font-size: 18px;
+                  color: #333;
+                  margin-bottom: 20px;
+                  font-weight: 600;
+              }
+              
+              .wallet-balance {
+                  background: #f8f9fa;
+                  padding: 15px;
+                  border-radius: 6px;
+                  margin-bottom: 20px;
+              }
+              
+              .balance-label {
+                  display: block;
+                  font-size: 14px;
+                  color: #666;
+                  margin-bottom: 5px;
+              }
+              
+              .balance-amount {
+                  display: block;
+                  font-size: 24px;
+                  color: #333;
+                  font-weight: 600;
+              }
+              
+              .add-money-section {
+                  margin-bottom: 20px;
+              }
+              
+              .input-group {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+              }
+              
+              .amount-input {
+                  width: 100%;
+                  padding: 8px 12px;
+                  border: 1px solid #ddd;
+                  border-radius: 4px;
+                  font-size: 14px;
+              }
+              
+              .add-money-btn {
+                  background-color: #c7a17a;
+                  color: white;
+                  border: none;
+                  padding: 10px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  font-size: 14px;
+                  transition: background-color 0.3s;
+              }
+              
+              .add-money-btn:hover {
+                  background-color: #b08d68;
+              }
+              
+              .transaction-history {
+                  border-top: 1px solid #eee;
+                  padding-top: 20px;
+              }
+              
+              .history-title {
+                  font-size: 16px;
+                  color: #333;
+                  margin-bottom: 15px;
+              }
+              
+              .transaction-list {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 15px;
+                  max-height: 300px;
+                  overflow-y: auto;
+              }
+              
+              .transaction-item {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-start;
+                  padding-bottom: 10px;
+                  border-bottom: 1px solid #eee;
+              }
+              
+              .transaction-info {
+                  display: flex;
+                  flex-direction: column;
+                  gap: 4px;
+              }
+              
+              .transaction-type {
+                  font-size: 14px;
+                  color: #333;
+              }
+              
+              .transaction-date {
+                  font-size: 12px;
+                  color: #666;
+              }
+              
+              .transaction-amount {
+                  font-size: 14px;
+                  font-weight: 600;
+              }
+              
+              .transaction-amount.credit {
+                  color: #28a745;
+              }
+              
+              .transaction-amount.debit {
+                  color: #dc3545;
+              }
+              
+              /* Scrollbar styling */
+              .transaction-list::-webkit-scrollbar {
+                  width: 6px;
+              }
+              
+              .transaction-list::-webkit-scrollbar-track {
+                  background: #f1f1f1;
+              }
+              
+              .transaction-list::-webkit-scrollbar-thumb {
+                  background: #c7a17a;
+                  border-radius: 3px;
+              }
+              
+              .transaction-list::-webkit-scrollbar-thumb:hover {
+                  background: #b08d68;
+              }
+              </style>
+              
+              <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                  const addMoneyBtn = document.querySelector('.add-money-btn');
+                  const amountInput = document.querySelector('.amount-input');
+              
+                  addMoneyBtn.addEventListener('click', function() {
+                      const amount = amountInput.value;
+                      if (amount && !isNaN(amount) && amount > 0) {
+                          // Add new transaction to history
+                          const transactionList = document.querySelector('.transaction-list');
+                          const newTransaction = document.createElement('div');
+                          newTransaction.className = 'transaction-item';
+                          newTransaction.innerHTML = `
+                              <div class="transaction-info">
+                                  <span class="transaction-type credit">Added Money</span>
+                                  <span class="transaction-date">${new Date().toLocaleDateString()}</span>
+                              </div>
+                              <span class="transaction-amount credit">+₹${parseFloat(amount).toFixed(2)}</span>
+                          `;
+                          transactionList.insertBefore(newTransaction, transactionList.firstChild);
+              
+                          // Update balance
+                          const balanceElement = document.querySelector('.balance-amount');
+                          const currentBalance = parseFloat(balanceElement.textContent.replace('₹', '').replace(',', ''));
+                          const newBalance = currentBalance + parseFloat(amount);
+                          balanceElement.textContent = `₹${newBalance.toFixed(2)}`;
+              
+                          // Clear input
+                          amountInput.value = '';
+                      } else {
+                          alert('Please enter a valid amount');
+                      }
+                  });
+              });
+              </script>
+                <!-- <h4>Downloads</h4> -->
+                <!-- <div class="table_page table-responsive">
                   <table>
                     <thead>
                       <tr>
@@ -1393,7 +1626,7 @@
                       </tr>
                     </tbody>
                   </table>
-                </div>
+                </div> -->
               </div>
               <style>
                 /* Address list container */

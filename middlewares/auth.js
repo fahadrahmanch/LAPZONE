@@ -5,7 +5,7 @@ const User=require("../models/userSchema")
 const userAuth = async (req,res,next)=>{
   
     try {
-        console.log("auth session", req.session)
+        // console.log("auth session", req.session)
         if(req.session.user){
             
           const user=await User.findById(req.session.user)

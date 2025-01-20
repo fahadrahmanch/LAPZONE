@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
     <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
     <link rel="stylesheet" href="assets/css/style.min.css">
+    
 
 </head>
 
@@ -530,56 +531,21 @@
             <div class="row">
                 <!-- User Quick Action Form -->
                 <div class="col-12">
-                    <!-- <div class="user-actions accordion" data-aos="fade-up" data-aos-delay="0">
-                        <h3>
-                            <i class="fa fa-file-o" aria-hidden="true"></i>
-                            Returning customer?
-                            <a class="Returning" href="#" data-bs-toggle="collapse" data-bs-target="#checkout_login"
-                                aria-expanded="true">Click here to login</a>
-                        </h3>
-                        <div id="checkout_login" class="collapse" data-parent="#checkout_login">
-                            <div class="checkout_info">
-                                <p>If you have shopped with us before, please enter your details in the boxes below. If
-                                    you are a new customer please proceed to the Billing &amp; Shipping section.</p>
-                                <form action="#">
-                                    <div class="form_group default-form-box">
-                                        <label>Username or email <span>*</span></label>
-                                        <input type="text">
-                                    </div>
-                                    <div class="form_group default-form-box">
-                                        <label>Password <span>*</span></label>
-                                        <input type="password">
-                                    </div>
-                                    <div class="form_group group_3 default-form-box">
-                                        <button class="btn btn-md btn-black-default-hover" type="submit">Login</button>
-                                        <label class="checkbox-default">
-                                            <input type="checkbox">
-                                            <span>Remember me</span>
-                                        </label>
-                                    </div>
-                                    <a href="#">Lost your password?</a>
-                                </form>
-                            </div>
-                        </div>
-                    </div> -->
+                  
                     <div class="user-actions accordion" data-aos="fade-up" data-aos-delay="200">
                         <h3>
                             <i class="fa fa-file-o" aria-hidden="true"></i>
                             APPLY COUPON
                             <a class="Returning" href="#" data-bs-toggle="collapse" data-bs-target="#checkout_coupon"
-                                aria-expanded="true">Click here to enter your code</a>
-
+                                aria-expanded="true">Click here to select your coupon</a>
                         </h3>
                         <div id="checkout_coupon" class="collapse checkout_coupon" data-parent="#checkout_coupon">
-                            <div class="checkout_info">
-                                <form action="#">
-                                    <input placeholder="Coupon code" type="text">
-                                    <button class="btn btn-md btn-black-default-hover" type="submit">Apply
-                                        coupon</button>
-                                </form>
-                            </div>
-                        </div>
+                           
+                         
+                               
+                     
                     </div>
+                    
                 </div>
                 <!-- User Quick Action Form -->
             </div>
@@ -627,6 +593,119 @@
                     <div class="col-lg-6 col-md-6">
                         <form action="#" onsubmit="return false">
                             <h3>Your order</h3>
+                            <!-- <div class="coupon_section mb-4">
+                                <label for="couponSelect">Apply Coupon</label>
+                                <div class="input-group">
+                                    <select id="couponSelect" class="form-control">
+                                        <option value="" selected>Select a coupon</option>
+                                        <option value="SAVE10">SAVE10 - 10% off</option>
+                                        <option value="SAVE20">SAVE20 - 20% off</option>
+                                    </select>
+                                    <button id="couponButton" class="btn btn-md btn-black-default-hover" type="button">Apply</button>
+                                </div>
+                                <small id="couponFeedback" class="mt-2 d-block"></small>
+                              </div> -->
+                           <!-- Coupon Section -->
+<!-- Coupon Section -->
+<div class="coupon_section mb-4">
+    <label for="couponSelect">Apply Coupon</label>
+    <div class="input-group">
+        <select id="couponSelect" class="form-control">
+            <option value="" selected>Select a coupon</option>
+            <%for(let i=0;i<activeCoupens.length;i++){%>
+                <option value="<%=activeCoupens[i].name%>"><%=activeCoupens[i].name%></option>
+                <%}%>
+           
+           
+        </select>
+        <button id="couponButton" class="btn btn-md btn-black-default-hover" type="button">Apply</button>
+    </div>
+    <small id="couponFeedback" class="mt-2 d-block"></small>
+</div>
+
+<script>
+    const couponSelect = document.getElementById("couponSelect");
+    const couponButton = document.getElementById("couponButton");
+    const couponFeedback = document.getElementById("couponFeedback");
+
+    let isCouponApplied = false;
+    let totalAmount='<%=totalAmount%>'
+    
+    couponButton.addEventListener("click", async () => {
+        const selectedCoupon = couponSelect.value; 
+        console.log(selectedCoupon)
+
+        console.log( 'selectedCoupon',selectedCoupon)
+        
+        if (!isCouponApplied) {
+        
+           
+            if (!selectedCoupon) {
+
+                couponFeedback.className = "text-danger";
+                return;
+            }
+            let discount=
+        
+            couponFeedback.className = "text-success";
+            couponButton.textContent = "Remove"; 
+            isCouponApplied = true;
+            couponSelect.disabled = true; 
+          
+            const responst =await fetch('/apply-coupon',{
+                
+                method:'POST',
+            
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({totalAmount,selectedCoupon})
+            })
+            const result=await responst.json();
+            if(result.success){
+             await   Swal.fire({
+        title: 'Success!',
+        text: 'Coupon added successfully.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+                const final = result.message;
+                 const finalAmount = document.getElementById('amountTotal');
+                finalAmount.value = `${final}`;
+                finalAmount.innerHTML=`${final}`;
+
+            }else{
+             await   Swal.fire({
+        title: 'Error!',
+        text: 'Failed to add the coupon. Please try again.',
+        icon: 'error',
+        confirmButtonText: 'Retry'
+    });
+            }
+            
+
+        } else {
+
+            const finalAmount = document.getElementById('amountTotal');
+            await Swal.fire({
+            title: 'Success!',
+            text: 'Coupon removed successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+            finalAmount.value=`${totalAmount}`
+            finalAmount.innerHTML=`${totalAmount}`
+            console.log(`${totalAmount}`)
+            couponFeedback.textContent = ""; 
+            couponButton.textContent = "Apply";
+            isCouponApplied = false;
+            couponSelect.disabled = false; 
+            couponSelect.value = ""; 
+        }
+    });
+</script>
+
+  
                             <div class="order_table table-responsive">
                                 <table>
                                     <thead>
@@ -652,26 +731,39 @@
                                             <th>Shipping</th>
                                             <td><strong>0</strong></td>
                                         </tr>
+                                        <tr>
+                                            <th>Discount</th>
+                                            <td><strong>0</strong></td>
+                                        </tr>
                                         <tr class="order_total">
                                             <th>Order Total</th>
-                                            <td><strong id="amountTotal" value=""><%=totalAmount%></strong></td>
+                                            <td><strong id="amountTotal" ><%=totalAmount%></strong></td>
                                         </tr>
                                     </tfoot>
                                 </table>
                             </div>
+                            
                             <div class="payment_method">
                                 <div class="panel-default">
-                                    <label class="checkbox-default" for="currencyCod" data-bs-toggle="collapse" data-bs-target="#methodCod">
-                                        <input type="checkbox" id="currencyCod" value="COD">
-                                        <span>Cash on Delivery</span>
+                                    <label class="checkbox-default" for="currencyRazorpay">
+                                      <input type="checkbox" id="currencyRazorpay" name="paymentMethod" value="razorpay">
+                                      <span>Razorpay</span>
                                     </label>
-                            
-                                    <div id="methodCod" class="collapse" data-parent="#methodCod">
-                                        <div class="card-body1">
-                                            <p>Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                        </div>
+                                    <div id="methodRazorpay" class="collapse">
+                                      <div class="card-body1">
+                                        <p>Pay securely using Razorpay. Supports credit/debit cards, UPI, and wallets.</p>
+                                      </div>
                                     </div>
-                                </div>
+                                  </div>
+                                  
+                                  <div class="panel-default">
+                                    <label class="checkbox-default" for="currencyCod">
+                                      <input type="checkbox" id="currencyCod" name="paymentMethod" value="cod">
+                                      <span>Cash on Delivery</span>
+                                    </label>
+                                  </div>
+                                  
+                                  
                             
                                 <div class="order_button pt-3">
                                     <button id="process" class="btn btn-md btn-black-default-hover" type="submit" disabled>Proceed</button>
@@ -684,6 +776,7 @@
                 </div>
             </div> <!-- Start User Details Checkout Form -->
         </div>
+        
     </div><!-- ...:::: End Checkout Section:::... -->
 
     <!-- Start Footer Section -->
@@ -1521,16 +1614,98 @@
     const button = document.getElementById('process');
     button.addEventListener('click', async () => {
         const selectedAddressId = document.querySelector('input[name=addressDiv]:checked').value;
-        const selectPayment = document.getElementById('currencyCod').value;
-        const totalAMount = '<%=totalAmount%>';
+        // const selectPayment = document.getElementById('currencyCod').value;
+        const selectPayment = document.querySelector('input[name=paymentMethod]:checked').value;
+        const AMount = document.getElementById('amountTotal').value
+        const couponSelect = document.getElementById("couponSelect").value;
+        // console.log("jskahfs",couponSelect)
+        const totalAMount = AMount||'<%=totalAmount%>';
+        // alert(totalAMount)
 
         try {
+            if (selectPayment === 'razorpay') {
+                // alert("hi")
+                const razorpayOrder =await fetch("/createRazorpayOrder",{
+                    method:"POST",
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify({selectedAddressId, selectPayment, totalAMount,couponSelect})
+                })
+                const result=await razorpayOrder.json()
+                console.log("result",result)
+                if(result.success){
+                   
+                    const options={
+                        key: result.razorpayInstance.key_id,
+        amount: result.razorpayOrder.amount,
+        currency: "INR",
+        order_id: result.razorpayOrder.id,
+        name: "Your Store",
+        description: "Secure Payment",
+        handler: async function (razorpayResponse) {
+            console.log("Razorpay Response:", razorpayResponse);
+          const paymentResult = await fetch('/verifyPayment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+            //   razorpayOrderId: "dfgdfgdfgdfgf",//razorpayResponse.razorpay_order_id,
+            razorpayOrderId: razorpayResponse.razorpay_order_id,
+            //   razorpayPaymentId: razorpayResponse.razorpay_payment_id,
+            razorpayPaymentId: razorpayResponse.razorpay_payment_id,
+            //   razorpaySignature: razorpayResponse.razorpay_signature,
+            razorpaySignature: razorpayResponse.razorpay_signature,
+              selectedAddressId,
+              selectPayment,
+              totalAMount,
+              couponSelect,
+            }),
+          })
+          const paymentData = await paymentResult.json();
+          if (paymentData.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Payment Successful',
+              text: 'Your payment has been verified.',
+              confirmButtonText: 'Proceed to Order Details',
+            }).then(() => {
+              window.location.href = `/orderConfirm/${paymentData.newOrder._id}`; 
+            });
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Payment Verification Failed',
+              text: paymentData.message || 'Unable to verify payment. Please try again.',
+              confirmButtonText: 'Retry',
+            });
+          }
+                }
+        
+
+      
+            }
+            const razorpayInstance = new Razorpay(options);
+      razorpayInstance.open();
+        }else{
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+     
+            }else if(selectPayment === 'cod'){
             const response = await fetch('/createOrder', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ selectedAddressId, selectPayment, totalAMount })
+                body: JSON.stringify({ selectedAddressId, selectPayment, totalAMount,couponSelect })
             });
             const data = await response.json()
             console.log(data)
@@ -1545,6 +1720,7 @@
                 }).then(() => {
                     window.location.href = `/orderConfirm/${data.newOrder._id}`; 
                 });
+
             } else {
                 const errorData = await response.json();
                 Swal.fire({
@@ -1554,6 +1730,13 @@
                     confirmButtonText: 'Retry',
                 });
             }
+        }else{
+          await  Swal.fire({
+          icon: 'error',
+          title: 'Order Failed',
+          text: 'Unable to process your order. Please try again.',
+        });
+        }
         } catch (error) {
             console.error('Fetch error:', error);
             Swal.fire({
@@ -1634,11 +1817,20 @@ window.addEventListener('click', (event) => {
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const checkbox = document.getElementById('currencyCod'); 
+        const raz=document.getElementById('currencyRazorpay')
         const proceedButton = document.getElementById('process'); 
       
         checkbox.addEventListener('change', () => {
          
             if (checkbox.checked) {
+                proceedButton.disabled = false; 
+            } else {
+                proceedButton.disabled = true; 
+            }
+        });
+        raz.addEventListener('change', () => {
+         
+            if (raz.checked) {
                 proceedButton.disabled = false; 
             } else {
                 proceedButton.disabled = true; 
@@ -1895,6 +2087,10 @@ document.getElementById('closeModal').addEventListener('click', () => {
 
 
 </script>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </body>
+
 
 </html>

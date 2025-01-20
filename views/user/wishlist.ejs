@@ -8,6 +8,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>HONO - Multi Purpose HTML Template</title>
+<!-- SweetAlert2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+
+<!-- SweetAlert2 JavaScript -->
+
 
     <!-- ::::::::::::::Favicon icon::::::::::::::-->
     <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/png">
@@ -598,7 +603,7 @@
                                             <%}else{%>
                                                 <td class="product_stock">No Stock</td>
                                                 <%}%>
-                                            <td class="product_addcart"><a href="#" class="btn btn-md btn-golden"
+                                            <td class="product_addcart"><a href="#"  onclick="addToCart('<%=item.productId._id%>','<%=item.variants._id%>',1)" class="btn btn-md btn-golden"
                                                     data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To
                                                     Cart</a></td>
                                         </tr> <!-- End Wishlist Single Item-->
@@ -966,33 +971,67 @@
         </div>
     </div> <!-- End Modal Quickview cart -->
 
-    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
-    <!-- Global Vendor, plugins JS -->
-    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
-    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
-    <script src="assets/js/vendor/popper.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.min.js"></script>
-    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
-
-    <!--Plugins JS-->
-    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
-    <script src="assets/js/plugins/material-scrolltop.js"></script>
-    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
-    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
-    <script src="assets/js/plugins/venobox.min.js"></script>
-    <script src="assets/js/plugins/jquery.waypoints.js"></script>
-    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
-    <script src="assets/js/plugins/aos.min.js"></script>
-    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
-    <script src="assets/js/plugins/ajax-mail.js"></script> -->
-
-    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    
+    <script>
+        async function addToCart(product,variant,qty) {
+      try {
+        console.log("id",product,variant)
+        //   const variantSelected = document.getElementById('variantSelect').value;
+        //   console.log("VARIAN",variantSelected)
+          const response = await fetch('/addToCart', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  product: product,
+                  variant: variant,
+                  qty
+              })
+          });
+  
+          if (response.ok) {
+              const result = await response.json();
+              console.log('Item added to cart:', result);
+  
+              Swal.fire({
+                  icon: 'success',
+                  title: 'Success',
+                  text: result.message || 'Item successfully added to the cart!',
+                  confirmButtonText: 'OK'
+              });
+          } else {
+              const error = await response.json();
+              console.error('Error adding item:', error);
+  
+      
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Error',
+                  text: error.message || 'Failed to add item to the cart. Please try again.',
+                  confirmButtonText: 'OK'
+              });
+          }
+      } catch (err) {
+          console.error('Network error:', err);
+  
+        
+          Swal.fire({
+              icon: 'warning',
+              title: 'Network Error',
+              text: 'An error occurred. Please check your connection and try again.',
+              confirmButtonText: 'OK'
+          });
+      }
+  }
+  
+       </script>
     <script src="assets/js/vendor/vendor.min.js"></script>
     <script src="assets/js/plugins/plugins.min.js"></script>
 
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 

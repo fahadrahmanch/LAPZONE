@@ -719,8 +719,8 @@
                                             <fieldset>
                                                 <select id="sort-options" onchange="applySort()">
                                                     <!-- <option value="popularity">Sort by Popularity</option> -->
-                                                    <option value="All"  >All</option> 
-                                                    <option value="price-asc">Price: Low to High</option>
+                                                    <option value="All" selected >All</option> 
+                                                    <option value="price-asc" >Price: Low to High</option>
                                                     <option value="price-desc">Price: High to Low</option>
                                                     <!-- <option value="ratings">Average Ratings</option> -->
                                                     <!-- <option value="featured">Featured</option> -->
@@ -1274,6 +1274,7 @@
     <script>
         function applySort(){
             const sort=document.getElementById('sort-options').value;
+            // alert(sort)
             const urlParams=new URLSearchParams(window.location.search);
             urlParams.set('sort',sort);
             window.location.search=urlParams.toString();
@@ -1424,27 +1425,43 @@
     });
   
     async function toggleWishlist(productId, isAdding, variantId) {
-      try {
-        const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ productId, variantId }),
-        });
-  
-        const data = await response.json();
-        if (data.success) {
-          console.log(isAdding ? 'Added to wishlist' : 'Removed from wishlist');
-        } else {
-          alert(data.message);
-        }
-      } catch (error) {
-        alert('An error occurred while updating the wishlist.');
-        console.error(error);
-      }
+  try {
+    const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId, variantId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: isAdding ? 'Added to Wishlist' : 'Removed from Wishlist',
+
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Something went wrong!',
+      });
     }
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while updating the wishlist. Please try again later.',
+    });
+    console.error(error);
+  }
+}
+
   </script>
   
   

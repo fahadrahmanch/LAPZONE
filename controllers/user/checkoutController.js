@@ -1,8 +1,9 @@
 const Cart = require("../../models/cartSchema");
 const User = require("../../models/userSchema");
 const Address = require("../../models/addressSchema");
-
+const Coupon=require('../../models/coupenSchema')
 const productSchema = require("../../models/productSchema");
+const Coupen = require("../../models/coupenSchema");
 
 const getCheckout=async (req,res)=>{
     try{
@@ -37,17 +38,24 @@ const getCheckout=async (req,res)=>{
             const price = item.quantity * item.variant.salePrice;
             return sum + price
           }, 0);
-        // console.log("totalAmount",totalAmount)
-        // console.log(totalAmount)
-        // console.log(cart,"hi")
-         
-        // console.log("cart",cart,"address",address,"addressData",addressData)
+
+          const today = new Date().toISOString().split('T')[0];
+
+          const activeCoupens = await Coupon.find({
+            isList: true,
+            expireOn: { $gte: today } 
+          });
+          
+      //  console.log(activeCoupens)
+      //   console.log(activeCoupens)
         res.render('user/checkout', { 
           cart, 
-          addressData , 
+          activeCoupens,
+          addressData, 
           totalAmount,
-          message:req.session.user||""});
-        // console.log(address)  
+          message:req.session.user||""
+        });
+        
     }
     catch(error){
         console.error('Error loading checkout:', error);
@@ -56,6 +64,26 @@ const getCheckout=async (req,res)=>{
 }
 
 
+const applyCoupen=async(req,res)=>{
+  try{
+
+   const{totalAmount,selectedCoupon}=req.body
+   const discount=await Coupen.findOne({name:selectedCoupon})
+   
+   if(discount.minimumPrice>=totalAmount){
+    return res.status(401).json({success:false,message:` Minimum purchase amount of ₹${discount.minimumPrice} is required`})
+   }
+   const final=totalAmount-discount.offerPrice
+    return res.status(200).json({success:true,message:final})
+  }
+  catch(error){
+  console.log(error)
+  }
+}
 
 
-module.exports={getCheckout}
+
+
+
+
+module.exports={getCheckout,applyCoupen}

@@ -53,6 +53,8 @@ router.post('/cart/delete-product',cartController.deleteCartProduct)
 router.get('/checkout',checkoutController.getCheckout)
 router.post('/createOrder',orderController.createOrder)
 router.get("/orderConfirm/:id",orderController.renderConfirmorder)
+router.post("/apply-coupon",checkoutController.applyCoupen)
+
 
 //whishlist
 router.get('/wishlist',whishlistController.getwishlist)
@@ -60,6 +62,9 @@ router.post('/wishlist/add',whishlistController.addWishlist);
 router.post('/wishlist/remove',whishlistController.removeWishlist);
 
 
+//razorpay
+router.post('/createRazorpayOrder',orderController.raz)
+router.post('/verifyPayment',orderController.verRaz)
 //orderDetails
 router.get('/viewOrders/:id',orderController.orderDetails)
 router.post('/cancelorder',orderController.cancelOrder)

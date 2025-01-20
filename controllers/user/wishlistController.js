@@ -69,7 +69,7 @@ const addWishlist = async (req, res) => {
     if(variants){
         return res.json({ success: false, message: "Product already in wishlist" });
     }
-    console.log("varinatzzzzzzs",variants)
+    // console.log("varinatzzzzzzs",variants)
 }
 
    

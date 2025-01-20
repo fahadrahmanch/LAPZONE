@@ -76,21 +76,36 @@ document.addEventListener('DOMContentLoaded', function() {
         return isValid;
       }
     
-      function validatePassword(){
+      function validatePassword() {
         let isValid = true;
         let password = document.getElementById('password');
         let passwordError = document.getElementById('password_error');
         passwordError.textContent = "";
+    
         // Password validation
         if (password.value.trim() === "") {
-          passwordError.textContent = "Password is required.";
-          isValid = false;
-        } else if (password.value.trim().length < 6) {
-          passwordError.textContent = "Password must be at least 6 characters.";
-          isValid = false;
+            passwordError.textContent = "Password is required.";
+            isValid = false;
+        } else if (password.value.trim().length < 8) {
+            passwordError.textContent = "Password must be at least 8 characters long.";
+            isValid = false;
+        } else if (!/[A-Z]/.test(password.value)) {
+            passwordError.textContent = "Password must contain at least one uppercase letter.";
+            isValid = false;
+        } else if (!/[a-z]/.test(password.value)) {
+            passwordError.textContent = "Password must contain at least one lowercase letter.";
+            isValid = false;
+        } else if (!/[0-9]/.test(password.value)) {
+            passwordError.textContent = "Password must contain at least one number.";
+            isValid = false;
+        } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(password.value)) {
+            passwordError.textContent = "Password must contain at least one special character.";
+            isValid = false;
         }
+    
         return isValid;
-      }
+    }
+    
     
       function validateMobile(){
         let isValid = true;

@@ -5,7 +5,7 @@ const env = require("dotenv").config();
 const nodemailer = require("nodemailer");
 const product = require("../../models/productSchema");
 const Order=require('../../models/orderSchema')
-
+const walletSchema=require("../../models/walletSchema")
 const editMyaccount = async (req, res) => {
  
   try {
@@ -64,7 +64,8 @@ const myaccount = async (req, res) => {
     const userId = req.session.user;
     const users = await User.findById(userId);
     const addressData = await addressSchema.findOne({ userId: userId });
-   
+    const wallet= await walletSchema.findOne({userId})
+    console.log("wallet",wallet)
     if (!users) {
        return res.redirect('/')
     }
@@ -75,7 +76,7 @@ const myaccount = async (req, res) => {
 
 
     const addresses = addressData ? addressData.address : [];
-    res.render("user/my-account", { users: users, addressData: addresses ,orders,message:req.session.user||""});
+    res.render("user/my-account", { users: users, addressData: addresses ,orders,wallet:wallet,message:req.session.user||""});
   } catch (error) {
     console.log("error fetching user data", error);
     res.status(500).send("Internal Server Error");

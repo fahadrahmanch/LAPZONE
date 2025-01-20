@@ -76,13 +76,23 @@ const orderSchema=new Schema({
         },
      
     },
-    paymentMethod:{
-        type:String,
-        required:true
-    },
+    paymentMethod: { type: String, enum: ['razorpay', 'cod'], required: true },
+
     invoiceDate:{
         type:Date
     },
+    razorpayOrderId:{
+        type:String,
+        required:false
+    } ,      
+        razorpayPaymentId:{
+            type:String,
+            required:false
+        } ,
+        razorpaySignature:{
+            type:String,
+            required:false
+        },
     status:{
         type:String,
         required:true,
