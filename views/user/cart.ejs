@@ -557,7 +557,7 @@
                                                         src="/uploads/<%=item.productId.productImage[0]%>"
                                                         alt=""></a></td>
                                             <td class="product_name"><a href="product-details-default.html" ><%=item.productId.productName%></a></td>
-                                            <td class="product-price"><%=item.variantId.salePrice%></td>
+                                            <td class="product-price">RS : <%=item.variantId.salePrice%></td>
                                             <td class="product_quantity"><label></label> <input min="1"
                                                     max="5" value="<%=item.quantity%>" type="number"    onchange="updateQuantity('<%= item.productId?._id %>','<%= item.variantId._id %>', this.value)"></td>
                                             <td class="product_total" data-id="<%=item.productId%>"><%=item.quantity * item.variantId.salePrice%></td>
@@ -1037,38 +1037,53 @@
     </script>
 
     <script>
-   async function dltCartItem(productId, variantId) {
+  async function dltCartItem(productId, variantId) {
     try {
-        console.log("Sending request to delete product with ID:", productId);
-
-        const response = await fetch('/cart/delete-product', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ productId, variantId })
+        event.preventDefault();
+        const confirmation = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to delete this product from your cart?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
         });
 
-        const result = await response.json();
-        console.log("Server response:", result);
-
-        if (response.status) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: result.message || 'Product removed from cart successfully.',
-                showConfirmButton: false,
-                timer: 1500
-            });
-
        
-        } else {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: result.error || 'Failed to remove product from cart.',
-                showConfirmButton: true
+        if (confirmation.isConfirmed) {
+            console.log("Sending request to delete product with ID:", productId);
+
+            const response = await fetch('/cart/delete-product', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId, variantId })
             });
+
+            const result = await response.json();
+            console.log("Server response:", result);
+
+            if (response.status) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Deleted!',
+                    text: result.message || 'Product removed from cart successfully.',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error!',
+                    text: result.error || 'Failed to remove product from cart.',
+                    showConfirmButton: true
+                });
+            }
+        } else {
+            console.log("Deletion canceled by the user.");
         }
     } catch (error) {
         console.error("Unexpected error:", error);
@@ -1080,6 +1095,7 @@
         });
     }
 }
+
 
     </script>
     

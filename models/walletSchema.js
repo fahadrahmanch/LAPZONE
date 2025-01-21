@@ -6,11 +6,11 @@ const walletSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-        unique: true
+        unique: false
     },
     totalBalance:{
         type:Number,
-        required:true,
+        required:false,
         default:0
     },
     transactions: [
@@ -18,11 +18,11 @@ const walletSchema = new mongoose.Schema({
             type: {
                 type: String,
                 enum: ['Deposit', 'Withdrawal', 'Purchase', 'Refund', 'Referal'],
-                required: true
+                required: false
             },
             amount: {
                 type: Number,
-                required: true
+                required: false
             },
             orderId: {
                 type: String,

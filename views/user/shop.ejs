@@ -717,18 +717,24 @@
                                         <label class="mr-2">Sort By:</label>
                                         <form action="#">
                                             <fieldset>
-                                                <select id="sort-options" onchange="applySort()">
-                                                    <!-- <option value="popularity">Sort by Popularity</option> -->
+                                                <!-- <select id="sort-options" onchange="applySort()">
+                                                    
                                                     <option value="All" selected >All</option> 
                                                     <option value="price-asc" >Price: Low to High</option>
                                                     <option value="price-desc">Price: High to Low</option>
-                                                    <!-- <option value="ratings">Average Ratings</option> -->
-                                                    <!-- <option value="featured">Featured</option> -->
+                                                    
                                                     <option value="new-arrivals">New Arrivals</option>
                                                     <option value="a-z">A-Z</option>
                                                     <option value="z-a">Z-A</option>
+                                                  </select> -->
+                                                  <select id="sortDropdown" onchange="applySort()">
+                                                    <option value="a-z" <%= sort === 'a-z' ? 'selected' : '' %>>A-Z</option>
+                                                    <option value="z-a" <%= sort === 'z-a' ? 'selected' : '' %>>Z-A</option>
+                                                    <option value="price-asc" <%= sort === 'price-asc' ? 'selected' : '' %>>Price: Low to High</option>
+                                                    <option value="price-desc" <%= sort === 'price-desc' ? 'selected' : '' %>>Price: High to Low</option>
+                                                    <option value="new-arrivals" <%= sort === 'new-arrivals' ? 'selected' : '' %>>New Arrivals</option>
                                                   </select>
-                                                  
+                                                                                                   
                                             </fieldset>
                                         </form>
                                     </div> <!-- End Sort Select Option -->
@@ -777,13 +783,14 @@
                                                                   </a>
                                                               
                                                                   <!-- Wishlist Icon -->
-                                                               
-                                                                  <a href="wishlist.html" class="wishlist-link" data-product-id="<%= products[i]._id %>"data-variant-id="<%= products[i].variants[0]._id %>" >
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                      <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                                                                    </svg>
-                                                                  </a>
-                                                         
+
+                                                                    <a href="wishlist.html" class="wishlist-link" data-product-id="<%= products[i]._id %>"data-variant-id="<%= products[i].variants[0]._id %>" >
+                                                                      <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart " width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                                                      </svg>
+                                                                    </a>
+
+                                                      
                                                                   <!-- Compare Icon -->
                                                                   <a href="compare.html">
                                                                     <i class="icon-shuffle"></i>
@@ -824,7 +831,7 @@
                                                                 </ul>
                                                             </div>
                                                             <div class="content-right">
-                                                                <span class="price"><%=products[i].variants[0].salePrice%></span>
+                                                                <span class="price">RS:<%=products[i].variants[0].salePrice%></span>
                                                             </div>
 
                                                         </div>
@@ -846,9 +853,9 @@
                     </div> <!-- End Tab Wrapper -->
 
                     <!-- Start Pagination -->
-                    <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
+                    <!-- <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
                         <ul>
-                          <!-- Previous Button -->
+                       
                        
                           <li>
                             <a 
@@ -858,7 +865,7 @@
                             </a>
                           </li>
                        
-                          <!-- Page Numbers -->
+                          
                           <% for (let i = 1; i <= totalPages; i++) { %>
                             <li>
                               <a href="?page=<%= i %>" class="<%= i === currentPage ? 'active' : '' %>">
@@ -867,7 +874,7 @@
                             </li>
                           <% } %>
                       
-                          <!-- Next Button -->
+                      
                           <li>
                             <a 
                               href=?page=<%=`${currentPage + Number(1)}`%> 
@@ -876,8 +883,38 @@
                             </a>
                           </li>
                         </ul>
+                      </div> -->
+                      <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
+                        <ul>
+                          <!-- Previous Button -->
+                          <li>
+                            <a 
+                              href="?page=<%=`${Math.max(1, currentPage - 1)}&sort=${sort}`%>"
+                              class="<%= currentPage === 1 ? 'disabled' : '' %>">
+                              <i class="ion-ios-skipbackward"></i>
+                            </a>
+                          </li>
+                      
+                          <!-- Page Numbers -->
+                          <% for (let i = 1; i <= totalPages; i++) { %>
+                            <li>
+                              <a href="?page=<%= i %>&sort=<%= sort %>" class="<%= i === currentPage ? 'active' : '' %>">
+                                <%= i %>
+                              </a>
+                            </li>
+                          <% } %>
+                      
+                          <!-- Next Button -->
+                          <li>
+                            <a 
+                              href="?page=<%=`${Math.min(totalPages, currentPage + 1)}&sort=${sort}`%>"
+                              class="<%= currentPage === totalPages ? 'disabled' : '' %>">
+                              <i class="ion-ios-skipforward"></i>
+                            </a>
+                          </li>
+                        </ul>
                       </div>
-                       <!-- End Pagination -->
+                      
                 </div>
             </div>
         </div>
@@ -1272,13 +1309,19 @@
   </script>
   
     <script>
-        function applySort(){
-            const sort=document.getElementById('sort-options').value;
-            // alert(sort)
-            const urlParams=new URLSearchParams(window.location.search);
-            urlParams.set('sort',sort);
-            window.location.search=urlParams.toString();
-        }
+        // function applySort(){
+        //     const sort=document.getElementById('sort-options').value;
+           
+        //     const urlParams=new URLSearchParams(window.location.search);
+        //     urlParams.set('sort',sort);
+        //     window.location.search=urlParams.toString();
+        // }
+  function applySort() {
+  const selectedSort = document.getElementById("sortDropdown").value;
+  const currentPage = "<%= currentPage %>";
+  window.location.href = `?page=${currentPage}&sort=${selectedSort}`;
+}
+
 
 
         async function addToCart(product, qty, productDetails) {
@@ -1405,9 +1448,9 @@
         const heartIcon = link.querySelector('svg');
         const productId = link.dataset.productId;
         const variantId = link.dataset.variantId;
-        const isInWishlist = link.dataset.inWishlist === 'true'; // Use data from server
+        const isInWishlist = link.dataset.inWishlist === 'true'; 
   
-        // Set initial fill color based on wishlist status
+       
         heartIcon.setAttribute('fill', isInWishlist ? 'red' : 'none');
   
         link.addEventListener('click', async function (event) {
@@ -1415,10 +1458,8 @@
   
           const isCurrentlyInWishlist = heartIcon.getAttribute('fill') === 'red';
   
-          // Toggle the fill color
           heartIcon.setAttribute('fill', isCurrentlyInWishlist ? 'none' : 'red');
-  
-          // Update the wishlist status on the server
+
           await toggleWishlist(productId, !isCurrentlyInWishlist, variantId);
         });
       });

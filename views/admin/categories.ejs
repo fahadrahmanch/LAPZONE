@@ -305,6 +305,7 @@
                                 <tr>
                                     <th>Category name</th>
                                     <th>Description</th>
+                                    <th>Offer</th>
                                     <th>Status</th>
                                     <th>List/Unlist</th>
                                     <th>Action</th>
@@ -313,9 +314,11 @@
                                 <tr>
                                     <td><%=category.name%></td>
                                     <td><%=category.description%></td>
+                                    <td>5%</td>
                                     <td><span  id="listedID" class="badge rounded-pill  <%= category.isListed ? 'alert-success' : 'alert-danger' %>" data-id="<%=category._id%>">
                                         <%= category.isListed ? 'Listed' : 'Unlisted' %>
                                      </span></td>
+                                     
                                     <td><div class="form-check form-switch">
                                         
                                         <%if(category.isListed){%>
@@ -324,6 +327,7 @@
                                         <button class="btn btn-danger evented"  data-id="<%=category._id%>" data-list="unlist">unlist</button>
                                         <%}%>
                                       </div></td>
+
                                     <td><!-- Dropdown Menu -->
                             <div class="">
                           <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> -->

@@ -28,8 +28,8 @@ const orderDetails=async(req,res)=>{
         path:'userId',
         model:"User"
      }).populate({path:'orderedItems.Product',model:'Product'})
-
-    //  console.log("heloooo",details)
+    
+     console.log("heloooo",details)
      res.render('admin/orderDetails',{details})
     }
     catch(error){
@@ -43,7 +43,7 @@ const updateOrderstatus=async(req,res)=>{
     try{
      const {status,orderId}=req.body;
     
-    console.log(orderId,status)
+     console.log(orderId,status)
      let order= await Order.findOne({orderId});
      if(!order){
         return res.status(400).json({success:false,message:"order not found"})
@@ -95,5 +95,20 @@ const updateOrderstatus=async(req,res)=>{
     }
 }
 
+const returnProduct=async(req,res)=>{
+  try{
+ const orderId=req.params.id
+ const order=await Order.findOne({orderId})
+ console.log("order",order)
+ order.returnRequest.status='Approved';
+ order.status='Returned';
+ await order.save();
+ return res.redirect('/admin/orders')
+ console.log(order)
+  }
+  catch(error){
+    console.log(error)
+  }
+}
 
-module.exports={orderInfo,orderDetails,updateOrderstatus}
+module.exports={orderInfo,orderDetails,updateOrderstatus,returnProduct}

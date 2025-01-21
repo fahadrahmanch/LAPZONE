@@ -53,4 +53,6 @@ router.post('/addCoupen',coupenController.addCoupenPost)
 router.post('/list/:name',coupenController.islist)
 
 
+router.post('/approve/:id',orderController.returnProduct)
+router.post('/addproductOffer',productController.addOffer)
 module.exports=router;

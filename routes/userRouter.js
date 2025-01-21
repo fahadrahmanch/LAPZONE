@@ -68,7 +68,7 @@ router.post('/verifyPayment',orderController.verRaz)
 //orderDetails
 router.get('/viewOrders/:id',orderController.orderDetails)
 router.post('/cancelorder',orderController.cancelOrder)
-
+router.post('/api/submit-return',orderController.refund)
 // router.get('/search',shopController.searchInfo)
 
 router.get('/logout',userController.logout)

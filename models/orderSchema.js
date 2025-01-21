@@ -99,6 +99,23 @@ const orderSchema=new Schema({
         enum:['Pending','Processing','Shipped','Delivered','Cancelled','Return Request','Returned'],
         default:'Shipped'
     },
+    returnRequest: {
+        status: {
+          type: String,
+          enum: ['Pending', 'Approved', 'Rejected',],
+          default: null
+        },
+        reason: String,
+        details: String,
+        date: {
+          type: Date,
+          default: Date.now
+        },
+        processedDate: {
+          type: Date,
+          default: null
+        }
+      },
     createdOn: {
         type: String,
         default: () => {

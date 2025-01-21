@@ -65,10 +65,15 @@ const myaccount = async (req, res) => {
     const users = await User.findById(userId);
     const addressData = await addressSchema.findOne({ userId: userId });
     const wallet= await walletSchema.findOne({userId})
+    if(!wallet){
+      const newWallet= new walletSchema({userId })
+      await newWallet.save()
+    }
     console.log("wallet",wallet)
     if (!users) {
        return res.redirect('/')
     }
+   
     
     const orders= await Order.find({userId});
     // console.log(orders)

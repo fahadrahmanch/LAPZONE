@@ -53,7 +53,7 @@ console.log(user)
   //  if(user){
    const wishlist=await wishlistSchema.findOne({})
   //  console.log("dfbdhaf",wishlist.products)
-  //  console.log(wishlist)
+   console.log(wishlist)
    
   //  }
   // res.json(products);
@@ -62,6 +62,8 @@ console.log(user)
       products: products,
       cat: cat,
       // search: search,
+      wishlist,
+      sort:sort,
       // wishlist: wishlist.products,
       message:req.session.user||null,
       limit:limit,

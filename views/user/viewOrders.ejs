@@ -527,13 +527,22 @@
           
 
           <div>
-            <%if(order.status!=='Cancelled'){%>
+            <%if(order.status!=='Cancelled' &&order.status!=='Delivered'&&order.status!=='Return Request'&&order.status!=='Returned'){%>
            <a onclick="cancel('<%=order.orderId%>')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-2">
             <i class="fas fa-times">
             </i>
             Cancel Order
         </a>
-        <%}%>
+        <%}else if(order.status==="Delivered"){%>
+            <a onclick="returnn('<%=order.orderId%>')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2">
+                <i class="fas fa-undo"></i>
+                Returnd Order
+            </a>
+            <%}else if(order.status==='Return Request'){%>
+              <span class="text-danger">Return Request</span>
+                <%}else if(order.status==='Returned'){%>
+                    <span class="text-danger">Returned</span>
+                    <%}%>
            <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             <i class="fas fa-print">
             </i>
@@ -883,6 +892,75 @@
 }
 
 </script>
+
+
+<script>
+    async function returnn(orderId) {
+    try {
+        Swal.fire({
+            title: 'Return Item',
+            html: `
+                <div class="mb-3">
+                    <label for="returnReasonSelect" class="form-label">Select Return Reason</label>
+                    <select class="form-select" id="returnReasonSelect">
+                        <option value="">Select a reason</option>
+                        <option value="Damaged Product">Damaged Product</option>
+                        <option value="Wrong Item Received">Wrong Item Received</option>
+                        <option value="Not as Described">Not as Described</option>
+                        <option value="Size/Fit Issue">Size/Fit Issue</option>
+                        <option value="Quality Issue">Quality Issue</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="mb-3" id="returnReasonTextContainer" style="display: none;">
+                    <label for="returnReasonText" class="form-label">Please specify the reason</label>
+                    <textarea class="form-control" id="returnReasonText" rows="3"></textarea>
+                </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Submit Return Request',
+            cancelButtonText: 'Cancel',
+            preConfirm: () => {
+                const returnReason = document.getElementById('returnReasonSelect').value;
+                const additionalReason = document.getElementById('returnReasonText').value;
+
+                if (!returnReason) {
+                    Swal.showValidationMessage('Please select a return reason.');
+                    return false;
+                }
+
+                return { orderId, returnReason, additionalReason };
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const { returnReason, additionalReason } = result.value;
+
+                const response = await fetch('/api/submit-return', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        orderId,
+                        returnReason,
+                        additionalReason
+                    })
+                });
+
+                if (response.ok) {
+                    Swal.fire('Success', 'Your return request has been submitted.', 'success');
+                } else {
+                    Swal.fire('Error', 'Failed to submit the return request.', 'error');
+                }
+            }
+        });
+    } catch (err) {
+        Swal.fire('Error', 'An error occurred: ' + err, 'error');
+    }
+}
+
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

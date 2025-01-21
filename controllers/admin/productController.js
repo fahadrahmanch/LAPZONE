@@ -20,7 +20,7 @@ const productpage=async(req,res)=>{
     const count=await productSchema.find({
       $or:[{productName:{$regex:new RegExp(".*"+search+".*","i")}}]
     }).countDocuments();
-    console.log("products",productData)
+    // console.log("products",productData)
     if(category){
      
       res.render("admin/product",{
@@ -56,7 +56,7 @@ const addProducts = async (req, res) => {
   try {
     console.log("addproduct")
     const products = req.body;
-    console.log(req.body)
+    // console.log(req.body)
     // console.log('Uploaded files:', req.files);
 
     const productExists = await productSchema.findOne({ productName: products.productName });
@@ -97,7 +97,7 @@ const addProducts = async (req, res) => {
       
 
         });
-        console.log("new products",newProduct)
+        // console.log("new products",newProduct)
 
         await newProduct.save();
         return res.redirect('/admin/products');
@@ -172,7 +172,6 @@ const editProduct = async (req, res) => {
     }
 
     await product.save();
-    console.log("Edit product",product)
     res.redirect("/admin/products");
   } catch (error) {
     console.error("Error updating product:", error);
@@ -232,10 +231,10 @@ const productsInfo=async(req,res)=>{
   }
 }
 const listed=async(req,res)=>{
-  console.log("server")
+  // console.log("server")
   try{
     const{productId,action}=req.body;
-   console.log(req.body)
+  //  console.log(req.body)
     if(!productId||!action){
      
       return res.status(400).json({messege:'product Id action are required'})
@@ -248,7 +247,7 @@ const listed=async(req,res)=>{
    product.isListed=action==='unlist'
     await product.save()
     const status=action==='list'? 'unlist':'list';
-  console.log(status)
+  // console.log(status)
     res.status(200).json({message:`product successfully ${status}`,status})
   //   return res.status(200).json({message:"successfully"})
   }
@@ -257,6 +256,40 @@ const listed=async(req,res)=>{
       res.status(500).json({message:"internal server error"})
   }
 }
+
+
+
+const addOffer=async(req,res)=>{
+  try{
+   
+    const admin=req.session.admin
+    if(!admin){return redirect('/admin/login')}
+  const {productId,offerPercentage}=req.body;
+  if(!productId&&!offerPercentage){
+   
+    return res.json({success:false})
+  }
+  const product=await productSchema.findOne({_id:productId})
+ if(!product){
+ 
+  return res.json({success:false,message:"product not found"})
+ }
+ console.log("proudct")
+  product.productOffer=offerPercentage;
+  await product.save()
+  console.log("proudct")
+  return res.json({success:true,})
+
+
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+
+
+
 module.exports = { addProducts };
 
-module.exports={getPrductAddPage,addProducts,productpage,getEditProduct,editProduct,deleteSingleImage,productsInfo,listed}
+module.exports={getPrductAddPage,addProducts,productpage,getEditProduct,editProduct,deleteSingleImage,productsInfo,listed,addOffer}

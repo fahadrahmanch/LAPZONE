@@ -222,6 +222,7 @@
                         <tr>
                             <th scope="col">Image</th>
                             <th scope="col">Product Name</th>
+                            <th>Offer</th>
                             <th scope="col">Category</th>
                             <th scope="col">Regular Price</th>
                             <th scope="col">Sale Price</th>
@@ -243,7 +244,7 @@
                             </td>
                             <!-- Product Name -->
                             <td><%=data[i].productName%></td>
-                
+                            <td><button id="offerBtn" data-product-id="123" onclick="addProductOffer('<%=data[i]._id%>')">5 %</button></td>
                             <!-- Category -->
                             <td><%=data[i].category.name%></td>
                 
@@ -294,7 +295,7 @@
             </div>
         </section> <!-- content-main end// -->
 
-
+        
 
         <!-- Edit Category Modal -->
 
@@ -302,6 +303,73 @@
 
   
     </main>
+
+    <script>
+       async function addProductOffer(productId){
+        const {value:offerPercentage}=await Swal.fire({
+            title: 'Add Product Offer',
+            input: 'number',
+            inputLabel: 'Enter offer percentage',
+            inputPlaceholder: 'Enter percentage (1-99)',
+            confirmButtonColor: '#00b517',
+            cancelButtonColor: '#6c757d',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Please enter an offer percentage';
+                }
+                if (value < 1 || value > 99) {
+                    return 'Offer must be between 1% and 99%';
+                }
+            }
+        });
+
+          if(offerPercentage){
+            try{
+            const response =await fetch('/admin/addproductOffer',{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({
+                    productId:productId,
+                    offerPercentage:offerPercentage
+                })
+            })
+            const result = await response.json()
+            if(result.success){
+               await  Swal.fire({
+                        title: 'Success!',
+                        text: 'Offer added successfully',
+                        icon: 'success',
+                        confirmButtonColor: '#00b517'
+                    }).then(() => {
+                        location.reload();
+                    });
+            }else{
+                await Swal.fire({
+    title: 'Error!',
+    text: 'Failed to add the offer. Please try again.',
+    icon: 'error',
+    confirmButtonColor: '#ff0000'
+  });
+            }
+            }
+            catch(error){
+               await Swal.fire({
+                    title: 'Error!',
+                    text: 'Failed to add offer',
+                    icon: 'error',
+                    confirmButtonColor: '#00b517'
+                });
+            }
+          }
+       }
+    </script>
+
+
+
+
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="assets/js/vendors/select2.min.js"></script>

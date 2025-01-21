@@ -744,24 +744,61 @@
                             </div>
                             
                             <div class="payment_method">
-                                <div class="panel-default">
-                                    <label class="checkbox-default" for="currencyRazorpay">
-                                      <input type="checkbox" id="currencyRazorpay" name="paymentMethod" value="razorpay">
-                                      <span>Razorpay</span>
-                                    </label>
-                                    <div id="methodRazorpay" class="collapse">
-                                      <div class="card-body1">
-                                        <p>Pay securely using Razorpay. Supports credit/debit cards, UPI, and wallets.</p>
+                                <div class="payment-options">
+                                    <!-- Razorpay Payment Option -->
+                                    <div class="panel-default">
+                                      <label class="radio-default" for="currencyRazorpay">
+                                        <input type="radio" id="currencyRazorpay" name="paymentMethod" value="razorpay">
+                                        <span>Razorpay</span>
+                                      </label>
+                                      <div id="methodRazorpay" class="collapse">
+                                        <div class="card-body">
+                                          <p>Pay securely using Razorpay. Supports credit/debit cards, UPI, and wallets.</p>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
                                   
-                                  <div class="panel-default">
-                                    <label class="checkbox-default" for="currencyCod">
-                                      <input type="checkbox" id="currencyCod" name="paymentMethod" value="cod">
-                                      <span>Cash on Delivery</span>
-                                    </label>
+                                    <!-- Cash on Delivery Option -->
+                                    <div class="panel-default">
+                                      <label class="radio-default" for="currencyCod">
+                                        <input type="radio" id="currencyCod" name="paymentMethod" value="cod">
+                                        <span>Cash on Delivery</span>
+                                      </label>
+                                    </div>
                                   </div>
+<style>.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between payment options */
+  }
+  
+  .panel-default {
+    display: flex;
+    align-items: center;
+  }
+  
+  .radio-default {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Adds space between radio button and text */
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+  }
+  
+  input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  .card-body {
+    margin-top: 10px;
+    margin-left: 28px; /* Indents the Razorpay description */
+    font-size: 14px;
+    color: #555;
+  }
+  </style>                                  
                                   
                                   
                             

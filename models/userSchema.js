@@ -40,8 +40,9 @@ const userSchema =new Schema({
         ref:"Cart"
     }],
     wallet:{
-        type:Number,
-        default:0,
+        type:Schema.Types.ObjectId,
+        ref:"Wallet",
+        // required:false,
     },
     wishlist:[{
         type:Schema.Types.ObjectId,

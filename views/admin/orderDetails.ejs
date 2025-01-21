@@ -15,6 +15,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
     <!-- Template CSS -->
     <link href="/admin/assets/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
 </head>
 
 <body>
@@ -264,6 +266,7 @@
                         </div> <!-- col// -->
                     </div> <!-- row // -->
                     <div class="row">
+                        <!-- Table Section -->
                         <div class="col-lg-7">
                             <div class="table-responsive">
                                 <table class="table">
@@ -276,28 +279,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%for(let i=0;i<details.orderedItems.length;i++){%>
-                                        <tr>
-                                            <td>
-                                                <a class="itemside" href="#">
-                                                    <div class="left">
-                                                        <img src="/uploads/<%=details.orderedItems[i].Product.productImage[0]%>" width="40" height="40" class="img-xs" alt="Item">
-                                                    </div>
-                                                    <div class="info"><%=details.orderedItems[0].Product.productName%></div>
-                                                </a>
-                                            </td>
-                                            <td> <%=details.orderedItems[i].price%></td>
-                                            <td> <%=details.orderedItems[i].quantity%> </td>
-                                            <td class="text-end"> <%=details.orderedItems[i].totalPrice%></td>
-                                        </tr>
-                                      <%}%>
-                                      
+                                        <% for (let i = 0; i < details.orderedItems.length; i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <a class="itemside " href="#">
+                                                        <div class="left">
+                                                            <img src="/uploads/<%= details.orderedItems[i].Product.productImage[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                        </div>
+                                                        <div class="info"><%= details.orderedItems[i].Product.productName %></div>
+                                                    </a>
+                                                </td>
+                                                <td> <%= details.orderedItems[i].price %></td>
+                                                <td> <%= details.orderedItems[i].quantity %> </td>
+                                                <td class="text-end"> <%= details.orderedItems[i].totalPrice %></td>
+                                            </tr>
+                                        <% } %>
                                         <tr>
                                             <td colspan="4">
                                                 <article class="float-end">
                                                     <dl class="dlist">
                                                         <dt>Subtotal:</dt>
-                                                        <dd><%=details.orderedItems[0].totalPrice%></dd>
+                                                        <dd><%= details.orderedItems[0].totalPrice %></dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Shipping cost:</dt>
@@ -305,12 +307,12 @@
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt>Grand total:</dt>
-                                                        <dd> <b class="h5"><%=details.finalAmount%></b> </dd>
+                                                        <dd> <b class="h5"><%= details.finalAmount %></b> </dd>
                                                     </dl>
                                                     <dl class="dlist">
                                                         <dt class="text-muted">Status:</dt>
                                                         <dd>
-                                                            <span class="badge rounded-pill alert-success text-success"><%=details.status%></span>
+                                                            <span class="badge rounded-pill alert-success text-success"><%= details.status %></span>
                                                         </dd>
                                                     </dl>
                                                 </article>
@@ -318,10 +320,116 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    
+                        <!-- Return Request Section -->
+                        <% if (details.status === 'Return Request'){ %>
+                            <div class="col-lg-5 d-flex align-items-start">
+                                <div class="custom-container">
+                                    <div class="title">Approve Return Request?</div>
+                                    <div class="message">
+                                        Are you sure you want to approve this return request?
+                                    </div>
+                                    <div class="note">
+                                        <!-- This will: -->
+                                        <ul>
+                                            <li>Return reason : <%=details.returnRequest.reason%></li>
+                                          
+                                        </ul>
+                                    </div>
+                                    <div class="actions">
+                                        <form method="POST" action="/admin/approve/<%=details.orderId%>">
+                                        <button class="btn btn-confirm" type="submit" >
+                                            <i class="fas fa-check"></i> Yes, Approve Return
+                                        </button>
+                                        </form>
+                                        <button class="btn btn-cancel">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } else{%>
+                            <div>
+
+                            </div>
+                            <%}%>
+                    </div>
+                    
+                            </div>
                             </div> <!-- table-responsive// -->
                             <!-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> -->
                         </div> <!-- col// -->
+                        <style>
+                            .custom-container {
+                              border: 1px solid #dee2e6;
+                              border-radius: 5px;
+                              padding: 20px;
+                              width: 100%;
+                              max-width: 500px;
+                              margin: 20px auto;
+                              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                              background-color: #fff;
+                            }
+                            
+                            .custom-container .title {
+                              font-size: 1.5rem;
+                              font-weight: bold;
+                              margin-bottom: 10px;
+                              text-align: center;
+                            }
+                            
+                            .custom-container .message {
+                              font-size: 1rem;
+                              margin-bottom: 20px;
+                            }
+                            
+                            .custom-container .note {
+                              font-size: 0.875rem;
+                              color: #6c757d;
+                            }
+                            
+                            .custom-container ul {
+                              padding-left: 20px;
+                              margin-top: 10px;
+                            }
+                            
+                            .custom-container ul li {
+                              margin-bottom: 5px;
+                            }
+                            
+                            .custom-container .actions {
+                              display: flex;
+                              justify-content: space-between;
+                              margin-top: 20px;
+                            }
+                            
+                            .custom-container .btn {
+                              padding: 10px 15px;
+                              border: none;
+                              border-radius: 5px;
+                              cursor: pointer;
+                              font-size: 1rem;
+                            }
+                            
+                            .custom-container .btn-confirm {
+                              background-color: #28a745;
+                              color: #fff;
+                            }
+                            
+                            .custom-container .btn-cancel {
+                              background-color: #6c757d;
+                              color: #fff;
+                            }
+                            
+                            .custom-container .btn i {
+                              margin-right: 5px;
+                            }
+                            </style>
+                            
                         <div class="col-lg-1"></div>
+                </div>
                         <!-- <div class="col-lg-4">
                             <div class="box shadow-sm bg-light">
                                 <h6 class="mb-15">Payment info</h6>
@@ -413,6 +521,7 @@
 
 
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
@@ -457,4 +566,5 @@
 }
 
 </style>
+
 </html>

@@ -21,8 +21,7 @@ const productSchema = new Schema(
       type: Number, 
       default: 0,
     },
-  
-    
+   
     productImage: {
       type: [String],
       required: true,
@@ -37,6 +36,10 @@ const productSchema = new Schema(
       required: true,
       default: 'Available',
     },
+    productOffer:{
+      type:Number,
+      default:0
+  },
     variants: [
       {
         ram: {
@@ -64,6 +67,7 @@ const productSchema = new Schema(
         //     type: Number,
         //     default: 1, // Changed from 'true' to '1' as 'quantity' should be a number
         //   },
+
           regularPrice: {
             type: Number,
             required: true,

@@ -440,7 +440,34 @@ const razorpayInstance = new Razorpay({
     }
 };
 
+const refund=async(req,res)=>{
+  try{
+    const userId=req.session.userId
+    
+   const{ orderId,
+    returnReason,
+    additionalReason}=req.body;
+   console.log(req.body)
+   const order= await Order.findOne({orderId:orderId})
+   if(!order){
+   return res.json({success:false,})
+   }
+   order.returnRequest.status='Pending';
+   order.returnRequest.reason=returnReason
+   order.returnRequest.details=additionalReason
+
+   order.status='Return Request'
+   await order.save()
+   return res.json({success:true})
+  //  console.log("order",order)
+  
+
+  }
+  catch(error){
+    console.log(error)
+  }
+}
 
 
   
-  module.exports={createOrder,renderConfirmorder,orderDetails,cancelOrder,raz,razorpayInstance,verRaz}
+  module.exports={createOrder,renderConfirmorder,orderDetails,cancelOrder,raz,razorpayInstance,verRaz,refund}
