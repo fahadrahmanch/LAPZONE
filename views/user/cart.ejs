@@ -557,10 +557,10 @@
                                                         src="/uploads/<%=item.productId.productImage[0]%>"
                                                         alt=""></a></td>
                                             <td class="product_name"><a href="product-details-default.html" ><%=item.productId.productName%></a></td>
-                                            <td class="product-price">RS : <%=item.variantId.salePrice%></td>
+                                            <td class="product-price"> ₹ <%=item.variantId.offerPrice || item.variantId.salePrice%></td>
                                             <td class="product_quantity"><label></label> <input min="1"
                                                     max="5" value="<%=item.quantity%>" type="number"    onchange="updateQuantity('<%= item.productId?._id %>','<%= item.variantId._id %>', this.value)"></td>
-                                            <td class="product_total" data-id="<%=item.productId%>"><%=item.quantity * item.variantId.salePrice%></td>
+                                            <td class="product_total" data-id="<%=item.productId%>"> <%=item.quantity * (item.variantId.offerPrice||item.variantId.salePrice)%></td>
                                         </tr> <!-- End Cart Single Item-->
                                         <!-- Start Cart Single Item-->
                                        <%})%>
@@ -1067,13 +1067,14 @@
             console.log("Server response:", result);
 
             if (response.status) {
-                Swal.fire({
+               await Swal.fire({
                     icon: 'success',
                     title: 'Deleted!',
                     text: result.message || 'Product removed from cart successfully.',
                     showConfirmButton: false,
                     timer: 1500
                 });
+            window.location.reload()
             } else {
                 Swal.fire({
                     icon: 'error',

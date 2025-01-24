@@ -611,7 +611,7 @@
                                 <a href="#" class="customer-review ml-2">(customer review )</a>
                             </div>
                             
-                            <div class="price" id="saleprice">$<%=products.variants[0].salePrice%></div>
+                            <div class="price" id="saleprice">₹  <%=products.variants[0].offerPrice || products.variants[0].salePrice%></div>
                             <p><%=products.description%></p>
                         </div> <!-- End  Product Details Text Area-->
                         <!-- Start Product Variable Area -->
@@ -1429,7 +1429,7 @@
                 storageElement.innerHTML=`${selectedVariant.storage}`
                 processorElement.innerHTML=`${selectedVariant.processor}`
                 stockElement.innerHTML=`${selectedVariant.stock}`
-                salePriceElement.innerHTML = `$${selectedVariant.salePrice}`;
+                salePriceElement.innerHTML ="₹"+`${selectedVariant.offerPrice||  selectedVariant.salePrice}`;
             }
         }
 

@@ -35,10 +35,10 @@ const getCheckout=async (req,res)=>{
             return res.redirect('/cart'); 
         }
         const totalAmount = cart.items.reduce((sum, item) => {
-            const price = item.quantity * item.variant.salePrice;
+            const price = item.quantity *  (item.variant.offerPrice||item.variant.salePrice);
             return sum + price
           }, 0);
-
+console.log("totalAmount",totalAmount)
           const today = new Date().toISOString().split('T')[0];
 
           const activeCoupens = await Coupon.find({
@@ -48,6 +48,7 @@ const getCheckout=async (req,res)=>{
           
       //  console.log(activeCoupens)
       //   console.log(activeCoupens)
+      console.log("cart aanye",cart)
         res.render('user/checkout', { 
           cart, 
           activeCoupens,

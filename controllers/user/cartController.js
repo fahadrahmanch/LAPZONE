@@ -15,7 +15,7 @@ const getCart = async (req, res) => {
         model: "Product",
       })
       .lean();
-    console.log(cartItems)
+    // console.log(cartItems)
     cartItems.items = cartItems.items.map((item) => {
       const variantId = item.variantId;
 
@@ -37,9 +37,9 @@ const getCart = async (req, res) => {
     }
 
     const totalAmount = cartItems.items.reduce((sum, item) => {
-      console.log(item)
-      console.log(item.variantId);
-      const price = item.quantity * item.variantId.salePrice;
+      // console.log(item)
+      // console.log(item.variantId);
+      const price = item.quantity * (item.variantId.offerPrice||item.variantId.salePrice);
       return sum + price
     }, 0);
     // console.log(totalAmount)
@@ -71,8 +71,7 @@ const postCart = async (req, res) => {
     }
     const Product = await productSchema.findOne({ _id: productId });
     const variants = Product.variants.find((item) => variant);
-    // console.log("single variant", variants);
-
+    console.log("variantssssssssssssssssssssssssss",variants.items)
     if (!Product) {
       return res
         .status(400)
@@ -116,7 +115,9 @@ const postCart = async (req, res) => {
         });
       }
       existingItem.quantity = newQuantity;
-      existingItem.totalPrice = newQuantity * parseFloat(variants.salePrice);
+      console.log("variants.offerPrice",variants.offerPrice)
+      existingItem.totalPrice = newQuantity * parseFloat(variants.offerPrice||variants.salePrice);
+      console.log("existingItem.totalPrice",existingItem.totalPrice)
     } else {
       if (qty > productqty) {
         return res.status(400).json({
@@ -124,16 +125,18 @@ const postCart = async (req, res) => {
           message: `Only ${productqty} items available in stock`,
         });
       }
+   
       cart.items.push({
         productId,
         quantity: qty,
         variantId: variant,
         // price: variants.salePrice,
-        totalPrice: qty * parseFloat(variants.salePrice||0),
+        totalPrice: qty * parseFloat(variants.offerPrice||variants.salePrice||0),
         status: "placed",
       });
     }
-
+    console.log("variants ",cart)
+    console.log("variants.offerPrice",variants.offerPrice)
     await cart.save();
 
     res.json({
@@ -195,7 +198,7 @@ const updateqty = async (req, res) => {
 
    
     cartItem.quantity = quantity;
-    cartItem.totalPrice = quantity * parseFloat(variant.salePrice || 0);
+    cartItem.totalPrice = quantity * parseFloat(variant.offerPrice||variant.salePrice || 0);
 
     await cart.save();
     

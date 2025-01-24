@@ -72,7 +72,7 @@ const addCoupenPost=async(req,res)=>{
 
     })
     await newCoupen.save()
-    
+  return   res.redirect('/admin/coupen')
 }
 catch(error){
     console.log(error)

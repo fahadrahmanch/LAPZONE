@@ -20,7 +20,12 @@ const productpage=async(req,res)=>{
     const count=await productSchema.find({
       $or:[{productName:{$regex:new RegExp(".*"+search+".*","i")}}]
     }).countDocuments();
+
+    
+
+
     // console.log("products",productData)
+
     if(category){
      
       res.render("admin/product",{
@@ -262,22 +267,26 @@ const listed=async(req,res)=>{
 const addOffer=async(req,res)=>{
   try{
    
-    const admin=req.session.admin
-    if(!admin){return redirect('/admin/login')}
+  const admin=req.session.admin
+  if(!admin){return res.redirect('/admin/login')}
   const {productId,offerPercentage}=req.body;
+  console.log("hello",productId,offerPercentage)
   if(!productId&&!offerPercentage){
    
     return res.json({success:false})
   }
   const product=await productSchema.findOne({_id:productId})
  if(!product){
- 
   return res.json({success:false,message:"product not found"})
  }
- console.log("proudct")
+//  console.log("proudct",product)
   product.productOffer=offerPercentage;
+  for(let i=0;i<product.variants.length;i++){
+  product.variants[i].offerPrice=product.variants[i].salePrice- product.variants[i].salePrice * (offerPercentage/ 100)
+  }
   await product.save()
-  console.log("proudct")
+  console.log("offer price add",product)
+  // console.log("proudct")
   return res.json({success:true,})
 
 

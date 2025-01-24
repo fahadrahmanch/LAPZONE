@@ -1650,6 +1650,7 @@
 
     const button = document.getElementById('process');
     button.addEventListener('click', async () => {
+      
         const selectedAddressId = document.querySelector('input[name=addressDiv]:checked').value;
         // const selectPayment = document.getElementById('currencyCod').value;
         const selectPayment = document.querySelector('input[name=paymentMethod]:checked').value;
@@ -1657,7 +1658,7 @@
         const couponSelect = document.getElementById("couponSelect").value;
         // console.log("jskahfs",couponSelect)
         const totalAMount = AMount||'<%=totalAmount%>';
-        // alert(totalAMount)
+        alert(totalAMount)
 
         try {
             if (selectPayment === 'razorpay') {
@@ -1737,6 +1738,7 @@
 
      
             }else if(selectPayment === 'cod'){
+                alert("sfhkjfha")
             const response = await fetch('/createOrder', {
                 method: "POST",
                 headers: {

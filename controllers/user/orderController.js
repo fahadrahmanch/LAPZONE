@@ -12,6 +12,7 @@ const walletSchema=require("../../models/walletSchema")
 
 const createOrder = async (req, res) => {
   try {
+    console.log("hlooooooo")
     const { selectedAddressId, selectPayment, totalAMount,couponSelect } = req.body;
     const userId = req.session.user;
   
@@ -350,7 +351,7 @@ const razorpayInstance = new Razorpay({
 
 
       
-      // console.log(order)
+      console.log("order",order)
 
      res.render('user/viewOrders',{order})
     }
