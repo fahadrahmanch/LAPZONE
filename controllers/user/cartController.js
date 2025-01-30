@@ -10,11 +10,16 @@ const getCart = async (req, res) => {
     }
     const user = await User.findById(userId);
     const cartItems = await Cart.findOne({ userId })
-      .populate({
-        path: "items.productId",
-        model: "Product",
-      })
-      .lean();
+  .populate({
+    path: "items.productId",
+    model: "Product",
+    populate: {
+      path: "category", 
+      model: "Category",
+    },
+  })
+  .lean();
+
     // console.log(cartItems)
     cartItems.items = cartItems.items.map((item) => {
       const variantId = item.variantId;
@@ -22,11 +27,47 @@ const getCart = async (req, res) => {
       const variant = item.productId.variants.find(
         (variant) => variant._id.toString() === variantId.toString()
       );
+     
       delete item.variantId;
       item.variantId = variant;
+      // console.log("item.variantIditem.variantId",item.variantId)
       return item;
     });
     
+
+    let subtotal = 0;
+    let totalDiscount = 0;
+    const cartwithOffer= cartItems.items.map((item)=>{
+      const productOffer=item.productId.productOffer
+      const categoryOffer=item.productId.category.categoryOffer
+      const bestOffer=Math.max(productOffer,categoryOffer)
+      const originalPrice = item.variantId.salePrice;
+      const quantity = item.quantity;
+      for(let key in item.variantId){
+        if(key==="salePrice"){
+          item.variantId[key]=originalPrice - (originalPrice * bestOffer / 100);
+        }
+      
+        
+      }
+      
+      return {
+        ...item,
+        bestOffer,
+        // finalPrice: salePrice
+    };
+   
+
+
+  
+    })
+//     console.log("cartItems",cartItems)
+// console.log(cartwithOffer)
+
+
+
+    
+    // console.log("cartItems.items cartItems.items ",cartItems.items )
     if (!cartItems) {
       return res.render("user/cart", {
         cart: null,
@@ -35,14 +76,13 @@ const getCart = async (req, res) => {
         user: user,
       });
     }
-
-    const totalAmount = cartItems.items.reduce((sum, item) => {
-      // console.log(item)
-      // console.log(item.variantId);
-      const price = item.quantity * (item.variantId.offerPrice||item.variantId.salePrice);
+      const totalAmount = cartItems.items.reduce((sum, item) => {
+      
+      const price = item.quantity * (item.variantId.salePrice);
       return sum + price
     }, 0);
-    // console.log(totalAmount)
+    
+
     res.render("user/cart", {
       cart: cartItems,
       products: cartItems.items,
@@ -71,7 +111,7 @@ const postCart = async (req, res) => {
     }
     const Product = await productSchema.findOne({ _id: productId });
     const variants = Product.variants.find((item) => variant);
-    console.log("variantssssssssssssssssssssssssss",variants.items)
+    // console.log("variantssssssssssssssssssssssssss",variants.items)
     if (!Product) {
       return res
         .status(400)
@@ -116,7 +156,7 @@ const postCart = async (req, res) => {
       }
       existingItem.quantity = newQuantity;
       console.log("variants.offerPrice",variants.offerPrice)
-      existingItem.totalPrice = newQuantity * parseFloat(variants.offerPrice||variants.salePrice);
+      existingItem.totalPrice = newQuantity * parseFloat(variants.salePrice);
       console.log("existingItem.totalPrice",existingItem.totalPrice)
     } else {
       if (qty > productqty) {
@@ -125,18 +165,17 @@ const postCart = async (req, res) => {
           message: `Only ${productqty} items available in stock`,
         });
       }
-   
+    
       cart.items.push({
         productId,
         quantity: qty,
         variantId: variant,
         // price: variants.salePrice,
-        totalPrice: qty * parseFloat(variants.offerPrice||variants.salePrice||0),
+        totalPrice: qty * parseFloat(variants.salePrice||0),
         status: "placed",
       });
     }
-    console.log("variants ",cart)
-    console.log("variants.offerPrice",variants.offerPrice)
+  
     await cart.save();
 
     res.json({
@@ -164,7 +203,7 @@ const updateqty = async (req, res) => {
       path: "items.productId",
       model: "Product"
     });
-    console.log(cart)
+    // console.log(cart)
 
     if (!cart) {
       return res
@@ -198,7 +237,7 @@ const updateqty = async (req, res) => {
 
    
     cartItem.quantity = quantity;
-    cartItem.totalPrice = quantity * parseFloat(variant.offerPrice||variant.salePrice || 0);
+    cartItem.totalPrice = quantity * parseFloat(variant.salePrice || 0);
 
     await cart.save();
     

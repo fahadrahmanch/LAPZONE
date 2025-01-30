@@ -22,6 +22,8 @@ router.post('/login', userController.login)
 router.get('/shop',shopController.loadShop)
 router.post('/resend-Otp', userController.resendOtp);
 router.get('/productdetails',singleProductController.loadSingleProduct)
+// router.get('/filer',shopController.filter)
+
 
 router.post("/variant",singleProductController.variant)
 router.post('/otp',userController.verifyOtp)

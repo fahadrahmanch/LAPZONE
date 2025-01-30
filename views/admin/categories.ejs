@@ -314,7 +314,69 @@
                                 <tr>
                                     <td><%=category.name%></td>
                                     <td><%=category.description%></td>
-                                    <td>5%</td>
+                                    <!-- <td><button id="offerBtn" data-product-id="123" onclick="addCatOffer('<%=category._id%>')">Apply offer</button></td> -->
+                                    <% if (category.categoryOffer == 0) { %>
+                                        <td>
+                                          <button
+                                            id="offerBtn"
+                                            class="offer-btn apply"
+                                            data-product-id="<%= category._id %>"
+                                            onclick="addCatOffer('<%= category._id %>')"
+                                          >
+                                            Apply Offer
+                                            <i class="fas fa-plus-circle offer-icon"></i>
+                                          </button>
+                                        </td>
+                                      <% } else { %>
+                                        <td>
+                                          <button
+                                            id="offerBtn"
+                                            class="offer-btn remove"
+                                            data-product-id="<%= category._id %>"
+                                            onclick="removeCatOffer('<%= category._id %>', '<%= category.productOffer %>')"
+                                          >
+                                            <%= category.categoryOffer %>
+                                            <i class="fas fa-times-circle offer-icon"></i>
+                                          </button>
+                                        </td>
+                                      <% } %>
+                                      <style>
+                                        .offer-btn {
+                                          display: flex;
+                                          align-items: center;
+                                          justify-content: center;
+                                          padding: 10px 20px;
+                                          border: none;
+                                          border-radius: 8px;
+                                          font-size: 14px;
+                                          font-weight: bold;
+                                          cursor: pointer;
+                                          transition: all 0.3s ease-in-out;
+                                        }
+                                      
+                                        .offer-btn.apply {
+                                          background-color: #4caf50; /* Green for applying offer */
+                                          color: white;
+                                        }
+                                      
+                                        .offer-btn.apply:hover {
+                                          background-color: #45a049;
+                                        }
+                                      
+                                        .offer-btn.remove {
+                                          background-color: #f44336; /* Red for removing offer */
+                                          color: white;
+                                        }
+                                      
+                                        .offer-btn.remove:hover {
+                                          background-color: #d32f2f;
+                                        }
+                                      
+                                        .offer-icon {
+                                          margin-left: 8px;
+                                          font-size: 16px;
+                                        }
+                                      </style>
                                     <td><span  id="listedID" class="badge rounded-pill  <%= category.isListed ? 'alert-success' : 'alert-danger' %>" data-id="<%=category._id%>">
                                         <%= category.isListed ? 'Listed' : 'Unlisted' %>
                                      </span></td>
@@ -386,5 +448,125 @@
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script>
+        async function addCatOffer(categoryId){
+         const {value:offerPercentage}=await Swal.fire({
+             title: 'Add Product Offer',
+             input: 'number',
+             inputLabel: 'Enter offer percentage',
+             inputPlaceholder: 'Enter percentage (1-99)',
+             confirmButtonColor: '#00b517',
+             cancelButtonColor: '#6c757d',
+             showCancelButton: true,
+             inputValidator: (value) => {
+                 if (!value) {
+                     return 'Please enter an offer percentage';
+                 }
+                 if (value < 1 || value > 99) {
+                     return 'Offer must be between 1% and 99%';
+                 }
+             }
+         });
+ 
+           if(offerPercentage){
+             try{
+             const response =await fetch('/admin/addCatOffer',{
+                 method:"POST",
+                 headers:{
+                     'Content-Type':'application/json'
+                 },
+                 body:JSON.stringify({
+                     categoryId:categoryId,
+                     offerPercentage:offerPercentage
+                 })
+             })
+             const result = await response.json()
+             if(result.success){
+                await  Swal.fire({
+                         title: 'Success!',
+                         text: 'Offer added successfully',
+                         icon: 'success',
+                         confirmButtonColor: '#00b517'
+                     }).then(() => {
+                         location.reload();
+                     });
+             }else{
+                 await Swal.fire({
+     title: 'Error!',
+     text: 'Failed to add the offer. Please try again.',
+     icon: 'error',
+     confirmButtonColor: '#ff0000'
+   });
+             }
+             }
+             catch(error){
+                await Swal.fire({
+                     title: 'Error!',
+                     text: 'Failed to add offer',
+                     icon: 'error',
+                     confirmButtonColor: '#00b517'
+                 });
+             }
+           }
+        }
+     </script>
+ 
+ <script>
+    async function removeCatOffer(categoryId, category) {
+        console.log("removeoffer")
+        const confirmRemoval = await Swal.fire({
+            title: 'Remove Product Offer',
+            text: `Are you sure you want to remove the offer `,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, remove it',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#00b517',
+            cancelButtonColor: '#6c757d'
+        });
+
+        if (confirmRemoval.isConfirmed) {
+            try {
+                const response = await fetch('/admin/removeCatOffer', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        categoryId: categoryId
+                    })
+                });
+
+                const result = await response.json({});
+
+                if (result.success) {
+                    await Swal.fire({
+                        title: 'Success!',
+                        text: 'Offer removed successfully',
+                        icon: 'success',
+                        confirmButtonColor: '#00b517'
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    await Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to remove the offer. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff0000'
+                    });
+                }
+            } catch (error) {
+                await Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while removing the offer.',
+                    icon: 'error',
+                    confirmButtonColor: '#ff0000'
+                });
+                console.log(error)
+            }
+        }
+    }
+</script>
 </body>
 

@@ -76,12 +76,12 @@ const productSchema = new Schema(
             type: Number,
             required: true,
           },
-          offerPrice: {
-            type: Number,
-            required: false,
-            default:0
+          // offerPrice: {
+          //   type: Number,
+          //   required: false,
+          //   default:0
 
-          },
+          // },
       },
     ],
   },

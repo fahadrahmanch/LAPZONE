@@ -22,10 +22,6 @@ const productpage=async(req,res)=>{
     }).countDocuments();
 
     
-
-
-    // console.log("products",productData)
-
     if(category){
      
       res.render("admin/product",{
@@ -281,9 +277,10 @@ const addOffer=async(req,res)=>{
  }
 //  console.log("proudct",product)
   product.productOffer=offerPercentage;
-  for(let i=0;i<product.variants.length;i++){
-  product.variants[i].offerPrice=product.variants[i].salePrice- product.variants[i].salePrice * (offerPercentage/ 100)
-  }
+  // for(let i=0;i<product.variants.length;i++){
+  // product.variants[i].offerPrice=product.variants[i].salePrice- product.variants[i].salePrice * (offerPercentage/ 100)
+  // }
+
   await product.save()
   console.log("offer price add",product)
   // console.log("proudct")
@@ -295,10 +292,25 @@ const addOffer=async(req,res)=>{
     console.log(error)
   }
 }
-
+const removeProductOffer=async(req,res)=>{
+  try{
+   const {productId}=req.body
+   const admin=req.session.admin
+   if(!admin){return res.redirect('/admin/login')}
+   console.log(productId)
+   const product= await productSchema.findOne({_id:productId})
+   product.productOffer=0
+   await  product.save()
+   return res.json({success:true})
+   console.log(product)
+  }
+  catch(error){
+console.log(error)
+  }
+}
 
 
 
 module.exports = { addProducts };
 
-module.exports={getPrductAddPage,addProducts,productpage,getEditProduct,editProduct,deleteSingleImage,productsInfo,listed,addOffer}
+module.exports={getPrductAddPage,addProducts,productpage,getEditProduct,editProduct,deleteSingleImage,productsInfo,listed,addOffer,removeProductOffer}

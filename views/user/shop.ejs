@@ -535,7 +535,7 @@
                     <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
                         <!-- Start Single Sidebar Widget -->
-                        <!-- <div class="sidebar-single-widget">
+                        <div class="sidebar-single-widget">
                             <h6 class="sidebar-title">SELECT BY CATEGORIES</h6>
                             <div class="sidebar-content">
                               <div class="filter-type-select">
@@ -544,10 +544,15 @@
                                     <% if (cat[i].isListed) { %>
                                       <li>
                                         <label class="checkbox-default">
+                                            
                                           <input 
                                             type="checkbox" 
                                             class="category-checkbox" 
-                                            value="<%= cat[i].name %>">
+                                            
+                                            <% if (catt && catt.split(',').includes(cat[i]._id.toString())) { %> 
+                                              checked
+                                              <% } %>
+                                            value="<%= cat[i]._id %>">
                                           <span><%= cat[i].name %></span>
                                         </label>
                                       </li>
@@ -556,7 +561,7 @@
                                 </ul>
                               </div>
                             </div>
-                          </div> -->
+                          </div>
                           
                           <!-- Price Range Filter -->
                           <!-- <div class="sidebar-single-widget">
@@ -571,9 +576,9 @@
                           </div> -->
                           
                           <!-- Apply Button -->
-                          <!-- <div class="sidebar-single-widget">
+                          <div class="sidebar-single-widget">
                             <button class=" btn" type="button" onclick="applyFilters()">Apply Filters</button>
-                          </div> -->
+                          </div>
                           
                           <!-- End Single Sidebar Widget -->
 
@@ -1314,8 +1319,10 @@
  <!-- categories -->
 <!-- <script>
  function applyFilters(){
+    
     const checkboxes = document.querySelectorAll('.category-checkbox:checked');
     console.log(checkboxes)
+    
     const selectedCategories = [];
     checkboxes.forEach(function(checkbox) {
    selectedCategories.push(checkbox.value);
@@ -1324,8 +1331,9 @@
 </script> -->
 
 <script>
-    function applyFilters() {
+    async function applyFilters() {
       // Get selected categories from checkboxes
+    //   alert("category")
       const checkboxes = document.querySelectorAll('.category-checkbox:checked');
       const selectedCategories = [];
       
@@ -1335,8 +1343,9 @@
       const urlParams=new URLSearchParams(window.location.search);
       urlParams.set('cat',selectedCategories.join(','))
       window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
-  
+     window.location.reload()
      console.log(selectedCategories)
+  
     }
   </script>
   

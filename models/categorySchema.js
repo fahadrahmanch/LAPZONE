@@ -18,6 +18,12 @@ const categorySchema=new mongoose.Schema({
         type:Number,
         default:0
     },
+    offerPrice: {
+        type: Number,
+        required: false,
+        default:0
+
+      },
     createdAt:{
         type:Date,
         default:Date.now

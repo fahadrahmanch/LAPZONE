@@ -17,13 +17,16 @@ const pageNotFound=async (req,res)=>{
 const loadHomepage=async(req,res)=>{
     try{
       const products= await product.find({})
+      // console.log(products)
     await res.render("user/home",{message:req.session.user,products:products})
     }
     catch(error){
        console.log("home page not found");
        res.status(500).send("server error")
     }
+
 }
+
 const loadLoginPage=async(req,res)=>{
   try{
     let message = req.session.error || null; 
@@ -60,6 +63,9 @@ async function sendVerificationEmail(email,otp){
         pass:process.env.NODEMAILER_PASSWORD
       }
     })
+    console.log("Email:", process.env.NODEMAILER_EMAIL);
+console.log("Password:", process.env.NODEMAILER_PASSWORD ? "Exists" : "Not Set");
+
     const info =await transporter.sendMail({
       from:process.env.NODEMAILER_EMAIL,
       to:email,

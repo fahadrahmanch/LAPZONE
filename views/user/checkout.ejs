@@ -715,10 +715,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <%for(let i=0;i<cart.items.length;i++){%>
+                                        <%for(let i=0;i<cart.length;i++){%>
                                         <tr>
-                                            <td> <strong> <%=cart.items[i].productId.productName%> × <%=cart.items[i].quantity%></strong></td>
-                                            <td> <%=cart.items[i].totalPrice%></td>
+                                            <td> <strong> <%=cart[i].productId.productName%> × <%=cart[i].quantity%></strong></td>
+                                            <td> <%=cart[i].totalPrice%></td>
                                         </tr>
                                        <%}%>
                                     </tbody>
@@ -732,8 +732,8 @@
                                             <td><strong>0</strong></td>
                                         </tr>
                                         <tr>
-                                            <th>Discount</th>
-                                            <td><strong>0</strong></td>
+                                            <th>Discount</th>   
+                                            <td><strong><%=Disount%></strong></td>
                                         </tr>
                                         <tr class="order_total">
                                             <th>Order Total</th>
@@ -1726,17 +1726,6 @@
 
         }
 
-
-
-
-
-
-
-
-
-
-
-     
             }else if(selectPayment === 'cod'){
                 alert("sfhkjfha")
             const response = await fetch('/createOrder', {

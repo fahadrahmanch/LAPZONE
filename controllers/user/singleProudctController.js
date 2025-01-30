@@ -4,6 +4,7 @@ const loadSingleProduct = async(req,res)=>{
     try{
     const productId=req.query.id;
     const product= await productSchema.findById(productId).populate('category')
+    console.log("singleproduct",product)
     // console.log(product.category)
 
     const findCategory = product.category;
@@ -11,15 +12,23 @@ const loadSingleProduct = async(req,res)=>{
        category: findCategory._id,  
        _id: { $ne: productId }, 
    }).limit(5);     
-//    console.log("to show ",relatedProducts)
 
-     
-   console.log(product)
-
-    // console.log('relatedProducts',relatedProducts);
+const productWithOffer = JSON.parse(JSON.stringify(product.toObject()));
+console.log(productWithOffer.productOffer,productWithOffer.category.offerPrice)
+let bestoffer
+if(productWithOffer.productOffer>productWithOffer.category.offerPrice){
+  bestoffer=productWithOffer.productOffer
+}else{
+  bestoffer=productWithOffer.category.offerPrice
+}
+if(bestoffer>0){
+  productWithOffer.variants.map((item)=>{
+    item.salePrice=item.salePrice - (item.salePrice * (bestoffer / 100));
+  })
+}
     res.render("user/singleProduct",
         {
-            products:product,
+            products:productWithOffer,
             relatedProducts,
             message:req.session.user
         }

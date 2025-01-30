@@ -14,6 +14,7 @@ const createOrder = async (req, res) => {
   try {
     console.log("hlooooooo")
     const { selectedAddressId, selectPayment, totalAMount,couponSelect } = req.body;
+    console.log("coupen select",couponSelect)
     const userId = req.session.user;
   
     if (!userId) {
@@ -66,6 +67,27 @@ const createOrder = async (req, res) => {
       variants:item.variant._id
     }));
 
+    for (let item of orderedItems) {
+      console.log("hlo");
+      let offer = 0;
+      let originalPrice = item.price;
+    
+      if (item.Product) {
+        console.log("hlohi");
+        const bestOffer = await productSchema
+          .findOne({ _id: item.Product })
+          .populate("category");
+    
+        offer = Math.max(bestOffer.category.offerPrice, bestOffer.productOffer);
+        console.log(offer);
+      }
+    
+      item.price = originalPrice - (originalPrice * offer) / 100;
+      item.totalPrice=item.price*item.quantity
+    }
+    
+    // console.log("orderedItemssssssssssss", orderedItems);
+
     const addressObject = address.address[0];
     const newOrder = new Order({
       userId: userId,
@@ -81,7 +103,8 @@ const createOrder = async (req, res) => {
         phone: addressObject.phone,
       },
       status: 'Shipped',
-      paymentMethod:selectPayment
+      paymentMethod:selectPayment,
+      discount:req.session.totalDiscount
     });
 
     await newOrder.save();
@@ -101,7 +124,7 @@ const createOrder = async (req, res) => {
        );
    
        if (matchedVariant) {
-          
+
            matchedVariants.push(matchedVariant); 
    
           
@@ -222,10 +245,32 @@ const razorpayInstance = new Razorpay({
           totalPrice: item.variant.salePrice * item.quantity,
           variants:item.variant._id
         }));
+
+        for (let item of orderedItems) {
+          console.log("hlo");
+          let offer = 0;
+          let originalPrice = item.price;
+        
+          if (item.Product) {
+            console.log("hlohi");
+            const bestOffer = await productSchema
+              .findOne({ _id: item.Product })
+              .populate("category");
+        
+            offer = Math.max(bestOffer.category.offerPrice, bestOffer.productOffer);
+            console.log(offer);
+          }
+        
+          item.price = originalPrice - (originalPrice * offer) / 100;
+          item.totalPrice=item.price*item.quantity
+        }
+        
+
         const addressObject = address.address[0];
         // console.log("Address",address)
-
+      //  console.log('orderedItems',orderedItems)
       
+   
         const newOrder = new Order({
           userId: userId,
           orderedItems,
@@ -243,11 +288,15 @@ const razorpayInstance = new Razorpay({
             phone: addressObject.phone,
           },
           status: 'Shipped',
-          paymentMethod:selectPayment
+          paymentMethod:selectPayment,
+          discount:req.session.totalDiscount
+          
+
         });
   
         // const order = new Order(orderDetails); 
         // await order.save();
+        console.log('newOrder',newOrder)
         await newOrder.save();
 
         const matchedVariants = []; 

@@ -1,5 +1,6 @@
-const Category = require('../../models/categorySchema');
+// const Category = require('../../models/categorySchema');
 const categorySchema=require('../../models/categorySchema')
+const Product=require("../../models/productSchema")
 const CategoryInfo = async(req,res)=>{
     try{
     const page=parseInt(req.query.page)||1;
@@ -148,4 +149,49 @@ const categorySearch=async(req,res)=>{
   
     }
   }
-module.exports={CategoryInfo,categorySchema,addCategory,loadaddCategory,list,editcategory, postcategory,categorySearch}
+
+  const addOffer=async(req,res)=>{
+    try{
+        const {categoryId,offerPercentage}=req.body
+        console.log(offerPercentage,categoryId)
+        const admin=req.session.admin
+        if(!admin){return res.redirect('/admin/login')}
+        if(!categoryId&&!offerPercentage){
+   
+            return res.json({success:false})
+          }
+          const category=await categorySchema.findOne({_id:categoryId})
+          category.categoryOffer=offerPercentage
+          const product=await Product.find({category:categoryId})
+          console.log("product",Product)
+          await category.save()
+          return res.json({success:true,})
+    }
+    catch(error){
+        console.log(error)
+    }
+  }
+
+
+
+  const removeCatOffer=async(req,res)=>{
+    try{
+        const {categoryId}=req.body
+        console.log(categoryId)
+        const admin=req.session.admin
+        if(!admin){return res.redirect('/admin/login')}
+        const category= await categorySchema.findOne({_id:categoryId})
+        category.categoryOffer=0
+        await  category.save()
+        console.log(category)
+        return res.json({success:true})
+       }
+       catch(error){
+     console.log(error)
+       }
+  }
+
+
+
+
+module.exports={CategoryInfo,categorySchema,addCategory,loadaddCategory,list,editcategory, postcategory,categorySearch,addOffer,removeCatOffer}
