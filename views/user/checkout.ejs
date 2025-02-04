@@ -1658,15 +1658,14 @@
         const couponSelect = document.getElementById("couponSelect").value;
         // console.log("jskahfs",couponSelect)
         const totalAMount = AMount||'<%=totalAmount%>';
-        alert(totalAMount)
-
+        const Disount='<%=Disount%>'
         try {
             if (selectPayment === 'razorpay') {
                 // alert("hi")
                 const razorpayOrder =await fetch("/createRazorpayOrder",{
                     method:"POST",
                     headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify({selectedAddressId, selectPayment, totalAMount,couponSelect})
+                    body:JSON.stringify({selectedAddressId, selectPayment, totalAMount,couponSelect,Disount})
                 })
                 const result=await razorpayOrder.json()
                 console.log("result",result)
@@ -1727,13 +1726,13 @@
         }
 
             }else if(selectPayment === 'cod'){
-                alert("sfhkjfha")
+               
             const response = await fetch('/createOrder', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ selectedAddressId, selectPayment, totalAMount,couponSelect })
+                body: JSON.stringify({ selectedAddressId, selectPayment, totalAMount,couponSelect,Disount })
             });
             const data = await response.json()
             console.log(data)

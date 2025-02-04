@@ -13,6 +13,15 @@ const walletSchema = new mongoose.Schema({
         required:false,
         default:0
     },
+    createdOn: {
+        type: String,
+        default: () => {
+            const now = new Date();
+            
+            return now.toISOString().split('T')[0]; // Get the date part only
+        },
+        required: true,
+    },
     transactions: [
         {
             type: {
@@ -46,7 +55,7 @@ const walletSchema = new mongoose.Schema({
             }
         }
     ],
-},{timestamps:true});
+});
 walletSchema.pre('save', function (next) {
     this.lastUpdated = Date.now();
     next();

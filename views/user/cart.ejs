@@ -560,8 +560,13 @@
                                             <td class="product-price"> ₹ <%=item.variantId.offerPrice || item.variantId.salePrice%></td>
                                             <td class="product_quantity"><label></label> <input min="1"
                                                     max="5" value="<%=item.quantity%>" type="number"    onchange="updateQuantity('<%= item.productId?._id %>','<%= item.variantId._id %>', this.value)"></td>
-                                            <td class="product_total" data-id="<%=item.productId%>"> <%=item.quantity * (item.variantId.offerPrice||item.variantId.salePrice)%></td>
-                                        </tr> <!-- End Cart Single Item-->
+                                                    <td class="product_total" 
+                                                    data-id="<%=item.productId._id%>"
+                                                    data-offerPrice="<%= item.variantId.offerPrice || 0 %>"
+                                                    data-salePrice="<%= item.variantId.salePrice || 0 %>">
+                                                    ₹ <%= item.quantity * (item.variantId.offerPrice || item.variantId.salePrice) %>
+                                                </td>
+                                                                                        </tr> <!-- End Cart Single Item-->
                                         <!-- Start Cart Single Item-->
                                        <%})%>
                                     </tbody>
@@ -596,7 +601,7 @@
                             <div class="coupon_inner">
                                 <div class="cart_subtotal">
                                     <p>Subtotal</p>
-                                    <p class="cart_amount"><%=totalAmount%></p>
+                                    <p id="subtotalAmount" class="cart_amount"><%=totalAmount%></p>
                                 </div>
                                 <div class="cart_subtotal ">
                                     <p>Shipping</p>
@@ -606,7 +611,7 @@
 
                                 <div class="cart_subtotal">
                                     <p>Total</p>
-                                    <p class="cart_amount"><%=totalAmount%></p>
+                                    <p id="totalAmount" class="cart_amount"><%=totalAmount%></p>
                                 </div>
                                 <%if(cart.length===0){%>
                                 <div class="checkout_btn">
@@ -980,10 +985,29 @@
 
 
 
-
-
+<script>
+    function updateCartTotal(){
+        let newSubtotal=0;
+        document.querySelectorAll('.product_total').forEach((item)=>{
+            const priceText=item.innerHTML.replace("₹",'').trim();
+            const price=parseFloat(priceText)||0
+            newSubtotal+=price
+            console.log('newSubtotal',newSubtotal)
+        });
+        const Subtotal=document.getElementById('subtotalAmount')
+        const totalAmount=document.getElementById('totalAmount')
+        if(!Subtotal||!totalAmount){
+            console.error("Error: subtotalAmount or totalAmount not found in the DOM!");
+            return
+        }
+            Subtotal.innerHTML = `₹ ${newSubtotal.toFixed(2)}`;
+            totalAmount.innerHTML= `₹ ${newSubtotal.toFixed(2)}`;
+   
+    }
+</script>
     <script>
      async function updateQuantity(productId,  variantId,quantity) {
+        event.preventDefault()
        fetch('/cart/update-quantity', {
         method: 'POST',
         headers: {
@@ -992,28 +1016,28 @@
         body: JSON.stringify({ productId, quantity ,variantId}),
     })
         .then((response) => response.json())
-        .then((data) => {
+        .then(async(data) => {
             if (data.success) {
-                    //   alert(data.updatedTotalPrice);
+           
 
-
-                // const totalElement = document.querySelector(`.product_total[data-id="${productId}"]`);
-
-                // if (totalElement) {
-                //     totalElement.innerHTML = data.updatedTotalPrice;
-                // } else {
-                //     console.warn(`Element with selector .product_total[data-id="${productId}"] not found.`);
-                // }
-
-               Swal.fire({
+              await Swal.fire({
                     icon: 'success',
                     title: 'Quantity Updated',
                     text: `The quantity was updated successfully!`,
                     timer: 1500,
                     showConfirmButton: false,
                 });
-                window.location.reload()
+            //    window.location.reload()
+            const prtotal = document.querySelector(`td[data-id="${productId}"]`);
+if (prtotal) {
+    const offerPrice = parseFloat(prtotal.getAttribute('data-offerPrice')) || 0;
+    const salePrice = parseFloat(prtotal.getAttribute('data-salePrice')) || 0;
+    const finalPrice = quantity * (offerPrice || salePrice);
+    
+    prtotal.innerHTML = `₹ ${finalPrice.toFixed(2)}`;
+}
 
+updateCartTotal();
             } else {
                 Swal.fire({
                     icon: 'error',

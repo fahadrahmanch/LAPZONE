@@ -13,8 +13,8 @@ const walletSchema=require("../../models/walletSchema")
 const createOrder = async (req, res) => {
   try {
     console.log("hlooooooo")
-    const { selectedAddressId, selectPayment, totalAMount,couponSelect } = req.body;
-    console.log("coupen select",couponSelect)
+    const { selectedAddressId, selectPayment, totalAMount,couponSelect,Disount } = req.body;
+    console.log("coupen select",req.body)
     const userId = req.session.user;
   
     if (!userId) {
@@ -64,7 +64,8 @@ const createOrder = async (req, res) => {
       quantity: item.quantity,
       price: item.variant.salePrice,
       totalPrice: item.variant.salePrice * item.quantity,
-      variants:item.variant._id
+      variants:item.variant._id,
+      totalDiscount:Disount
     }));
 
     for (let item of orderedItems) {
@@ -200,7 +201,9 @@ const razorpayInstance = new Razorpay({
         selectedAddressId,     
         selectPayment,        
         totalAMount,           
-        couponSelect           
+        couponSelect ,
+        Disount
+
       } = req.body;
  
     
@@ -243,7 +246,8 @@ const razorpayInstance = new Razorpay({
           quantity: item.quantity,
           price: item.variant.salePrice,
           totalPrice: item.variant.salePrice * item.quantity,
-          variants:item.variant._id
+          variants:item.variant._id,
+          totalDiscount:Disount
         }));
 
         for (let item of orderedItems) {

@@ -949,6 +949,11 @@
 
                 if (response.ok) {
                     Swal.fire('Success', 'Your return request has been submitted.', 'success');
+                    const returnButton = document.querySelector(`a[onclick="returnn('${orderId}')"]`);
+                    if (returnButton) {
+                        returnButton.outerHTML = '<span class="text-danger">Return Requested</span>';
+                    }
+                    
                 } else {
                     Swal.fire('Error', 'Failed to submit the return request.', 'error');
                 }

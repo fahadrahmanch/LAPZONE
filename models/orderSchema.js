@@ -124,13 +124,16 @@ const orderSchema=new Schema({
             return now.toISOString().split('T')[0]; // Get the date part only
         },
         required: true,
+    },
+    totalDiscount:{
+        type :Number,
+        defualt:0
     }
-    
     // coupenApplied:{
     //     type:Boolean,
     //     default:false
 
     // }
-})
+},{timestamps:true})
 const Order=mongoose.model("Order",orderSchema);
 module.exports=Order;

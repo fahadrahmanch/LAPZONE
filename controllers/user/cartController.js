@@ -20,7 +20,7 @@ const getCart = async (req, res) => {
   })
   .lean();
 
-    // console.log(cartItems)
+    console.log(cartItems)
     cartItems.items = cartItems.items.map((item) => {
       const variantId = item.variantId;
 
@@ -190,6 +190,9 @@ const postCart = async (req, res) => {
 const updateqty = async (req, res) => {
   const { productId, quantity, variantId } = req.body;
   try {
+    console.log(productId)
+    const product= await productSchema.find({_id:productId});
+    console.log("product",product)
     const vr = String(variantId);
     
     if (quantity < 1 || quantity > 5) {
@@ -238,7 +241,7 @@ const updateqty = async (req, res) => {
    
     cartItem.quantity = quantity;
     cartItem.totalPrice = quantity * parseFloat(variant.salePrice || 0);
-
+   console.log('cartItem.totalPrice',cartItem.totalPrice)
     await cart.save();
     
     res.json({ 

@@ -8,11 +8,28 @@ const getwishlist = async (req, res) => {
       res.json({ success: false, message: "please login" });
     }
     const wishlist = await wishlistSchema
-      .findOne({ userId: user })
-      .populate({
-        path:'products.productId',
-        model:'Product'
-      }).lean();
+    .findOne({ userId: user })
+    .populate({
+      path: 'products.productId',
+      model: 'Product',
+      populate: {
+        path: 'category', // Assuming the Product model has a category field
+        model: 'Category'
+      }
+    })
+    .lean();
+  console.log("wishlist",wishlist)
+ 
+    // for (let item of wishlist.products) {
+      
+    //   let offer = 0;
+    //   let originalPrice = item.variants.salePrice;
+    //   console.log(originalPrice)
+     
+    
+    //   // item.price = originalPrice - (originalPrice * offer) / 100;
+    //   // item.totalPrice=item.price*item.quantity
+    // }
       if (!wishlist) {
         return res.render("user/wishlist", { product: [] });
       }
@@ -36,8 +53,25 @@ const getwishlist = async (req, res) => {
         return item; 
       });
       
-     
-      console.log("wishlist",wishlist.products)
+      wishlist.products.map((item)=>{
+        console.log('item',item)
+        const originalPrice=item.variants.salePrice
+        const bestOffer =
+        item.productId.productOffer > item.productId.category.categoryOffer
+          ? item.productId.productOffer
+          : item.productId.category.categoryOffer;
+
+       console.log('item.variants.salePrice',item.variants.salePrice) 
+       item.variants.salePrice=originalPrice - (originalPrice * bestOffer) / 100;
+
+        console.log(bestOffer)
+
+
+
+
+      })
+      // console.log("wishlist",wishlist.products)
+
      if(!wishlist){
         return res.render("user/wishlist", { product: [] });
      }

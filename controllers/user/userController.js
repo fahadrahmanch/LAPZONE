@@ -60,11 +60,11 @@ async function sendVerificationEmail(email,otp){
       requireTLS:true,
       auth:{
         user:process.env.NODEMAILER_EMAIL,
-        pass:process.env.NODEMAILER_PASSWORD
+        pass:process.env.NODEMAILER_PASSWOR_D
       }
     })
     console.log("Email:", process.env.NODEMAILER_EMAIL);
-console.log("Password:", process.env.NODEMAILER_PASSWORD ? "Exists" : "Not Set");
+console.log("Password:", process.env.NODEMAILER_PASSWO_RD ? "Exists" : "Not Set");
 
     const info =await transporter.sendMail({
       from:process.env.NODEMAILER_EMAIL,

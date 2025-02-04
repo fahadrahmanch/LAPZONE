@@ -237,12 +237,12 @@
                 Sales Report
                </h1>
                <div>
-                <button class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mb-2 md:mb-0 md:mr-2">
+                <a id="downloadPdf" href="#" class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mb-2 md:mb-0 md:mr-2">
                  Download PDF
-                </button>
-                <button class="w-full md:w-auto px-4 py-2 evara-blue text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                </a>
+                <a id="downloadExcel" href="#" class="w-full md:w-auto px-4 py-2 evara-blue text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                  Download Excel
-                </button>
+                </a>
                </div>
               </div>
               <!-- Filters Section -->
@@ -250,46 +250,49 @@
                <h5 class="text-xl font-semibold mb-4 text-black">
                 Filter Sales Report
                </h5>
-               <form id="salesReportForm">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                 <div>
-                  <label class="block text-sm font-medium text-gray-700" for="filterType">
-                   Filter By
-                  </label>
-                  <select class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" id="filterType">
-                   <option value="daily">
-                    Daily
-                   </option>
-                   <option value="weekly">
-                    Weekly
-                   </option>
-                   <option value="monthly">
-                    Monthly
-                   </option>
-                   <option value="custom">
-                    Custom Date Range
-                   </option>
-                  </select>
-                 </div>
-                 <div class="hidden" id="customDateRange">
-                  <label class="block text-sm font-medium text-gray-700" for="startDate">
-                   Start Date
-                  </label>
-                  <input class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" id="startDate" type="date"/>
-                 </div>
-                 <div class="hidden" id="customEndDate">
-                  <label class="block text-sm font-medium text-gray-700" for="endDate">
-                   End Date
-                  </label>
-                  <input class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm" id="endDate" type="date"/>
-                 </div>
+               <form action="/admin/salesreport" method="GET">
+                <label class="block text-sm font-medium text-gray-700" for="filterType">Filter By</label>
+                <select id="filterType" name="period" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
+                    <option value="all" <%= period === "all" ? "selected" : "" %>>All Time</option>
+                    <option value="daily" <%= period === "daily" ? "selected" : "" %>>Daily</option>
+                    <option value="weekly" <%= period === "weekly" ? "selected" : "" %>>Weekly</option>
+                    <option value="monthly" <%= period === "monthly" ? "selected" : "" %>>Monthly</option>
+                    <option value="custom" <%= period === "custom" ? "selected" : "" %>>Custom Date Range</option>
+                </select>
+            
+                <div id="customDateRange" class="<%= period === 'custom' ? '' : 'hidden' %>">
+                    <label class="block text-sm font-medium text-gray-700" for="startDate">Start Date</label>
+                    <input type="date" id="startDate" name="startDate" value="<%= startDate %>">
                 </div>
-                <button class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" type="button">
-                 Generate Report
+            
+                <div id="customEndDate" class="<%= period === 'custom' ? '' : 'hidden' %>">
+                    <label class="block text-sm font-medium text-gray-700" for="endDate">End Date</label>
+                    <input type="date" id="endDate" name="endDate" value="<%= endDate %>">
+                </div>
+            
+                <button type="submit" id="generateReport" class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                    Generate Report
                 </button>
-               </form>
+            </form>
+            
               </div>
               <!-- Report Summary Section -->
+                 <script>
+                    document.getElementById('filterType').addEventListener('change', function () {
+                        const customRange = document.getElementById('customDateRange');
+                        const customEndDate = document.getElementById('customEndDate');
+                
+                        if (this.value === 'custom') {
+                            customRange.classList.remove('hidden');
+                            customEndDate.classList.remove('hidden');
+                        } else {
+                            customRange.classList.add('hidden');
+                            customEndDate.classList.add('hidden');
+                        }
+                    });
+                
+            
+                </script>
               <div class="bg-gray-50 p-5 rounded-lg mb-6">
                <h5 class="text-xl font-semibold mb-4 text-gray-700">
                 Report Summary
@@ -300,7 +303,7 @@
                   Overall Sales Count:
                  </p>
                  <p class="text-lg font-semibold text-gray-900" id="salesCount">
-                  0
+                  <%=overallamount%>
                  </p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md border-l-4 evara-blue-border">
@@ -308,7 +311,7 @@
                   Overall Order Amount:
                  </p>
                  <p class="text-lg font-semibold text-gray-900" id="orderAmount">
-                  $0.00
+                    <%=overallamount%>
                  </p>
                 </div>
                 <div class="bg-white p-4 rounded-lg shadow-md border-l-4 evara-red-border">
@@ -316,7 +319,7 @@
                   Overall Discount:
                  </p>
                  <p class="text-lg font-semibold text-gray-900" id="totalDiscount">
-                  $0.00
+                  <%=overallDiscount%>
                  </p>
                 </div>
                </div>
@@ -354,107 +357,73 @@
                   </tr>
                  </thead>
                  <tbody>
+                    <%orders.forEach((item)=>{%>
+
+                   
                   <tr>
+                    <td class="px-6 py-4 text-sm text-gray-900">
+                        <%= item.orderId.slice(0, 10) %><br>
+                        <%= item.orderId.slice(10, 20) %><br>
+                        <%= item.orderId.slice(20) %>
+                    </td>
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    #12345
+                    <%=item.createdOn%>
                    </td>
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    2025-01-27
+                    <%=item.userId.name%>                   </td>
+                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    <% for (let key of item.orderedItems) { %>
+                        <%= key.Product.productName %> 
+                        <br>
+                    <% } %>
+                
                    </td>
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    John Doe
+                     <%=item.paymentMethod%>
                    </td>
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Product A, Product B
+                    <%=item.status%>
                    </td>
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Credit Card
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Completed
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    $85.00
+                    <%=item.finalAmount%>
                    </td>
                   </tr>
-                  <tr>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    #12346
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    2025-01-28
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Jane Smith
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Product C
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    PayPal
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Pending
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    $125.00
-                   </td>
-                  </tr>
-                  <tr>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    #12347
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    2025-01-29
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Alice Johnson
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Product D, Product E
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Bank Transfer
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    Completed
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    $165.00
-                   </td>
-                  </tr>
+                  <%})%>
+                 
                  </tbody>
                 </table>
                </div>
               </div>
               <!-- Pagination -->
               <div class="flex justify-center mb-6">
-               <nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                <a class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50" href="#">
-                 <span class="sr-only">
-                  Previous
-                 </span>
-                 <i class="fas fa-chevron-left">
-                 </i>
-                </a>
-                <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">
-                 1
-                </a>
-                <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">
-                 2
-                </a>
-                <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">
-                 3
-                </a>
-                <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                 ...
-                </span>
-                <a class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" href="#">
-                 8
-                </a>
-
-               </nav>
-              </div>
+                <nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                    
+                    <% if (currentPage > 1) { %>
+                        <a href="?page=<%= currentPage - 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
+                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Previous</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    <% } %>
+            
+                    <% for (let i = 1; i <= totalPages; i++) { %>
+                        <a href="?page=<%= i %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
+                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium <%= currentPage === i ? 'bg-gray-300' : 'hover:bg-gray-50' %>">
+                            <%= i %>
+                        </a>
+                    <% } %>
+            
+                    <% if (currentPage < totalPages) { %>
+                        <a href="?page=<%= currentPage + 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
+                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                            <span class="sr-only">Next</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    <% } %>
+                </nav>
+            </div>
+            
+            
              </div>
             </div>
            </section>
@@ -473,6 +442,49 @@
             </div>
         </footer>
     </main>
+
+
+
+<script>
+   document.getElementById('downloadPdf').addEventListener("click", function (event) {
+    event.preventDefault(); 
+
+    const period = document.getElementById('filterType')?.value || "all";
+    const startDate = document.getElementById("startDate")?.value || "";
+    const endDate = document.getElementById("endDate")?.value || "";
+
+    let url = `/admin/download-pdf?period=${period}`;
+    if (startDate) url += `&startDate=${startDate}`;
+    if (endDate) url += `&endDate=${endDate}`;
+
+    window.location.href = url;
+});
+</script>
+<script>
+    document.getElementById('downloadExcel').addEventListener("click",function(){
+        const period=document.getElementById('filterType')?.value||"all";
+        const startDate=document.getElementById("startDate")?.value||""
+        const endDate=document.getElementById("endDate")?.value||"";
+
+        let url = `/admin/download-excel?period=${period}`;
+        if (startDate) url += `&startDate=${startDate}`;
+        if (endDate) url += `&endDate=${endDate}`;
+
+        window.location.href = url;
+
+    })
+</script>
+
+
+
+
+
+
+
+
+
+
+
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="assets/js/vendors/select2.min.js"></script>

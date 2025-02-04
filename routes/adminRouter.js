@@ -64,5 +64,6 @@ router.post('/removeProductOffer',productController.removeProductOffer)
 //salesreports
 router.get('/salesreport',salesreportController.getSalesreport)
 
-
+router.get('/download-pdf', salesreportController.downloadPDF);
+router.get('/download-excel',salesreportController. downloadExcel);
 module.exports=router;
