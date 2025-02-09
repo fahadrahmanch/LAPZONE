@@ -1,22 +1,44 @@
 const Order=require("../../models/orderSchema");
 const Product=require("../../models/productSchema")
+const walletSchema=require("../../models/walletSchema");
+const { walletOrder } = require("../user/orderController");
 
-const orderInfo= async (req, res) => {
+
+const orderInfo = async (req, res) => {
     try {
-        // console.log("hi")
+      
+        const page = parseInt(req.query.page) || 1;
+        const limit =  10;
+        const skip = (page - 1) * limit;
+
+       
+        const order = await Order.find()
+            .populate("userId", "name email")
+            .sort({ createdAt: -1 }) 
+            .skip(skip) 
+            .limit(limit);
+
+            console.log(order)
+      
+        const totalOrders = await Order.countDocuments();
+
+     
+        const totalPages = Math.ceil(totalOrders / limit);
+
         
-      const order = await Order.find()
-        .populate("userId", "name email")
-        // .populate("items.productId") 
-        // .sort({ orderDate: -1 }); 
-        //  console.log("orders",order)
-  
-      res.render("admin/orders", { order });
+        res.render("admin/orders", {
+            order,
+            currentPage: page,
+            totalPages,
+            limit
+        });
     } catch (error) {
-      console.error("Error fetching orders:", error);
-      res.status(500).render("error", { message: "Failed to load orders" });
-    }
-  };
+        console.error("Error fetching orders:", error);
+        res.status(500).render("error", { message: "Failed to load orders" });
+    }
+};
+
+module.exports = { orderInfo };
 
 const orderDetails=async(req,res)=>{
     try{
@@ -29,7 +51,7 @@ const orderDetails=async(req,res)=>{
         model:"User"
      }).populate({path:'orderedItems.Product',model:'Product'})
     
-     console.log("heloooo",details)
+    //  console.log("heloooo",details)
      res.render('admin/orderDetails',{details})
     }
     catch(error){
@@ -38,18 +60,18 @@ const orderDetails=async(req,res)=>{
 }
 const Variants = []; 
 const updateOrderstatus=async(req,res)=>{
-    console.log("work")
+    console.log("workdsss")
     
     try{
      const {status,orderId}=req.body;
-    
+      
      console.log(orderId,status)
      let order= await Order.findOne({orderId});
      if(!order){
         return res.status(400).json({success:false,message:"order not found"})
      }
      console.log("ordered",order)
-     if(order.status=='Delivered'||order.status=='Cancelled'){
+     if(order.status=='Delivered'||order.status=='Cancelled'||order.status==='Returned'){
         
       
         return res.status(401).json({
@@ -59,6 +81,17 @@ const updateOrderstatus=async(req,res)=>{
 
     }
     order.status=status;
+
+    for (let i = 0; i < order.orderedItems.length; i++) {
+      let item = order.orderedItems[i]; 
+      for (let key in item) {
+        if(key=="status"&&item[key]!="Cancelled"){
+          item[key]=status
+        }
+          
+
+      }
+  }
     if(order.status=='Cancelled'){
       for(let item of order.orderedItems){
         const product = await Product.findOne({
@@ -98,17 +131,219 @@ const updateOrderstatus=async(req,res)=>{
 const returnProduct=async(req,res)=>{
   try{
  const orderId=req.params.id
- const order=await Order.findOne({orderId})
- console.log("order",order)
+
+const order=await Order.findOne({orderId})
+const userId=order.userId
+
  order.returnRequest.status='Approved';
  order.status='Returned';
+for (let item of order.orderedItems) {
+  console.log("item", item);
+  
+  if (typeof item == "object") {
+    for (let k in item) {
+      if (k == "status"&&item[k]!=='Cancelled') {
+        item.status = "Returned"; 
+        const product = await Product.findById(item.Product);
+if (product) {
+  let variant = product.variants.id(item.variants); 
+  console.log('variant',variant)
+  if (variant) {
+    variant.stock += item.quantity; 
+  }
+  await product.save(); 
+}
+        console.log(item)
+      }
+    }
+  }
+}
+
+
+ console.log("order",order)
+ const Wallet=await walletSchema.findOne({userId});
+      console.log("wallet",Wallet)
+      if(!Wallet){
+      const newWallet= new walletSchema({
+        userId,
+        totalBalance:order.finalAmount,
+        transactions:[{
+          type:'Refund',
+          amount:order.finalAmount,
+          orderId:order.orderId,
+          // description:
+        }]
+      })
+      // console.log("newWalllet",Wallet)
+      await newWallet.save()
+      }else{
+        Wallet.totalBalance += order.finalAmount;
+                Wallet.transactions.push({
+                    type: 'Refund',
+                    amount: order.finalAmount,
+                    orderId:order.orderId,
+                      date: new Date()
+                });
+                await Wallet.save()
+      }
  await order.save();
  return res.redirect('/admin/orders')
- console.log(order)
+
   }
   catch(error){
     console.log(error)
   }
 }
 
-module.exports={orderInfo,orderDetails,updateOrderstatus,returnProduct}
+const rejectProduct = async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: "Order ID is required." });
+    }
+
+    const order = await Order.findOne({ orderId });
+    if (!order) {
+      return res.status(404).json({ success: false, message: "Order not found." });
+    }
+
+    order.returnRequest.status = "Rejected";
+    order.status = "Rejected";
+
+    for (let item of order.orderedItems) {
+      if (typeof item === "object" && item.status === "Return Request") {
+        console.log("item", item);
+        item.status = "Rejected";
+      }
+    }
+
+    await order.save();
+
+    return res.redirect(`/admin/orderdetails/${orderId}`);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Internal server error." });
+  }
+};
+
+
+
+
+
+
+
+
+
+let refundAmount = 0;
+
+const approvereturn= async (req, res) => {
+  try {
+      const { orderId, productId } = req.body;
+      console.log(true)
+      console.log(req.body)
+       
+      const order=await Order.findOne({orderId})
+      const userId=order.userId._id
+      console.log('userId',userId)
+      let productVariantId = null; 
+      order.orderedItems.forEach((item) => {
+        if (item._id.toString() === productId.toString()) {
+     
+  
+          if (item.status === "Return Request") {
+            item.status = "Returned";
+            refundAmount = item.price; 
+            productVariantId = item.variants
+         
+          }
+        }
+      });
+      const product = await Product.findOne({ "variants._id": productVariantId });
+      if (product) {
+        product.variants.forEach((variant) => {
+          if (variant._id.toString() === productVariantId.toString()) {
+            variant.stock += 1; 
+          }
+        });
+        await product.save();
+      }
+
+      const wallet=await walletSchema.findOne({userId:userId})
+      if (!wallet) {
+        const newWallet = new walletSchema({
+          userId,
+          totalBalance: refundAmount,
+          transactions: [
+            {
+              type: "Refund",
+              amount: refundAmount,
+              orderId: order.orderId,
+              date: new Date(),
+            },
+          ],
+        });
+  
+        console.log("New Wallet:", newWallet);
+        await newWallet.save();
+      } else {
+        wallet.totalBalance += refundAmount;
+        wallet.transactions.push({
+          type: "Refund",
+          amount: refundAmount,
+          orderId: order.orderId,
+          date: new Date(),
+        });
+  
+        await wallet.save();
+      }
+  
+
+      console.log("wallet",wallet)
+      const allreturn = order.orderedItems.every(item => item.status === "Returned");
+
+      if (allreturn) {
+          console.log(" All items are Returned!");
+          console.log('orders',order)
+          order.status='Returned'
+      } else {
+          console.log(" Some items are not Returned.");
+      }
+      await order.save()
+      // console.log("product",product)
+      console.log('Order',order)
+      res.json({ success: true, message: "Return request approved." });
+  } catch (error) {
+    console.log(error)
+      res.status(500).json({ success: false, message: "Error approving return request." });
+  }
+};
+
+
+const rejectreturn=async(req,res)=>{
+  try{
+    const { orderId, productId } = req.body;
+    const order=await Order.findOne({orderId})
+    const userId=order.userId._id
+    console.log('userId',userId)
+    let productVariantId = null; 
+    order.orderedItems.forEach((item) => {
+      if (item._id.toString() === productId.toString()) {
+   
+
+        if (item.status === "Return Request") {
+          item.status = "Rejected";
+          
+       
+        }
+      }
+    });
+    await order.save()
+    return res.json({success:true})
+  }
+  catch(error){
+    console.log(error)
+  }
+}
+
+
+module.exports={orderInfo,orderDetails,updateOrderstatus,returnProduct,approvereturn,rejectProduct,rejectreturn }

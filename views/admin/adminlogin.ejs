@@ -67,7 +67,7 @@
             <div class="card mx-auto card-login">
                 <div class="card-body">
                     <h4 class="card-title mb-4">Sign in</h4>
-                    <form action="/admin/login" method="POST" id="adminloginForm">
+                    <form action="/admin/login" method="POST" id="adminloginForm" target="_self" >
                         <span class="text-danger"><%=message%></span>
                         <div class="mb-3">
                             <input class="form-control" id="email" placeholder="Username or email" type="text" name="email" oninput="validateEmail()">

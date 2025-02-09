@@ -17,11 +17,44 @@ const pageNotFound=async (req,res)=>{
 const loadHomepage=async(req,res)=>{
     try{
       const products= await product.find({})
+      const productWithoffer=products.map(product=>{
+        const productOffer=product.productOffer||0
+        const categoryOffer= product.category?.categoryOffer || 0;
+        const bestOffer=Math.max(productOffer,categoryOffer)
+        
+        let finalProduct={
+          ...product.toObject(),
+          bestOffer,
+          offerType: bestOffer === productOffer ? "Product Offer" : "Category Offer",
+          
+          
+          
+        }
+     
+        if (bestOffer > 0) {
+          for(let i=0;i<product.variants.length;i++){
+            console.log("product.variants[i].salePrice",product.variants[i].salePrice)
+          const offerPrice = product.variants[i].salePrice - (product.variants[i].salePrice * (bestOffer / 100));
+          console.log(offerPrice)
+          
+          finalProduct.variants[i].salePrice =offerPrice
+          if(offerPrice){
+            console.log(" finalProduct.variants[i]", finalProduct.variants[i])
+          }
+          // finalProduct.product.variants[i].offerPrice = Math.round(offerPrice);
+          }
+        }
+    
+        // console.log("finalproductttt",finalProduct,product)
+        return finalProduct;
+       })
+       console.log("productWithoffer",productWithoffer[0].variants)
       // console.log(products)
-    await res.render("user/home",{message:req.session.user,products:products})
+    await res.render("user/home",{message:req.session.user,products:productWithoffer})
     }
     catch(error){
        console.log("home page not found");
+       console.log(error)
        res.status(500).send("server error")
     }
 
@@ -93,7 +126,7 @@ const signup = async(req,res)=>{
      const emailSent = await sendVerificationEmail(email,otp)
     
      if(!emailSent){
-      return res.json("email-error") ;
+      return  res.redirect("/pagenotfound")
      } 
      req.session.userOtp=otp;
      req.session.userData={name,phone,email,password}
@@ -178,11 +211,15 @@ const login=async(req,res)=>{
     const {email,password}=req.body;
     req.session.error=''
     const user=await User.findOne({email});
-    
+    console.log(user)
     if(!user){
       req.session.error="user does not exist";
        return res.redirect("/login")
     } 
+    if(user.isBlocked===true){
+      req.session.error="user is blocked";
+      return res.redirect("/login")
+    }
    
     const isMatch = await bcrypt.compare(password,user.password);
    

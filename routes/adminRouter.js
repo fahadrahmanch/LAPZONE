@@ -57,6 +57,7 @@ router.post("/addCatOffer",categoriesController.addOffer)
 router.post('/removeCatOffer',categoriesController.removeCatOffer)
 
 router.post('/approve/:id',orderController.returnProduct)
+router.post('/reject/:id',orderController.rejectProduct)
 
 router.post('/addproductOffer',productController.addOffer)
 router.post('/removeProductOffer',productController.removeProductOffer)
@@ -66,4 +67,7 @@ router.get('/salesreport',salesreportController.getSalesreport)
 
 router.get('/download-pdf', salesreportController.downloadPDF);
 router.get('/download-excel',salesreportController. downloadExcel);
+
+router.post('/approve-return',orderController.approvereturn)
+router.post('/reject-return',orderController.rejectreturn)
 module.exports=router;

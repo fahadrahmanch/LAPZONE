@@ -55,11 +55,11 @@ const walletSchema = new mongoose.Schema({
             }
         }
     ],
-});
-walletSchema.pre('save', function (next) {
-    this.lastUpdated = Date.now();
-    next();
-});
+},{timestamps:true});
+// walletSchema.pre('save', function (next) {
+//     this.lastUpdated = Date.now();
+//     next();
+// });
 
 const Wallet = mongoose.model('Wallet', walletSchema);
 module.exports = Wallet;

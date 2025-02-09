@@ -55,6 +55,7 @@ router.post('/cart/delete-product',cartController.deleteCartProduct)
 router.get('/checkout',checkoutController.getCheckout)
 router.post('/createOrder',orderController.createOrder)
 router.get("/orderConfirm/:id",orderController.renderConfirmorder)
+router.post('/createOrderwallet',orderController.walletOrder)
 router.post("/apply-coupon",checkoutController.applyCoupen)
 
 
@@ -72,6 +73,16 @@ router.get('/viewOrders/:id',orderController.orderDetails)
 router.post('/cancelorder',orderController.cancelOrder)
 router.post('/api/submit-return',orderController.refund)
 // router.get('/search',shopController.searchInfo)
+router.post('/productCancel',orderController.productCancel)
+
+router.post('/return-product',orderController.returnproduct)
+
+//pdf
+router.get('/download-pdf/:orderId',orderController.pdf)
+
+
+  
+  
 
 router.get('/logout',userController.logout)
 // router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{

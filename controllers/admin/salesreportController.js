@@ -19,7 +19,7 @@ const getSalesreport = async (req, res) => {
         const endDate = req.query.endDate;
         // console.log(req.query)
 
-        let filterQuery = {};
+        let filterQuery = {status: "Delivered"};
          
         // if(period!=="all"){
         //     let start,endDate
@@ -125,8 +125,7 @@ const getSalesreport = async (req, res) => {
                 }
             }
         ]);
-
-
+     
         const overallamount = totals.length > 0 ? totals[0].totalAmount : 0;
         const overallDiscount = totals.length > 0 ? totals[0].totalDiscount : 0;
 
@@ -134,6 +133,7 @@ const getSalesreport = async (req, res) => {
             overallamount,
             overallDiscount,
             orders,
+            count:salesCount,
             period:  'all',
             currentPage: page,
             totalPages,

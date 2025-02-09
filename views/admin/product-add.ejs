@@ -163,7 +163,7 @@
 
                             <!-- form Starter -->
 
-                            <form method="POST" action="/admin/addProducts"  enctype="multipart/form-data" onsubmit=" validateAndSubmit()">
+                            <form method="POST" action="/admin/addProducts"  enctype="multipart/form-data" onsubmit=" return validateAndSubmit()">
                                 <div class="mb-4">
                                     <label for="product_name" class="form-label">Product Name</label>
                                     <input type="text" placeholder="Type here"  name="productName"
@@ -238,16 +238,16 @@
                                       <div class="row g-3">
                                         <div class="col-md-6">
                                           <label for="regularPrice-0" class="form-label">Regular Price</label>
-                                          <input type="number" class="form-control" name="variants[0][regularPrice]" id="regularPrice-0" placeholder="Enter regular price" required>
+                                          <input type="number" class="form-control" name="variants[0][regularPrice]" id="regularPrice-0" placeholder="Enter regular price">
                                         </div>
                                         <div class="col-md-6">
-                                          <label for="salePrice-0" class="form-label">Sale Price</label>
-                                          <input type="number" class="form-control" name="variants[0][salePrice]" id="salePrice-0" placeholder="Enter sale price" required>
+                                            <label for="salePrice-0" class="form-label">Sale Price</label>
+                                            <input type="number" class="form-control" name="variants[0][salePrice]" id="salePrice-0" placeholder="Enter sale price">
                                         </div>
                                       </div>
                                       <div class="mb-3 mt-3">
                                         <label for="stock-0" class="form-label">Stock</label>
-                                        <input type="number" class="form-control" name="variants[0][stock]" id="stock-0" placeholder="Enter stock quantity" required>
+                                        <input type="number" class="form-control" name="variants[0][stock]" id="stock-0" placeholder="Enter stock quantity" >
                                       </div>
                                       <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
                                     </div>
@@ -409,52 +409,229 @@
         
         
         <script>
-           
-    function validateAndSubmit() {
+//            function validateAndSubmit() {
+//     // Clear all previous error messages
+//     const errorElements = document.querySelectorAll('.error-message');
+//     errorElements.forEach(element => element.innerHTML = '');
+
+//     let isValid = true;
+
+//     // Validate Product Name
+//     const productName = document.getElementById('product_name').value;
+//     if (!productName.trim()) {
+//         document.getElementById('productName-error').innerHTML = 'Product name is required';
+//         isValid = false;
+//     }
+
+//     // Validate Description
+//     const description = document.getElementById('descriptionid').value;
+//     if (!description.trim()) {
+//         document.getElementById('description-error').innerHTML = 'Description is required';
+//         isValid = false;
+//     }
+
+//     // Validate Variants
+//     const variantSections = document.querySelectorAll('.variant-section');
+//     if (variantSections.length === 0) {
+//         alert('At least one variant is required');
+//         isValid = false;
+//     }
+
+//     // Validate each variant
+//     variantSections.forEach((section, index) => {
+//         // RAM validation
+//         const ram = section.querySelector(`#ram-${index}`).value;
+//         if (!ram.trim()) {
+//             section.querySelector(`#ram-${index}`).insertAdjacentHTML(
+//                 'afterend',
+//                 `<div class="error-message" style="color: red;">RAM is required</div>`
+//             );
+//             isValid = false;
+//         }
+
+//         // Processor validation
+//         const processor = section.querySelector(`#processor-${index}`).value;
+//         if (!processor.trim()) {
+//             section.querySelector(`#processor-${index}`).insertAdjacentHTML(
+//                 'afterend',
+//                 `<div class="error-message" style="color: red;">Processor is required</div>`
+//             );
+//             isValid = false;
+//         }
+
+//         // Storage validation
+//         const storage = section.querySelector(`#storage-${index}`).value;
+//         if (!storage.trim()) {
+//             section.querySelector(`#storage-${index}`).insertAdjacentHTML(
+//                 'afterend',
+//                 `<div class="error-message" style="color: red;">Storage is required</div>`
+//             );
+//             isValid = false;
+//         }
+
+//         // Regular Price validation
+//         const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
+//         if (!regularPrice || regularPrice <= 0) {
+//             section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+//                 'beforeend',
+//                 `<div class="error-message" style="color: red;">Valid regular price is required</div>`
+//             );
+//             isValid = false;
+//         }
+
+//         // Sale Price validation
+//         const salePrice = section.querySelector(`#salePrice-${index}`).value;
+//         if (salePrice && Number(salePrice) >= Number(regularPrice)) {
+//             section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+//                 'beforeend',
+//                 `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
+//             );
+//             isValid = false;
+//         }
+
+//         // Stock validation
+//         const stock = section.querySelector(`#stock-${index}`).value;
+//         if (!stock || stock < 0) {
+//             section.querySelector(`#stock-${index}`).insertAdjacentHTML(
+//                 'afterend',
+//                 `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
+//             );
+//             isValid = false;
+//         }
+//     });
+
+//     // Image validation
+//     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+//     let hasImage = false;
+//     imageInputs.forEach(input => {
+//         if (input.files.length > 0) {
+//             hasImage = true;
+//         }
+//     });
+
+//     if (!hasImage) {
+//         document.getElementById('images-error').innerHTML = 'At least one image is required';
+//         isValid = false;
+//     }
+
+//     // Prevent form submission if validation fails
+//     if (!isValid) {
+//         alert('Please correct the errors before submitting.');
+//     }
+
+//     return isValid;
+// }
+
+function validateAndSubmit() {
+    // Clear all previous error messages
     const errorElements = document.querySelectorAll('.error-message');
     errorElements.forEach(element => element.innerHTML = '');
 
     let isValid = true;
 
-   
+    // Validate Product Name
     const productName = document.getElementById('product_name').value;
     if (!productName.trim()) {
         document.getElementById('productName-error').innerHTML = 'Product name is required';
         isValid = false;
     }
 
-   
+    // Validate Description
     const description = document.getElementById('descriptionid').value;
     if (!description.trim()) {
         document.getElementById('description-error').innerHTML = 'Description is required';
         isValid = false;
     }
 
-   
-    const regularPrice = document.querySelector('input[name="regularPrice"]').value;
-    if (!regularPrice || regularPrice <= 0) {
-        document.getElementById('regularPrice-error').innerHTML = 'Valid regular price is required';
+    // Validate Variants
+    const variantSections = document.querySelectorAll('.variant-section');
+    if (variantSections.length === 0) {
+        alert('At least one variant is required');
         isValid = false;
     }
 
-   
-    const salePrice = document.querySelector('input[name="salePrice"]').value;
-    if (salePrice && Number(salePrice) >= Number(regularPrice)) {
-        document.getElementById('salePrice-error').innerHTML = 'Sale price must be less than regular price';
-        isValid = false;
-    }
+    // Validate each variant
+    variantSections.forEach((section, index) => {
+        // RAM validation
+        const ram = section.querySelector(`#ram-${index}`).value;
+        if (!ram.trim()) {
+            section.querySelector(`#ram-${index}`).insertAdjacentHTML(
+                'afterend',
+                `<div class="error-message" style="color: red;">RAM is required</div>`
+            );
+            isValid = false;
+        }
 
-   
-    const quantity = document.querySelector('input[name="quantity"]').value;
-    if (!quantity || quantity < 0) {
-        document.getElementById('quantity-error').innerHTML = 'Valid quantity is required';
-        isValid = false;
-    }
+        // Processor validation
+        const processor = section.querySelector(`#processor-${index}`).value;
+        if (!processor.trim()) {
+            section.querySelector(`#processor-${index}`).insertAdjacentHTML(
+                'afterend',
+                `<div class="error-message" style="color: red;">Processor is required</div>`
+            );
+            isValid = false;
+        }
 
-    const images = document.querySelector('input[name="images"]').value;
-    if (!images) {
+        // Storage validation
+        const storage = section.querySelector(`#storage-${index}`).value;
+        if (!storage.trim()) {
+            section.querySelector(`#storage-${index}`).insertAdjacentHTML(
+                'afterend',
+                `<div class="error-message" style="color: red;">Storage is required</div>`
+            );
+            isValid = false;
+        }
+
+        // Regular Price validation
+        const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
+        if (!regularPrice || regularPrice <= 0) {
+            section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+                'beforeend',
+                `<div class="error-message" style="color: red;">Valid regular price is required</div>`
+            );
+            isValid = false;
+        }
+
+        // Sale Price validation
+        const salePrice = section.querySelector(`#salePrice-${index}`).value;
+        if (salePrice) {
+            if (Number(salePrice) > Number(regularPrice)) {
+                section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+                    'beforeend',
+                    `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
+                );
+                isValid = false;
+            }
+        }
+
+        // Stock validation
+        const stock = section.querySelector(`#stock-${index}`).value;
+        if (!stock || stock < 0) {
+            section.querySelector(`#stock-${index}`).insertAdjacentHTML(
+                'afterend',
+                `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
+            );
+            isValid = false;
+        }
+    });
+
+    // Image validation
+    const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+    let hasImage = false;
+    imageInputs.forEach(input => {
+        if (input.files.length > 0) {
+            hasImage = true;
+        }
+    });
+
+    if (!hasImage) {
         document.getElementById('images-error').innerHTML = 'At least one image is required';
         isValid = false;
+    }
+
+    // Prevent form submission if validation fails
+    if (!isValid) {
+        alert('Please correct the errors before submitting.');
     }
 
     return isValid;

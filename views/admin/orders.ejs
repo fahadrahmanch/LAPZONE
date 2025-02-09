@@ -222,10 +222,17 @@
                                 <%for(let i=0;i<order.length;i++){%>
                                 <tr>
                                     <td><%=order[i].orderId%></td>
-                                    <td><b><%=order[i].userId.name%></b></td>
-                                    <td><%=order[i].userId.email%></td>
+                                    <td><b><%=order[i].userId?.name%></b></td>
+                                    <td><%=order[i].userId?.email%></td>
                                     <td><%=order[i].finalAmount%></td>
-                                    <td><span class="badge rounded-pill alert-warning"><%=order[i].status%></span></td>
+                                    <% let hasReturnRequest = order[i].orderedItems.some(item => item.status === "Return Request"); %>
+        <td>
+            <% if (hasReturnRequest) { %>
+                <span class="badge rounded-pill alert-warning">Return Request</span>
+            <% } else { %>
+                <span class="badge rounded-pill alert-warning"><%=order[i].status%></span>          <% } %>
+        </td>
+                                    
                                     <td><%=order[i].createdOn%></td>
                                     <td class="text-end">
                                         <a href="/admin/orderdetails/<%=order[i]._id%>" class="btn btn-md rounded font-sm">Detail</a>
@@ -241,12 +248,16 @@
             <div class="pagination-area mt-15 mb-50">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-start">
-                        
+                        <%for(let i=1;i<=totalPages;i++){%>
+                            <li class="page-item <%=( i === currentPage) ? 'active' : '' %>"><a class="page-link" href="?page=<%=i%>"><%=i%></a></li>
+                          <%}%>
+                         
                      
-                     
+
                     </ul>
                 </nav>
             </div>
+            
         </section> <!-- content-main end// -->
         <%- include('../partials/admin/footer') %>
     </main>

@@ -499,7 +499,7 @@
                         <h3 >login</h3>
                         
                         <span class="text-danger"><%=message%></span>
-                        <form action="/login" method="POST" id="userloginForm">
+                        <form action="/login" method="POST" id="userloginForm" target="_self" >
                             <div class="default-form-box">
                                 <label>Enter you email <span>*</span></label>
                                 <input type="text" name="email" id="email" oninput="validateEmail()">

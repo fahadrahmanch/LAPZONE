@@ -410,7 +410,7 @@
         <!-- Start Offcanvas Mobile Menu Wrapper -->
         <div class="offcanvas-wishlist-wrapper">
             <h4 class="offcanvas-title">Wishlist</h4>
-            <ul class="offcanvas-wishlist">
+            <!-- <ul class="offcanvas-wishlist">
                 <li class="offcanvas-wishlist-item-single">
                     <div class="offcanvas-wishlist-item-block">
                         <a href="#" class="offcanvas-wishlist-item-image-link">
@@ -465,9 +465,9 @@
                         <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
             <ul class="offcanvas-wishlist-action-button">
-                <li><a href="#" class="btn btn-block btn-pink">View wishlist</a></li>
+                <li><a href="/wishlist" class="btn btn-block btn-pink">View wishlist</a></li>
             </ul>
         </div> <!-- End Offcanvas Mobile Menu Wrapper -->
 
@@ -496,7 +496,9 @@
                 <div class="hero-single-slider-item swiper-slide">
                     <!-- Hero Slider Image -->
                     <div class="hero-slider-bg"  >
-                        <video src="https://www.apple.com/v/macbook-pro/an/images/overview/welcome/welcome_hero_startframe__gga2o8tw1meu_large.jpg" alt="" style="object-fit: fill;">
+                            <video autoplay muted loop >
+                            <source src="/video/VISID-regis-npi-desktop (1) (1).mp4" type="video/mp4">
+                          </video> 
                         <!-- <img src="assets/images/hero-slider/home-3/hero-slider-1.jpg" alt="" > -->
                     </div>
                     <!-- Hero Slider Content -->
@@ -518,11 +520,13 @@
                 <div class="hero-single-slider-item swiper-slide">
                     <!-- Hero Slider Image -->
                     <div class="hero-slider-bg">
-                        <!-- <img src="assets/images/hero-slider/home-3/hero-slider-2.jpg" alt=""> -->
-                        <img src="/pictures/mac banner.webp" alt="" style="object-fit: fill;">
+                        <!-- <img src="/video/0otvxbi6udsv9par-0_0_desktop_0_1.png" alt=""> -->
+                        <!-- <img src="/video/0otvxbi6udsv9par-0_0_desktop_0_1.png" alt="" > -->
+                        
+                          
                     </div>
                     <!-- Hero Slider Content -->
-                    <div class="hero-slider-wrapper">
+                    <!-- <div class="hero-slider-wrapper">
                         <div class="container">
                             <div class="row">
                                 <div class="col-auto">
@@ -534,7 +538,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div> <!-- End Hero Single Slider Item -->
             </div>
 
@@ -616,33 +620,78 @@
         <div class="banner-wrapper clearfix">
             <!-- Start Banner Single Item -->
             <a href="product-details-default.html">
-                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left"
-                    data-aos="fade-up" data-aos-delay="0">
+                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="0" style="position: relative;">
                     <div class="image">
-                        <img class="img-fluid" src="assets/images/banner/banner-style-7-img-1.jpg" alt="">
+                        <img class="img-fluid" src="/video/lenovo (2) 1.png" alt="">
+                        <!-- Text and Button inside the image, positioned at the bottom -->
+                        <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
+                            <h2 class="text-white">Ultra Portable</h2>
+                            <h3 class="text-white">Experience the Lenovo</h3>
+                            <button class="buy-now-btn">Buy Now</button>
+                        </div>
                     </div>
                 </div>
             </a>
-            <!-- End Banner Single Item -->
-            <!-- Start Banner Single Item -->
+            
+            <!-- Second Banner -->
             <a href="product-details-default.html">
-                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left"
-                    data-aos="fade-up" data-aos-delay="200">
+                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="200">
                     <div class="image">
-                        <img class="img-fluid" src="assets/images/banner/banner-style-7-img-2.jpg" alt="">
+                        <img class="img-fluid" src="/video/DELL 1.png" alt="">
+                        <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
+                            <h2 class="text-white">Explore the Power</h2>
+                            <h3 class="text-white">Dell XPS 13</h3>
+                            <button class="buy-now-btn">Buy Now</button>
+                        </div>
                     </div>
                 </div>
             </a>
-            <!-- End Banner Single Item -->
-            <!-- Start Banner Single Item -->
+            
+            <!-- Third Banner -->
             <a href="product-details-default.html">
-                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left"
-                    data-aos="fade-up" data-aos-delay="400">
+                <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="400">
                     <div class="image">
-                        <img class="img-fluid" src="assets/images/banner/banner-style-7-img-3.jpg" alt="">
+                        <img class="img-fluid" src="/video/apple 1.png" alt="">
+                        <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
+                            <h2 class="text-white">Innovation in Design</h2>
+                            <h3 class="text-white">Apple MacBook Pro</h3>
+                            <button class="buy-now-btn">Buy Now</button>
+                        </div>
                     </div>
                 </div>
             </a>
+            
+            <!-- CSS -->
+            <style>
+                .text-overlay h2, .text-overlay h3 {
+                    margin: 5px 0;
+                }
+            
+                .buy-now-btn {
+                    padding: 12px 25px; /* Adjust padding for a more attractive button */
+                    background-color: #ff7f00; /* Orange */
+                    color: white;
+                    border: none;
+                    border-radius: 25px; /* Rounded corners for a sleek look */
+                    font-size: 18px; /* Slightly larger text */
+                    font-weight: bold; /* Bold text for emphasis */
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    text-transform: uppercase; /* Uppercase text */
+                    letter-spacing: 1px; /* Slight space between letters */
+                    display: inline-block; /* Center the button */
+                }
+            
+                .buy-now-btn:hover {
+                    background-color: #e56c00; /* Darker Orange */
+                    transform: translateY(-5px); /* Button lift effect on hover */
+                }
+            
+                .buy-now-btn:focus {
+                    outline: none; /* Remove outline on focus */
+                }
+            </style>
+            
             <!-- End Banner Single Item -->
         </div>
     </div>
@@ -676,28 +725,32 @@
                                 <!-- Additional required wrapper -->
                                 <div class="swiper-wrapper">
                                     <!-- Start Product Default Single Item -->
-                                     <%for(let i=0;i<1;i++){%>
+                                     <%for(let i=0;i<8;i++){%>
                                     <div class="product-default-single-item product-color--pink swiper-slide">
                                         <div class="image-box">
                                             <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
                                                 
                                                 <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
-                                                <!-- <img src="assets/images/product/default/home-3/default-2.jpg" alt=""> -->
+                                                <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
                                             </a>
                                             <div class="tag">
                                                 <span>sale</span>
                                             </div>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a onclick="addToCart('<%=products[i]._id%>',1)" href="" data-bs-toggle="modal"
-                                                        data-bs-target="#modalAddcart">Add to Cart</a>
-                                                </div>
+                                                    <a onclick="addToCart('<%= products[i]._id %>', 1, `<%= JSON.stringify(products[i]).replace(/`/g, '\\`') %>`)" 
+                                                        href="#" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#modalAddcart">
+                                                        Add to Cart
+                                                     </a>
+                                                                                                     </div>
                                                 <div class="action-link-right">
-                                                    <a href="#" data-bs-toggle="modal"
+                                                    <!-- <a href="#" data-bs-toggle="modal"
                                                         data-bs-target="#modalQuickview"><i
-                                                            class="icon-magnifier"></i></a>
-                                                    <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                    <a href="compare.html"><i class="icon-shuffle"></i></a>
+                                                            class="icon-magnifier"></i></a> -->
+                                                    <!-- <a href="wishlist.html"><i class="icon-heart"></i></a> -->
+                                                    <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -713,7 +766,7 @@
                                                 </ul>
                                             </div>
                                             <div class="content-right">
-                                                <span class="price ">$ <%=products[i].variants[0].regularPrice%></span>
+                                                <span class="price ">₹ <%=products[i].variants[0].salePrice%></span>
                                             </div>
 
                                         </div>
@@ -723,12 +776,17 @@
                                   
                                     <!-- Start Product Default Single Item -->
                                   
-                                    <%for(let i=0;i<1;i++){%>
+                                    <%for(let i=8;i<10;i++){%>
                                         <div class="product-default-single-item product-color--pink swiper-slide">
                                             <div class="image-box">
+                                                <%if(products[i].productOffer >0){%>
+                                                    <div class="offer-badge">
+                                                        <span><%= products[i].productOffer %>% OFF</span>
+                                                    </div>
+                                                <%}%>
                                                 <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
                                                     <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
-                                                    <!-- <img src="assets/images/product/default/home-3/default-3.jpg" alt=""> -->
+                                                    <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
@@ -756,7 +814,7 @@
                                                     </ul>
                                                 </div>
                                                 <div class="content-right">
-                                                    <span class="price">$ <%=products[i].variants[0].regularPrice%></span>
+                                                    <span class="price">₹ <%=products[i].variants[0].salePrice%></span>
                                                 </div>
     
                                             </div>
@@ -776,7 +834,140 @@
             </div>
         </div>
     </div>
+    
+
+      <div class="banner-section section-top-gap-100">
+        <div class="banner-wrapper clearfix">
+            <!-- Start Banner Single Item -->
+            <a href="product-details-default.html">
+                <div class="banner-single-item banner-style-8 banner-animation banner-color--green float-left"
+                    data-aos="fade-up" data-aos-delay="0">
+                    <div class="image">
+                        <img class="img-fluid"  src="/video/lenovo banner 23.png" alt="">
+                    </div>
+                </div>
+            </a>
+            <!-- End Banner Single Item -->
+            <!-- Start Banner Single Item -->
+            <a href="product-details-default.html">
+                <div class="banner-single-item banner-style-8 banner-animation banner-color--green float-left"
+                    data-aos="fade-up" data-aos-delay="200">
+                    <div class="image">
+                        <img class="img-fluid" src="assets/images/banner/banner-style-8-img-2.jpg" alt="">
+                    </div>
+                </div>
+            </a>
+            <!-- End Banner Single Item -->
+        </div>
+    </div>
+
+
+    
     <!-- End Product Default Slider Section -->
+
+    <div class="product-default-slider-section section-fluid section-inner-bg">
+        <!-- Start Section Content Text Area -->
+        <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-content-gap">
+                            <div class="secton-content">
+                                <h3 class="section-title">BEST SELLERS</h3>
+                                <p>Add our best sellers to your weekly lineup.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Start Section Content Text Area -->
+        <div class="product-wrapper" data-aos="fade-up" data-aos-delay="0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="product-slider-default-1row default-slider-nav-arrow">
+                            <!-- Slider main container -->
+                            <div class="swiper-container product-default-slider-4grid-1row">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper">
+                                    <!-- End Product Default Single Item -->
+                                    <%for(let i=0;i<10;i++){%>
+                                    <!-- Start Product Default Single Item -->
+                                    <div class="product-default-single-item product-color--pink swiper-slide">
+                                        <div class="image-box">
+                                            <%if(products[i].productOffer >0){%>
+                                                <div class="offer-badge">
+                                                    <span><%= products[i].productOffer %>% OFF</span>
+                                                </div>
+                                            <%}%>
+                                            <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
+                                                <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
+                                                <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
+                                            </a>
+                                            <div class="action-link">
+                                                <div class="action-link-left">
+                                                    <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="" data-bs-toggle="modal"
+                                                        data-bs-target="#modalAddcart">Add to Cart</a>
+                                                </div>
+                                                <div class="action-link-right">
+                                                    <!-- <a href="#" data-bs-toggle="modal"
+                                                        data-bs-target="#modalQuickview"><i
+                                                            class="icon-magnifier"></i></a> -->
+                                                            <!-- <a href="wishlist.html" class="wishlist-link" 
+                                                            data-product-id="<%= products[i]._id %>" 
+                                                            data-variant-id="<%= products[i].variants[0]._id %>"
+                                                            data-in-wishlist="<%= products[i].isInWishlist %>">
+                                                           <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="<%= products[i].isInWishlist ? 'red' : 'none' %>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                                           </svg>
+                                                         </a> -->
+                                                         <style>
+                                                            .wishlist-heart {
+                                                              cursor: pointer; /* Make it look clickable */
+                                                              transition: fill 0.3s ease; /* Smooth transition for fill color */
+                                                            }
+                                                          
+                                                            .wishlist-heart:hover {
+                                                              fill: #fef7f79d; /* Add a light red hover effect */
+                                                            }
+                                                          </style>
+                                                    <!-- <a href="compare.html"><i class="icon-shuffle"></i></a> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="content">
+                                            <div class="content-left">
+                                                <h6 class="title"><a href="product-details-default.html"><%=products[i].productName%></a></h6>
+                                                <ul class="review-star">
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="fill"><i class="ion-android-star"></i></li>
+                                                    <li class="empty"><i class="ion-android-star"></i></li>
+                                                </ul>
+                                            </div>
+                                            <div class="content-right">
+                                                <span class="price">₹ <%=products[i].variants[0].salePrice%></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <%}%>
+                                    <!-- End Product Default Single Item -->
+                                 
+                                </div>
+                            </div>
+                            <!-- If we need navigation buttons -->
+                            <div class="swiper-button-prev"></div>
+                            <div class="swiper-button-next"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Start Blog Slider Section -->
     <!-- <div class="blog-default-slider-section section-top-gap-100 section-fluid">
@@ -958,75 +1149,7 @@
     <!-- End Blog Slider Section -->
 
     <!-- Start Company Logo Section -->
-    <div class="company-logo-section section-top-gap-100 section-fluid">
-        <div class="company-logo-wrapper" data-aos="fade-up" data-aos-delay="0">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="company-logo-slider default-slider-nav-arrow">
-                            <!-- Slider main container -->
-                            <div class="swiper-container company-logo-slider">
-                                <!-- Additional required wrapper -->
-                                <div class="swiper-wrapper">
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-1.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-2.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-3.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-4.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-5.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-6.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-7.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                    <!-- Start Company Logo Single Item -->
-                                    <div class="company-logo-single-item swiper-slide">
-                                        <div class="image"><img class="img-fluid"
-                                                src="assets/images/company-logo/company-logo-8.png" alt=""></div>
-                                    </div>
-                                    <!-- End Company Logo Single Item -->
-                                </div>
-                            </div>
-                            <!-- If we need navigation buttons -->
-                            <div class="swiper-button-prev d-none d-md-block"></div>
-                            <div class="swiper-button-next d-none d-md-block"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
     <!-- End Company Logo Section -->
 
  
@@ -1090,7 +1213,8 @@
                 </div>
             </div>
         </div>
-    </div> End Modal Add cart -->
+    </div> 
+    End Modal Add cart -->
 
     <!-- Start Modal Quickview cart -->
     <div class="modal fade" id="modalQuickview" tabindex="-1" role="dialog" aria-hidden="true">
@@ -1305,6 +1429,7 @@
 <script>
     async function addToCart(product, qty, productDetails) {
         try {
+            console.log(productDetails)
             const productData = JSON.parse(productDetails);
             const response = await fetch('/addToCart', {
                 method: 'POST',
@@ -1352,7 +1477,93 @@
     }
 </script>
 
+<script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.wishlist-link').forEach(link => {
+    const heartIcon = link.querySelector('svg');
+    const productId = link.dataset.productId;
+    const variantId = link.dataset.variantId;
+    const isInWishlist = link.dataset.inWishlist === 'true';
 
+    // Set initial color based on whether it's in the wishlist
+    heartIcon.setAttribute('fill', isInWishlist ? 'red' : 'none');
 
+    link.addEventListener('click', async function (event) {
+      event.preventDefault();
 
+      const isCurrentlyInWishlist = heartIcon.getAttribute('fill') === 'red';
+      const newState = !isCurrentlyInWishlist;
+      heartIcon.setAttribute('fill', newState ? 'red' : 'none');
+
+      await toggleWishlist(productId, newState, variantId);
+    });
+  });
+});
+
+async function toggleWishlist(productId, isAdding, variantId) {
+  try {
+    const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId, variantId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: isAdding ? 'Added to Wishlist' : 'Removed from Wishlist',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Something went wrong!',
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while updating the wishlist. Please try again later.',
+    });
+    console.error(error);
+  }
+}
+  </script>
+</script>
+<style>
+    .offer-badge {
+    position: absolute;
+    top: 5px;  /* Reduced spacing */
+    right: 5px; /* Closer to the corner */
+    background: #61ff22; /* Eye-catching red-orange */
+    color: white;
+    padding: 3px 6px; /* Smaller padding */
+    border-radius: 4px; /* Less rounded */
+    font-size: 0.75rem; /* Smaller text */
+    font-weight: 600;
+    width: 2px;
+    text-align: center;
+    z-index: 10;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); /* Softer shadow */
+    line-height: 1;
+    min-width: 45px; /* Adjust for better fit */
+}
+
+/* Smaller and more subtle label */
+.offer-badge small {
+    font-size: 0.65rem;
+    opacity: 0.85;
+}
+
+</style>
 <%- include('../partials/user/footer.ejs') %>

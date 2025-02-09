@@ -8,6 +8,7 @@ const Coupen = require("../../models/coupenSchema");
 const getCheckout=async (req,res)=>{
     try{
         const user=req.session.user;
+        // req.session.Coupenamount=0
         // console.log(user)
         if(!user){
           return res.redirect('/')
@@ -22,8 +23,9 @@ const getCheckout=async (req,res)=>{
             },
           })
           .lean();
-         
+         if(!cart){return res.redirect('/')}
           cart.items = cart.items.map((item) => {
+          
             const variantId = item.variantId;
       
             const variant = item.productId.variants.find(
@@ -33,7 +35,7 @@ const getCheckout=async (req,res)=>{
             item.variant = variant;
             return item;
           });
-          
+          console.log("cart",cart.items)
           // console.log("cart.itemscart.items",cart.items )
 
           const checkoutwithoffer=cart.items.map((item)=>{
@@ -111,6 +113,7 @@ const getCheckout=async (req,res)=>{
           activeCoupens,
           addressData, 
           totalAmount,
+          coupenAmount:req.session.Coupenamount||0,
           Disount: req.session.totalDiscount ||0,
           message:req.session.user||""
         });
@@ -134,12 +137,13 @@ const applyCoupen=async(req,res)=>{
    }
    
    const totalDiscountAmount = (req.session.totalDiscount || 0) + discount.offerPrice;
- 
+  const discountPrice=discount.offerPrice
+  
 
    req.session.totalDiscount = totalDiscountAmount;
    console.log(req.session.totalDiscount)
    const final=totalAmount-discount.offerPrice
-    return res.status(200).json({success:true,message:final})
+    return res.status(200).json({success:true,message:final,discountPrice})
   }
   catch(error){
   console.log(error)

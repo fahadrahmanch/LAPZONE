@@ -15,6 +15,7 @@ app.use(nocache());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.set("view engine","ejs");
+
 app.use(express.static(path.join(__dirname,"public")))
 app.set("views",[path.join(__dirname,"views")])
 // app.use(fileUpload())
@@ -24,6 +25,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false ,httpOnly:true,maxAge:72*60*60*1000} // Set to true if using HTTPS
+  }));
+  app.use('/video', express.static(path.join(__dirname, 'public/videos'), {
+    setHeaders: (res) => {
+      res.setHeader('Content-Type', 'video/mp4');
+    }
   }));
 // app.set("views",[path.join(__dirname,"views.user"),path.join(__dirname,"views.admin")])
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));

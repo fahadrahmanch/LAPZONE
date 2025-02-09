@@ -1,6 +1,6 @@
 const Cart = require("../../models/cartSchema");
 const User = require("../../models/userSchema");
-
+const mongoose=require("mongoose");
 const productSchema = require("../../models/productSchema");
 const getCart = async (req, res) => {
   try {
@@ -20,7 +20,8 @@ const getCart = async (req, res) => {
   })
   .lean();
 
-    console.log(cartItems)
+    // console.log("cartITEMSSSS",cartItems)
+    if(cartItems){
     cartItems.items = cartItems.items.map((item) => {
       const variantId = item.variantId;
 
@@ -33,10 +34,11 @@ const getCart = async (req, res) => {
       // console.log("item.variantIditem.variantId",item.variantId)
       return item;
     });
-    
+  }
 
     let subtotal = 0;
     let totalDiscount = 0;
+    if(cartItems){
     const cartwithOffer= cartItems.items.map((item)=>{
       const productOffer=item.productId.productOffer
       const categoryOffer=item.productId.category.categoryOffer
@@ -61,6 +63,7 @@ const getCart = async (req, res) => {
 
   
     })
+  }
 //     console.log("cartItems",cartItems)
 // console.log(cartwithOffer)
 
@@ -70,10 +73,11 @@ const getCart = async (req, res) => {
     // console.log("cartItems.items cartItems.items ",cartItems.items )
     if (!cartItems) {
       return res.render("user/cart", {
-        cart: null,
+        cart: [],
         products: [],
         totalAmount: 0,
         user: user,
+        message:req.session.user||"",
       });
     }
       const totalAmount = cartItems.items.reduce((sum, item) => {
@@ -82,10 +86,11 @@ const getCart = async (req, res) => {
       return sum + price
     }, 0);
     
-
+// console.log("cartcart",cartItems)
+// console.log("cartItemss",cartItems.items)
     res.render("user/cart", {
-      cart: cartItems,
-      products: cartItems.items,
+      cart: cartItems||[],
+      products: cartItems.items||"",
       totalAmount,
       message:req.session.user||"",
       user: user,
@@ -142,7 +147,7 @@ const postCart = async (req, res) => {
     if (existingItem) {
       const newQuantity = parseInt(existingItem.quantity) + parseInt(qty);
       console.log(newQuantity);
-      if (newQuantity >= 5) {
+      if (newQuantity >= 6) {
         return res.status(400).json({
           success: false,
           message: "Maximum 5 items allowed per product",
@@ -256,22 +261,21 @@ const updateqty = async (req, res) => {
 
 const deleteCartProduct = async (req, res) => {
   const { productId , variantId} = req.body;
-  try {
-    const cart = await Cart.findOneAndUpdate(
-      { "items.productId": productId },
-      { $pull: { items: { productId: productId, variantId:variantId } } },
-      { new: true }
-    );
+  let userId=req.session.user
 
-    if (!cart) {
-      return res.status(404).json({ error: "Cart or product not found." });
-    }
 
-    return res.status(200).json({ message: "Product removed from cart." });
-  } catch (error) {
-    console.error("Error deleting product from cart:", error);
-    return res.status(500).json({ error: "Internal server error." });
+  const cart = await Cart.findOneAndUpdate(
+    { userId: userId }, 
+    { $pull: { items: { variantId: variantId } } }, 
+    { new: true } 
+  );
+  
+  if (!cart) {
+    return res.status(404).json({ error: "Cart or variant not found." });
   }
+  
+  return res.status(200).json({ message: "Variant removed from cart.", cart });
+
 };
 
 module.exports = { getCart, postCart, updateqty, deleteCartProduct };

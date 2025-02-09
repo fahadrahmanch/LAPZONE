@@ -612,11 +612,9 @@
     <div class="input-group">
         <select id="couponSelect" class="form-control">
             <option value="" selected>Select a coupon</option>
-            <%for(let i=0;i<activeCoupens.length;i++){%>
-                <option value="<%=activeCoupens[i].name%>"><%=activeCoupens[i].name%></option>
-                <%}%>
-           
-           
+            <% for(let i = 0; i < activeCoupens.length; i++) { %>
+                <option value="<%= activeCoupens[i].name %>"><%= activeCoupens[i].name %></option>
+            <% } %>
         </select>
         <button id="couponButton" class="btn btn-md btn-black-default-hover" type="button">Apply</button>
     </div>
@@ -629,78 +627,98 @@
     const couponFeedback = document.getElementById("couponFeedback");
 
     let isCouponApplied = false;
-    let totalAmount='<%=totalAmount%>'
-    
+    let totalAmount = '<%= totalAmount %>'; // Ensure this is a number or convert it to a number
+
     couponButton.addEventListener("click", async () => {
-        const selectedCoupon = couponSelect.value; 
-        console.log(selectedCoupon)
+        const selectedCoupon = couponSelect.value;
 
-        console.log( 'selectedCoupon',selectedCoupon)
-        
         if (!isCouponApplied) {
-        
-           
             if (!selectedCoupon) {
-
                 couponFeedback.className = "text-danger";
+                couponFeedback.textContent = "Please select a coupon.";
                 return;
             }
-            let discount=
-        
-            couponFeedback.className = "text-success";
-            couponButton.textContent = "Remove"; 
-            isCouponApplied = true;
-            couponSelect.disabled = true; 
-          
-            const responst =await fetch('/apply-coupon',{
-                
-                method:'POST',
-            
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                body:JSON.stringify({totalAmount,selectedCoupon})
-            })
-            const result=await responst.json();
-            if(result.success){
-             await   Swal.fire({
-        title: 'Success!',
-        text: 'Coupon added successfully.',
-        icon: 'success',
-        confirmButtonText: 'OK'
-    });
-                const final = result.message;
-                 const finalAmount = document.getElementById('amountTotal');
-                finalAmount.value = `${final}`;
-                finalAmount.innerHTML=`${final}`;
 
-            }else{
-             await   Swal.fire({
-        title: 'Error!',
-        text: 'Failed to add the coupon. Please try again.',
-        icon: 'error',
-        confirmButtonText: 'Retry'
-    });
+            try {
+                const response = await fetch('/apply-coupon', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ totalAmount, selectedCoupon })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    await Swal.fire({
+                        title: 'Success!',
+                        text: 'Coupon added successfully.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                    console.log("discountPrice",result.discountPrice)
+                    const coupenElement = document.getElementById('COUPENAMOUNT');
+if (coupenElement) {
+    coupenElement.value = result.discountPrice; // For input elements
+    // OR
+    coupenElement.innerHTML = result.discountPrice; // For non-input elements
+}
+                    const finalAmount = document.getElementById('amountTotal');
+                    finalAmount.value = result.message;
+                    finalAmount.innerHTML = result.message;
+
+                    couponFeedback.className = "text-success";
+                    couponFeedback.textContent = "Coupon applied successfully.";
+                    couponButton.textContent = "Remove";
+                    isCouponApplied = true;
+                    couponSelect.disabled = true;
+                } else {
+                    
+                    await Swal.fire({
+                        title: 'Error!',
+                        text: 'Failed to add the coupon. Please try again.',
+                        icon: 'error',
+                        confirmButtonText: 'Retry'
+                    });
+
+                }
+            } catch (error) {
+                console.error('Error applying coupon:', error);
+                await Swal.fire({
+                    title: 'Error!',
+                    text: 'An error occurred while applying the coupon.',
+                    icon: 'error',
+                    confirmButtonText: 'Retry'
+                });
             }
-            
-
         } else {
+            const coupenElement = document.getElementById('COUPENAMOUNT');
+if (coupenElement) {
+    coupenElement.value = 0; // For input elements
+    // OR
+    coupenElement.innerHTML = 0; // For non-input elements
+}
+            await Swal.fire({
+                title: 'Success!',
+                text: 'Coupon removed successfully.',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+            console.log("Selected Coupon:", selectedCoupon)
+            window.location.reload()
+console.log("Selected Coupon:", selectedCoupon); 
 
             const finalAmount = document.getElementById('amountTotal');
-            await Swal.fire({
-            title: 'Success!',
-            text: 'Coupon removed successfully.',
-            icon: 'success',
-            confirmButtonText: 'OK'
-        });
-            finalAmount.value=`${totalAmount}`
-            finalAmount.innerHTML=`${totalAmount}`
-            console.log(`${totalAmount}`)
-            couponFeedback.textContent = ""; 
+            finalAmount.value = totalAmount;
+            finalAmount.innerHTML = totalAmount;
+
+            couponFeedback.textContent = "";
             couponButton.textContent = "Apply";
             isCouponApplied = false;
-            couponSelect.disabled = false; 
-            couponSelect.value = ""; 
+            couponSelect.disabled = false;
+            couponSelect.value = "";
+           
         }
     });
 </script>
@@ -730,6 +748,10 @@
                                         <tr>
                                             <th>Shipping</th>
                                             <td><strong>0</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Coupen Discount</th>   
+                                            <td id="COUPENAMOUNT"><strong><%=coupenAmount%></strong></td>
                                         </tr>
                                         <tr>
                                             <th>Discount</th>   
@@ -763,6 +785,12 @@
                                       <label class="radio-default" for="currencyCod">
                                         <input type="radio" id="currencyCod" name="paymentMethod" value="cod">
                                         <span>Cash on Delivery</span>
+                                      </label>
+                                    </div>
+                                    <div class="panel-default">
+                                      <label class="radio-default" for="currencyWallet">
+                                        <input type="radio" id="Wallet" name="paymentMethod" value="wallet">
+                                        <span>Wallet</span>
                                       </label>
                                     </div>
                                   </div>
@@ -1748,7 +1776,9 @@
                     window.location.href = `/orderConfirm/${data.newOrder._id}`; 
                 });
 
-            } else {
+            }
+            
+            else {
                 const errorData = await response.json();
                 Swal.fire({
                     icon: 'error',
@@ -1757,7 +1787,43 @@
                     confirmButtonText: 'Retry',
                 });
             }
-        }else{
+        }  else if(selectPayment==='wallet'){
+            // alert("asfkh")
+              const response = await fetch('/createOrderwallet', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ selectedAddressId, selectPayment, totalAMount,couponSelect,Disount })
+            });
+            const data = await response.json()
+            console.log(data)
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Order Placed Successfully!',
+                    text: 'Your order has been confirmed.',
+                    confirmButtonText: 'View Order',
+                    timer: 3000,
+                    timerProgressBar: true,
+                }).then(() => {
+                    window.location.href = `/orderConfirm/${data.newOrder._id}`; 
+                });
+
+            }
+            
+            else {
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Order Failed',
+                    text: data.message ,
+                    confirmButtonText: 'Retry',
+                });
+            }
+                
+            }
+        else{
           await  Swal.fire({
           icon: 'error',
           title: 'Order Failed',
@@ -1845,6 +1911,7 @@ window.addEventListener('click', (event) => {
     document.addEventListener('DOMContentLoaded', () => {
         const checkbox = document.getElementById('currencyCod'); 
         const raz=document.getElementById('currencyRazorpay')
+        const wallet=document.getElementById('Wallet')
         const proceedButton = document.getElementById('process'); 
       
         checkbox.addEventListener('change', () => {
@@ -1863,6 +1930,14 @@ window.addEventListener('click', (event) => {
                 proceedButton.disabled = true; 
             }
         });
+        wallet.addEventListener('change', () => {
+         
+         if (wallet.checked) {
+             proceedButton.disabled = false; 
+         } else {
+             proceedButton.disabled = true; 
+         }
+     });
 
         
       

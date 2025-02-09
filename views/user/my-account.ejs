@@ -446,7 +446,7 @@
       <!-- Start Offcanvas Mobile Menu Wrapper -->
       <div class="offcanvas-wishlist-wrapper">
         <h4 class="offcanvas-title">Wishlist</h4>
-        <ul class="offcanvas-wishlist">
+        <!-- <ul class="offcanvas-wishlist">
           <li class="offcanvas-wishlist-item-single">
             <div class="offcanvas-wishlist-item-block">
               <a href="#" class="offcanvas-wishlist-item-image-link">
@@ -530,10 +530,10 @@
               ></a>
             </div>
           </li>
-        </ul>
+        </ul> -->
         <ul class="offcanvas-wishlist-action-button">
           <li>
-            <a href="#" class="btn btn-block btn-golden">View wishlist</a>
+            <a href="/wishlist" class="btn btn-block btn-golden">View wishlist</a>
           </li>
         </ul>
       </div>
@@ -1357,7 +1357,67 @@
                     </tbody>
                   </table>
                 </div>
+
+                <div class="pagination">
+                  <!-- Previous Button -->
+                  <% if (totalPages > 1) { %>
+                    <a href="?page=<%= currentPage - 1 %>" class="prev-btn">Previous</a>
+                  <% } else { %>
+                    <span class="disabled">Previous</span>
+                  <% } %>
+                
+                  <!-- Page Numbers -->
+                  <% for (let i = 1; i <= totalPages; i++) { %>
+                    <a href="?page=<%= i %>" class="page <%= i === currentPage ? 'active' : '' %>"><%= i %></a>
+                  <% } %>
+                
+                  <!-- Next Button -->
+                  <% if (currentPage < totalPages) { %>
+                    <a href="?page=<%= currentPage + 1 %>" class="next-btn">Next</a>
+                  <% } else { %>
+                    <span class="disabled">Next</span>
+                  <% } %>
+                </div>
+
+              
+                <style>
+                  .pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination a, .pagination span {
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  color: #333;
+  border-radius: 4px;
+}
+
+.pagination a:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination .active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination .disabled {
+  color: #aaa;
+  pointer-events: none;
+  border-color: #ddd;
+}
+
+                </style>
+                
               </div>
+         
+              
               <div class="tab-pane fade" id="downloads">
                 <div class="wallet-section">
                   <div class="wallet-card">
@@ -1385,7 +1445,11 @@
                                       <span class="transaction-type credit"><%=wallet.transactions[i].type%></span>
                                       <span class="transaction-date"><%=wallet.transactions[i].date%></span>
                                   </div>
-                                  <span class="transaction-amount credit">+₹<%=wallet.transactions[i].amount%></span>
+                                  <%if(wallet.transactions[i].type=='Withdrawal'){%>
+                                  <span class="transaction-amount credit">-₹<%=wallet.transactions[i].amount%></span>
+                                  <%}else{%>
+                                    <span class="transaction-amount credit">+₹<%=wallet.transactions[i].amount%></span>
+                                    <%}%>
                               </div>
                               <%}%>
                               <!-- <div class="transaction-item">
@@ -1405,6 +1469,28 @@
                           </div>
                       </div>
                   </div>
+                  <div class="pagination">
+                    <!-- Previous Button -->
+                    <% if (currentWalletPage > 1) { %>
+                      <a href="?walletPage=<%= currentWalletPage - 1 %>" class="prev-btn">Previous</a>
+                    <% } else { %>
+                      <span class="disabled">Previous</span>
+                    <% } %>
+                  
+                    <!-- Page Numbers -->
+                    <% for (let i = 1; i <= totalWalletPages; i++) { %>
+                      <a href="?walletPage=<%= i %>" class="page <%= i === currentWalletPage ? 'active' : '' %>"><%= i %></a>
+                    <% } %>
+                  
+                    <!-- Next Button -->
+                    <% if (currentWalletPage < totalWalletPages) { %>
+                      <a href="?walletPage=<%= currentWalletPage + 1 %>" class="next-btn">Next</a>
+                    <% } else { %>
+                      <span class="disabled">Next</span>
+                    <% } %>
+                  </div>
+                  
+                  
               </div>
               
               <style>

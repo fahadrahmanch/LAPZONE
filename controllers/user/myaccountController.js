@@ -59,36 +59,98 @@ const editMyaccount = async (req, res) => {
       .json({ success: false, message: "Internal server error" });
   }
 };
+// const myaccount = async (req, res) => {
+//   try {
+//     const userId = req.session.user;
+//     const users = await User.findById(userId);
+//     const addressData = await addressSchema.findOne({ userId: userId });
+//     const wallet = await walletSchema.findOne({ userId }).lean();
+
+//     if (wallet && wallet.transactions) {
+//         wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date)); 
+//     }   
+//      if(!wallet){
+//       const newWallet= new walletSchema({userId })
+//       await newWallet.save()
+//     }
+//     // console.log("wallet",wallet)
+//     if (!users) {
+//        return res.redirect('/')
+//     }
+   
+//     // const orders= await Order.find({userId});
+//     const orders = await Order.find({ userId:userId }).sort({ createdAt:-1 });  
+//     // console.log(orders)
+//     const addresses = addressData ? addressData.address : [];
+//     res.render("user/my-account", { users: users, addressData: addresses ,orders,wallet:wallet,message:req.session.user||""});
+//   } catch (error) {
+//     console.log("error fetching user data", error);
+//     res.status(500).send("Internal Server Error");
+//   }
+// };
 const myaccount = async (req, res) => {
   try {
     const userId = req.session.user;
     const users = await User.findById(userId);
     const addressData = await addressSchema.findOne({ userId: userId });
-    const wallet = await walletSchema.findOne({ userId })
-    if(!wallet){
-      const newWallet= new walletSchema({userId })
-      await newWallet.save()
+    const wallet = await walletSchema.findOne({ userId }).lean();
+
+    if (!wallet) {
+      const newWallet = new walletSchema({ userId });
+      await newWallet.save();
     }
-    console.log("wallet",wallet)
+
     if (!users) {
-       return res.redirect('/')
+      return res.redirect('/');
     }
-   
+
     
-    // const orders= await Order.find({userId});
-    const orders = await Order.find({ userId:userId }).sort({ createdAt:-1 });  
+    if (wallet && wallet.transactions) {
+      wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
 
-    // console.log(orders)
+    const walletPage = parseInt(req.query.walletPage) || 1; 
+    const walletLimit = 5;
+    const walletSkip = (walletPage - 1) * walletLimit;
+    const totalTransactions = wallet ? wallet.transactions.length : 0;
+    const paginatedTransactions = wallet 
+      ? wallet.transactions.slice(walletSkip, walletSkip + walletLimit) 
+      : [];
 
+    const totalWalletPages = Math.ceil(totalTransactions / walletLimit);
 
+    const page = parseInt(req.query.page) || 1; 
+    const limit = 5; 
+    const skip = (page - 1) * limit;
+    const totalOrders = await Order.countDocuments({ userId });
+
+    const orders = await Order.find({ userId })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalPages = Math.ceil(totalOrders / limit);
 
     const addresses = addressData ? addressData.address : [];
-    res.render("user/my-account", { users: users, addressData: addresses ,orders,wallet:wallet,message:req.session.user||""});
+
+    res.render("user/my-account", { 
+      users, 
+      addressData: addresses, 
+      orders, 
+      wallet: { ...wallet, transactions: paginatedTransactions }, 
+      totalPages, 
+      currentPage: page, 
+      totalWalletPages,
+      currentWalletPage: walletPage,
+      message: req.session.user || "" 
+    });
+
   } catch (error) {
-    console.log("error fetching user data", error);
+    console.log("Error fetching user data", error);
     res.status(500).send("Internal Server Error");
   }
 };
+
 
 const changePassword = async (req, res) => {
   try {

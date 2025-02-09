@@ -543,11 +543,16 @@
                 <%}else if(order.status==='Returned'){%>
                     <span class="text-danger">Returned</span>
                     <%}%>
-           <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-            <i class="fas fa-print">
-            </i>
-            Print
-           </button>
+           <%if(order.status==='Delivered'){%>
+            
+            <a href="/download-pdf/<%= order.orderId %>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                <i class="fas fa-print"></i>
+                Print
+            </a>
+            
+          
+
+           <%}%>
           </div>
          </div>
          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -613,9 +618,11 @@
              Status:
             </strong>
             <%=order.status%>
+            
            </p>
           </div>
          </div>
+         
          <div class="mt-6">
           <h2 class="text-xl font-semibold mb-4">
            Items Ordered
@@ -640,23 +647,102 @@
             </thead>
             <tbody>
                 <%for(let i=0;i<order.orderedItems.length;i++){%>
-             <tr>
-              <td class="py-2 px-4 border-b flex items-center">
-               <img alt="Image of Product 1" class="w-12 h-12 mr-4" src="/uploads/<%=order.orderedItems[i].Product.productImage[0]%>">
-              <p><%=order.orderedItems[i].Product.productName%></p> 
-              </td>
-              <td class="py-2 px-4 border-b">
-                <%=order.orderedItems[i].quantity%>
-              </td>
-              <td class="py-2 px-4 border-b">
-                <%=order.orderedItems[i].price%>
-              </td>
-              <td class="py-2 px-4 border-b">
-                <%=order.orderedItems[i].totalPrice%>
-              </td>
-             </tr>
-           <%}%>
+                    <tr>
+                        <td class="py-2 px-4 border-b flex items-center">
+                            <img alt="Image of Product 1" class="w-12 h-12 mr-4" src="/uploads/<%= order.orderedItems[i].Product.productImage[0] %>">
+                            <p><%= order.orderedItems[i].Product.productName %></p>
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <%= order.orderedItems[i].quantity %>
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <%= order.orderedItems[i].price %>
+                        </td>
+                        <td class="py-2 px-4 border-b">
+                            <%= order.orderedItems[i].totalPrice %>
+                        </td>
+                    
+                        <% if (order.orderedItems[i].status === 'Shipped') { %>
+                            <td>
+                                <a onclick="indivdual('<%= order.orderId %>', '<%= order.orderedItems[i]._id %>')" class="text-red-500 cursor-pointer">
+                                    <i class="fas fa-times"></i> Cancel Product
+                                </a>
+                            </td>
+                        <% } else if (order.orderedItems[i].status === 'Cancelled') { %>
+                            <td>
+                                <span class="text-danger">Cancelled</span>
+                            </td>
+                        <% } else if (order.orderedItems[i].status === 'Return Request') { %>
+                            <td>
+                                <span class="text-danger"><%= order.orderedItems[i].status %></span>
+                            </td>
+                        <% } else if (order.orderedItems[i].status === 'Delivered') { %> 
+                            <td>
+                                <a onclick="productreturn('<%= order.orderedItems[i]._id %>')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                                    <i class="fas fa-undo"></i> Return Order
+                                </a>
+                            </td>
+                        <% }else {%>
+                            <td>
+                                <span class="text-danger"><%= order.orderedItems[i].status %></span>
+                            </td>
+                            <%}%>
+                    </tr>
+                    
+                <% } %>
             </tbody>
+            
+            <script>
+                async function productreturn(productId) {
+                    try {
+                        const result = await Swal.fire({
+                            title: "Are you sure?",
+                            text: "Do you want to return this product?",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#3085d6",
+                            cancelButtonColor: "#d33",
+                            confirmButtonText: "Yes, return it!"
+                        });
+            
+                        if (result.isConfirmed) {
+                            const response = await fetch('/return-product', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({ productId }),
+                            });
+            
+                            const data = await response.json();
+            
+                            if (response.ok) {
+                                Swal.fire({
+                                    title: "Success!",
+                                    text: data.message,
+                                    icon: "success"
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Failed to process return request: " + data.message,
+                                    icon: "error"
+                                });
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error:", error);
+                        Swal.fire({
+                            title: "Error!",
+                            text: "An error occurred while processing the return request.",
+                            icon: "error"
+                        });
+                    }
+                }
+            </script>
+            
            </table>
           </div>
          </div>
@@ -835,16 +921,16 @@
 <script>
  async function cancel(id) {
     try {
-        Swal.fire({
-            title: 'Please wait...',
-            text: 'Attempting to cancel the order...',
-            icon: 'info',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            didOpen: () => {
-                Swal.showLoading();
-            }
-        });
+        // Swal.fire({
+        //     title: 'Please wait...',
+        //     text: 'Attempting to cancel the order...',
+        //     icon: 'info',
+        //     allowOutsideClick: false,
+        //     showConfirmButton: false,
+        //     didOpen: () => {
+        //         Swal.showLoading();
+        //     }
+        // });
 
         const response = await fetch('/cancelorder', {
             method: 'POST',
@@ -860,7 +946,7 @@
 
         if (response.ok && result.success) {
      
-          await   Swal.fire({
+          await Swal.fire({
                 title: 'Success!',
                 text: result.message,
                 icon: 'success',
@@ -948,15 +1034,19 @@
                 });
 
                 if (response.ok) {
-                    Swal.fire('Success', 'Your return request has been submitted.', 'success');
+                  await   Swal.fire('Success', 'Your return request has been submitted.', 'success');
                     const returnButton = document.querySelector(`a[onclick="returnn('${orderId}')"]`);
-                    if (returnButton) {
-                        returnButton.outerHTML = '<span class="text-danger">Return Requested</span>';
-                    }
+                    // if (returnButton) {
+                    //     returnButton.outerHTML = '<span class="text-danger">Return Requested</span>';
+                    // }
+                    window.location.reload()
+                    
                     
                 } else {
                     Swal.fire('Error', 'Failed to submit the return request.', 'error');
                 }
+            }else{
+                console.log("heloo")
             }
         });
     } catch (err) {
@@ -969,4 +1059,71 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
+<!-- <script>
+   async function indivdual(orderId,productId){
+        console.log('orderId',orderId)
+        console.log('productId',productId)
+        const response= await fetch('/productCancel',{
+          
+            method:"POST",
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body:JSON.stringify({orderId,productId})
+        })
+
+        let data=await response.json()
+        if(data.success){
+            alert("success")
+        }else{
+            alert("fail")
+        }
+
+        
+    }
+</script> -->
+
+<script>
+    async function indivdual(orderId, productId) {
+        const result = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, cancel it!",
+            cancelButtonText: "No, keep it",
+            reverseButtons: true
+        });
+ 
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch('/productCancel', {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ orderId, productId })
+                });
+ 
+                let data = await response.json();
+                console.log(data)
+                if (data.success) {
+                  await  Swal.fire("Cancelled!", "The product has been cancelled.", "success");
+                  window.location.reload()
+                   
+                } else {
+                    Swal.fire("Failed!", "Product cancellation failed.", "error");
+                }
+                
+            } catch (error) {
+                Swal.fire("Error!", "Something went wrong.", "error");
+            }
+        }
+    }
+ </script>
+
+
+
+  
 </html>

@@ -192,266 +192,166 @@
         </header>
         <section class="content-main">
             <div class="content-header">
-                <div>
-                    <h2 class="content-title card-title">Order detail</h2>
-                    <p>Details for Order ID: <%=details.orderId %></p>
-                </div>
+                <h2 class="content-title card-title">Order Detail</h2>
+                <p>Details for Order ID: <%= details.orderId %></p>
             </div>
+        
             <div class="card">
                 <header class="card-header">
                     <div class="row align-items-center">
-                        <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
-                            <span>
-                                <i class="material-icons md-calendar_today"></i> <b> <%=details.createdOn%></b>
-                            </span> <br>
-                            <small class="text-muted">Order ID:<%=details.orderId %></small>
+                        <div class="col-md-6">
+                            <span><i class="material-icons md-calendar_today"></i> <b><%= details.createdOn %></b></span>
+                            <br>
+                            <small class="text-muted">Order ID: <%= details.orderId %></small>
                         </div>
-                        <div class="col-lg-6 col-md-6 ms-auto text-md-end" id="orderId" orderId="<%=details.orderId%>">
-                            <select class="status-select"  id="statusSelect">
-                                <option value="Pending" <%= details.status === 'Pending' ? 'selected' : '' %>>Pending</option>
-                                <option value="Processing" <%= details.status === 'Processing' ? 'selected' : '' %>>Processing</option>
-                                <option value="Shipped" <%= details.status === 'Shipped' ? 'selected' : '' %>>Shipped</option>
-                                <option value="Delivered" <%= details.status === 'Delivered' ? 'selected' : '' %>>Delivered</option>
-                                <option value="Cancelled" <%= details.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                        <div class="col-md-6 text-md-end" id="orderId" orderId="<%= details.orderId %>">
+                            <select class="status-select" id="statusSelect">
+                                <% ['Pending', 'Returned', 'Shipped', 'Delivered', 'Cancelled'].forEach(status => { %>
+                                    <option value="<%= status %>" <%= details.status === status ? 'selected' : '' %>><%= status %></option>
+                                <% }); %>
                             </select>
                             <a class="btn btn-primary save-status" id="save">Save</a>
                             <a class="btn btn-secondary print ms-2" href="#"><i class="icon material-icons md-print"></i></a>
                         </div>
-                        
                     </div>
-                </header> <!-- card-header end// -->
+                </header>
+        
                 <div class="card-body">
-                    <div class="row mb-50 mt-20 order-info-wrap">
+                    <div class="row mb-4">
                         <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-person"></i>
-                                </span>
+                            <article class="icontext">
+                                <span class="icon bg-primary-light"><i class="text-primary material-icons md-person"></i></span>
                                 <div class="text">
-                                    <h6 class="mb-1">Customer</h6>
-                                    <p class="mb-1">
-                                        <%=details.userId.name %> <br> <%=details.userId.email%> <br> <%=details.userId.phone%>
+                                    <h6>Customer</h6>
+                                    <p>
+                                        <%= details.userId?.name %><br>
+                                        <%= details.userId?.email %><br>
+                                        <%= details.userId?.phone %>
                                     </p>
                                     <a href="#">View profile</a>
                                 </div>
                             </article>
-                        </div> <!-- col// -->
+                        </div>
                         <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-local_shipping"></i>
-                                </span>
+                            <article class="icontext">
+                                <span class="icon bg-primary-light"><i class="text-primary material-icons md-local_shipping"></i></span>
                                 <div class="text">
-                                    <h6 class="mb-1">Order info</h6>
-                                    <p class="mb-1">
-                                        Shipping: Fargo express <br> Pay method: <%=details.paymentMethod%>  <br> Status:<%=details.status%>
+                                    <h6>Order Info</h6>
+                                    <p>
+                                        Shipping: Fargo Express<br>
+                                        Pay Method: <%= details.paymentMethod %><br>
+                                        Status: <%= details.status %>
                                     </p>
                                     <a href="#">Download info</a>
                                 </div>
                             </article>
-                        </div> <!-- col// -->
+                        </div>
                         <div class="col-md-4">
-                            <article class="icontext align-items-start">
-                                <span class="icon icon-sm rounded-circle bg-primary-light">
-                                    <i class="text-primary material-icons md-place"></i>
-                                </span>
+                            <article class="icontext">
+                                <span class="icon bg-primary-light"><i class="text-primary material-icons md-place"></i></span>
                                 <div class="text">
-                                    <h6 class="mb-1">Deliver to</h6>
-                                    <p class="mb-1">
-                                        City: <%=details.address.city%> <br><%=details.address.state%> <br> Pinocode:<%=details.address.pincode%>
+                                    <h6>Deliver To</h6>
+                                    <p>
+                                        City: <%= details.address.city %><br>
+                                        <%= details.address.state %><br>
+                                        Pincode: <%= details.address.pincode %>
                                     </p>
                                     <a href="#">View profile</a>
                                 </div>
                             </article>
-                        </div> <!-- col// -->
-                    </div> <!-- row // -->
-                    <div class="row">
-                        <!-- Table Section -->
-                        <div class="col-lg-7">
-                            <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
+                        </div>
+                    </div>
+        
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th class="text-end">Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tbody>
+                                    <% details.orderedItems.forEach(item => { %>
                                         <tr>
-                                            <th width="40%">Product</th>
-                                            <th width="20%">Price</th>
-                                            <th width="20%">Quantity</th>
-                                            <th width="20%" class="text-end">Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <% for (let i = 0; i < details.orderedItems.length; i++) { %>
-                                            <tr>
-                                                <td>
-                                                    <a class="itemside " href="#">
-                                                        <div class="left">
-                                                            <img src="/uploads/<%= details.orderedItems[i].Product.productImage[0] %>" width="40" height="40" class="img-xs" alt="Item">
-                                                        </div>
-                                                        <div class="info"><%= details.orderedItems[i].Product.productName %></div>
-                                                    </a>
-                                                </td>
-                                                <td> <%= details.orderedItems[i].price %></td>
-                                                <td> <%= details.orderedItems[i].quantity %> </td>
-                                                <td class="text-end"> <%= details.orderedItems[i].totalPrice %></td>
-                                            </tr>
-                                        <% } %>
-                                        <tr>
-                                            <td colspan="4">
-                                                <article class="float-end">
-                                                    <dl class="dlist">
-                                                        <dt>Subtotal:</dt>
-                                                        <dd><%= details.orderedItems[0].totalPrice %></dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>Shipping cost:</dt>
-                                                        <dd>0</dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt>Grand total:</dt>
-                                                        <dd> <b class="h5"><%= details.finalAmount %></b> </dd>
-                                                    </dl>
-                                                    <dl class="dlist">
-                                                        <dt class="text-muted">Status:</dt>
-                                                        <dd>
-                                                            <span class="badge rounded-pill alert-success text-success"><%= details.status %></span>
-                                                        </dd>
-                                                    </dl>
-                                                </article>
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    <div class="left">
+                                                        <img src="/uploads/<%= item.Product.productImage[0] %>" width="40" height="40" class="img-xs" alt="Item">
+                                                    </div>
+                                                    <div class="info"><%= item.Product.productName %></div>
+                                                </a>
+                                            </td>
+                                            <td><%= item.price %></td>
+                                            <td><%= item.quantity %></td>
+                                            <td class="text-end"><%= item.totalPrice %></td>
+                                            <td>
+                                                <span class="badge rounded-pill alert-<%= item.status === 'Return Requested' ? 'warning' : 'success' %>">
+                                                    <%= item.status %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <% if (item.status === 'Return Request' &&item.status!=='Rejected') { %>
+                                                    <button class="btn btn-sm btn-success approveReturn" data-id="<%= item._id %>">Approve</button>
+                                                    <button class="btn btn-sm btn-danger rejectReturn" data-id="<%= item._id %>">Reject</button>
+                                                <% } %>
                                             </td>
                                         </tr>
-                                    </tbody>
-                                </table>
+                                    <% }); %>
+                                    <tr>
+                                        <td colspan="6" class="text-end">
+                                            <strong>Grand Total: ₹<%= details.finalAmount %></strong>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <% if (details.status === 'Return Request') { %>
+                        <div class="custom-container">
+                            <div class="title">Approve Return Request?</div>
+                            <div class="message">Are you sure you want to approve this return request?</div>
+                            <div class="note">Return reason: <%= details.returnRequest.reason %></div>
+                            <div class="actions">
+                                <form method="POST" action="/admin/approve/<%= details.orderId %>">
+                                    <button class="btn btn-confirm" type="submit"><i class="fas fa-check"></i> Approve</button>
+                                </form>
+                                <form method="POST" action="/admin/reject/<%= details.orderId %>">
+                                <button class="btn btn-cancel" id="btn-reject"><i class="fas fa-times"></i> Cancel</button>
+                            </form>
+                             
                             </div>
                         </div>
-                    
-                        <!-- Return Request Section -->
-                        <% if (details.status === 'Return Request'){ %>
-                            <div class="col-lg-5 d-flex align-items-start">
-                                <div class="custom-container">
-                                    <div class="title">Approve Return Request?</div>
-                                    <div class="message">
-                                        Are you sure you want to approve this return request?
-                                    </div>
-                                    <div class="note">
-                                        <!-- This will: -->
-                                        <ul>
-                                            <li>Return reason : <%=details.returnRequest.reason%></li>
-                                          
-                                        </ul>
-                                    </div>
-                                    <div class="actions">
-                                        <form method="POST" action="/admin/approve/<%=details.orderId%>">
-                                        <button class="btn btn-confirm" type="submit" >
-                                            <i class="fas fa-check"></i> Yes, Approve Return
-                                        </button>
-                                        </form>
-                                        <button class="btn btn-cancel">
-                                            <i class="fas fa-times"></i> Cancel
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        <% } else{%>
-                            <div>
-
-                            </div>
-                            <%}%>
-                    </div>
-                    
-                            </div>
-                            </div> <!-- table-responsive// -->
-                            <!-- <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a> -->
-                        </div> <!-- col// -->
-                        <style>
-                            .custom-container {
-                              border: 1px solid #dee2e6;
-                              border-radius: 5px;
-                              padding: 20px;
-                              width: 100%;
-                              max-width: 500px;
-                              margin: 20px auto;
-                              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                              background-color: #fff;
-                            }
-                            
-                            .custom-container .title {
-                              font-size: 1.5rem;
-                              font-weight: bold;
-                              margin-bottom: 10px;
-                              text-align: center;
-                            }
-                            
-                            .custom-container .message {
-                              font-size: 1rem;
-                              margin-bottom: 20px;
-                            }
-                            
-                            .custom-container .note {
-                              font-size: 0.875rem;
-                              color: #6c757d;
-                            }
-                            
-                            .custom-container ul {
-                              padding-left: 20px;
-                              margin-top: 10px;
-                            }
-                            
-                            .custom-container ul li {
-                              margin-bottom: 5px;
-                            }
-                            
-                            .custom-container .actions {
-                              display: flex;
-                              justify-content: space-between;
-                              margin-top: 20px;
-                            }
-                            
-                            .custom-container .btn {
-                              padding: 10px 15px;
-                              border: none;
-                              border-radius: 5px;
-                              cursor: pointer;
-                              font-size: 1rem;
-                            }
-                            
-                            .custom-container .btn-confirm {
-                              background-color: #28a745;
-                              color: #fff;
-                            }
-                            
-                            .custom-container .btn-cancel {
-                              background-color: #6c757d;
-                              color: #fff;
-                            }
-                            
-                            .custom-container .btn i {
-                              margin-right: 5px;
-                            }
-                            </style>
-                            
-                        <div class="col-lg-1"></div>
+                    <% } %>
                 </div>
-                        <!-- <div class="col-lg-4">
-                            <div class="box shadow-sm bg-light">
-                                <h6 class="mb-15">Payment info</h6>
-                                <p>
-                                    <img src="assets/imgs/card-brands/2.png" class="border" height="20"> Master Card **** **** 4768 <br>
-                                    Business name: Grand Market LLC <br>
-                                    Phone: +1 (800) 555-154-52
-                                </p>
-                            </div>
-                            <div class="h-25 pt-4">
-                                <div class="mb-3">
-                                    <label>Notes</label>
-                                    <textarea class="form-control" name="notes" id="notes" placeholder="Type some note"></textarea>
-                                </div>
-                                <button class="btn btn-primary">Save note</button>
-                            </div>
-                        </div> -->
-                         <!-- col// -->
-                    </div>
-                </div> <!-- card-body end// -->
-            </div> <!-- card end// -->
-        </section> <!-- content-main end// -->
+            </div>
+        </section>
+        
+        <style>
+            .custom-container {
+                border: 1px solid #dee2e6;
+                border-radius: 5px;
+                padding: 20px;
+                max-width: 500px;
+                margin: 20px auto;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                background-color: #fff;
+            }
+            .custom-container .title { font-size: 1.5rem; font-weight: bold; text-align: center; }
+            .custom-container .message { font-size: 1rem; margin-bottom: 10px; }
+            .custom-container .note { font-size: 0.875rem; color: #6c757d; }
+            .custom-container .actions { display: flex; justify-content: space-between; margin-top: 10px; }
+            .custom-container .btn { padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+            .btn-confirm { background-color: #28a745; color: #fff; }
+            .btn-cancel { background-color: #6c757d; color: #fff; }
+        </style>
+        
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">
@@ -566,5 +466,125 @@
 }
 
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const orderId = document.getElementById('orderId').getAttribute('orderId');
+    
+        document.querySelectorAll('.approveReturn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const productId = button.getAttribute('data-id');
+    
+                const result = await Swal.fire({
+                    title: "Approve Return?",
+                    text: "Are you sure you want to approve this return?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Approve",
+                    cancelButtonText: "No"
+                });
+    
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch('/admin/approve-return', {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ orderId, productId })
+                        });
+                        let data=response.json({})
+                        if (data) {
+                            Swal.fire("Approved!", "The return request has been approved.", "success")
+                                .then(() => location.reload());
+                        } else {
+                            Swal.fire("Error", "Failed to approve the return.", "error");
+                        }
+                    } catch (error) {
+                        console.log(error)
+                        Swal.fire("Error", "Something went wrong.", "error");
+                    }
+                }
+            });
+        });
+    
+        
+        document.querySelectorAll('.rejectReturn').forEach(button => {
+            button.addEventListener('click', async () => {
+                const productId = button.getAttribute('data-id');
+    
+                const result = await Swal.fire({
+                    title: "Reject Return?",
+                    text: "Are you sure you want to reject this return?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Yes, Reject",
+                    cancelButtonText: "No"
+                });
+    
+                if (result.isConfirmed) {
+                    try {
+                        const response = await fetch('/admin/reject-return', {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ orderId, productId })
+                        });
+    
+                        if (response.ok) {
+                            Swal.fire("Rejected!", "The return request has been rejected.", "success")
+                                .then(() => location.reload());
+                        } else {
+                            Swal.fire("Error", "Failed to reject the return.", "error");
+                        }
+                    } catch (error) {
+                        Swal.fire("Error", "Something went wrong.", "error");
+                    }
+                }
+            });
+        });
+    
+        // 3️⃣ Cancel Order
+        document.getElementById("cancelOrder").addEventListener("click", async () => {
+            const result = await Swal.fire({
+                title: "Cancel Order?",
+                text: "Are you sure you want to cancel this order?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, Cancel",
+                cancelButtonText: "No"
+            });
+    
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch('/admin/cancel-order', {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ orderId })
+                    });
+    
+                    if (response.ok) {
+                        Swal.fire("Canceled!", "The order has been canceled.", "success")
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire("Error", "Failed to cancel the order.", "error");
+                    }
+                } catch (error) {
+                    Swal.fire("Error", "Something went wrong.", "error");
+                }
+            }
+        });
+    });
+    </script>
+    
+    <script>
+        document.getElementById("btn-reject").addEventListener("click", async ()=>{
+            const response=await fetch('/order-reject',{
+                method:"POST",
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body:JSON.stringify({})
+                
+            })
+        })
+    </script>
 
 </html>

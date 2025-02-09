@@ -428,7 +428,7 @@
         <!-- Start Offcanvas Mobile Menu Wrapper -->
         <div class="offcanvas-wishlist-wrapper">
             <h4 class="offcanvas-title">Wishlist</h4>
-            <ul class="offcanvas-wishlist">
+            <!-- <ul class="offcanvas-wishlist">
                 <li class="offcanvas-wishlist-item-single">
                     <div class="offcanvas-wishlist-item-block">
                         <a href="#" class="offcanvas-wishlist-item-image-link">
@@ -483,9 +483,9 @@
                         <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
             <ul class="offcanvas-wishlist-action-button">
-                <li><a href="#" class="btn btn-block btn-golden">View wishlist</a></li>
+                <li><a href="/wishlist" class="btn btn-block btn-golden">View wishlist</a></li>
             </ul>
         </div> <!-- End Offcanvas Mobile Menu Wrapper -->
 
@@ -494,11 +494,30 @@
     <!-- Start Offcanvas Search Bar Section -->
     <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
-        <form action="/shop" method="get"  role="search">
-            <input type="search" placeholder="type keyword(s) here" name="search">
+        <form action="/shop" method="get" role="search" onsubmit="preserveFilters(event)">
+            <input type="search" placeholder="type keyword(s) here" name="search" id="searchInput">
             <button type="submit" class="btn btn-lg btn-golden">Search</button>
         </form>
     </div>
+    
+    <script>
+    function preserveFilters(event) {
+        event.preventDefault(); // Stop default form submission
+    
+        const searchValue = document.getElementById('searchInput').value.trim();
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        if (searchValue) {
+            urlParams.set('search', searchValue);
+        } else {
+            urlParams.delete('search');
+        }
+    
+        // Keep existing category, sort, and page filters
+        window.location.href = `/shop?${urlParams.toString()}`;
+    }
+    </script>
+    
     <!-- End Offcanvas Search Bar Section -->
 
     <!-- Offcanvas Overlay -->
@@ -777,34 +796,41 @@
                                                             <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
                                                                 <img src="/uploads/<%=products[i].productImage[0]%>"
                                                                     alt="">
-                                                                <!-- <img src="assets/images/product/default/home-1/default-3.jpg"
-                                                                    alt=""> -->
+                                                                <img src="/uploads/<%=products[i].productImage[1]%>"
+                                                                    alt="">
                                                             </a>
                                                             <div class="action-link">
                                                                 <div class="action-link-left">
-                                                                  <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">
-                                                                    Add to Cart
-                                                                  </a>
+                                                                    <a onclick="addToCart('<%=products[i]._id%>', 1, '<%=JSON.stringify(products[i]).replace(/"/g, '\\"')%>')" href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">
+                                                                        Add to Cart
+                                                                    </a>
+                                                                     
+                                                                     
+                                                                     
                                                                 </div>
                                                                 <div class="action-link-right">
                                                                   <!-- Quickview Icon -->
-                                                                  <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview">
+                                                                  <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modalQuickview">
                                                                     <i class="icon-magnifier"></i>
-                                                                  </a>
+                                                                  </a> -->
                                                               
                                                                   <!-- Wishlist Icon -->
 
-                                                                    <a href="wishlist.html" class="wishlist-link" data-product-id="<%= products[i]._id %>"data-variant-id="<%= products[i].variants[0]._id %>" >
-                                                                      <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart " width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
-                                                                      </svg>
-                                                                    </a>
+                                                                  <a href="wishlist.html" class="wishlist-link" 
+                                                                  data-product-id="<%= products[i]._id %>" 
+                                                                  data-variant-id="<%= products[i].variants[0]._id %>"
+                                                                  data-in-wishlist="<%= products[i].isInWishlist %>">
+                                                                 <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="<%= products[i].isInWishlist ? 'red' : 'none' %>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                                   <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                                                                 </svg>
+                                                               </a>
+                                                               
 
                                                       
                                                                   <!-- Compare Icon -->
-                                                                  <a href="compare.html">
+                                                                  <!-- <a href="compare.html">
                                                                     <i class="icon-shuffle"></i>
-                                                                  </a>
+                                                                  </a> -->
                                                                 </div>
                                                               </div>
                                                               
@@ -923,34 +949,33 @@
                       </div> -->
                       <div class="page-pagination text-center" data-aos="fade-up" data-aos-delay="0">
                         <ul>
-                          <!-- Previous Button -->
-                          <li>
-                            <a 
-                              href="?page=<%=`${Math.max(1, currentPage - 1)}&sort=${sort}`%>"
-                              class="<%= currentPage === 1 ? 'disabled' : '' %>">
-                              <i class="ion-ios-skipbackward"></i>
-                            </a>
-                          </li>
-                      
-                          <!-- Page Numbers -->
-                          <% for (let i = 1; i <= totalPages; i++) { %>
+                            <!-- Previous Button -->
                             <li>
-                              <a href="?page=<%= i %>&sort=<%= sort %>" class="<%= i === currentPage ? 'active' : '' %>">
-                                <%= i %>
-                              </a>
+                                <a href="?cat=<%= catt %>&sort=<%= sort %>&search=<%= search %>&page=<%= currentPage > 1 ? currentPage - 1 : 1 %>" 
+                                   class="<%= currentPage == 1 ? 'disabled' : '' %>">
+                                    <i class="ion-ios-skipbackward"></i>
+                                </a>
                             </li>
-                          <% } %>
-                      
-                          <!-- Next Button -->
-                          <li>
-                            <a 
-                              href="?page=<%=`${Math.min(totalPages, currentPage + 1)}&sort=${sort}`%>"
-                              class="<%= currentPage === totalPages ? 'disabled' : '' %>">
-                              <i class="ion-ios-skipforward"></i>
-                            </a>
-                          </li>
+                    
+                            <!-- Page Numbers -->
+                            <% for (let i = 1; i <= totalPages; i++) { %>
+                                <li>
+                                    <a href="?cat=<%= catt %>&sort=<%= sort %>&search=<%= search %>&page=<%= i %>" 
+                                       class="<%= currentPage == i ? 'active' : '' %>"><%= i %></a>
+                                </li>
+                            <% } %>
+                    
+                            <!-- Next Button -->
+                            <li>
+                                <a href="?cat=<%= catt %>&sort=<%= sort %>&search=<%= search %>&page=<%= currentPage < totalPages ? currentPage + 1 : totalPages %>" 
+                                   class="<%= currentPage == totalPages ? 'disabled' : '' %>">
+                                    <i class="ion-ios-skipforward"></i>
+                                </a>
+                            </li>
                         </ul>
-                      </div>
+                    </div>
+                    
+                    
                       
                 </div>
             </div>
@@ -1330,10 +1355,9 @@
  }
 </script> -->
 
-<script>
+<!-- <script>
     async function applyFilters() {
-      // Get selected categories from checkboxes
-    //   alert("category")
+   
       const checkboxes = document.querySelectorAll('.category-checkbox:checked');
       const selectedCategories = [];
       
@@ -1347,80 +1371,67 @@
      console.log(selectedCategories)
   
     }
-  </script>
-  
-    <script>
-        // function applySort(){
-        //     const sort=document.getElementById('sort-options').value;
-           
-        //     const urlParams=new URLSearchParams(window.location.search);
-        //     urlParams.set('sort',sort);
-        //     window.location.search=urlParams.toString();
-        // }
-  function applySort() {
- 
-
-  const selectedSort = document.getElementById("sortDropdown").value;
-  const currentPage = "<%= currentPage %>";
-  window.location.href = `?page=${currentPage}&sort=${selectedSort}`;
-}
+  </script> -->
 
 
-
-        async function addToCart(product, qty, productDetails) {
-    try {
-        const productData = JSON.parse(productDetails);
-
-        const response = await fetch('/addToCart', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                product: product,
-                variant: productData.variants[0]._id,
-                qty: qty,
-            })
-        });
-
-        if (response.ok) {
-            const result = await response.json();
-            console.log('Item added to cart:', result);
-
-         
-            Swal.fire({
-                icon: 'success',
-                title: 'Success!',
-                text: result.message || 'Item successfully added to the cart!',
-                confirmButtonText: 'OK',
-            });
+  <script>
+    async function applyFilters() {
+        console.log("applyFilters() called");
+    
+        const checkboxes = document.querySelectorAll('.category-checkbox:checked');
+        const selectedCategories = Array.from(checkboxes).map(checkbox => checkbox.value);
+    
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        // Preserve Search, Sort, and Page
+        if (selectedCategories.length > 0) {
+            urlParams.set('cat', selectedCategories.join(','));
         } else {
-            const error = await response.json();
-            console.error('Error adding item:', error);
-
-           
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message || 'Failed to add item to the cart. Please try again.',
-                confirmButtonText: 'Retry',
-            });
+            urlParams.delete('cat');
         }
-    } catch (err) {
-        console.error('Network error:', err);
-
-      
-        Swal.fire({
-            icon: 'warning',
-            title: 'Network Error',
-            text: 'An error occurred. Please check your connection and try again.',
-            confirmButtonText: 'OK',
-        });
+        
+        urlParams.set('page', 1); // Reset to page 1 when filters change
+    
+        console.log("Updated URL:", `${window.location.pathname}?${urlParams}`);
+        
+        window.history.replaceState({}, '', `${window.location.pathname}?${urlParams}`);
+        window.location.reload();
     }
-}
-
-
     </script>
+    
+    
+
+  <!-- <script>
+    function applyFilters() {
+  const selectedCategories = Array.from(document.querySelectorAll('.category-checkbox:checked'))
+    .map(checkbox => checkbox.value)
+    .join(',');
+
+  const sortValue = document.getElementById('sortDropdown').value;
+  const searchValue = document.getElementById('searchInput').value;
+
+  const url = new URL(window.location.href);
+  url.searchParams.set('cat', selectedCategories);
+  url.searchParams.set('sort', sortValue);
+  url.searchParams.set('search', searchValue);
+  url.searchParams.set('page', 1); // Reset to first page when filters change
+
+  window.location.href = url.toString();
+}
+  </script> -->
+  
+  <script>
+    function applySort() {
+        const selectedSort = document.getElementById("sortDropdown").value;
+        const urlParams = new URLSearchParams(window.location.search);
+    
+        urlParams.set('sort', selectedSort); // Update Sort
+        urlParams.set('page', 1); // Reset to page 1 when sorting changes
+    
+        window.location.href = `/shop?${urlParams.toString()}`;
+    }
+    </script>
+    
   
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
@@ -1485,7 +1496,7 @@
      </style>
 
 
-<script>
+<!-- <script>
     document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.wishlist-link').forEach(link => {
         const heartIcon = link.querySelector('svg');
@@ -1546,9 +1557,68 @@
   }
 }
 
+  </script> -->
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.wishlist-link').forEach(link => {
+    const heartIcon = link.querySelector('svg');
+    const productId = link.dataset.productId;
+    const variantId = link.dataset.variantId;
+    const isInWishlist = link.dataset.inWishlist === 'true';
+
+    // Set initial color based on whether it's in the wishlist
+    heartIcon.setAttribute('fill', isInWishlist ? 'red' : 'none');
+
+    link.addEventListener('click', async function (event) {
+      event.preventDefault();
+
+      const isCurrentlyInWishlist = heartIcon.getAttribute('fill') === 'red';
+      const newState = !isCurrentlyInWishlist;
+      heartIcon.setAttribute('fill', newState ? 'red' : 'none');
+
+      await toggleWishlist(productId, newState, variantId);
+    });
+  });
+});
+
+async function toggleWishlist(productId, isAdding, variantId) {
+  try {
+    const url = isAdding ? '/wishlist/add' : '/wishlist/remove';
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productId, variantId }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      Swal.fire({
+        icon: 'success',
+        title: isAdding ? 'Added to Wishlist' : 'Removed from Wishlist',
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.message || 'Something went wrong!',
+      });
+    }
+  } catch (error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'An error occurred while updating the wishlist. Please try again later.',
+    });
+    console.error(error);
+  }
+}
   </script>
-  
-  
   <!-- CSS -->
   <style>
     .wishlist-heart {
@@ -1560,6 +1630,66 @@
       fill: #f5c6cb; /* Light red on hover */
     }
   </style>
+
+
+
+
+
+<script>
+      async function addToCart(product, qty, productDetails) {
+    try {
+ 
+        const productData = JSON.parse(productDetails);
+
+        console.log(productData)
+        const response = await fetch('/addToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                product: product,
+                variant: productData.variants[0]._id,
+                qty: qty,
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log('Item added to cart:', result);
+
+         
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: result.message || 'Item successfully added to the cart!',
+                confirmButtonText: 'OK',
+            });
+        } else {
+            const error = await response.json();
+            console.error('Error adding item:', error);
+
+           
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'Failed to add item to the cart. Please try again.',
+                confirmButtonText: 'Retry',
+            });
+        }
+    } catch (err) {
+        console.error('Network error:', err);
+
+      
+        Swal.fire({
+            icon: 'warning',
+            title: 'Network Error',
+            text: 'An error occurred. Please check your connection and try again.',
+            confirmButtonText: 'OK',
+        });
+    }
+}
+</script>
 </body>
 
 

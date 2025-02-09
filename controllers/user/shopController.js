@@ -6,16 +6,16 @@ const wishlistSchema=require("../../models/WhislistSchema")
 const loadShop = async (req, res) => {
   try {
     let user=req.session.user
-     
+     console.log(user)
   
 
 
     const search = req.query.search || "";
     // console.log(search)
     const page = req.query.page || 1;
-    const limit = 5;
+    const limit = 12;
      const sort = req.query.sort||""
-     const catt=req.query.cat||"";
+     const catt=req.query.cat;
      
     let sortCriteria={};
     switch (sort) {
@@ -39,13 +39,12 @@ const loadShop = async (req, res) => {
         
       }
    
-    
+      const userWishlist = await wishlistSchema.findOne({ userId: user });
+      console.log('userwhislist',userWishlist)
     let filterQuery = {
       isListed: true,
       productName: { $regex: new RegExp(".*" + search + ".*", "i") }, 
-      
-     
-      
+       
   };
   if (catt) {
     const categoryArray = catt.split(','); 
@@ -55,11 +54,26 @@ const loadShop = async (req, res) => {
  
   const count = await product.countDocuments(filterQuery);
     const products = await product.find(filterQuery).sort(sortCriteria).skip((page-1)*limit).limit(limit).populate("category", "categoryOffer")
+  
+
     // console.log('products',products)
+    if (products.length === 0) {
+      return res.render("user/Shop", {
+        products: [],
+        cat: await categorySchema.find({}),
+        catt: catt,
+      
+        sort: sort || "",
+        search: search || "",
+        message: req.session.user || null,
+        limit: limit,
+        currentPage: page,
+        totalPages: Math.ceil(count / limit),
+      });
+    }
 
     const cat = await categorySchema.find({});
-   const wishlist=await wishlistSchema.findOne({})
-
+   
 
 
 
@@ -68,11 +82,20 @@ const loadShop = async (req, res) => {
     const productOffer=product.productOffer||0
     const categoryOffer= product.category?.categoryOffer || 0;
     const bestOffer=Math.max(productOffer,categoryOffer)
+    
     let finalProduct={
       ...product.toObject(),
       bestOffer,
       offerType: bestOffer === productOffer ? "Product Offer" : "Category Offer",
+      isInWishlist: product.variants.some(variant =>
+        userWishlist?.products?.some(item => 
+          item.variants.toString() === variant._id.toString()
+        )
+      ) || false,
+      
+      
     }
+ 
     if (bestOffer > 0) {
       for(let i=0;i<product.variants.length;i++){
         console.log("product.variants[i].salePrice",product.variants[i].salePrice)
@@ -95,13 +118,15 @@ const loadShop = async (req, res) => {
   //  console.log("products",products)
 
 console.log("catt",catt)
+console.log('finalProduct.isInWishlist',productWithoffer)
+console.log("productWithoffer",productWithoffer[0].variants)
     res.render("user/Shop", {
       products: productWithoffer,
       cat: cat,
       catt:catt,
-      wishlist,
-      sort:sort,
-     
+      // wishlist,
+      sort:sort||"",
+      search:search||"",
       message:req.session.user||null,
       limit:limit,
       currentPage:page,
