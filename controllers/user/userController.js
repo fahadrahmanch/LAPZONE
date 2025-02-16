@@ -5,6 +5,7 @@ const env=require("dotenv").config()
 const nodemailer =require("nodemailer")
 const product=require('../../models/productSchema')
 const categorySchema=require('../../models/categorySchema')
+const walletSchema=require('../../models/walletSchema')
 
 const pageNotFound=async (req,res)=>{
     try{
@@ -16,7 +17,7 @@ const pageNotFound=async (req,res)=>{
 }
 const loadHomepage=async(req,res)=>{
     try{
-      const products= await product.find({})
+      const products= await product.find({ isListed: true,})
       const productWithoffer=products.map(product=>{
         const productOffer=product.productOffer||0
         const categoryOffer= product.category?.categoryOffer || 0;
@@ -33,13 +34,13 @@ const loadHomepage=async(req,res)=>{
      
         if (bestOffer > 0) {
           for(let i=0;i<product.variants.length;i++){
-            console.log("product.variants[i].salePrice",product.variants[i].salePrice)
+            // console.log("product.variants[i].salePrice",product.variants[i].salePrice)
           const offerPrice = product.variants[i].salePrice - (product.variants[i].salePrice * (bestOffer / 100));
-          console.log(offerPrice)
+          // console.log(offerPrice)
           
           finalProduct.variants[i].salePrice =offerPrice
           if(offerPrice){
-            console.log(" finalProduct.variants[i]", finalProduct.variants[i])
+            // console.log(" finalProduct.variants[i]", finalProduct.variants[i])
           }
           // finalProduct.product.variants[i].offerPrice = Math.round(offerPrice);
           }
@@ -48,7 +49,7 @@ const loadHomepage=async(req,res)=>{
         // console.log("finalproductttt",finalProduct,product)
         return finalProduct;
        })
-       console.log("productWithoffer",productWithoffer[0].variants)
+      //  console.log("productWithoffer",productWithoffer[0].variants)
       // console.log(products)
     await res.render("user/home",{message:req.session.user,products:productWithoffer})
     }
@@ -72,6 +73,9 @@ const loadLoginPage=async(req,res)=>{
 }
 const loadregisterPage=async(req,res)=>{
   try{
+    const {code}=req.query||""
+    req.session.code=code
+   console.log(code)
     const message = req.session.err || null; 
      req.session.err = null; 
      return  res.render("user/register",{message})
@@ -116,9 +120,10 @@ console.log("Password:", process.env.NODEMAILER_PASSWO_RD ? "Exists" : "Not Set"
 const signup = async(req,res)=>{
   try{ 
    const {name,phone,email,password}=req.body;
+   
    const findUser=await User.findOne({email})
      if(findUser){
-       req.session.err="User already exists"
+      
        return res.redirect('/signup')
      }
      const otp=generateOtp();
@@ -126,7 +131,8 @@ const signup = async(req,res)=>{
      const emailSent = await sendVerificationEmail(email,otp)
     
      if(!emailSent){
-      return  res.redirect("/pagenotfound")
+       req.session.err="email-error"
+      return res.redirect('/signup')
      } 
      req.session.userOtp=otp;
      req.session.userData={name,phone,email,password}
@@ -171,8 +177,79 @@ const verifyOtp=async(req,res)=>{
       
       await saveUserData.save();
       req.session.user=saveUserData._id
-    
+    if(req.session.code){
+      const user = await User.findOne({referralOfferCode:req.session.code}).lean()
+      const userId=user._id
+      const Wallet=await walletSchema.findOne({userId})
+      console.log('wallet ',Wallet)
+      if(!Wallet){
+        const newWallet= new walletSchema({
+          userId,
+          totalBalance:100,
+          transactions:[{
+            type:'Referal',
+            amount:100,
+            // orderId:order.orderId,
+            // description:
+          }]
+        })
+        console.log("newWalllet",Wallet)
+        await newWallet.save()
+        }else{
+          Wallet.totalBalance += 100;
+                  Wallet.transactions.push({
+                      type: 'Referal',
+                      amount: 100,
+                      // orderId:order.orderId,
+                        date: new Date()
+                  });
+                  await Wallet.save()
+        }
+    }
+console.log("req.session.user",req.session.user)
+const newUser= await User.findOne({_id:req.session.user})
+if(newUser){
+  const Wallet=await walletSchema.findOne({userId:req.session.user})
+  console.log('wallet ',Wallet)
+  if(!Wallet){
+    const newWallet= new walletSchema({
+      userId:req.session.user,
+      totalBalance:25,
+      transactions:[{
+        type:'Referal',
+        amount:25,
+        // orderId:order.orderId,
+        // description:
+      }]
+    })
+    console.log("newWalllet",Wallet)
+    await newWallet.save()
+    }else{
+      Wallet.totalBalance += 25;
+              Wallet.transactions.push({
+                  type: 'Referal',
+                  amount: 25,
+                  // orderId:order.orderId,
+                    date: new Date()
+              });
+              await Wallet.save()
+    }
+}
+
+console.log("newUser",newUser)
       // return res.redirect("/login")
+      // console.log(req.session.user)
+      
+
+
+
+
+
+
+
+
+
+
       return res.json({success:true,redirectUrl: '/' })
     }else{
       console.log("hi")

@@ -1,14 +1,7 @@
 
 const userSchema=require('../../models/userSchema');
 const bcrypt=require('bcrypt');
-const dashboard=async(req,res)=>{
-    try{
-       await res.render('admin/index.ejs')
-    }
-    catch(error){
-        console.log(error)
-    }
-}
+
 
 
 const loadlogin=async(req,res)=>{
@@ -47,4 +40,4 @@ const isLogout = async(req,res)=>{
     res.redirect('/admin/login');
 }
 
-module.exports = {dashboard,loadlogin,login ,isLogout}
+module.exports = {loadlogin,login ,isLogout}

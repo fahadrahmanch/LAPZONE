@@ -52,9 +52,15 @@
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <!-- Start Header Logo -->
                             <div class="header-logo">
-                                <div class="logo">
-                                    <a href="index.html"><img src="assets/images/logo/logo_black.png" alt=""></a>
-                                </div>
+                                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                                    <!-- Laptop Icon -->
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M2 18h20"></path>
+                                    </svg>
+                                    
+                                    <span>LapZone</span>
+                                </div>   
                             </div>
                             <!-- End Header Logo -->
 
@@ -566,33 +572,49 @@
                                         <tr>
                                             <td class="product_remove"><a href="#" onclick="toggleWishlist('<%=item.variants._id%>','<%=item.productId._id%>')"><i class="fa fa-trash-o"></i></a>
                                             </td>
-                                            <script>
-                                              async  function toggleWishlist(variantId,productId){
-                                                    console.log(variantId,productId)
-                                                    try {
-        const url =  '/wishlist/remove';
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ productId, variantId }),
-        });
-  
-        const data = await response.json();
-        if (data.success) {
-          console.log( 'Removed from wishlist');
-          window.location.reload()
-        } else {
-          alert(data.message);
-        }
-      } catch (error) {
-        alert('An error occurred while updating the wishlist.');
-        console.error(error);
+                                            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  async function toggleWishlist(variantId, productId) {
+    const confirmDelete = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to remove this item from your wishlist?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    });
+
+    if (!confirmDelete.isConfirmed) {
+      return; // Stop execution if the user clicks "No"
+    }
+
+    try {
+      const url = '/wishlist/remove';
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId, variantId }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        await Swal.fire("Removed!", "Item has been removed from your wishlist.", "success");
+        window.location.reload();
+      } else {
+        Swal.fire("Error", data.message, "error");
       }
-    
-                                                }
-                                            </script>
+    } catch (error) {
+      Swal.fire("Error", "An error occurred while updating the wishlist.", "error");
+      console.error(error);
+    }
+  }
+</script>
+
                                             <td class="product_thumb"><a href="product-details-default.html"><img
                                                         src="/uploads/<%=item.productId.productImage[0]%>"
                                                         alt=""></a></td>

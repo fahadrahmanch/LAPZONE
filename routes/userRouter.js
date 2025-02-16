@@ -68,6 +68,8 @@ router.post('/wishlist/remove',whishlistController.removeWishlist);
 //razorpay
 router.post('/createRazorpayOrder',orderController.raz)
 router.post('/verifyPayment',orderController.verRaz)
+router.post('/failRazorpayOrder',orderController.failRazorpayOrder)
+router.post('/retryRazorpayOrder',orderController.retryRazorpayOrder)
 //orderDetails
 router.get('/viewOrders/:id',orderController.orderDetails)
 router.post('/cancelorder',orderController.cancelOrder)

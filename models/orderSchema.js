@@ -16,7 +16,7 @@ const orderSchema = new Schema({
     orderedItems: [{
       Product: {
         type: Schema.Types.ObjectId,
-        ref: 'product',
+        ref: 'Product',
         required: true
       },
       quantity: {
@@ -119,6 +119,10 @@ const orderSchema = new Schema({
         default: null
       }
     },
+    DeliveryCharge:{
+      type:Number,
+      required:true
+    },
     createdOn: {
       type: String,
       default: () => {
@@ -127,7 +131,12 @@ const orderSchema = new Schema({
       },
       required: true,
     },
-  
+    paymentStatus: {
+      type: String,
+      enum: ["Pending", "Paid", "Failed", "Refunded"],
+      default: "Paid",
+      required: true,
+    },
   }, { timestamps: true });
 const Order=mongoose.model("Order",orderSchema);
 module.exports=Order;

@@ -25,19 +25,21 @@ const getcoupen=async(req,res)=>{
         console.log(error)
     }
 }
-const addCoupen=async(req,res)=>{
-    try{
-        const admin=req.session.admin
-        if(admin){
-     res.render('admin/addCoupen')
-        }else{
-            res.redirect('/admin/login')
+const addCoupen = async (req, res) => {
+    try {
+        const admin = req.session.admin;
+        if (admin) {
+            const message = req.session.messag;
+            req.session.messag = ''; 
+            res.render('admin/addCoupen', { messag: message });
+        } else {
+            res.redirect('/admin/login');
         }
+    } catch (error) {
+        console.log(error);
     }
-    catch(error){
-        console.log(error)
-    }
-}
+};
+
 // const editCoupen=async(req,res)=>{
 //     try{
 //         const admin=req.session.admin
@@ -71,6 +73,15 @@ const addCoupenPost=async(req,res)=>{
         minimumPrice:Amount,
 
     })
+    const currentDate = new Date();
+    const expiryDate = new Date(date);
+
+
+    if (expiryDate < currentDate) {
+        req.session.messag="Cannot create a coupon with a past date"
+        return res.redirect('/admin/addCoupen');
+    }
+    req.session.messag=''
     await newCoupen.save()
   return   res.redirect('/admin/coupen')
 }

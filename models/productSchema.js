@@ -40,6 +40,10 @@ const productSchema = new Schema(
       type:Number,
       default:0
   },
+  brand:{
+    type: Schema.Types.ObjectId,
+      ref: 'Brand',
+  },
     variants: [
       {
         ram: {

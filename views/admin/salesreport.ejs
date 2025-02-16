@@ -58,8 +58,15 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
-                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
-            </a>
+                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                    <!-- Laptop Icon -->
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                        <path d="M2 18h20"></path>
+                    </svg>
+                    
+                    <span>LapZone</span>
+                </div>            </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
             </div>
@@ -101,11 +108,11 @@
                     </a>
                    
                 </li>
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/coupen"> <i class="fa fa-gift" aria-hidden="true" ></i>
-                        <span class="text">Coupens</span>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/coupen">
+                        <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Coupon</span>
                     </a>
-                 
                 </li>
                 <!-- <li class="menu-item ">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
@@ -273,6 +280,8 @@
                 <button type="submit" id="generateReport" class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
                     Generate Report
                 </button>
+                <br>
+                <span style="color: red;"><%=dateErr%></span>
             </form>
             
               </div>
@@ -333,9 +342,9 @@
                 <table class="min-w-full bg-white border border-gray-200">
                  <thead>
                   <tr>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                   <!-- <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                     Order ID
-                   </th>
+                   </th> -->
                    <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
                     Date
                    </th>
@@ -361,11 +370,11 @@
 
                    
                   <tr>
-                    <td class="px-6 py-4 text-sm text-gray-900">
+                    <!-- <td class="px-6 py-4 text-sm text-gray-900">
                         <%= item.orderId.slice(0, 10) %><br>
                         <%= item.orderId.slice(10, 20) %><br>
                         <%= item.orderId.slice(20) %>
-                    </td>
+                    </td> -->
                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     <%=item.createdOn%>
                    </td>

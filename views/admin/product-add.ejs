@@ -83,29 +83,29 @@
         <header class="main-header navbar">
             <div class="col-search">
                 <form class="searchform">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i
                                 class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
+                    </div> -->
+                    <!-- <datalist id="search_terms">
                         <option value="Products">
                         <option value="New orders">
                         <option value="Apple iphone">
                         <option value="Ahmed Hassan">
-                    </datalist>
+                    </datalist> -->
                 </form>
             </div>
             <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
-                        class="material-icons md-apps"></i> </button>
+                <!-- <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button> -->
                 <ul class="nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link btn-icon" href="#">
                             <i class="material-icons md-notifications animation-shake"></i>
                             <span class="badge rounded-pill">3</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
                         </a>
@@ -173,7 +173,7 @@
                                 <div class="col-lg-4 mb-4">
                                     <label class="form-label">Category</label>
                                     <select class="form-select border" name="category">
-
+                                        <option value=""  selected></option>
                                         <%for(let i=0;i<cat.length;i++){%>
                                             <option value="<%= cat[i].name %>">
                                                 <%= cat[i].name %>
@@ -182,6 +182,20 @@
                                             <%}%>
                                     </select>
                                     <div id="brand-error" class="error-message"></div>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <label class="form-label">Brand</label>
+                                    <select class="form-select border" name="brand">
+                                        <option value=""  selected></option>
+
+                                        <%for(let i=0;i<brand.length;i++){%>
+                                            <option value="<%= brand[i].brandName %>">
+                                                <%= brand[i].brandName %>
+                                            </option>
+
+                                            <%}%>
+                                    </select>
+                                    <!-- <div id="brand-error" class="error-message"></div> -->
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Full description</label>
@@ -546,7 +560,7 @@ function validateAndSubmit() {
     // Validate Variants
     const variantSections = document.querySelectorAll('.variant-section');
     if (variantSections.length === 0) {
-        alert('At least one variant is required');
+        // alert('At least one variant is required');
         isValid = false;
     }
 
@@ -631,7 +645,7 @@ function validateAndSubmit() {
 
     // Prevent form submission if validation fails
     if (!isValid) {
-        alert('Please correct the errors before submitting.');
+        // alert('Please correct the errors before submitting.');
     }
 
     return isValid;
@@ -694,7 +708,7 @@ document.head.appendChild(style);
                 };
 
                 reader.onerror = function () {
-                    alert("Failed to read the image file.");
+                    // alert("Failed to read the image file.");
                 };
 
                 reader.readAsDataURL(input.files[0]);

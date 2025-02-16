@@ -40,11 +40,15 @@
               >
                 <!-- Start Header Logo -->
                 <div class="header-logo">
-                  <div class="logo">
-                    <a href="index.html"
-                      ><img src="assets/images/logo/logo_black.png" alt=""
-                    /></a>
-                  </div>
+                  <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                    <!-- Laptop Icon -->
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                        <path d="M2 18h20"></path>
+                    </svg>
+                    
+                    <span>LapZone</span>
+                </div>
                 </div>
                 <!-- End Header Logo -->
 
@@ -1350,8 +1354,122 @@
                         <td><%=item.orderedItems.length%> items</td>
                         <td><span class="success"><%=item.status%></span></td>
                         <td><%=item.finalAmount%></td>
-                        <td><a href="/viewOrders/<%= item.orderId %>" class="view">view</a></td>
+                        <td>
+                          <a href="/viewOrders/<%= item.orderId %>" class="view">View</a><br>
+                      
+                          <% if (item.paymentStatus === 'Failed') { %>
+                              <a onclick="retryPayment('<%= item.orderId %>','<%=item.finalAmount%>')" class="retry-button">Retry Payment</a>
+                              
+                          <% } %>
+                          <script>
+                            async function retryPayment(orderId, totalAMount) {
+                              console.log("Order ID:", orderId, "Total Amount:", totalAMount);
+                          
+                              try {
+                                const response = await fetch("/createRazorpayOrder", {
+                                  method: "POST",
+                                  headers: { "Content-Type": "application/json" },
+                                  body: JSON.stringify({ orderId, totalAMount }), // Make sure key name is correct
+                                });
+                          
+                                if (!response.ok) {
+                                  console.error("Error fetching Razorpay order:", response.statusText);
+                                  return;
+                                }
+                          
+                                const result = await response.json();
+                                console.log("Razorpay Order Response:", result);
+                          
+                                if (!result.success || !result.razorpayOrder) {
+                                  console.error("Missing required data from API:", result);
+                                  return;
+                                }
+                          
+                                const options = {
+                                  key: result.key_id,
+                                  amount: result.razorpayOrder.amount,
+                                  currency: "INR",
+                                  order_id: result.razorpayOrder.id,
+                                  name: "Your Store",
+                                  description: "Secure Payment",
+                                  handler: async function (razorpayResponse) {
+                                    console.log("Razorpay Response:", razorpayResponse);
+                          
+                                    const paymentResult = await fetch('/retryRazorpayOrder', {
+                                      method: 'POST',
+                                      headers: { 'Content-Type': 'application/json' },
+                                      body: JSON.stringify({
+                                        razorpayOrderId: razorpayResponse.razorpay_order_id,
+                                        razorpayPaymentId: razorpayResponse.razorpay_payment_id,
+                                        razorpaySignature: razorpayResponse.razorpay_signature,
+                                        orderId,
+                                        totalAMount
+                                      }),
+                                    });
+                          
+                                    const paymentData = await paymentResult.json();
+                                    console.log("Payment Data:", paymentData);
+                          
+                                    if (paymentData.success) {
+                                      Swal.fire({
+                                        icon: 'success',
+                                        title: 'Payment Successful',
+                                        text: 'Your payment has been verified.',
+                                        confirmButtonText: 'Proceed to Order Details',
+                                      }).then(() => {
+                                        window.location.href = `/orderConfirm/${paymentData.newOrder._id}`; 
+                                      });
+                                    } else {
+                                      Swal.fire({
+                                        icon: 'error',
+                                        title: 'Payment Verification Failed',
+                                        text: paymentData.message || 'Unable to verify payment. Please try again.',
+                                        confirmButtonText: 'Retry',
+                                      });
+                                    }
+                                  }
+                                };
+                          
+                                console.log("Opening Razorpay...");
+                                const razorpayInstance = new Razorpay(options);
+                                razorpayInstance.open();
+                          
+                                razorpayInstance.on('payment.failed', async function (res) {
+                                  console.log("Payment failed:", res.error);
+                                  await fetch("/failRazorpayOrder", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ orderId })
+                                  });
+                                });
+                          
+                              } catch (error) {
+                                console.error("Error in retryPayment:", error);
+                              }
+                            }
+                          </script>
+                          
 
+                          
+                          
+                          <style>
+                            .retry-button {
+    display: inline-block;
+    padding: 3px 8px;  /* Reduced padding */
+    font-size: 12px;  /* Smaller text */
+    background-color: #ff5722;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;  /* Smaller border radius */
+    margin-top: 3px;
+}
+.retry-button:hover {
+    background-color: #e64a19;
+}
+                          </style>
+                      </td>
+                      
+                          
                       </tr>
                       <%})%>
                     </tbody>
@@ -2479,78 +2597,75 @@
                   .addEventListener("click", openAddModal);
               </script>
               <div class="tab-pane fade" id="account-details">
-                <h3>Account details</h3>
-                <div class="login">
-                  <div class="login_form_container">
-                    <div class="account_login_form">
-                      <form action="#">
-                        <p>
-                          Already have an account?
-                          <a href="#">Log in instead!</a>
-                        </p>
-                        <div class="input-radio">
-                          <span class="custom-radio"
-                            ><input type="radio" value="1" name="id_gender" />
-                            Mr.</span
-                          >
-                          <span class="custom-radio"
-                            ><input type="radio" value="1" name="id_gender" />
-                            Mrs.</span
-                          >
-                        </div>
-                        <br />
-                        <div class="default-form-box mb-20">
-                          <label>First Name</label>
-                          <input type="text" name="first-name" />
-                        </div>
-                        <div class="default-form-box mb-20">
-                          <label>Last Name</label>
-                          <input type="text" name="last-name" />
-                        </div>
-                        <div class="default-form-box mb-20">
-                          <label>Email</label>
-                          <input type="text" name="email-name" />
-                        </div>
-                        <div class="default-form-box mb-20">
-                          <label>Password</label>
-                          <input type="password" name="user-password" />
-                        </div>
-                        <div class="default-form-box mb-20">
-                          <label>Birthdate</label>
-                          <input type="date" name="birthday" />
-                        </div>
-                        <span class="example"> (E.g.: 05/31/1970) </span>
-                        <br />
-                        <label class="checkbox-default" for="offer">
-                          <input type="checkbox" id="offer" />
-                          <span>Receive offers from our partners</span>
-                        </label>
-                        <br />
-                        <label
-                          class="checkbox-default checkbox-default-more-text"
-                          for="newsletter"
-                        >
-                          <input type="checkbox" id="newsletter" />
-                          <span
-                            >Sign up for our newsletter<br /><em
-                              >You may unsubscribe at any moment. For that
-                              purpose, please find our contact info in the legal
-                              notice.</em
-                            ></span
-                          >
-                        </label>
-                        <div class="save_button mt-3">
-                          <button
-                            class="btn btn-md btn-black-default-hover"
-                            type="submit"
-                          >
-                            Save
-                          </button>
-                        </div>
-                      </form>
-                    </div>
+                <!-- <h3>Account details</h3> -->
+              
+                <div class="container">
+                  <h2>Refer a Friend</h2>
+                  <p>To refer a friend, ask him/her to sign up using the link below. Reward will be credited as soon as the signup is complete. (Not applicable for signup using Google.)</p>
+                  <div class="input-box">
+                      <input type="text" id="referral-link" value="http://localhost:3001/signup?code=<%=users.referralOfferCode%>" readonly>
+                      <button class="copy-btn" onclick="copyLink()">📋</button>
                   </div>
-                </div>
+              </div>
+              <script>
+
+
+
+
+                function copyLink() {
+                    // var copyText = document.getElementById("referral-link");
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999); // For mobile devices
+                    navigator.clipboard.writeText(copyText.value);
+                    alert("Referral link copied!");
+                }
+            </script>
+
+<style>
+  /* body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+  } */
+  /* .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      text-align: center;
+  } */
+  .input-box {
+      display: flex;
+      align-items: center;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow: hidden;
+      background: #f0f0f0;
+  }
+  .input-box input {
+      border: none;
+      padding: 10px;
+      flex: 1;
+      background: transparent;
+      font-size: 14px;
+  }
+  .copy-btn {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+  }
+  .copy-btn:hover {
+      background: #45a049;
+  }
+</style>
+
+
               </div>
             </div>
           </div>
@@ -3170,5 +3285,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   </body>
 </html>

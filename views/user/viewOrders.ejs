@@ -34,9 +34,15 @@
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <!-- Start Header Logo -->
                             <div class="header-logo">
-                                <div class="logo">
-                                    <a href="index.html"><img src="assets/images/logo/logo_black.png" alt=""></a>
-                                </div>
+                                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                                    <!-- Laptop Icon -->
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M2 18h20"></path>
+                                    </svg>
+                                    
+                                    <span>LapZone</span>
+                                </div>
                             </div>
                             <!-- End Header Logo -->
 
@@ -527,7 +533,7 @@
           
 
           <div>
-            <%if(order.status!=='Cancelled' &&order.status!=='Delivered'&&order.status!=='Return Request'&&order.status!=='Returned'){%>
+            <%if(order.status!=='Cancelled' &&order.status!=='Delivered'&&order.status!=='Return Request'&&order.status!=='Returned'&&order.status!=='Rejected'&&order.status!='Pending'){%>
            <a onclick="cancel('<%=order.orderId%>')" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 mr-2">
             <i class="fas fa-times">
             </i>
@@ -543,15 +549,13 @@
                 <%}else if(order.status==='Returned'){%>
                     <span class="text-danger">Returned</span>
                     <%}%>
-           <%if(order.status==='Delivered'){%>
+           <%if(order.status==='Delivered' ||order.status==='Rejected'){%>
             
             <a href="/download-pdf/<%= order.orderId %>" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 <i class="fas fa-print"></i>
                 Print
             </a>
             
-          
-
            <%}%>
           </div>
          </div>
@@ -662,7 +666,7 @@
                             <%= order.orderedItems[i].totalPrice %>
                         </td>
                     
-                        <% if (order.orderedItems[i].status === 'Shipped') { %>
+                        <% if (order.orderedItems[i].status === 'Shipped'&&order.status!='Pending') { %>
                             <td>
                                 <a onclick="indivdual('<%= order.orderId %>', '<%= order.orderedItems[i]._id %>')" class="text-red-500 cursor-pointer">
                                     <i class="fas fa-times"></i> Cancel Product
@@ -679,10 +683,10 @@
                         <% } else if (order.orderedItems[i].status === 'Delivered') { %> 
                             <td>
                                 <a onclick="productreturn('<%= order.orderedItems[i]._id %>')" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
-                                    <i class="fas fa-undo"></i> Return Order
+                                    <i class="fas fa-undo"></i> Return Product
                                 </a>
                             </td>
-                        <% }else {%>
+                        <% }else if(order.status!='Pending'){%>
                             <td>
                                 <span class="text-danger"><%= order.orderedItems[i].status %></span>
                             </td>
@@ -758,7 +762,7 @@
             <strong>
              Shipping:
             </strong>
-            0
+            <%=order.DeliveryCharge%>
            </p>
            <p class="text-lg">
             <strong>
@@ -1036,10 +1040,10 @@
                 if (response.ok) {
                   await   Swal.fire('Success', 'Your return request has been submitted.', 'success');
                     const returnButton = document.querySelector(`a[onclick="returnn('${orderId}')"]`);
-                    // if (returnButton) {
-                    //     returnButton.outerHTML = '<span class="text-danger">Return Requested</span>';
-                    // }
-                    window.location.reload()
+                    if (returnButton) {
+                        returnButton.outerHTML = '<span class="text-danger">Return Requested</span>';
+                    }
+                    // window.location.reload()
                     
                     
                 } else {

@@ -52,7 +52,8 @@ const getwishlist = async (req, res) => {
       
         return item; 
       });
-      
+      console.log("wishlist.products",wishlist.products)
+      console.log(wishlist)
       wishlist.products.map((item)=>{
         console.log('item',item)
         const originalPrice=item.variants.salePrice

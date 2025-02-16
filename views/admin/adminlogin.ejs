@@ -22,7 +22,7 @@
     <main class="min-h-screen flex items-center justify-center">
         <section class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
             <h4 class="text-2xl font-bold mb-4">Sign in</h4>
-            <form action="/admin/login" method="POST" id="adminloginForm" target="_self">
+            <form action="/admin/login" method="POST" id="adminloginForm" >
                 <span class="text-red-500"><%=message%></span>
                 <div class="mb-4">
                     <input class="w-full p-2 rounded bg-gray-700 text-white" id="email" placeholder="Username or email" type="text" name="email" oninput="validateEmail()">
@@ -40,6 +40,12 @@
                     <button type="submit" class="w-full p-2 rounded bg-blue-600 hover:bg-blue-700">Login</button>
                 </div>
             </form>
+            <script>
+            document.getElementById("adminloginForm").addEventListener("submit", function (event) {
+                event.preventDefault(); 
+                this.submit(); 
+            });
+        </script>
             <script src="/js_folder/validation.js"></script>
         </section>
     </main>

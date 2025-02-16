@@ -1,5 +1,7 @@
 const mongoose=require("mongoose")
 const {Schema}=mongoose;
+const crypto = require("crypto"); 
+
 const userSchema =new Schema({
     name:{
         type:String,
@@ -59,6 +61,11 @@ const userSchema =new Schema({
     referalCode:{
         type:String
     },
+    referralOfferCode: { 
+        type: String,
+        unique: true
+    },
+   
     redeemed:{
         type:Boolean
     },
@@ -81,5 +88,11 @@ const userSchema =new Schema({
     }]
 
 })
+userSchema.pre("save", function (next) {
+    if (!this.referralOfferCode) {
+        this.referralOfferCode = crypto.randomBytes(5).toString("hex").toUpperCase();
+    }
+    next();
+});
 const User=mongoose.model("User",userSchema);
 module.exports=User;

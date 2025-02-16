@@ -71,7 +71,7 @@ const updateOrderstatus=async(req,res)=>{
         return res.status(400).json({success:false,message:"order not found"})
      }
      console.log("ordered",order)
-     if(order.status=='Delivered'||order.status=='Cancelled'||order.status==='Returned'){
+     if(order.status=='Delivered'||order.status=='Cancelled'||order.status==='Returned'||order.status==='Rejected'){
         
       
         return res.status(401).json({
@@ -197,29 +197,30 @@ if (product) {
 
 const rejectProduct = async (req, res) => {
   try {
-    const orderId = req.params.id;
+
+    const orderId = req.params.id
     if (!orderId) {
       return res.status(400).json({ success: false, message: "Order ID is required." });
     }
 
     const order = await Order.findOne({ orderId });
+
     if (!order) {
       return res.status(404).json({ success: false, message: "Order not found." });
     }
 
     order.returnRequest.status = "Rejected";
     order.status = "Rejected";
-
+console.log("here 1")
     for (let item of order.orderedItems) {
       if (typeof item === "object" && item.status === "Return Request") {
         console.log("item", item);
         item.status = "Rejected";
       }
     }
-
     await order.save();
 
-    return res.redirect(`/admin/orderdetails/${orderId}`);
+    return res.redirect('/admin/orders');
   } catch (error) {
     console.error(error);
     res.status(500).json({ success: false, message: "Internal server error." });
@@ -338,10 +339,10 @@ const rejectreturn=async(req,res)=>{
       }
     });
     await order.save()
-    return res.json({success:true})
+    res.json({success:true,message:"request rejected"})
   }
   catch(error){
-    console.log(error)
+    console.log("erooorroor",error)
   }
 }
 

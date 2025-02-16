@@ -22,8 +22,15 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
-                <img src="assets/imgs/theme/logo.svg" class="logo" alt="Evara Dashboard">
-            </a>
+                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                    <!-- Laptop Icon -->
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                        <path d="M2 18h20"></path>
+                    </svg>
+                    
+                    <span>LapZone</span>
+                </div>            </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
                 </button>
@@ -66,12 +73,13 @@
                     </a>
                    
                 </li>
-                <li class="menu-item ">
-                    <a class="menu-link" href="/admin/coupen"> <i class="fa fa-gift" aria-hidden="true" ></i>
-                        <span class="text">Coupens</span>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/coupen">
+                        <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Coupon</span>
                     </a>
-                 
                 </li>
+                
             </ul>
             <hr>
         </nav>
@@ -80,38 +88,38 @@
         <header class="main-header navbar">
             <div class="col-search">
                 <form class="searchform">
-                    <div class="input-group">
+                    <!-- <div class="input-group">
                         <input list="search_terms" type="text" class="form-control" placeholder="Search term">
                         <button class="btn btn-light bg" type="button"> <i
                                 class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
+                    </div> -->
+                    <!-- <datalist id="search_terms">
                         <option value="Products">
                         <option value="New orders">
                         <option value="Apple iphone">
                         <option value="Ahmed Hassan">
-                    </datalist>
+                    </datalist> -->
                 </form>
             </div>
             <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
-                        class="material-icons md-apps"></i> </button>
+                <!-- <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+                        class="material-icons md-apps"></i> </button> -->
                 <ul class="nav">
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link btn-icon" href="#">
                             <i class="material-icons md-notifications animation-shake"></i>
                             <span class="badge rounded-pill">3</span>
                         </a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#" class="requestfullscreen nav-link btn-icon"><i
                                 class="material-icons md-cast"></i></a>
-                    </li>
-                    <li class="dropdown nav-item">
+                    </li> -->
+                    <!-- <li class="dropdown nav-item">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage"
                             aria-expanded="false"><i class="material-icons md-public"></i></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
@@ -124,13 +132,13 @@
                             <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png"
                                     alt="Français">中国人</a>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="dropdown nav-item">
                         <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount"
                             aria-expanded="false"> <img class="img-xs rounded-circle"
                                 src="assets/imgs/people/avatar2.jpg" alt="User"></a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
+                            <!-- <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit
                                 Profile</a>
                             <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account
                                 Settings</a>
@@ -138,7 +146,7 @@
                                     class="material-icons md-account_balance_wallet"></i>Wallet</a>
                             <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
                             <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help
-                                center</a>
+                                center</a> -->
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item text-danger" href="/admin/logout"><i
                                     class="material-icons md-exit_to_app"></i>Logout</a>
@@ -170,7 +178,7 @@
                                 <div class="col-lg-4 mb-4">
                                     <label class="form-label">Category</label>
                                     <select class="form-select border" name="category">
-
+                                        <option value="<%= product.category.name %>" selected><%= product.category.name %></option>
                                         <%for(let i=0;i<cat.length;i++){%>
                                             <option value="<%= cat[i].name %>">
                                                 <%= cat[i].name %>
@@ -179,6 +187,19 @@
                                             <%}%>
                                     </select>
                                     <div id="brand-error" class="error-message"></div>
+                                </div>
+                                <div class="col-lg-4 mb-4">
+                                    <label class="form-label">Brand</label>
+                                    <select class="form-select border" name="brand">
+
+                                        <%for(let i=0;i<brand.length;i++){%>
+                                            <option value="<%= brand[i].brandName %>">
+                                                <%= brand[i].brandName %>
+                                            </option>
+
+                                            <%}%>
+                                    </select>
+                                    <!-- <div id="brand-error" class="error-message"></div> -->
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Full description</label>
@@ -443,7 +464,7 @@
         
             // Remove a specific variant row
             function removeVariant(index) {
-                alert(index)
+                // alert(index)
                 const variantRow = document.getElementById(`variant-${index}`);
                 if (variantRow) {
                     variantRow.remove();
@@ -496,7 +517,7 @@
     // Validate Variants
     const variantSections = document.querySelectorAll('.variant-section');
     if (variantSections.length === 0) {
-        alert('At least one variant is required');
+        // alert('At least one variant is required');
         isValid = false;
     }
 
@@ -578,7 +599,7 @@
 
     // Prevent form submission if validation fails
     if (!isValid) {
-        alert('Please correct the errors before submitting.');
+        // alert('Please correct the errors before submitting.');
     }
 
     return isValid;
@@ -655,7 +676,7 @@ document.head.appendChild(style);
                 };
 
                 reader.onerror = function () {
-                    alert("Failed to read the image file.");
+                    // alert("Failed to read the image file.");
                 };
 
                 reader.readAsDataURL(input.files[0]);

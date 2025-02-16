@@ -110,7 +110,7 @@ const myaccount = async (req, res) => {
     }
 
     const walletPage = parseInt(req.query.walletPage) || 1; 
-    const walletLimit = 5;
+    const walletLimit = 10;
     const walletSkip = (walletPage - 1) * walletLimit;
     const totalTransactions = wallet ? wallet.transactions.length : 0;
     const paginatedTransactions = wallet 
@@ -120,7 +120,7 @@ const myaccount = async (req, res) => {
     const totalWalletPages = Math.ceil(totalTransactions / walletLimit);
 
     const page = parseInt(req.query.page) || 1; 
-    const limit = 5; 
+    const limit = 10; 
     const skip = (page - 1) * limit;
     const totalOrders = await Order.countDocuments({ userId });
 

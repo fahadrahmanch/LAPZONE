@@ -7,6 +7,7 @@ const path=require('path')
 const sharp=require("sharp");
 const Category = require('../../models/categorySchema');
 const { categorySchema } = require('./categoriesController');
+const Brand=require("../../models/brandSchema")
 const productpage=async(req,res)=>{
   try{
     const search=req.query.search||"";
@@ -42,13 +43,15 @@ const productpage=async(req,res)=>{
 const getPrductAddPage=async(req,res)=>{
     try{
         const category =await Category.find({isListed:true})
+        const brand=await Brand.find()
         res.render('admin/product-add',{
             cat:category,
+            brand
            
         })
     }
     catch(error){{
-    //    res.redirect('/pageerror')
+      console.log(error)
     }}
 }
 
@@ -57,7 +60,8 @@ const addProducts = async (req, res) => {
   try {
     console.log("addproduct")
     const products = req.body;
-    // console.log(req.body)
+
+    console.log('req.body',req.body)
     // console.log('Uploaded files:', req.files);
 
     const productExists = await productSchema.findOne({ productName: products.productName });
@@ -72,6 +76,9 @@ const addProducts = async (req, res) => {
         }
 
         const categoryID = await categorySchema.findOne({ name: products.category });
+        const brandId=await Brand.findOne({brandName:products.brand})
+       console.log('brandId',brandId)
+
         if (!categoryID) {
           return res.status(400).json("Invalid category name");
         }
@@ -81,6 +88,7 @@ const addProducts = async (req, res) => {
           description: products.description,
           category: categoryID._id,
           // regularPrice: products.regularPrice,
+          brand:brandId._id,
           // salePrice: products.salePrice,
           createdOn: new Date(),
           // quantity: products.size,
@@ -116,11 +124,14 @@ const addProducts = async (req, res) => {
 const getEditProduct=async(req,res)=>{
   try{
     const id=req.query.id;
-    const product=await productSchema.findOne({_id:id})
+    const product=await productSchema.findOne({_id:id}).populate('category')
     const category=await categorySchema.find({})
+    const brand =await Brand.find({})
+    console.log("product",product)
     res.render("admin/product-edit",{
       product:product,
-      cat:category
+      cat:category,
+      brand
     })
   }catch(error){
     console.log("error",error)
@@ -131,7 +142,7 @@ const editProduct = async (req, res) => {
     const id = req.params.id;
     const product = await productSchema.findById({ _id: id });
     const data = req.body;
-
+console.log(data)
     const existingProduct = await productSchema.findOne({
       productName: data.productName,
       _id: { $ne: id }
@@ -142,7 +153,10 @@ const editProduct = async (req, res) => {
         .json({ error: "Product with this name exists. Please try with another name" });
     }
 
-   
+   if(data.brand){
+    const brandDoc = await Brand.findOne({ brandName: data.brand });
+    product.brand=brandDoc._id;
+  }
     if (data.category) {
       const categoryDoc = await Category.findOne({ name: data.category });
       if (!categoryDoc) {

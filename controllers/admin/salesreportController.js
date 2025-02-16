@@ -1,5 +1,6 @@
 const orderSchema=require("../../models/orderSchema")
-const PDFDocument = require('pdfkit');
+// const PDFDocument = require('pdfkit');
+const PDFDocument = require('pdfkit-table');
 
 const ExcelJS = require('exceljs');
 const fs = require('fs');
@@ -17,6 +18,8 @@ const getSalesreport = async (req, res) => {
         const period=req.query.period||"all"
         const startDate=req.query.startDate
         const endDate = req.query.endDate;
+        req.session.dateErr = "";
+
         // console.log(req.query)
 
         let filterQuery = {status: "Delivered"};
@@ -80,14 +83,25 @@ const getSalesreport = async (req, res) => {
                     end.setHours(23, 59, 59, 999);
                     break;
         
-                case "custom":
-                    if (startDate && endDate) {
-                        start = new Date(startDate);
-                        start.setHours(0, 0, 0, 0);
-                        end = new Date(endDate);
-                        end.setHours(23, 59, 59, 999);
-                    }
-                    break;
+            case "custom":
+    if (startDate && endDate) {
+        start = new Date(startDate);
+        end = new Date(endDate);
+
+        const today = new Date();
+        today.setHours(23, 59, 59, 999); // Set today's time to the end of the day
+
+        if (start > today || end > today) {
+            req.session.dateErr='"Future dates are not allowed."'
+            // return res.render('admin/salesreport',{dateErr: req.session.dateErr})
+                
+        }
+
+        start.setHours(0, 0, 0, 0);
+        end.setHours(23, 59, 59, 999);
+    }
+    break;
+
             }
         
             if (start && end) {
@@ -138,6 +152,7 @@ const getSalesreport = async (req, res) => {
             currentPage: page,
             totalPages,
             period,
+            dateErr:req.session.dateErr,
             startDate,
             endDate,
         });
@@ -257,92 +272,186 @@ const downloadExcel = async (req, res) => {
 };
 
 
-const downloadPDF=async(req,res)=>{
-    try{
-    const filterQuery={}
-    const period=req.query.period||"all"
-    const startDate=req.query.startDate;
-    const endDate=req.query.endDate;
-    if (period !== "all") {
-        let start, end;
-        const today = new Date();
+// const downloadPDF=async(req,res)=>{
+//     try{
+//     const filterQuery={}
+//     const period=req.query.period||"all"
+//     const startDate=req.query.startDate;
+//     const endDate=req.query.endDate;
+//     if (period !== "all") {
+//         let start, end;
+//         const today = new Date();
     
-        switch (period) {
-            case "daily":
-                start = new Date();
-                start.setHours(0, 0, 0, 0); 
-                end = new Date();
-                end.setHours(23, 59, 59, 999);
-                break;
+//         switch (period) {
+//             case "daily":
+//                 start = new Date();
+//                 start.setHours(0, 0, 0, 0); 
+//                 end = new Date();
+//                 end.setHours(23, 59, 59, 999);
+//                 break;
     
-            case "weekly":
-                start = new Date(today);
-                start.setDate(today.getDate() - 7);
-                start.setHours(0, 0, 0, 0); 
-                end = new Date(today);
-                end.setHours(23, 59, 59, 999);
-                break;
+//             case "weekly":
+//                 start = new Date(today);
+//                 start.setDate(today.getDate() - 7);
+//                 start.setHours(0, 0, 0, 0); 
+//                 end = new Date(today);
+//                 end.setHours(23, 59, 59, 999);
+//                 break;
     
-            case "monthly":
-                start = new Date(today.getFullYear(), today.getMonth(), 1); 
-                start.setHours(0, 0, 0, 0);
-                end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-                end.setHours(23, 59, 59, 999);
-                break;
+//             case "monthly":
+//                 start = new Date(today.getFullYear(), today.getMonth(), 1); 
+//                 start.setHours(0, 0, 0, 0);
+//                 end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+//                 end.setHours(23, 59, 59, 999);
+//                 break;
     
-            case "custom":
-                if (startDate && endDate) {
-                    start = new Date(startDate);
-                    start.setHours(0, 0, 0, 0);
-                    end = new Date(endDate);
-                    end.setHours(23, 59, 59, 999);
-                }
-                break;
-        }
+//             case "custom":
+//                 if (startDate && endDate) {
+//                     start = new Date(startDate);
+//                     start.setHours(0, 0, 0, 0);
+//                     end = new Date(endDate);
+//                     end.setHours(23, 59, 59, 999);
+//                 }
+//                 break;
+//         }
     
-        if (start && end) {
+//         if (start && end) {
             
-            const startStr = start.toISOString().split('T')[0];
-            const endStr = end.toISOString().split('T')[0];
+//             const startStr = start.toISOString().split('T')[0];
+//             const endStr = end.toISOString().split('T')[0];
     
-            filterQuery.createdOn = { $gte: startStr, $lte: endStr };
+//             filterQuery.createdOn = { $gte: startStr, $lte: endStr };
+//         }
+//     }
+//     const orders=await orderSchema.find(filterQuery)
+//     .populate('userId')
+//     .populate({
+//         path:'orderedItems.Product',
+//         model:'Product'
+//     })
+//     .lean()
+
+//     const doc = new PDFDocument();
+//     res.setHeader('Content-Type', 'application/pdf');
+//     res.setHeader('Content-Disposition', 'attachment; filename=sales-report.pdf');
+//     doc.pipe(res); 
+//     orders.forEach((order, index) => {
+//         const createdOnDate = new Date(order.createdOn);
+
+//         doc.fontSize(14).text(`Order ${index + 1}:`);
+//         doc.fontSize(12).text(`Order ID: ${order.orderId}`);
+//         doc.text(`Date: ${createdOnDate.toISOString().split('T')[0]}`);
+//         doc.text(`Customer: ${order.userId.name}`);
+//         doc.text(`Products: ${order.orderedItems.map(item => item.Product.productName).join(', ')}`);
+//         doc.text(`Payment Method: ${order.paymentMethod}`);
+//         doc.text(`Status: ${order.status}`);
+//         doc.text(`Amount: $${order.finalAmount}`);
+//         doc.moveDown();
+//     });
+
+//     doc.end();
+
+
+//     }
+//     catch(error){
+//         console.log(error)
+//         res.status(500).send('Error generating PDF');
+//     }
+// }
+;
+
+const downloadPDF = async (req, res) => {
+    try {
+        const filterQuery = {status:'Delivered'}
+        const period = req.query.period || "all";
+        const startDate = req.query.startDate;
+        const endDate = req.query.endDate;
+
+        if (period !== "all") {
+            let start, end;
+            const today = new Date();
+
+            switch (period) {
+                case "daily":
+                    start = new Date();
+                    start.setHours(0, 0, 0, 0);
+                    end = new Date();
+                    end.setHours(23, 59, 59, 999);
+                    break;
+                case "weekly":
+                    start = new Date(today);
+                    start.setDate(today.getDate() - 7);
+                    start.setHours(0, 0, 0, 0);
+                    end = new Date(today);
+                    end.setHours(23, 59, 59, 999);
+                    break;
+                case "monthly":
+                    start = new Date(today.getFullYear(), today.getMonth(), 1);
+                    start.setHours(0, 0, 0, 0);
+                    end = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    end.setHours(23, 59, 59, 999);
+                    break;
+                case "custom":
+                    if (startDate && endDate) {
+                        start = new Date(startDate);
+                        start.setHours(0, 0, 0, 0);
+                        end = new Date(endDate);
+                        end.setHours(23, 59, 59, 999);
+                    }
+                    break;
+            }
+
+            if (start && end) {
+                filterQuery.createdOn = { $gte: start, $lte: end };
+            }
         }
-    }
-    const orders=await orderSchema.find(filterQuery)
-    .populate('userId')
-    .populate({
-        path:'orderedItems.Product',
-        model:'Product'
-    })
-    .lean()
 
-    const doc = new PDFDocument();
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'attachment; filename=sales-report.pdf');
-    doc.pipe(res); 
-    orders.forEach((order, index) => {
-        const createdOnDate = new Date(order.createdOn);
+        const orders = await orderSchema.find(filterQuery)
+            .populate('userId')
+            .populate({
+                path: 'orderedItems.Product',
+                model: 'Product'
+            })
+            .lean();
 
-        doc.fontSize(14).text(`Order ${index + 1}:`);
-        doc.fontSize(12).text(`Order ID: ${order.orderId}`);
-        doc.text(`Date: ${createdOnDate.toISOString().split('T')[0]}`);
-        doc.text(`Customer: ${order.userId.name}`);
-        doc.text(`Products: ${order.orderedItems.map(item => item.Product.productName).join(', ')}`);
-        doc.text(`Payment Method: ${order.paymentMethod}`);
-        doc.text(`Status: ${order.status}`);
-        doc.text(`Amount: $${order.finalAmount}`);
-        doc.moveDown();
-    });
+        const doc = new PDFDocument({ margin: 30, size: 'A4' });
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=sales-report.pdf');
+        doc.pipe(res);
 
-    doc.end();
+        // Title
+        doc.fontSize(16).text('Sales Report', { align: 'center', underline: true });
+        doc.moveDown(2);
 
+        // Table data
+        const table = {
+            headers: [ 'Date', 'Customer', 'Products', 'Payment', 'Status', 'Amount'],
+            rows: orders.map(order => [
+                // order.orderId,
+                new Date(order.createdOn).toISOString().split('T')[0],
+                order.userId.name,
+                order.orderedItems.map(item => item.Product.productName).join(', '),
+                order.paymentMethod,
+                order.status,
+                `$${order.finalAmount}`
+            ])
+        };
 
-    }
-    catch(error){
-        console.log(error)
+        // Add table to PDF
+        await doc.table(table, {
+            prepareHeader: () => doc.fontSize(10).font('Helvetica-Bold'),
+            prepareRow: () => doc.fontSize(10).font('Helvetica')
+        });
+
+        doc.end();
+
+    } catch (error) {
+        console.error(error);
         res.status(500).send('Error generating PDF');
     }
-}
+};
+
+
 
 
 module.exports={getSalesreport,downloadExcel,downloadPDF}

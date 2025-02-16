@@ -6,6 +6,7 @@ const productSchema = require("../../models/productSchema");
 const Coupen = require("../../models/coupenSchema");
 
 const getCheckout=async (req,res)=>{
+  const DELIVERY_CHARGE = 50;
     try{
         const user=req.session.user;
         // req.session.Coupenamount=0
@@ -35,7 +36,7 @@ const getCheckout=async (req,res)=>{
             item.variant = variant;
             return item;
           });
-          console.log("cart",cart.items)
+          // console.log("cart",cart.items)
           // console.log("cart.itemscart.items",cart.items )
 
           const checkoutwithoffer=cart.items.map((item)=>{
@@ -45,11 +46,11 @@ const getCheckout=async (req,res)=>{
             const originalPrice = item.variant.salePrice;
              
             const quantity = item.quantity;
-            console.log("categoryOffer",categoryOffer)
-            console.log("productOffer",productOffer)
-            console.log("bestOffer",bestOffer)
-            console.log("originalPrice",originalPrice)
-            console.log("item.variant.salePrice")
+            // console.log("categoryOffer",categoryOffer)
+            // console.log("productOffer",productOffer)
+            // console.log("bestOffer",bestOffer)
+            // console.log("originalPrice",originalPrice)
+            // console.log("item.variant.salePrice")
             // item.variant.salePrice=Number(originalPrice - (originalPrice * bestOffer / 100));
             // item.totalPrice=Number(item.variant.salePrice*quantity)
             // console.log(" item.variant.salePrice", item.variant.salePrice)
@@ -71,7 +72,7 @@ const getCheckout=async (req,res)=>{
     
      req.session.totalDiscount = checkoutwithoffer.reduce((acc, item) => {
       if (item.discount) {
-          console.log("s", item.discount);
+          // console.log("s", item.discount);
           return acc + item.discount;
       }
       return acc;
@@ -112,10 +113,11 @@ const getCheckout=async (req,res)=>{
           cart:checkoutwithoffer, 
           activeCoupens,
           addressData, 
-          totalAmount,
+          totalAmount:totalAmount+DELIVERY_CHARGE,
           coupenAmount:req.session.Coupenamount||0,
           Disount: req.session.totalDiscount ||0,
-          message:req.session.user||""
+          message:req.session.user||"",
+          DELIVERY_CHARGE:DELIVERY_CHARGE
         });
         
     }
@@ -128,10 +130,10 @@ const getCheckout=async (req,res)=>{
 
 const applyCoupen=async(req,res)=>{
   try{
-  console.log('checkoutwithoffer',req.session.totalDiscount)
+  // console.log('checkoutwithoffer',req.session.totalDiscount)
    const{totalAmount,selectedCoupon}=req.body
    const discount=await Coupen.findOne({name:selectedCoupon})
-   console.log("discount",discount)
+  //  console.log("discount",discount)
    if(discount.minimumPrice>=totalAmount){
     return res.status(401).json({success:false,message:` Minimum purchase amount of ₹${discount.minimumPrice} is required`})
    }
@@ -141,7 +143,7 @@ const applyCoupen=async(req,res)=>{
   
 
    req.session.totalDiscount = totalDiscountAmount;
-   console.log(req.session.totalDiscount)
+  //  console.log(req.session.totalDiscount)
    const final=totalAmount-discount.offerPrice
     return res.status(200).json({success:true,message:final,discountPrice})
   }

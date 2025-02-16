@@ -117,9 +117,9 @@ const loadShop = async (req, res) => {
 
   //  console.log("products",products)
 
-console.log("catt",catt)
-console.log('finalProduct.isInWishlist',productWithoffer)
-console.log("productWithoffer",productWithoffer[0].variants)
+// console.log("catt",catt)
+// console.log('finalProduct.isInWishlist',productWithoffer)
+// console.log("productWithoffer",productWithoffer[0].variants)
     res.render("user/Shop", {
       products: productWithoffer,
       cat: cat,

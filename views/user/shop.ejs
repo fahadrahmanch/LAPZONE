@@ -29,9 +29,15 @@
                         <div class="col-12 d-flex align-items-center justify-content-between">
                             <!-- Start Header Logo -->
                             <div class="header-logo">
-                                <div class="logo">
-                                    <a href="index.html"><img src="assets/images/logo/logo_black.png" alt=""></a>
-                                </div>
+                                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                                    <!-- Laptop Icon -->
+                                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                        <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                                        <path d="M2 18h20"></path>
+                                    </svg>
+                                    
+                                    <span>LapZone</span>
+                                </div>
                             </div>
                             <!-- End Header Logo -->
 
@@ -73,6 +79,33 @@
                               
                             <ul class="header-action-link action-color--black action-hover-color--golden">
                                 <li>
+                                    <!-- <a href="#search">
+                                        <i class="icon-magnifier"></i>
+                                    </a> -->
+                                    <div class="search-container">
+                                        <form action="/shop" method="get" role="search" onsubmit="preserveFilters(event)">
+                                            <input type="search" placeholder="search here" name="search" id="searchInput">
+                                            <!-- <button type="submit"  >Search</button> -->
+                                        </form>
+                                    </div>
+                                    <style>
+                                     .search-container {
+    display: flex;
+    align-items: center;
+}
+
+#searchInput {
+    padding: 2px 6px; /* Very small padding */
+    font-size: 12px; /* Smaller font size */
+    border: 1px solid #ccc;
+    border-radius: 3px; /* Slightly smaller border radius */
+    width: 120px; /* Narrower width */
+    height: 24px; /* Smaller height */
+}
+
+                                    </style>
+                                </li>
+                                <li>
                                     <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                         <i class="icon-heart"></i>
                                         <span class="item-count">3</span>
@@ -84,11 +117,7 @@
                                         <span class="item-count">3</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#search">
-                                        <i class="icon-magnifier"></i>
-                                    </a>
-                                </li>
+                                
                                 <li>
                                     <a href="#offcanvas-about" class="offacnvas offside-about offcanvas-toggle">
                                         <i class="icon-menu"></i>
@@ -131,6 +160,13 @@
                                     <i class="icon-magnifier"></i>
                                 </a>
                             </li>
+                            <!-- Search Icon and Input -->
+                       
+                      
+                            
+                                                        
+                            
+
                             <li>
                                 <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                     <i class="icon-heart"></i>
@@ -492,13 +528,13 @@
     </div> <!-- End Offcanvas Mobile Menu Section -->
 
     <!-- Start Offcanvas Search Bar Section -->
-    <div id="search" class="search-modal">
+    <!-- <div id="search" class="search-modal">
         <button type="button" class="close">×</button>
         <form action="/shop" method="get" role="search" onsubmit="preserveFilters(event)">
             <input type="search" placeholder="type keyword(s) here" name="search" id="searchInput">
             <button type="submit" class="btn btn-lg btn-golden">Search</button>
         </form>
-    </div>
+    </div> -->
     
     <script>
     function preserveFilters(event) {
@@ -893,9 +929,29 @@
         opacity: 0.9
     }
                                                              </style>
-                                                            <div class="content-right">
-                                                                <span class="price">₹ <%= products[i].variants[0].salePrice%></span>
+                                                            <!-- <div class="content-right">
+                                                                <span class="price">₹ <%= products[i].variants[0].salePrice%></span><br>
                                                             </div>
+                                                            <%if(products[i].bestOffer){%>
+                                                                
+                                                                <span>00</span>
+                                                                <%}%> -->
+                                                                <div class="price-container">
+                                                                    <span class="sale-price">₹ <%= products[i].variants[0].salePrice %></span>
+                                                                   
+                                                                    <% if (products[i].bestOffer) { %>
+                                                                        <span class="old-price"> 
+                                                                            <%= products[i].variants[0].regularPrice %>
+                                                                        </span>
+                                                                    <% } %>
+                                                                </div>
+                                                                <style>
+                                                                     .old-price {
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }  
+                                                                </style>
 
                                                         </div>
                                                     </div>

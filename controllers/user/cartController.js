@@ -39,6 +39,7 @@ const getCart = async (req, res) => {
     let subtotal = 0;
     let totalDiscount = 0;
     if(cartItems){
+      console.log('cartwithOffer',cartItems)
     const cartwithOffer= cartItems.items.map((item)=>{
       const productOffer=item.productId.productOffer
       const categoryOffer=item.productId.category.categoryOffer
@@ -194,6 +195,8 @@ const postCart = async (req, res) => {
 
 const updateqty = async (req, res) => {
   const { productId, quantity, variantId } = req.body;
+  const userId=req.session.user
+  console.log(req.body)
   try {
     console.log(productId)
     const product= await productSchema.find({_id:productId});
@@ -206,8 +209,8 @@ const updateqty = async (req, res) => {
         .json({ success: false, message: "Quantity must be 1 and 5" });
     }
 
-
-    const cart = await Cart.findOne({ "items.productId": productId }).populate({
+    
+    const cart = await Cart.findOne({ userId }).populate({
       path: "items.productId",
       model: "Product"
     });
@@ -224,7 +227,7 @@ const updateqty = async (req, res) => {
         String(item.productId._id) === String(productId) && 
         String(item.variantId) === vr
     );
-
+console.log("cartitem",cartItem)
     if (!cartItem) {
       return res.status(404).json({
         success: false,
