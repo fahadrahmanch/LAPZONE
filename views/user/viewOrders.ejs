@@ -76,13 +76,13 @@
                                 <li>
                                     <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                         <i class="icon-heart"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
@@ -135,13 +135,13 @@
                             <li>
                                 <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                     <i class="icon-heart"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
                                 <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                     <i class="icon-bag"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
@@ -663,7 +663,7 @@
                             <%= order.orderedItems[i].price %>
                         </td>
                         <td class="py-2 px-4 border-b">
-                            <%= order.orderedItems[i].totalPrice %>
+                            <%=order.finalAmount%>
                         </td>
                     
                         <% if (order.orderedItems[i].status === 'Shipped'&&order.status!='Pending') { %>

@@ -109,6 +109,7 @@ const getCheckout=async (req,res)=>{
       //  console.log(activeCoupens)
       //   console.log(activeCoupens)
       // console.log("cart aanye",cart)
+      console.log("checkoutwithoffer",checkoutwithoffer)
         res.render('user/checkout', { 
           cart:checkoutwithoffer, 
           activeCoupens,

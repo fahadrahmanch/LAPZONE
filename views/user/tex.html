@@ -1,566 +1,190 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brand Management</title>
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
         body {
-            background-color: #1a1d24;
-            color: #fff;
+            background-color: #f8f9fa;
+        }
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
             padding: 2rem;
         }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .container {
+        .chart-container, .table-container {
             background-color: #ffffff;
-            border-radius: 1rem;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
-
-        .add-brand {
-            background-color: #1a1d24;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
+        .chart-container:hover, .table-container:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
-
-        .add-brand h2 {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .table-container {
+            height: 100%;
         }
-
-        .add-brand h2::before {
-            content: '+';
-            display: inline-block;
-            background-color: #00ff2a;
-            color: black;
-            width: 24px;
-            height: 24px;
-            text-align: center;
-            line-height: 24px;
-            border-radius: 4px;
+        .table-dark {
+            background-color: #343a40;
         }
-
-        .form-group {
-            margin-bottom: 1.5rem;
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
         }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #9ca3af;
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
         }
-
-        .form-group input[type="text"] {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #2a2f38;
-            border: none;
-            border-radius: 0.375rem;
-            color: white;
+        h2, h5 {
+            color: #343a40;
         }
-
-        .file-upload {
-            display: flex;
-            gap: 1rem;
+        .table {
+            font-size: 0.9rem;
         }
-
-        .file-upload button {
-            padding: 0.5rem 1rem;
-            background-color: #2a2f38;
-            border: none;
-            border-radius: 0.375rem;
-            color: white;
-            cursor: pointer;
-        }
-
-        .file-upload span {
-            color: #9ca3af;
-            align-self: center;
-        }
-
-        .add-brand-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #00ff2a;
-            border: none;
-            border-radius: 0.375rem;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .brands-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .brands-table th {
-            text-align: left;
-            padding: 1rem;
-            color: #9ca3af;
-            border-bottom: 1px solid #374151;
-        }
-
-        .brands-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #374151;
-        }
-
-        .brand-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .status {
-            color: #00ff2a;
-        }
-
-        .actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-        }
-
-        .btn-block {
-            background-color: #ef4444;
-        }
-
-        .btn-delete {
-            background-color: #dc2626;
+        .table th, .table td {
+            vertical-align: middle;
         }
     </style>
 </head>
 <body>
-    <h1>Brand Management</h1>
-    <div class="container">
-        <div class="add-brand">
-            <h2>Add New Brand</h2>
-            <form id="brandForm">
-                <div class="form-group">
-                    <label>Brand Name</label>
-                    <input type="text" placeholder="Enter brand name" required>
-                </div>
-                <div class="form-group">
-                    <label>Brand Logo</label>
-                    <div class="file-upload">
-                        <button type="button" onclick="document.getElementById('fileInput').click()">Choose File</button>
-                        <span id="fileName">No file chosen</span>
-                        <input type="file" id="fileInput" hidden accept="image/*">
-                    </div>
-                </div>
-                <button type="submit" class="add-brand-btn">ADD BRAND</button>
-            </form>
+    <div class="dashboard-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Admin Dashboard</h2>
+            <a class="btn btn-primary" href="/admin/salesreport">Sales Report</a>
         </div>
 
-        <table class="brands-table">
-            <thead>
-                <tr>
-                    <th>Brand</th>
-                    <th>Logo</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>sony</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Sony" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>fujifilm</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Fujifilm" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>DJI</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="DJI" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>nikon</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Nikon" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>canon</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Canon" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <!-- Sales Statistics Chart -->
+        <div class="chart-container p-4 mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Sales Statistics</h5>
+                <select id="salesFilter" class="form-select w-auto">
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
+            </div>
+            <canvas id="salesChart"></canvas>
+        </div>
+
+        <!-- Tables Section -->
+        <div class="row g-4">
+            <!-- Top 10 Products -->
+            <div class="col-md-4">
+                <div class="table-container p-3">
+                    <h5 class="text-center mb-3">Top 10 Products</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Sales</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topProducts.length; i++) { %>
+                                <tr>
+                                    <td><%= topProducts[i].name %></td>
+                                    <td><%= topProducts[i].totalQuantity %></td>
+                                    <td>$<%= topProducts[i].totalRevenue.toFixed(2) %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 10 Categories -->
+            <div class="col-md-4">
+                <div class="table-container p-3">
+                    <h5 class="text-center mb-3">Top 10 Categories</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Sales Amount</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topCategory.length; i++) { %>
+                                    <% if(topCategory[i].totalQuantity != 0) { %>
+                                    <tr>
+                                        <td><%= topCategory[i].name %></td>
+                                        <td>$<%= topCategory[i].totalSales.toFixed(2) %></td>
+                                        <td><%= topCategory[i].totalQuantity %></td>
+                                    </tr>
+                                    <% } %>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Brands -->
+            <div class="col-md-4">
+                <div class="table-container p-3">
+                    <h5 class="text-center mb-3">Top Brands</h5>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Products</th>
+                                    <th>Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topBrands.length; i++) { %>
+                                <tr>
+                                    <td><%= topBrands[i].name %></td>
+                                    <td><%= topBrands[i].totalQuantity %></td>
+                                    <td>$<%= topBrands[i].totalSales.toFixed(2) %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // File input handling
-        const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
-
-        fileInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) {
-                fileName.textContent = this.files[0].name;
-            } else {
-                fileName.textContent = 'No file chosen';
+        // Initialize Chart.js
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: 'Sales',
+                    data: [12, 19, 3, 5, 2, 3, 10, 15, 8, 12, 17, 20],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
             }
         });
 
-        // Form submission
-        document.getElementById('brandForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add your form submission logic here
+        // Handle sales filter change
+        document.getElementById('salesFilter').addEventListener('change', function() {
+            // Update chart data based on selected filter
+            // This is where you would typically fetch new data from the server
+            console.log('Filter changed to:', this.value);
         });
     </script>
 </body>
-</html> -->
-
-
-
-    <!-- <title>Brand Management</title> -->
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            padding: 2rem;
-        }
-
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            color: #1a1a1a;
-        }
-
-        .container {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 2rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-
-        .add-brand {
-            background-color: #f8f9fa;
-            padding: 1.5rem;
-            border-radius: 0.5rem;
-            border: 1px solid #e9ecef;
-        }
-
-        .add-brand h2 {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: #1a1a1a;
-        }
-
-        .add-brand h2::before {
-            content: '+';
-            display: inline-block;
-            background-color: #00c853;
-            color: white;
-            width: 24px;
-            height: 24px;
-            text-align: center;
-            line-height: 24px;
-            border-radius: 4px;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #495057;
-            font-weight: 500;
-        }
-
-        .form-group input[type="text"] {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 0.375rem;
-            color: #333;
-        }
-
-        .form-group input[type="text"]:focus {
-            outline: none;
-            border-color: #00c853;
-            box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.1);
-        }
-
-        .file-upload {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .file-upload button {
-            padding: 0.5rem 1rem;
-            background-color: #ffffff;
-            border: 1px solid #dee2e6;
-            border-radius: 0.375rem;
-            color: #495057;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .file-upload button:hover {
-            background-color: #f8f9fa;
-        }
-
-        .file-upload span {
-            color: #6c757d;
-            align-self: center;
-        }
-
-        .add-brand-btn {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: #00c853;
-            border: none;
-            border-radius: 0.375rem;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: background-color 0.2s;
-        }
-
-        .add-brand-btn:hover {
-            background-color: #00b34a;
-        }
-
-        .brands-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .brands-table th {
-            text-align: left;
-            padding: 1rem;
-            color: #495057;
-            border-bottom: 1px solid #dee2e6;
-            font-weight: 600;
-        }
-
-        .brands-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #dee2e6;
-            color: #212529;
-        }
-
-        .brand-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .status {
-            color: #00c853;
-            font-weight: 500;
-        }
-
-        .actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: white;
-            font-weight: 500;
-            transition: background-color 0.2s;
-        }
-
-        .btn-block {
-            background-color: #ff4444;
-        }
-
-        .btn-block:hover {
-            background-color: #ff3333;
-        }
-
-        .btn-delete {
-            background-color: #dc3545;
-        }
-
-        .btn-delete:hover {
-            background-color: #c82333;
-        }
-    </style>
-
-    <h1>Brand Management</h1>
-    <div class="container">
-        <div class="add-brand">
-            <h2>Add New Brand</h2>
-            <form id="brandForm">
-                <div class="form-group">
-                    <label>Brand Name</label>
-                    <input type="text" placeholder="Enter brand name" required>
-                </div>
-                <div class="form-group">
-                    <label>Brand Logo</label>
-                    <div class="file-upload">
-                        <button type="button" onclick="document.getElementById('fileInput').click()">Choose File</button>
-                        <span id="fileName">No file chosen</span>
-                        <input type="file" id="fileInput" hidden accept="image/*">
-                    </div>
-                </div>
-                <button type="submit" class="add-brand-btn">ADD BRAND</button>
-            </form>
-        </div>
-
-        <table class="brands-table">
-            <thead>
-                <tr>
-                    <th>Brand</th>
-                    <th>Logo</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>sony</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Sony" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>fujifilm</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Fujifilm" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>DJI</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="DJI" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>nikon</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Nikon" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>canon</td>
-                    <td><img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-riDRikJIUfmL0LCYJz4Sh7ZDNKui12.png" alt="Canon" class="brand-logo"></td>
-                    <td><span class="status">Active</span></td>
-                    <td class="actions">
-                        <button class="btn btn-block">Block</button>
-                        <button class="btn btn-delete">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <script>
-        // File input handling
-        const fileInput = document.getElementById('fileInput');
-        const fileName = document.getElementById('fileName');
-
-        fileInput.addEventListener('change', function() {
-            if (this.files && this.files[0]) {
-                fileName.textContent = this.files[0].name;
-            } else {
-                fileName.textContent = 'No file chosen';
-            }
-        });
-
-        // Form submission
-        document.getElementById('brandForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add your form submission logic here
-        });
-    </script>
+</html>
 

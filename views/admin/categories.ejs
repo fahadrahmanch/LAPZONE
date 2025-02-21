@@ -63,7 +63,10 @@
                         <span class="text">Coupon</span>
                     </a>
                 </li>
-                
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-stars"></i>
+                        <span class="text">Brands</span> </a>
+                </li>
                 <!-- <li class="menu-item ">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
@@ -286,9 +289,9 @@
             <div class="card mb-4">
                 <header class="card-header">
                     <div class="row gx-3">
-                        <form class="col-lg-4 col-md-6 me-auto" role="search" action="/admin/searchCategory" method="get">
+                        <!-- <form class="col-lg-4 col-md-6 me-auto" role="search" action="/admin/searchCategory" method="get">
                             <input type="text" placeholder="Search..." class="form-control" name="search">
-                        </form>
+                        </form> -->
                         <!-- <div class="col-lg-2 col-md-3 col-6">
                             <select class="form-select">
                                 <option>Status</option>
@@ -311,115 +314,232 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Category name</th>
-                                    <th>Description</th>
-                                    <th>Offer</th>
-                                    <th>Status</th>
-                                    <th>List/Unlist</th>
-                                    <th>Action</th>
+                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Offer</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">List/Unlist</th>
+                                    <th scope="col">Action</th>
                                 </tr>
-                                <%cat.reverse().forEach((category,index)=>{%>
-                                <tr>
-                                    <td><%=category.name%></td>
-                                    <td><%=category.description%></td>
-                                    <!-- <td><button id="offerBtn" data-product-id="123" onclick="addCatOffer('<%=category._id%>')">Apply offer</button></td> -->
-                                    <% if (category.categoryOffer == 0) { %>
-                                        <td>
-                                          <button
-                                            id="offerBtn"
-                                            class="offer-btn apply"
-                                            data-product-id="<%= category._id %>"
-                                            onclick="addCatOffer('<%= category._id %>')"
-                                          >
-                                            Apply Offer
-                                            <i class="fas fa-plus-circle offer-icon"></i>
-                                          </button>
-                                        </td>
-                                      <% } else { %>
-                                        <td>
-                                          <button
-                                            id="offerBtn"
-                                            class="offer-btn remove"
-                                            data-product-id="<%= category._id %>"
-                                            onclick="removeCatOffer('<%= category._id %>', '<%= category.productOffer %>')"
-                                          >
-                                            <%= category.categoryOffer %>
-                                            <i class="fas fa-times-circle offer-icon"></i>
-                                          </button>
-                                        </td>
-                                      <% } %>
-                                      <style>
-                                        .offer-btn {
-                                          display: flex;
-                                          align-items: center;
-                                          justify-content: center;
-                                          padding: 10px 20px;
-                                          border: none;
-                                          border-radius: 8px;
-                                          font-size: 14px;
-                                          font-weight: bold;
-                                          cursor: pointer;
-                                          transition: all 0.3s ease-in-out;
-                                        }
-                                      
-                                        .offer-btn.apply {
-                                          background-color: #4caf50; /* Green for applying offer */
-                                          color: white;
-                                        }
-                                      
-                                        .offer-btn.apply:hover {
-                                          background-color: #45a049;
-                                        }
-                                      
-                                        .offer-btn.remove {
-                                          background-color: #f44336; /* Red for removing offer */
-                                          color: white;
-                                        }
-                                      
-                                        .offer-btn.remove:hover {
-                                          background-color: #d32f2f;
-                                        }
-                                      
-                                        .offer-icon {
-                                          margin-left: 8px;
-                                          font-size: 16px;
-                                        }
-                                      </style>
-                                    <td><span  id="listedID" class="badge rounded-pill  <%= category.isListed ? 'alert-success' : 'alert-danger' %>" data-id="<%=category._id%>">
-                                        <%= category.isListed ? 'Listed' : 'Unlisted' %>
-                                     </span></td>
-                                     
-                                    <td><div class="form-check form-switch">
-                                        
-                                        <%if(category.isListed){%>
-                                     <button class="btn btn-success evented"  data-id="<%=category._id%>" data-list="list">List</button>
-                                      <%}else{%>
-                                        <button class="btn btn-danger evented"  data-id="<%=category._id%>" data-list="unlist">unlist</button>
-                                        <%}%>
-                                      </div></td>
-
-                                    <td><!-- Dropdown Menu -->
-                            <div class="">
-                          <!-- <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> -->
-                         <!-- <i class="material-icons md-more_horiz"></i> -->
-                        </a>
-                         <!-- <div class=""> -->
-                        <a href="/admin/editCategory?id=<%=category._id%>" >Edit</button>
-                         <!-- <a class="dropdown-item text-danger" href="#">Delete</a> -->
-                            <!-- </div> -->
-                        </div>
-                             </td>
-                            </tr>
-                                <%})%>
-                                <!-- <button data-bs-toggle="modal" data-bs-target="#editCategoryModal">Edit</button> -->
-
                             </thead>
-                            <script src="/js_folder/list.js"></script>
-                            
                             <tbody>
+                                <% cat.reverse().forEach((category, index) => { %>
+                                <tr>
+                                    <!-- Category Name -->
+                                    <td><%= category.name %></td>
+                                    
+                                    <!-- Description -->
+                                    <td><%= category.description %></td>
+                                    
+                                    <!-- Offer -->
+                                    <td>
+                                        <% if (category.categoryOffer == 0) { %>
+                                            <button
+                                                id="offerBtn-<%= category._id %>"
+                                                class="offer-btn apply"
+                                                data-category-id="<%= category._id %>"
+                                                onclick="addCatOffer('<%= category._id %>')"
+                                            >
+                                                Apply Offer
+                                                <i class="fas fa-plus-circle offer-icon"></i>
+                                            </button>
+                                        <% } else { %>
+                                            <button
+                                                id="offerBtn-<%= category._id %>"
+                                                class="offer-btn remove"
+                                                data-category-id="<%= category._id %>"
+                                                onclick="removeCatOffer('<%= category._id %>', '<%= category.categoryOffer %>')"
+                                            >
+                                                <%= category.categoryOffer %>%
+                                                <i class="fas fa-times-circle offer-icon"></i>
+                                            </button>
+                                        <% } %>
+                                    </td>
+                                    
+                                    <!-- Status Badge -->
+                                    <td>
+                                        <span id="status-<%= category._id %>" 
+                                              class="badge rounded-pill <%= category.isListed ? 'alert-success' : 'alert-danger' %>"
+                                              data-id="<%= category._id %>">
+                                            <%= category.isListed ? 'Listed' : 'Unlisted' %>
+                                        </span>
+                                    </td>
+                                    
+                                    <!-- List/Unlist Button -->
+                                    <td>
+                                        <% if(category.isListed) { %>
+                                            <button class="btn btn-success evented"
+                                                    data-id="<%= category._id %>"
+                                                    data-list="list">
+                                                Listed
+                                            </button>
+                                        <% } else { %>
+                                            <button class="btn btn-danger evented"
+                                                    data-id="<%= category._id %>"
+                                                    data-list="unlist">
+                                                Unlisted
+                                            </button>
+                                        <% } %>
+                                    </td>
+                                    
+                                    <!-- Edit Button -->
+                                    <td>
+                                        <a href="/admin/editCategory?id=<%= category._id %>"
+                                           class="btn btn-sm btn-brand rounded font-sm"
+                                           style="text-decoration: none; color: white;">
+                                            Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% }) %>
                             </tbody>
-                           
-                        </table> <!-- table-responsive.// -->
+                        </table>
+                        
+                        <style>
+                            .table {
+                                width: 100%;
+                                border-collapse: collapse;
+                                margin-bottom: 1rem;
+                                color: #212529;
+                            }
+                            
+                            .table th {
+                                padding: 12px 15px;
+                                text-align: left;
+                                background-color: #f8f9fa;
+                                border-bottom: 2px solid #dee2e6;
+                                font-weight: 600;
+                                vertical-align: bottom;
+                            }
+                            
+                            .table td {
+                                padding: 10px 15px;
+                                vertical-align: middle;
+                                border-top: 1px solid #dee2e6;
+                            }
+                            
+                            .table-hover tbody tr:hover {
+                                background-color: rgba(0, 0, 0, 0.05);
+                                cursor: pointer;
+                            }
+                            
+                            .badge {
+                                display: inline-block;
+                                padding: 0.35em 0.65em;
+                                font-size: 0.75em;
+                                font-weight: 600;
+                                line-height: 1;
+                                text-align: center;
+                                white-space: nowrap;
+                                vertical-align: baseline;
+                                border-radius: 50rem;
+                            }
+                            
+                            .alert-success {
+                                background-color: #d1e7dd;
+                                color: #0f5132;
+                            }
+                            
+                            .alert-danger {
+                                background-color: #f8d7da;
+                                color: #842029;
+                            }
+                            
+                            .offer-btn {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                padding: 6px 12px;
+                                border: none;
+                                border-radius: 4px;
+                                font-size: 13px;
+                                font-weight: 500;
+                                cursor: pointer;
+                                transition: all 0.2s ease-in-out;
+                                width: 110px;
+                            }
+                            
+                            .offer-btn.apply {
+                                background-color: #4caf50;
+                                color: white;
+                            }
+                            
+                            .offer-btn.apply:hover {
+                                background-color: #45a049;
+                            }
+                            
+                            .offer-btn.remove {
+                                background-color: #f44336;
+                                color: white;
+                            }
+                            
+                            .offer-btn.remove:hover {
+                                background-color: #d32f2f;
+                            }
+                            
+                            .offer-icon {
+                                margin-left: 6px;
+                                font-size: 14px;
+                            }
+                            
+                            .btn {
+                                display: inline-block;
+                                font-weight: 400;
+                                text-align: center;
+                                white-space: nowrap;
+                                vertical-align: middle;
+                                user-select: none;
+                                border: 1px solid transparent;
+                                padding: 0.375rem 0.75rem;
+                                font-size: 14px;
+                                line-height: 1.5;
+                                border-radius: 0.25rem;
+                                transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+                            }
+                            
+                            .btn-success {
+                                color: #fff;
+                                background-color: #28a745;
+                                border-color: #28a745;
+                            }
+                            
+                            .btn-success:hover {
+                                background-color: #218838;
+                                border-color: #1e7e34;
+                            }
+                            
+                            .btn-danger {
+                                color: #fff;
+                                background-color: #dc3545;
+                                border-color: #dc3545;
+                            }
+                            
+                            .btn-danger:hover {
+                                background-color: #c82333;
+                                border-color: #bd2130;
+                            }
+                            
+                            .btn-brand {
+                                color: #fff;
+                                background-color: #3d82f7;
+                                border-color: #3d82f7;
+                            }
+                            
+                            .btn-brand:hover {
+                                background-color: #2472f5;
+                                border-color: #176af4;
+                            }
+                            
+                            .btn-sm {
+                                padding: 0.25rem 0.5rem;
+                                font-size: 0.875rem;
+                                line-height: 1.5;
+                                border-radius: 0.2rem;
+                            }
+                        </style>
+                        
+                        <script src="/js_folder/list.js"></script>
+                        <!-- table-responsive.// -->
 
                     </div>
                 </div> <!-- card-body end// -->

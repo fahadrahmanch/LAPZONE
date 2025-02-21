@@ -2,13 +2,13 @@ const product = require("../../models/productSchema");
 const categorySchema = require("../../models/categorySchema");
 const User = require("../../models/userSchema");
 const wishlistSchema=require("../../models/WhislistSchema")
-
+const Cart=require("../../models/cartSchema")
 const loadShop = async (req, res) => {
   try {
     let user=req.session.user
      console.log(user)
   
-
+ 
 
     const search = req.query.search || "";
     // console.log(search)
@@ -38,7 +38,8 @@ const loadShop = async (req, res) => {
           break;
         
       }
-   
+      const cart = await Cart.findOne({ userId:user }).populate("items.productId");
+
       const userWishlist = await wishlistSchema.findOne({ userId: user });
       console.log('userwhislist',userWishlist)
     let filterQuery = {
@@ -62,7 +63,8 @@ const loadShop = async (req, res) => {
         products: [],
         cat: await categorySchema.find({}),
         catt: catt,
-      
+        cart: cart || { items: [] } ,
+
         sort: sort || "",
         search: search || "",
         message: req.session.user || null,
@@ -120,6 +122,7 @@ const loadShop = async (req, res) => {
 // console.log("catt",catt)
 // console.log('finalProduct.isInWishlist',productWithoffer)
 // console.log("productWithoffer",productWithoffer[0].variants)
+console.log("productwithoffer",productWithoffer)
     res.render("user/Shop", {
       products: productWithoffer,
       cat: cat,
@@ -131,6 +134,7 @@ const loadShop = async (req, res) => {
       limit:limit,
       currentPage:page,
       totalPages:Math.ceil(count/limit),
+      cart: cart || { items: [] } 
       
     });
     

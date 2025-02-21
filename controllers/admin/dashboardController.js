@@ -162,7 +162,6 @@ const dashboard = async (req, res) => {
                 groupFormat = "%Y-%m-%d";
                 break;
             case 'monthly':
-                // Include all months
                 dateMatch.createdAt = { $exists: true };
                 groupFormat = "%Y-%m";
                 break;
@@ -208,12 +207,10 @@ const dashboard = async (req, res) => {
             salesData.push(...filledData);
         }
 
-        // Send data as JSON if it's an AJAX request
         if (req.xhr || req.headers.accept.indexOf('json') > -1) {
             return res.json({ salesData });
         }
 
-        // Regular page render with all required data
         console.log('topBrands',topBrands)
         res.render('admin/index.ejs', {
             salesData: JSON.stringify(salesData),
@@ -229,4 +226,3 @@ const dashboard = async (req, res) => {
 };
 
 module.exports = { dashboard };
-// module.exports={dashboard}

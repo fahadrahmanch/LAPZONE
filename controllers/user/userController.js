@@ -6,7 +6,8 @@ const nodemailer =require("nodemailer")
 const product=require('../../models/productSchema')
 const categorySchema=require('../../models/categorySchema')
 const walletSchema=require('../../models/walletSchema')
-
+const Cart = require("../../models/cartSchema")
+const wishlistSchema=require('../../models/walletSchema')
 const pageNotFound=async (req,res)=>{
     try{
       await res.render("user/pageNotFound")
@@ -17,12 +18,14 @@ const pageNotFound=async (req,res)=>{
 }
 const loadHomepage=async(req,res)=>{
     try{
+      const userId=req.session.user;
       const products= await product.find({ isListed: true,})
       const productWithoffer=products.map(product=>{
         const productOffer=product.productOffer||0
         const categoryOffer= product.category?.categoryOffer || 0;
         const bestOffer=Math.max(productOffer,categoryOffer)
-        
+      
+      
         let finalProduct={
           ...product.toObject(),
           bestOffer,
@@ -49,9 +52,17 @@ const loadHomepage=async(req,res)=>{
         // console.log("finalproductttt",finalProduct,product)
         return finalProduct;
        })
+       const cart = await Cart.findOne({ userId }).populate("items.productId");
+      //  const wishlist= await wishlistSchema.findOne({userId}). 
+       console.log(cart)
+       console.log(cart?.items)
       //  console.log("productWithoffer",productWithoffer[0].variants)
       // console.log(products)
-    await res.render("user/home",{message:req.session.user,products:productWithoffer})
+      
+    await res.render("user/home",{message:req.session.user,
+      products:productWithoffer,
+      cart: cart || { items: [] } 
+    })
     }
     catch(error){
        console.log("home page not found");
@@ -120,7 +131,6 @@ console.log("Password:", process.env.NODEMAILER_PASSWO_RD ? "Exists" : "Not Set"
 const signup = async(req,res)=>{
   try{ 
    const {name,phone,email,password}=req.body;
-   
    const findUser=await User.findOne({email})
      if(findUser){
       
@@ -178,6 +188,7 @@ const verifyOtp=async(req,res)=>{
       await saveUserData.save();
       req.session.user=saveUserData._id
     if(req.session.code){
+      console.log("inside req.session.code")
       const user = await User.findOne({referralOfferCode:req.session.code}).lean()
       const userId=user._id
       const Wallet=await walletSchema.findOne({userId})

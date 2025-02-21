@@ -72,13 +72,13 @@
                                 <li>
                                     <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                         <i class="icon-heart"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
@@ -131,13 +131,13 @@
                             <li>
                                 <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                     <i class="icon-heart"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
                                 <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                     <i class="icon-bag"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
@@ -355,62 +355,34 @@
         <!-- Start  Offcanvas Addcart Wrapper -->
         <div class="offcanvas-add-cart-wrapper">
             <h4 class="offcanvas-title">Shopping Cart</h4>
-            <!-- <ul class="offcanvas-cart">
-                <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-1/default-1.jpg" alt=""
-                                class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Car Wheel</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                                <span class="offcanvas-cart-item-details-price">$49.00</span>
+               <%if(cart.length!=0){%>
+                <ul class="offcanvas-cart">
+                    <%for(let i=0;i<cart.length;i++){%>
+    
+                
+                   <li class="offcanvas-cart-item-single">
+                        <div class="offcanvas-cart-item-block">
+                            <a href="/cart" class="offcanvas-cart-item-image-link">
+                                <img src="/uploads/<%=cart[i].productId.productImage[0]%>" alt=""
+                                    class="offcanvas-cart-image">
+                            </a>
+                            <div class="offcanvas-cart-item-content">
+                                <a href="#" class="offcanvas-cart-item-link"><%=cart[i].productId.productName%></a>
+                                <div class="offcanvas-cart-item-details">
+                                    <!-- <span class="offcanvas-cart-item-details-quantity"> </span>
+                                    <span class="offcanvas-cart-item-details-price">)</span> -->
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li>
-                <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-2/default-1.jpg" alt=""
-                                class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Car Vails</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">3 x </span>
-                                <span class="offcanvas-cart-item-details-price">$500.00</span>
-                            </div>
+                        <div class="offcanvas-cart-item-delete text-right">
+                            <!-- <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a> -->
                         </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li>
-                <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-3/default-1.jpg" alt=""
-                                class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Shock Absorber</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                                <span class="offcanvas-cart-item-details-price">$350.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li>
-            </ul> -->
+                    </li>
+                    <%}%>
+             
+        
+                  <%}%>
+                </ul>
             <!-- <div class="offcanvas-cart-total-price">
                 <span class="offcanvas-cart-total-price-text">Subtotal:</span>
                 <span class="offcanvas-cart-total-price-value">$170.00</span>
@@ -559,43 +531,183 @@
             <div class="checkout_form " data-aos="fade-up" data-aos-delay="400">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                       
                         <div class="address-section">
                             <div class="section-header">SELECT ADDRESS</div>
-                            <%for(let i=0;i<addressData.address.length;i++){%>
-                                <div style="margin-left: 10px;">
-                                <input type="radio" checked="checked" name="addressDiv" value="<%=addressData.address[i]._id%>" >
-                            </div>
-                            <div class="address-card selected" id="select<%=addressData.address[i]._id%>"  value="<%=addressData.address[i]._id%>" >
-                                <div class="address-type">HOME</div>
-                                <div class="address-details">
-                                    
-                                    name:<%=addressData.address[i].name%><br>
-                                    city:<%=addressData.address[i].city%>t<br>
-                                    landmark:<%=addressData.address[i].landmark%><br>
-                                    state:<%=addressData.address[i].state%><br>
-                                    pincode:<%=addressData.address[i].pincode%><br>
-                                    phone:<%=addressData.address[i].phone%><br>
-                                    <br>
-                                    <!-- <button id="openEditModal<%= i %>" class="custom-btn custom-edit" addressuser="<%=i%>">Edit</button> -->
-                                    <button class="custom-btn custom-edit" 
-                                    value='<%- JSON.stringify(addressData.address[i]) %>'
-                                    id="editID"
-                                    data-index="<%=i%>">
-                                Edit
-                            </button>
-                            
-                                    
+                            <% for (let i = 0; i < addressData.address.length; i++) { %>
+                                <div class="address-item">
+                                    <label class="address-card <%= i === 0 ? 'selected' : '' %>" for="address<%= addressData.address[i]._id %>">
+                                        <div class="radio-container">
+                                            <input type="radio" 
+                                                   id="address<%= addressData.address[i]._id %>"
+                                                   name="addressDiv" 
+                                                   value="<%= addressData.address[i]._id %>"
+                                                   <%= i === 0 ? "checked" : "" %>>
+                                            <span class="radio-checkmark"></span>
+                                        </div>
+                                        
+                                        <div class="address-content">
+                                            <div class="address-type">HOME</div>
+                                            <div class="address-details">
+                                                <p><strong>Name:</strong> <%= addressData.address[i].name %></p>
+                                                <p><strong>City:</strong> <%= addressData.address[i].city %></p>
+                                                <p><strong>Landmark:</strong> <%= addressData.address[i].landmark %></p>
+                                                <p><strong>State:</strong> <%= addressData.address[i].state %></p>
+                                                <p><strong>Pincode:</strong> <%= addressData.address[i].pincode %></p>
+                                                <p><strong>Phone:</strong> <%= addressData.address[i].phone %></p>
+                                            </div>
+                                            <button class="custom-btn custom-edit" 
+                                                    value='<%- JSON.stringify(addressData.address[i]) %>' 
+                                                    id="editID"
+                                                    data-index="<%= i %>">
+                                                Edit
+                                            </button>
+                                        </div>
+                                    </label>
                                 </div>
-                            </div>
-
-                            <%}%>                
-                            <button id="openModal" class="btn" style="color: #0a0a08; background-color:#c1b9a2 ;">+ Add New Address</button>
-
+                            <% } %>  
+                            <button id="openModal" class="add-address-btn">
+                                + Add New Address
+                            </button>
                         </div>
-                
-                        </form>
                     </div>
+                    <style>
+                        .address-section {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.section-header {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.address-item {
+    margin-bottom: 15px;
+}
+
+.address-card {
+    display: flex;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+}
+
+.address-card:hover {
+    border-color: #c1b9a2;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+}
+
+.address-card.selected {
+    border: 2px solid #c1b9a2;
+    background-color: rgba(193, 185, 162, 0.05);
+}
+
+.radio-container {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 4px;
+    margin-right: 15px;
+}
+
+input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #c1b9a2;
+    border-radius: 50%;
+    outline: none;
+    position: relative;
+}
+
+input[type="radio"]:checked {
+    background-color: #fff;
+}
+
+input[type="radio"]:checked:after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: #c1b9a2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+.address-content {
+    flex: 1;
+}
+
+.address-type {
+    background-color: #f5f3ed;
+    color: #7d745e;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.address-details {
+    color: #555;
+    line-height: 1.5;
+}
+
+.address-details p {
+    margin: 5px 0;
+}
+
+.custom-btn {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.custom-edit {
+    color: #7d745e;
+    background-color: transparent;
+    border: 1px solid #c1b9a2;
+    margin-top: 15px;
+}
+
+.custom-edit:hover {
+    background-color: #f5f3ed;
+}
+
+.add-address-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #c1b9a2;
+    color: #0a0a08;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.add-address-btn:hover {
+    background-color: #b0a88f;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+                    </style>
                     <div class="col-lg-6 col-md-6">
                         <form action="#" onsubmit="return false">
                             <h3>Your order</h3>
@@ -1667,7 +1779,8 @@ console.log("Selected Coupon:", selectedCoupon);
 
 
 <script>
-
+let num=1;
+console.log(num)
     
         document.querySelectorAll('.address-card').forEach(card => {
         card.addEventListener('click', () => {
@@ -1755,20 +1868,29 @@ console.log("Selected Coupon:", selectedCoupon);
             }
             const razorpayInstance = new Razorpay(options);
       razorpayInstance.open();
+      
       razorpayInstance.on('payment.failed', (res)=>{
+        num++
+        console.log("fail")
         console.log("payment failed")
         Swal.fire({
-        icon: "error",
-        title: "Payment Failed",
-        text: "Something went wrong. Please try again!",
-        confirmButtonColor: "#d33",
-    });
+    icon: "error",
+    title: "Payment Failed",
+    text: "Something went wrong. Please try again!",
+    confirmButtonColor: "#d33",
+}).then((result) => {
+    if (result.isConfirmed) {
+        window.location.href = "http://localhost:3001/myaccount"; // Change this to your desired URL
+    }
+});
 
+if(num==2){
         const razorpayOrder =  fetch("/failRazorpayOrder",{
                     method:"POST",
                     headers:{'Content-Type':'application/json'},
                     body:JSON.stringify({selectedAddressId, selectPayment, totalAMount,couponSelect,Disount})
                 })
+            }
       })
     }
   

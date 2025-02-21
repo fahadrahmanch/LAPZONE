@@ -2,7 +2,8 @@
 <%- include('../partials/user/header') %>
 
 <body>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <!-- Start Header Area -->
     <header class="header-section d-none d-xl-block">
         <div class="header-wrapper">
@@ -73,13 +74,13 @@
                                 <li>
                                     <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                         <i class="icon-heart"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                         <i class="icon-bag"></i>
-                                        <span class="item-count">3</span>
+                                        <!-- <span class="item-count">3</span> -->
                                     </a>
                                 </li>
                                 <li>
@@ -132,13 +133,13 @@
                             <li>
                                 <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                                     <i class="icon-heart"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
                                 <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                                     <i class="icon-bag"></i>
-                                    <span class="item-count">3</span>
+                                    <!-- <span class="item-count">3</span> -->
                                 </a>
                             </li>
                             <li>
@@ -340,66 +341,38 @@
         
         <div class="offcanvas-add-cart-wrapper">
             <h4 class="offcanvas-title">Shopping Cart</h4>
+            <%if(cart.items.length!=0){%>
             <ul class="offcanvas-cart">
-                <!-- <li class="offcanvas-cart-item-single">
+                <%for(let i=0;i<cart.items.length;i++){%>
+
+            
+               <li class="offcanvas-cart-item-single">
                     <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-3/default-1.jpg" alt=""
+                        <a href="/cart" class="offcanvas-cart-item-image-link">
+                            <img src="/uploads/<%=cart.items[i].productId.productImage[0]%>" alt=""
                                 class="offcanvas-cart-image">
                         </a>
                         <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Car Wheel</a>
+                            <a href="#" class="offcanvas-cart-item-link"><%=cart.items[i].productId.productName%></a>
                             <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                                <span class="offcanvas-cart-item-details-price">$49.00</span>
+                                <!-- <span class="offcanvas-cart-item-details-quantity"><%=cart.items[i].quantity%> x </span>
+                                <span class="offcanvas-cart-item-details-price">$(<%=cart.items[i].totalPrice%>)</span> -->
                             </div>
                         </div>
                     </div>
                     <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
+                        <!-- <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a> -->
                     </div>
-                </li> -->
-                <!-- <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-2/default-1.jpg" alt=""
-                                class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Car Vails</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">3 x </span>
-                                <span class="offcanvas-cart-item-details-price">$500.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li> -->
-                <!-- <li class="offcanvas-cart-item-single">
-                    <div class="offcanvas-cart-item-block">
-                        <a href="#" class="offcanvas-cart-item-image-link">
-                            <img src="assets/images/product/default/home-3/default-1.jpg" alt=""
-                                class="offcanvas-cart-image">
-                        </a>
-                        <div class="offcanvas-cart-item-content">
-                            <a href="#" class="offcanvas-cart-item-link">Shock Absorber</a>
-                            <div class="offcanvas-cart-item-details">
-                                <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                                <span class="offcanvas-cart-item-details-price">$350.00</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="offcanvas-cart-item-delete text-right">
-                        <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a>
-                    </div>
-                </li> -->
+                </li>
+                <%}%>
+         
+    
+              <%}%>
             </ul>
-            <div class="offcanvas-cart-total-price">
-                <!-- <span class="offcanvas-cart-total-price-text">Subtotal:</span>
-                <span class="offcanvas-cart-total-price-value">$170.00</span> -->
-            </div>
+            <!-- <div class="offcanvas-cart-total-price">
+                 <span class="offcanvas-cart-total-price-text">Subtotal:</span>
+                <span class="offcanvas-cart-total-price-value">$170.00</span> 
+            </div> -->
             <ul class="offcanvas-cart-action-button">
                 <li><a href="/cart" class="btn btn-block btn-pink">View Cart</a></li>
                 <li><a href="/checkout" class=" btn btn-block btn-pink mt-5">Checkout</a></li>
@@ -1496,31 +1469,91 @@ margin-left: 0.5rem;
                 console.log('Item added to cart:', result);
 
              
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success!',
-                    text: result.message || 'Item successfully added to the cart!',
-                });
+                Toastify({
+  text: '<i class="fas fa-check-circle"></i> <b>Item successfully added to the cart!</b>',
+  duration: 4000,  
+  close: true,  
+  gravity: "top",  
+  position: "right",  
+  stopOnFocus: true,  
+  escapeMarkup: false,  // Allows HTML inside text
+  style: {
+    background: "#28a745",  // Solid green color
+    color: "#fff",
+    fontSize: "14px",
+    // fontWeight: "bold",  
+    borderRadius: "6px",
+    padding: "10px 18px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px"
+  },
+  onClick: function() {  
+    console.log("Toast clicked!");
+  }
+}).showToast();
+
             } else {
                 const error = await response.json();
                 console.error('Error adding item:', error);
+                Toastify({
+  text: `<i class="fas fa-times-circle"></i> <b>${error.message || "Failed to add item to the cart. Please try again."}</b>`,
+  duration: 4000,  
+  close: true,  
+  gravity: "top",  
+  position: "right",  
+  stopOnFocus: true,  
+  escapeMarkup: false,  // Allows HTML inside text
+  style: {
+    background: "#dc3545",  // Solid red color (Bootstrap danger color)
+    color: "#fff",
+    fontSize: "14px",
+    // fontWeight: "bold",  
+    borderRadius: "6px",
+    padding: "10px 18px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px"
+  },
+  onClick: function() {  
+    console.log("Retry action triggered!");
+  }
+}).showToast();
 
           
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error!',
-                    text: error.message || 'Failed to add item to the cart. Please try again.',
-                });
+               
             }
         } catch (err) {
             console.error('Network error:', err);
 
           
-            Swal.fire({
-                icon: 'error',
-                title: 'Network Error',
-                text: 'An error occurred. Please check your connection and try again.',
-            });
+            Toastify({
+  text: '<i class="fas fa-wifi"></i> <b>Network Error: Please check your connection and try again.</b>',
+  duration: 4000,
+  close: true,
+  gravity: "top",
+  position: "right",
+  stopOnFocus: true,
+  escapeMarkup: false,  // Allows HTML in text
+  style: {
+    background: "#ff5733",  // Reddish-orange color (visible but not harsh)
+    color: "#fff",
+    fontSize: "14px",
+    borderRadius: "6px",
+    padding: "10px 18px",
+    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.15)",
+    textAlign: "center",
+    display: "flex",
+    alignItems: "center",
+    gap: "10px"
+  },
+  onClick: () => console.log("Checking network issue...")
+}).showToast();
+
         }
     }
 </script>

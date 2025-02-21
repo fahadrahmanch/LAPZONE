@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const Razorpay = require('razorpay');
 // const env=require("dotenv").config()
 const env = require("dotenv");
+const moment = require('moment');
 env.config(); 
 const crypto = require('crypto');
 const walletSchema=require("../../models/walletSchema")
@@ -26,7 +27,7 @@ const createOrder = async (req, res) => {
     if (!selectPayment || !selectedAddressId) {
       return res.status(400).json({ message: "Address and payment method are required." });
     }
-if(totalAMount>1000){
+if(totalAMount>1050){
   return res.status(400).json({ message: "Cash on Delivery is not available for orders above Rs 1000." });
 }
     const address = await Address.findOne(
@@ -109,7 +110,7 @@ if(totalAMount>1000){
       status: 'Shipped',
       paymentMethod:selectPayment,
       discount:req.session.totalDiscount,
-      DELIVERY_CHARGE,
+      DeliveryCharge:DELIVERY_CHARGE,
       
     });
 
@@ -431,7 +432,8 @@ const razorpayInstance = new Razorpay({
       paymentStatus:'Failed'
   
     });
-  
+    await Cart.updateOne({ userId }, { $set: { items: [] } });
+
     await newOrder.save();
   
     }
@@ -444,6 +446,7 @@ const razorpayInstance = new Razorpay({
 
    const retryRazorpayOrder = async (req, res) => {
      try {
+      const userId=req.session.user
        const { razorpayOrderId, razorpayPaymentId, razorpaySignature, totalAmount,orderId } = req.body;
    
        console.log("Payment Details Received:", req.body);
@@ -469,8 +472,62 @@ const razorpayInstance = new Razorpay({
       orderUpdate.razorpayOrderId=razorpayOrderId
      
       }
+//       const cart = await Cart.findOne({ userId }).populate({
+//         path: "items.productId",
+//         model: "Product",
+//       }).lean();
+// console.log("cart",cart)
+      // if (!cart || !cart.items.length) {
+      //   return res.status(400).json({ message: "Your cart is empty." });
+      // }
+
+      // cart.items = cart.items.map((item) => {
+      //   const variantId = item.variantId;
+      //   const variant = item.productId.variants.find(
+      //     (variant) => variant._id.toString() === variantId.toString()
+      //   );
+      //   delete item.variants;
+      //   item.variant = variant;
+      //   return item;
+      // });
+      // console.log('cartITems',cart.items)
+      // const matchedVariants = [];
+  
+      // for (const item of cart.items) {
+      //   const product = await productSchema.findById(item.productId._id);
+      //   const matchedVariant = product.variants.find(
+      //     (variant) => variant._id.toString() === item.variant._id.toString()
+      //   );
+
+      //   if (matchedVariant) {
+      //     matchedVariants.push(matchedVariant);
+      //     const quantityToDecrease = item.quantity;
+      //     matchedVariant.stock -= quantityToDecrease;
+      //   } else {
+      //     console.log("Variant not matched");
+      //   }
+      // }
+
+      // for (const item of matchedVariants) {
+      //   await productSchema.updateOne(
+      //     { "variants._id": item._id },
+      //     { $set: { "variants.$.stock": item.stock } }
+      //   );
+      // }
+// console.log('orderUpdate',orderUpdate.orderedItems[0])
+// orderUpdate.orderedItems.map(async (item)=>{
+// const variant=item.variants
+// console.log("variant",variant)
+// const product= await productSchema.findOne({'variants._id':variant})
+// if(product){
+
+// }
+// console.log('product',product)
+// })
+      await Cart.updateOne({ userId }, { $set: { items: [] } });
+
       await orderUpdate.save()
-      console.log('orderUpdate',orderUpdate)
+      // console.log('orderUpdate',orderUpdate)
        res.json({ success: true, message: "Payment verified", newOrder: orderUpdate});
    
      } catch (error) {
@@ -531,6 +588,32 @@ console.log(error)
         // console.log(id);
 
         const order = await Order.findOne({ userId,orderId: id });
+        const Wallet=await walletSchema.findOne({userId});
+        console.log("wallet",Wallet)
+        if(!Wallet){
+        const newWallet= new walletSchema({
+          userId,
+          totalBalance:order.finalAmount,
+          transactions:[{
+            type:'Refund',
+            amount:order.finalAmount,
+            orderId:order.orderId,
+            // description:
+          }]
+        })
+        console.log("newWalllet",Wallet)
+        await newWallet.save()
+        }else{
+          Wallet.totalBalance += order.finalAmount;
+                  Wallet.transactions.push({
+                      type: 'Refund',
+                      amount: order.finalAmount,
+                      orderId:order.orderId,
+                        date: new Date()
+                  });
+                  await Wallet.save()
+        }
+       
         console.log("delete", order);
         console.log("paymentmethod",order.paymentMethod)
 
@@ -959,12 +1042,133 @@ const returnproduct=async(req,res)=>{
 
 
 
+// const pdf = async (req, res) => {
+//   try {
+//     const orderId = req.params.orderId;
+//     console.log("Generating PDF for orderId:", orderId);
+
+//     const order = await Order.findOne({ orderId }).populate([
+//       {
+//         path: "userId",
+//         select: "name address phone",
+//       },
+//       {
+//         path: "orderedItems.Product",
+//       },
+//     ]);
+
+//     if (!order) {
+//       return res.status(404).json({ message: "Order not found" });
+//     }
+
+//     const user = order.userId;
+
+//     const doc = new PDFDocument({ margin: 50 });
+//     const filename = `invoice_${orderId}.pdf`;
+
+//     res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+//     res.setHeader("Content-Type", "application/pdf");
+
+//     doc.pipe(res);
+
+//     doc.fontSize(24).text("INVOICE", { align: "center" });
+//     doc.moveDown(2);
+
+//     doc
+//       .fontSize(12)
+//       .text(`Invoice Number: INV-${orderId}`, { align: "right" });
+//     doc.text(`Date: ${new Date().toLocaleDateString()}`, { align: "right" });
+//     doc.moveDown();
+
+//     doc.fontSize(14).text("Order Details", { underline: true });
+//     doc.moveDown(0.5);
+//     doc.fontSize(12).text(`Order ID: ${order.orderId}`);
+//     doc.text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
+//     doc.text(`Payment Method: ${order.paymentMethod}`);
+//     doc.moveDown(1);
+
+//     doc.fontSize(14).text("Customer Details", { underline: true });
+//     doc.moveDown(0.5);
+//     doc.fontSize(12).text(`Name: ${user?.name || "N/A"}`);
+//     doc.text("Address:");
+//     doc.text(`${order.address.streetaddress || "N/A"}`);
+//     doc.text(`- ${order.address.pincode || "N/A"}`);
+//     doc.text(`Phone: ${order.address.phone || "N/A"}`);
+//     doc.moveDown(1);
+
+//     const startX = 50; 
+//     const productWidth = 250; 
+//     const qtyWidth = 50; 
+//     const priceWidth = 100; 
+//     const totalWidth = 100; 
+    
+  
+//     doc
+//   .fontSize(14)
+//   .text("Product", startX, doc.y, { width: productWidth, align: "left" })
+//   .text("Qty", startX + productWidth, doc.y, { width: qtyWidth, align: "center" })
+//   .text("Price", startX + productWidth + qtyWidth, doc.y, { width: priceWidth, align: "right" })
+//   .text("Total", startX + productWidth + qtyWidth + priceWidth, doc.y, { width: totalWidth, align: "right" });
+
+// doc.moveDown(0.5); 
+
+// doc.moveTo(startX, doc.y).lineTo(startX + productWidth + qtyWidth + priceWidth + totalWidth, doc.y).stroke();
+
+// doc.moveDown(0.5); 
+
+
+//     order.orderedItems.forEach((item) => {
+//       doc
+//         .fontSize(12)
+//         .text(item.Product.productName, startX, doc.y, { width: productWidth, align: "left" })
+//         .text(`${item.quantity}`, startX + productWidth, doc.y, { width: qtyWidth, align: "center" })
+//         .text(`₹${item.price.toFixed(2)}`, startX + productWidth + qtyWidth, doc.y, { width: priceWidth, align: "right" })
+//         .text(`₹${(item.price * item.quantity).toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, { width: totalWidth, align: "right" });
+
+//       doc.moveDown();
+//     });
+
+ 
+//     doc.moveDown();
+//     doc.moveTo(startX, doc.y)
+//       .lineTo(startX + productWidth + qtyWidth + priceWidth + totalWidth, doc.y)
+//       .stroke();
+//     doc.moveDown(0.5);
+
+    
+//     doc
+//       .fontSize(12)
+//       .text(`Subtotal: ₹${order.finalAmount.toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, {
+//         width: totalWidth,
+//         align: "right",
+//       });
+
+//     doc
+//       .fontSize(12)
+//       .text(`Total Amount: ₹${order.finalAmount.toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, {
+//         width: totalWidth,
+//         align: "right",
+//       });
+
+  
+//     doc.moveDown(1);
+//     doc.fontSize(12).text("Thank you for shopping with us!", { align: "center" });
+
+
+//     doc.end();
+//   } catch (error) {
+//     console.log("Error generating PDF:", error);
+//     res.status(500).json({ message: "Failed to generate PDF" });
+//   }
+// };
+
+
+
 const pdf = async (req, res) => {
   try {
     const orderId = req.params.orderId;
     console.log("Generating PDF for orderId:", orderId);
 
-    // Fetch the order with populated user and product details
     const order = await Order.findOne({ orderId }).populate([
       {
         path: "userId",
@@ -989,101 +1193,89 @@ const pdf = async (req, res) => {
 
     doc.pipe(res);
 
+    // Helper function to draw a line
+    const drawLine = (y) => {
+      doc.moveTo(50, y).lineTo(550, y).stroke();
+    };
+
+    // Header
     doc.fontSize(24).text("INVOICE", { align: "center" });
+    doc.moveDown(1);
+
+    // Invoice details
+    doc.fontSize(12).text(`Invoice Number: INV-${orderId}`, { align: "right" });
+    doc.text(`Date: ${new Date().toLocaleDateString()}`, { align: "right" });
+    doc.moveDown(1);
+
+    drawLine(doc.y);
+    doc.moveDown(1);
+
+    // Order and Customer details in two columns
+    const leftColumnX = 50;
+    const rightColumnX = 400;
+
+    doc.fontSize(14).text("Order Details", leftColumnX, doc.y, { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).text(`Order ID: ${order.orderId}`, leftColumnX);
+    doc.text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`, leftColumnX);
+    doc.text(`Payment Method: ${order.paymentMethod}`, leftColumnX);
+
+    doc.fontSize(14).text("Customer Details", rightColumnX, doc.y - doc.currentLineHeight() * 4.5, { underline: true });
+    doc.moveDown(0.5);
+    doc.fontSize(12).text(`Name: ${user?.name || "N/A"}`, rightColumnX);
+    doc.text(`Address: ${order.address.streetaddress || "N/A"}`, rightColumnX);
+    doc.text(`${order.address.pincode || "N/A"}`, rightColumnX + 20);
+    doc.text(`Phone: ${order.address.phone || "N/A"}`, rightColumnX);
+
     doc.moveDown(2);
 
-    doc
-      .fontSize(12)
-      .text(`Invoice Number: INV-${orderId}`, { align: "right" });
-    doc.text(`Date: ${new Date().toLocaleDateString()}`, { align: "right" });
-    doc.moveDown();
+    // Order Items Table
+    const startX = 50;
+    const productWidth = 250;
+    const qtyWidth = 50;
+    const priceWidth = 100;
+    const totalWidth = 100;
 
-    doc.fontSize(14).text("Order Details", { underline: true });
+    // Table Header
+    doc.fontSize(12).font('Helvetica-Bold');
+    doc.text("Product", startX, doc.y, { width: productWidth, align: "left" });
+    doc.text("Qty", startX + productWidth, doc.y - doc.currentLineHeight(), { width: qtyWidth, align: "center" });
+    doc.text("Price", startX + productWidth + qtyWidth, doc.y - doc.currentLineHeight(), { width: priceWidth, align: "right" });
+    doc.text("Total", startX + productWidth + qtyWidth + priceWidth, doc.y - doc.currentLineHeight(), { width: totalWidth, align: "right" });
+
     doc.moveDown(0.5);
-    doc.fontSize(12).text(`Order ID: ${order.orderId}`);
-    doc.text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
-    doc.text(`Payment Method: ${order.paymentMethod}`);
-    doc.moveDown(1);
-
-    doc.fontSize(14).text("Customer Details", { underline: true });
+    drawLine(doc.y);
     doc.moveDown(0.5);
-    doc.fontSize(12).text(`Name: ${user?.name || "N/A"}`);
-    doc.text("Address:");
-    doc.text(`${order.address.streetaddress || "N/A"}`);
-    doc.text(`- ${order.address.pincode || "N/A"}`);
-    doc.text(`Phone: ${order.address.phone || "N/A"}`);
-    doc.moveDown(1);
 
-    const startX = 50; 
-    const productWidth = 250; 
-    const qtyWidth = 50; 
-    const priceWidth = 100; 
-    const totalWidth = 100; 
-    
-    // doc
-    //   .fontSize(14)
-    //   .text("Product", startX, doc.y, { width: productWidth, align: "left"})
-    //   .text("Qty", startX + productWidth, doc.y, { width: qtyWidth, align: "center" })
-    //   .text("Price", startX + productWidth + qtyWidth, doc.y, { width: priceWidth, align: "right" })
-    //   .text("Total", startX + productWidth + qtyWidth + priceWidth, doc.y, { width: totalWidth, align: "right" });
-
-    // doc.moveDown(0.5);
-    // doc.moveTo(startX, doc.y)
-    //   .lineTo(startX + productWidth + qtyWidth + priceWidth + totalWidth, doc.y)
-    //   .stroke();
-    // doc.moveDown(0.5);
-    doc
-  .fontSize(14)
-  .text("Product", startX, doc.y, { width: productWidth, align: "left" })
-  .text("Qty", startX + productWidth, doc.y, { width: qtyWidth, align: "center" })
-  .text("Price", startX + productWidth + qtyWidth, doc.y, { width: priceWidth, align: "right" })
-  .text("Total", startX + productWidth + qtyWidth + priceWidth, doc.y, { width: totalWidth, align: "right" });
-
-doc.moveDown(0.5); // Moves down a little before drawing the line
-
-// Draw a horizontal line under the headers
-doc.moveTo(startX, doc.y).lineTo(startX + productWidth + qtyWidth + priceWidth + totalWidth, doc.y).stroke();
-
-doc.moveDown(0.5); // Move down before rendering product items
-
-
+    // Table Content
+    doc.font('Helvetica');
     order.orderedItems.forEach((item) => {
-      doc
-        .fontSize(12)
-        .text(item.Product.productName, startX, doc.y, { width: productWidth, align: "left" })
-        .text(`${item.quantity}`, startX + productWidth, doc.y, { width: qtyWidth, align: "center" })
-        .text(`₹${item.price.toFixed(2)}`, startX + productWidth + qtyWidth, doc.y, { width: priceWidth, align: "right" })
-        .text(`₹${(item.price * item.quantity).toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, { width: totalWidth, align: "right" });
+      const y = doc.y;
+      doc.fontSize(10)
+         .text(item.Product.productName, startX, y, { width: productWidth, align: "left" })
+         .text(item.quantity.toString(), startX + productWidth, y, { width: qtyWidth, align: "center" })
+         .text(`₹${item.price.toFixed(2)}`, startX + productWidth + qtyWidth, y, { width: priceWidth, align: "right" })
+         .text(`₹${(item.price * item.quantity).toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, y, { width: totalWidth, align: "right" });
 
       doc.moveDown();
     });
 
- 
-    doc.moveDown();
-    doc.moveTo(startX, doc.y)
-      .lineTo(startX + productWidth + qtyWidth + priceWidth + totalWidth, doc.y)
-      .stroke();
+    // Totals
+    doc.moveDown(0.5);
+    drawLine(doc.y);
     doc.moveDown(0.5);
 
-    
-    doc
-      .fontSize(12)
-      .text(`Subtotal: ₹${order.finalAmount.toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, {
-        width: totalWidth,
-        align: "right",
-      });
+    const totalsX = startX + productWidth + qtyWidth;
+    doc.fontSize(10).font('Helvetica-Bold');
+    doc.text("Subtotal:", totalsX, doc.y, { width: priceWidth, align: "left" });
+    doc.text(`₹${order.finalAmount.toFixed(2)}`, totalsX + priceWidth, doc.y - doc.currentLineHeight(), { width: totalWidth, align: "right" });
+    doc.moveDown(0.5);
+    doc.text("Total Amount:", totalsX, doc.y, { width: priceWidth, align: "left" });
+    doc.text(`₹${order.finalAmount.toFixed(2)}`, totalsX + priceWidth, doc.y - doc.currentLineHeight(), { width: totalWidth, align: "right" });
 
-    doc
-      .fontSize(12)
-      .text(`Total Amount: ₹${order.finalAmount.toFixed(2)}`, startX + productWidth + qtyWidth + priceWidth, doc.y, {
-        width: totalWidth,
-        align: "right",
-      });
-
-  
-    doc.moveDown(1);
-    doc.fontSize(12).text("Thank you for shopping with us!", { align: "center" });
-
+    // Footer
+    doc.fontSize(10).font('Helvetica');
+    doc.text("Thank you for shopping with us!", 50, 700, { align: "center" });
 
     doc.end();
   } catch (error) {
@@ -1092,7 +1284,7 @@ doc.moveDown(0.5); // Move down before rendering product items
   }
 };
 
-
+module.exports = { pdf };
 
  
 

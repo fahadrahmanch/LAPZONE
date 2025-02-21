@@ -79,7 +79,10 @@
                         <span class="text">Coupon</span>
                     </a>
                 </li>
-                
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-stars"></i>
+                        <span class="text">Brands</span> </a>
+                </li>
             </ul>
             <hr>
         </nav>
@@ -157,271 +160,203 @@
         </header>
         <section class="content-main">
             <div class="row">
-                <div class="col-9">
+                <div class="col-12">
                     <div class="content-header">
                         <h2 class="content-title">Edit Product</h2>
                     </div>
-                </div>
-                <div class="col-lg-6">
+                    
                     <div class="card mb-4">
                         <div class="card-body">
-
-                            <!-- form Starter -->
-
-                            <form method="POST" action="/admin/editProduct/<%=product._id%>"  enctype="multipart/form-data" onsubmit="return validateAndSubmit()">
-                                <div class="mb-4">
-                                    <label for="product_name" class="form-label">Product Name</label>
-                                    <input type="text" placeholder="Type here" name="productName"
-                                        class="form-control border" id="product_name" value="<%=product.productName%>">
-                                    <div id="productName-error" class="error-message"></div>
-                                </div>
-                                <div class="col-lg-4 mb-4">
-                                    <label class="form-label">Category</label>
-                                    <select class="form-select border" name="category">
-                                        <option value="<%= product.category.name %>" selected><%= product.category.name %></option>
-                                        <%for(let i=0;i<cat.length;i++){%>
-                                            <option value="<%= cat[i].name %>">
-                                                <%= cat[i].name %>
-                                            </option>
-
-                                            <%}%>
-                                    </select>
-                                    <div id="brand-error" class="error-message"></div>
-                                </div>
-                                <div class="col-lg-4 mb-4">
-                                    <label class="form-label">Brand</label>
-                                    <select class="form-select border" name="brand">
-
-                                        <%for(let i=0;i<brand.length;i++){%>
-                                            <option value="<%= brand[i].brandName %>">
-                                                <%= brand[i].brandName %>
-                                            </option>
-
-                                            <%}%>
-                                    </select>
-                                    <!-- <div id="brand-error" class="error-message"></div> -->
-                                </div>
-                                <div class="mb-4">
-                                    <label class="form-label">Full description</label>
-                                    <input placeholder="Type here" id="descriptionid" name="description"
-                                        class="form-control border" rows="4" value="<%=product.description%>%>">
-                                    <div id="description-error" class="error-message"></div>
-                                </div>
-                                
-                                <div id="variantsContainer">
-                                    <% for (let i = 0; i < product.variants.length; i++) { %>
-                                      <div class="variant-section">
-                                        <h5>Variant <%= i + 1 %></h5>
-                                        
-                                        
-                                        <div class="mb-3">
-                                          <label for="ram-<%= i %>" class="form-label">RAM</label>
-                                          <input type="text" class="form-control" name="variants[<%= i %>][ram]" id="ram-<%= i %>" value="<%= product.variants[i].ram %>" placeholder="Enter RAM (e.g., 8GB)">
-                                        </div>
-                                        
+                            <form method="POST" action="/admin/editProduct/<%=product._id%>" enctype="multipart/form-data" onsubmit="return validateAndSubmit()">
+                                <!-- Basic Information -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+                                        <label for="product_name" class="form-label">Product Name</label>
+                                        <input type="text" placeholder="Type here" name="productName" class="form-control" id="product_name" value="<%=product.productName%>">
+                                        <div id="productName-error" class="error-message text-danger"></div>
+                                    </div>
                                     
-                                        <div class="mb-3">
-                                          <label for="storage-<%= i %>" class="form-label">Storage</label>
-                                          <input type="text" class="form-control" name="variants[<%= i %>][storage]" id="storage-<%= i %>" value="<%= product.variants[i].storage %>" placeholder="Enter Storage (e.g., 512GB SSD)">
-                                        </div>
-                                        
-                                        
-                                        <div class="mb-3">
-                                          <label for="processor-<%= i %>" class="form-label">Processor</label>
-                                          <input type="text" class="form-control" name="variants[<%= i %>][processor]" id="processor-<%= i %>" value="<%= product.variants[i].processor %>" placeholder="Enter Processor (e.g., Intel i5)">
-                                        </div>
-                                        
-                                      
-                                        <div class="row g-3">
-                                          <div class="col-md-6">
-                                            <label for="regularPrice-<%= i %>" class="form-label">Regular Price</label>
-                                            <input type="number" class="form-control" name="variants[<%= i %>][regularPrice]" id="regularPrice-<%= i %>" value="<%= product.variants[i].regularPrice %>" placeholder="Enter regular price" >
-                                          </div>
-                                          <div class="col-md-6">
-                                            <label for="salePrice-<%= i %>" class="form-label">Sale Price</label>
-                                            <input type="number" class="form-control" name="variants[<%= i %>][salePrice]" id="salePrice-<%= i %>" value="<%= product.variants[i].salePrice %>" placeholder="Enter sale price">
-                                          </div>
-                                        </div>
-                                        
-                                        <div class="mb-3 mt-3">
-                                          <label for="stock-<%= i %>" class="form-label">Stock</label>
-                                          <input type="number" class="form-control" name="variants[<%= i %>][stock]" id="stock-<%= i %>" value="<%= product.variants[i].stock %>" placeholder="Enter stock quantity" >
-                                        </div>
-                                  
-                                        <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
-                                      </div>
-                                    <% } %>
-                                  </div>
-                                  
-                               
-                                  <button type="button" class="btn btn-secondary mb-3" id="addVariantBtn">Add Another Variant</button>
-                                  
-                                  
-                                <div class="card mb-2">
-                                    <div class="row">
-                                        
-                                        <%for(let i=0;i<product.productImage.length;i++){%>
-                                        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                            <td>
-                                                <input type="hidden" value="" id="imageDatas">
-                                                <img class="rounded" style="width: 50px; height: 60px;"
-                                                    src="/uploads/<%= product.productImage[i] %>"
-                                                    alt="">
-                                                <i onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" style="position: absolute; margin-left: .5rem; cursor: pointer;" class="fa-thin fa-x">delete</i>
-        
-                                            <div id="images-error" class="error-message"></div>
-                                            </td>
-                                        </div>
-                                        <%}%>
-                                       
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label">Category</label>
+                                        <select class="form-select" name="category">
+                                            <option value="<%= product.category.name %>" selected><%= product.category.name %></option>
+                                            <%for(let i=0;i<cat.length;i++){%>
+                                                <option value="<%= cat[i].name %>"><%= cat[i].name %></option>
+                                            <%}%>
+                                        </select>
+                                        <div id="category-error" class="error-message text-danger"></div>
                                     </div>
-                                    <div class="card-header">
-                                        <h4>Choose images</h4>
+                                    
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label">Brand</label>
+                                        <select class="form-select" name="brand">
+                                            <%for(let i=0;i<brand.length;i++){%>
+                                                <option value="<%= brand[i].brandName %>"><%= brand[i].brandName %></option>
+                                            <%}%>
+                                        </select>
+                                        <div id="brand-error" class="error-message text-danger"></div>
                                     </div>
-                                    <div class="border row">
-                                        <div id="addedImagesContainer" class="thumbnails-container"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                            <img src="" alt="" id="imgView1">
-                                            <input class="form-control" type="file" name="images" id="input1"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onchange="viewImage1(event), viewImage(event, 1)" ,multiple>
-                                            <div id="images-error" class="error-message"></div>
-                                        </div>
-                                        <div class="image-cropper d-flex align-items-center"
-                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                            <img src="" id="croppedImg1" alt="">
-                                            <button type="button" id="saveButton1"
-                                                class="btn-sm btn-primary">Save</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                            <img src="" alt="" id="imgView2">
-
-
-                                            <input class="form-control" type="file" name="images" id="input2"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onchange="viewImage2(event),viewImage(event, 2)">
-                                        </div>
-                                        <div class="image-cropper d-flex align-items-center"
-                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                            <img src="" id="croppedImg2" alt="">
-                                            <button type="button" id="saveButton2"
-                                                class="btn-sm btn-primary">Save</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                            <img src="" alt="" id="imgView3">
-
-
-                                            <input class="form-control" type="file" name="images" id="input3"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onchange="viewImage3(event),viewImage(event, 3)">
-                                        </div>
-                                        <div class="image-cropper d-flex align-items-center"
-                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                            <img src="" id="croppedImg3" alt="">
-                                            <button type="button" id="saveButton3"
-                                                class="btn-sm btn-primary">Save</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="card-body align-items-center" style="margin-bottom: 20px;">
-                                            <img src="" alt="" id="imgView4">
-
-
-
-                                            <input class="form-control" type="file" name="images" id="input4"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                                onchange="viewImage4(event),viewImage(event, 4)">
-                                        </div>
-                                        <div class="image-cropper d-flex align-items-center"
-                                            style="display:none; width: 300px; height: 200px; margin-bottom: 20px;">
-                                            <img src="" id="croppedImg4" alt="">
-                                            <button type="button" id="saveButton4"
-                                                class="btn-sm btn-primary" >Save</button>
-                                        </div>
-                                    </div>
-
                                 </div>
+        
+                                <div class="row">
+                                    <div class="col-12 mb-4">
+                                        <label class="form-label">Full description</label>
+                                        <textarea placeholder="Type here" id="descriptionid" name="description" class="form-control" rows="4"><%=product.description%></textarea>
+                                        <div id="description-error" class="error-message text-danger"></div>
+                                    </div>
+                                </div>
+        
+                                <!-- Variants Section -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h4 class="mb-3">Product Variants</h4>
+                                        <div id="variantsContainer">
+                                            <% for (let i = 0; i < product.variants.length; i++) { %>
+                                                <div class="variant-section card p-3 mb-3">
+                                                    <h5>Variant <%= i + 1 %></h5>
+                                                    <div class="row">
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="ram-<%= i %>" class="form-label">RAM</label>
+                                                            <input type="text" class="form-control" name="variants[<%= i %>][ram]" id="ram-<%= i %>" value="<%= product.variants[i].ram %>" placeholder="Enter RAM (e.g., 8GB)">
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="storage-<%= i %>" class="form-label">Storage</label>
+                                                            <input type="text" class="form-control" name="variants[<%= i %>][storage]" id="storage-<%= i %>" value="<%= product.variants[i].storage %>" placeholder="Enter Storage (e.g., 512GB SSD)">
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="processor-<%= i %>" class="form-label">Processor</label>
+                                                            <input type="text" class="form-control" name="variants[<%= i %>][processor]" id="processor-<%= i %>" value="<%= product.variants[i].processor %>" placeholder="Enter Processor (e.g., Intel i5)">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="regularPrice-<%= i %>" class="form-label">Regular Price</label>
+                                                            <input type="number" class="form-control" name="variants[<%= i %>][regularPrice]" id="regularPrice-<%= i %>" value="<%= product.variants[i].regularPrice %>" placeholder="Enter regular price">
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="salePrice-<%= i %>" class="form-label">Sale Price</label>
+                                                            <input type="number" class="form-control" name="variants[<%= i %>][salePrice]" id="salePrice-<%= i %>" value="<%= product.variants[i].salePrice %>" placeholder="Enter sale price">
+                                                        </div>
+                                                        <div class="col-md-4 mb-3">
+                                                            <label for="stock-<%= i %>" class="form-label">Stock</label>
+                                                            <input type="number" class="form-control" name="variants[<%= i %>][stock]" id="stock-<%= i %>" value="<%= product.variants[i].stock %>" placeholder="Enter stock quantity">
+                                                        </div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove Variant</button>
+                                                </div>
+                                            <% } %>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary mb-4" id="addVariantBtn">Add Another Variant</button>
+                                    </div>
+                                </div>
+        
+                                <!-- Images Section -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card mb-4">
+                                            <div class="card-header">
+                                                <h4>Product Images</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <!-- Existing Images -->
+                                                <div class="row mb-4">
+                                                    <% for(let i=0; i<product.productImage.length; i++) { %>
+                                                        <div class="col-md-3 mb-3">
+                                                            <div class="position-relative">
+                                                                <img class="img-fluid rounded" src="/uploads/<%= product.productImage[i] %>" alt="Product image">
+                                                                <button type="button" onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2">
+                                                                    <i class="fa-thin fa-x"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    <% } %>
+                                                </div>
+                                                
+                                                <!-- New Images Upload -->
+                                                <div id="addedImagesContainer" class="row mb-3"></div>
+                                                <div class="row">
+                                                    <% for(let i = 1; i <= 4; i++) { %>
+                                                        <div class="col-md-3 mb-3">
+                                                            <div class="image-upload-container">
+                                                                <img src="" alt="" id="imgView<%= i %>" class="img-preview mb-2">
+                                                                <input class="form-control" type="file" name="images" id="input<%= i %>"
+                                                                    accept="image/png, image/jpeg, image/jpg"
+                                                                    onchange="viewImage<%= i %>(event), viewImage(event, <%= i %>)">
+                                                            </div>
+                                                        </div>
+                                                    <% } %>
+                                                </div>
+                                                <div id="images-error" class="error-message text-danger"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        
+                                <!-- Submit Button -->
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100" type="submit">Update Product</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div>
-                            <button class="btn btn-md rounded font-sm hover-up" type="submit" onclick="validateForm()" >Publish</button>
-                        </div>
-                        </form>
-
-                        <!-- form end -->
-
-
-                       
-                       
-                        <script>
-                            document.addEventListener("DOMContentLoaded", () => {
-   let variantCount = <%= product.variants.length %>; 
-  const addVariantBtn = document.getElementById("addVariantBtn");
-  const variantsContainer = document.getElementById("variantsContainer");
-
-  addVariantBtn.addEventListener("click", () => {
-    const newVariant = document.createElement("div");
-    newVariant.className = "variant-section";
-    newVariant.innerHTML = `
-      <h5>Variant ${variantCount + 1}</h5>
-      <div class="mb-3">
-        <label for="ram-${variantCount}" class="form-label">RAM</label>
-        <input type="text" class="form-control" name="variants[${variantCount}][ram]" id="ram-${variantCount}" placeholder="Enter RAM (e.g., 8GB)">
-      </div>
-      <div class="mb-3">
-        <label for="storage-${variantCount}" class="form-label">Storage</label>
-        <input type="text" class="form-control" name="variants[${variantCount}][storage]" id="storage-${variantCount}" placeholder="Enter Storage (e.g., 512GB SSD)">
-      </div>
-      <div class="mb-3">
-        <label for="processor-${variantCount}" class="form-label">Processor</label>
-        <input type="text" class="form-control" name="variants[${variantCount}][processor]" id="processor-${variantCount}" placeholder="Enter Processor (e.g., Intel i5)">
-      </div>
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label for="regularPrice-${variantCount}" class="form-label">Regular Price</label>
-          <input type="number" class="form-control" name="variants[${variantCount}][regularPrice]" id="regularPrice-${variantCount}" placeholder="Enter regular price" required>
-        </div>
-        <div class="col-md-6">
-          <label for="salePrice-${variantCount}" class="form-label">Sale Price</label>
-          <input type="number" class="form-control" name="variants[${variantCount}][salePrice]" id="salePrice-${variantCount}" placeholder="Enter sale price" required>
-        </div>
-      </div>
-      <div class="mb-3 mt-3">
-        <label for="stock-${variantCount}" class="form-label">Stock</label>
-        <input type="number" class="form-control" name="variants[${variantCount}][stock]" id="stock-${variantCount}" placeholder="Enter stock quantity" required>
-      </div>
-      <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
-    `;
-    variantsContainer.appendChild(newVariant);
-    variantCount++; 
-  });
-
-  variantsContainer.addEventListener("click", (e) => {
-    if (e.target.classList.contains("remove-variant-btn")) {
-      e.target.closest(".variant-section").remove();
-    }
-  });
-});
-
-                          </script>
-          
-                       
-
                     </div>
                 </div>
             </div>
-            </div>
-            
-           
         </section>
+        
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let variantCount = <%= product.variants.length %>; 
+            const addVariantBtn = document.getElementById("addVariantBtn");
+            const variantsContainer = document.getElementById("variantsContainer");
+        
+            addVariantBtn.addEventListener("click", () => {
+                const newVariant = document.createElement("div");
+                newVariant.className = "variant-section card p-3 mb-3";
+                newVariant.innerHTML = `
+                    <h5>Variant ${variantCount + 1}</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="ram-${variantCount}" class="form-label">RAM</label>
+                            <input type="text" class="form-control" name="variants[${variantCount}][ram]" id="ram-${variantCount}" placeholder="Enter RAM (e.g., 8GB)">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="storage-${variantCount}" class="form-label">Storage</label>
+                            <input type="text" class="form-control" name="variants[${variantCount}][storage]" id="storage-${variantCount}" placeholder="Enter Storage (e.g., 512GB SSD)">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="processor-${variantCount}" class="form-label">Processor</label>
+                            <input type="text" class="form-control" name="variants[${variantCount}][processor]" id="processor-${variantCount}" placeholder="Enter Processor (e.g., Intel i5)">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="regularPrice-${variantCount}" class="form-label">Regular Price</label>
+                            <input type="number" class="form-control" name="variants[${variantCount}][regularPrice]" id="regularPrice-${variantCount}" placeholder="Enter regular price">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="salePrice-${variantCount}" class="form-label">Sale Price</label>
+                            <input type="number" class="form-control" name="variants[${variantCount}][salePrice]" id="salePrice-${variantCount}" placeholder="Enter sale price">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="stock-${variantCount}" class="form-label">Stock</label>
+                            <input type="number" class="form-control" name="variants[${variantCount}][stock]" id="stock-${variantCount}" placeholder="Enter stock quantity">
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove Variant</button>
+                `;
+                variantsContainer.appendChild(newVariant);
+                variantCount++;
+            });
+        
+            variantsContainer.addEventListener("click", (e) => {
+                if (e.target.classList.contains("remove-variant-btn")) {
+                    e.target.closest(".variant-section").remove();
+                }
+            });
+        });
+        </script>
         
         <script>
             const variantsContainer = document.getElementById('variants-container');
@@ -493,23 +428,154 @@
             }
         </script>
         <script>
-          function validateAndSubmit() {
-    // Clear all previous error messages
-    const errorElements = document.querySelectorAll('.error-message');
-    errorElements.forEach(element => element.innerHTML = '');
+    //         function validateAndSubmit() {
+    //     // Clear all previous error messages
+    //     const errorElements = document.querySelectorAll('.error-message');
+    //     errorElements.forEach(element => element.innerHTML = '');
 
+    //     let isValid = true;
+
+    //     // Validate Product Name
+    //     const productName = document.getElementById('product_name').value;
+    //     if (!productName.trim()) {
+    //         document.getElementById('productName-error').innerHTML = 'Product name is required';
+    //         isValid = false;
+    //     }
+
+    //     // Validate Description
+    //     const description = document.getElementById('descriptionid').value;
+    //     if (!description.trim()) {
+    //         document.getElementById('description-error').innerHTML = 'Description is required';
+    //         isValid = false;
+    //     }
+
+    //     // Validate Variants
+    //     const variantSections = document.querySelectorAll('.variant-section');
+    //     if (variantSections.length === 0) {
+    //         // alert('At least one variant is required');
+    //         isValid = false;
+    //     }
+
+    //     // Validate each variant
+    //     variantSections.forEach((section, index) => {
+    //         // RAM validation
+    //         const ram = section.querySelector(`#ram-${index}`).value;
+    //         if (!ram.trim()) {
+    //             section.querySelector(`#ram-${index}`).insertAdjacentHTML(
+    //                 'afterend',
+    //                 `<div class="error-message" style="color: red;">RAM is required</div>`
+    //             );
+    //             isValid = false;
+    //         }
+
+    //         const processor = section.querySelector(`#processor-${index}`).value;
+    //         if (!processor.trim()) {
+    //             section.querySelector(`#processor-${index}`).insertAdjacentHTML(
+    //                 'afterend',
+    //                 `<div class="error-message" style="color: red;">Processor is required</div>`
+    //             );
+    //             isValid = false;
+    //         }
+
+    //         const storage = section.querySelector(`#storage-${index}`).value;
+    //         if (!storage.trim()) {
+    //             section.querySelector(`#storage-${index}`).insertAdjacentHTML(
+    //                 'afterend',
+    //                 `<div class="error-message" style="color: red;">Storage is required</div>`
+    //             );
+    //             isValid = false;
+    //         }
+
+    //         const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
+    //         if (!regularPrice || regularPrice <= 0) {
+    //             section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+    //                 'beforeend',
+    //                 `<div class="error-message" style="color: red;">Valid regular price is required</div>`
+    //             );
+    //             isValid = false;
+    //         }
+
+    //         const salePrice = section.querySelector(`#salePrice-${index}`).value;
+    //         if (salePrice && Number(salePrice) > Number(regularPrice)) {
+    //             section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+    //                 'beforeend',
+    //                 `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
+    //             );
+    //             isValid = false;
+    //         }
+
+    //         const stock = section.querySelector(`#stock-${index}`).value;
+    //         if (!stock || stock < 0) {
+    //             section.querySelector(`#stock-${index}`).insertAdjacentHTML(
+    //                 'afterend',
+    //                 `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
+    //             );
+    //             isValid = false;
+    //         }
+    //     });
+
+    //     // Image validation
+    //     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+    //     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
+    //     let hasImage = false;
+
+    //     // Check if new images are uploaded
+    //     imageInputs.forEach(input => {
+    //         if (input.files.length > 0) {
+    //             hasImage = true;
+    //         }
+    //     });
+
+    //     // Check if existing images are present
+    //     if (!hasImage && existingImages.length === 0) {
+    //         document.getElementById('images-error').innerHTML = 'At least one image is required';
+    //         isValid = false;
+    //     }
+
+    //     // Prevent form submission if validation fails
+    //     if (!isValid) {
+    //         // alert('Please correct the errors before submitting.');
+    //     }
+
+    //     return isValid;
+    // }
+
+
+// Add this CSS to your stylesheet
+
+
+
+
+function validateAndSubmit() {
+    // Clear all previous error messages
+    document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
+    
     let isValid = true;
 
     // Validate Product Name
-    const productName = document.getElementById('product_name').value;
-    if (!productName.trim()) {
+    const productName = document.getElementById('product_name').value.trim();
+    if (!productName) {
         document.getElementById('productName-error').innerHTML = 'Product name is required';
         isValid = false;
     }
 
+    // Validate Category
+    const category = document.querySelector('select[name="category"]').value.trim();
+    if (!category) {
+        document.getElementById('category-error').innerHTML = 'Category is required';
+        isValid = false;
+    }
+
+    // Validate Brand
+    const brand = document.querySelector('select[name="brand"]').value.trim();
+    if (!brand) {
+        document.getElementById('brand-error').innerHTML = 'Brand is required';
+        isValid = false;
+    }
+
     // Validate Description
-    const description = document.getElementById('descriptionid').value;
-    if (!description.trim()) {
+    const description = document.getElementById('descriptionid').value.trim();
+    if (!description) {
         document.getElementById('description-error').innerHTML = 'Description is required';
         isValid = false;
     }
@@ -517,64 +583,54 @@
     // Validate Variants
     const variantSections = document.querySelectorAll('.variant-section');
     if (variantSections.length === 0) {
-        // alert('At least one variant is required');
+        alert('At least one variant is required');
         isValid = false;
     }
 
     // Validate each variant
     variantSections.forEach((section, index) => {
+        // Remove existing error messages before validation
+        section.querySelectorAll('.error-message').forEach(el => el.remove());
+
         // RAM validation
-        const ram = section.querySelector(`#ram-${index}`).value;
-        if (!ram.trim()) {
-            section.querySelector(`#ram-${index}`).insertAdjacentHTML(
-                'afterend',
-                `<div class="error-message" style="color: red;">RAM is required</div>`
-            );
+        const ramInput = section.querySelector(`#ram-${index}`);
+        if (!ramInput.value.trim()) {
+            ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
             isValid = false;
         }
 
-        const processor = section.querySelector(`#processor-${index}`).value;
-        if (!processor.trim()) {
-            section.querySelector(`#processor-${index}`).insertAdjacentHTML(
-                'afterend',
-                `<div class="error-message" style="color: red;">Processor is required</div>`
-            );
+        // Processor validation
+        const processorInput = section.querySelector(`#processor-${index}`);
+        if (!processorInput.value.trim()) {
+            processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
             isValid = false;
         }
 
-        const storage = section.querySelector(`#storage-${index}`).value;
-        if (!storage.trim()) {
-            section.querySelector(`#storage-${index}`).insertAdjacentHTML(
-                'afterend',
-                `<div class="error-message" style="color: red;">Storage is required</div>`
-            );
+        // Storage validation
+        const storageInput = section.querySelector(`#storage-${index}`);
+        if (!storageInput.value.trim()) {
+            storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
             isValid = false;
         }
 
-        const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
-        if (!regularPrice || regularPrice <= 0) {
-            section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-                'beforeend',
-                `<div class="error-message" style="color: red;">Valid regular price is required</div>`
-            );
+        // Regular Price validation
+        const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
+        if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
+            regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
             isValid = false;
         }
 
-        const salePrice = section.querySelector(`#salePrice-${index}`).value;
-        if (salePrice && Number(salePrice) > Number(regularPrice)) {
-            section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-                'beforeend',
-                `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
-            );
+        // Sale Price validation
+        const salePriceInput = section.querySelector(`#salePrice-${index}`);
+        if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
+            salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
             isValid = false;
         }
 
-        const stock = section.querySelector(`#stock-${index}`).value;
-        if (!stock || stock < 0) {
-            section.querySelector(`#stock-${index}`).insertAdjacentHTML(
-                'afterend',
-                `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
-            );
+        // Stock validation
+        const stockInput = section.querySelector(`#stock-${index}`);
+        if (!stockInput.value || Number(stockInput.value) < 0) {
+            stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
             isValid = false;
         }
     });
@@ -582,7 +638,7 @@
     // Image validation
     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
-    let hasImage = false;
+    let hasImage = existingImages.length > 0;
 
     // Check if new images are uploaded
     imageInputs.forEach(input => {
@@ -591,20 +647,15 @@
         }
     });
 
-    // Check if existing images are present
-    if (!hasImage && existingImages.length === 0) {
+    if (!hasImage) {
         document.getElementById('images-error').innerHTML = 'At least one image is required';
         isValid = false;
     }
 
     // Prevent form submission if validation fails
-    if (!isValid) {
-        // alert('Please correct the errors before submitting.');
-    }
-
     return isValid;
 }
-// Add this CSS to your stylesheet
+
 const style = document.createElement('style');
 style.textContent = `
     .error-message {

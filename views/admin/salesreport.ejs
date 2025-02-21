@@ -114,6 +114,10 @@
                         <span class="text">Coupon</span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/brand"> <i class="icon material-icons md-stars"></i>
+                        <span class="text">Brands</span> </a>
+                </li>
                 <!-- <li class="menu-item ">
                     <a class="menu-link" href="page-form-product-1.html"> <i class="icon material-icons md-add_box"></i>
                         <span class="text">Add product</span>
@@ -236,206 +240,226 @@
                 </ul>
             </div>
         </header>
-        <section class="content-main">
-            <div class="content-header">
-             <div class="container mx-auto mt-10 p-5 bg-white shadow-lg rounded-lg">
-              <div class="flex justify-between items-center mb-6">
-               <h1 class="text-3xl font-bold text-black">
-                Sales Report
-               </h1>
-               <div>
-                <a id="downloadPdf" href="#" class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 mb-2 md:mb-0 md:mr-2">
-                 Download PDF
-                </a>
-                <a id="downloadExcel" href="#" class="w-full md:w-auto px-4 py-2 evara-blue text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                 Download Excel
-                </a>
-               </div>
-              </div>
-              <!-- Filters Section -->
-              <div class="bg-gray-50 p-5 rounded-lg mb-6">
-               <h5 class="text-xl font-semibold mb-4 text-black">
-                Filter Sales Report
-               </h5>
-               <form action="/admin/salesreport" method="GET">
-                <label class="block text-sm font-medium text-gray-700" for="filterType">Filter By</label>
-                <select id="filterType" name="period" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 sm:text-sm">
-                    <option value="all" <%= period === "all" ? "selected" : "" %>>All Time</option>
-                    <option value="daily" <%= period === "daily" ? "selected" : "" %>>Daily</option>
-                    <option value="weekly" <%= period === "weekly" ? "selected" : "" %>>Weekly</option>
-                    <option value="monthly" <%= period === "monthly" ? "selected" : "" %>>Monthly</option>
-                    <option value="custom" <%= period === "custom" ? "selected" : "" %>>Custom Date Range</option>
-                </select>
-            
-                <div id="customDateRange" class="<%= period === 'custom' ? '' : 'hidden' %>">
-                    <label class="block text-sm font-medium text-gray-700" for="startDate">Start Date</label>
-                    <input type="date" id="startDate" name="startDate" value="<%= startDate %>">
+        
+           
+           
+           <div class="min-h-screen bg-gray-100 py-8">
+            <div class="container mx-auto px-4">
+                <!-- Header Section -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h1 class="text-3xl font-bold text-gray-900">Sales Report</h1>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button id="downloadPdf" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Download PDF
+                            </button>
+                            <button ID="downloadExcel" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                Download Excel
+                            </button>
+                        </div>
+                    </div>
                 </div>
-            
-                <div id="customEndDate" class="<%= period === 'custom' ? '' : 'hidden' %>">
-                    <label class="block text-sm font-medium text-gray-700" for="endDate">End Date</label>
-                    <input type="date" id="endDate" name="endDate" value="<%= endDate %>">
+        
+                <!-- Filters Section -->
+                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+                    <h2 class="text-xl font-semibold mb-6 text-gray-900">Filter Sales Report</h2>
+                    <form action="/admin/salesreport" method="GET" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="filterType">Filter By</label>
+                                <select id="filterType" name="period" 
+                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                                    <option value="all" <%= period === "all" ? "selected" : "" %>>All Time</option>
+                                    <option value="daily" <%= period === "daily" ? "selected" : "" %>>Daily</option>
+                                    <option value="weekly" <%= period === "weekly" ? "selected" : "" %>>Weekly</option>
+                                    <option value="monthly" <%= period === "monthly" ? "selected" : "" %>>Monthly</option>
+                                    <option value="custom" <%= period === "custom" ? "selected" : "" %>>Custom Date Range</option>
+                                </select>
+                            </div>
+        
+                            <div id="customDateRange" class="<%= period === 'custom' ? '' : 'hidden' %>">
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="startDate">Start Date</label>
+                                <input type="date" id="startDate" name="startDate" value="<%= startDate %>"
+                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+        
+                            <div id="customEndDate" class="<%= period === 'custom' ? '' : 'hidden' %>">
+                                <label class="block text-sm font-medium text-gray-700 mb-2" for="endDate">End Date</label>
+                                <input type="date" id="endDate" name="endDate" value="<%= endDate %>"
+                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
+                            </div>
+        
+                            <div class="flex items-end">
+                                <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
+                                    Generate Report
+                                </button>
+                            </div>
+                        </div>
+                        <% if (dateErr) { %>
+                            <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
+                                <%= dateErr %>
+                            </div>
+                        <% } %>
+                    </form>
                 </div>
-            
-                <button type="submit" id="generateReport" class="w-full md:w-auto px-4 py-2 evara-green text-white font-semibold rounded-md shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                    Generate Report
-                </button>
-                <br>
-                <span style="color: red;"><%=dateErr%></span>
-            </form>
-            
-              </div>
-              <!-- Report Summary Section -->
-                 <script>
-                    document.getElementById('filterType').addEventListener('change', function () {
-                        const customRange = document.getElementById('customDateRange');
-                        const customEndDate = document.getElementById('customEndDate');
+        
+                <!-- Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
+                        <h3 class="text-sm font-medium text-green-600 mb-2">Overall Sales Count</h3>
+                        <p class="text-2xl font-bold text-gray-900"><%= count %></p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
+                        <h3 class="text-sm font-medium text-blue-600 mb-2">Overall Order Amount</h3>
+                        <p class="text-2xl font-bold text-gray-900"><%= overallamount %></p>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-500">
+                        <h3 class="text-sm font-medium text-red-600 mb-2">Overall Discount</h3>
+                        <p class="text-2xl font-bold text-gray-900"><%= overallDiscount %></p>
+                    </div>
+                </div>
+        
+                <!-- Sales Table -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6 border-b border-gray-200">
+                        <h2 class="text-xl font-semibold text-gray-900">Sales Report Details</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <% orders.forEach((item) => { %>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.createdOn %></td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.userId?.name %></td>
+                                        <td class="px-6 py-4 text-sm text-gray-900">
+                                            <% for (let key of item.orderedItems) { %>
+                                                <%= key.Product.productName %><br>
+                                            <% } %>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.paymentMethod %></td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                                <%= item.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
+                                                   item.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
+                                                   'bg-gray-100 text-gray-800' %>">
+                                                <%= item.status %>
+                                            </span>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.finalAmount %></td>
+                                    </tr>
+                                <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <!-- Pagination -->
+                <div class="flex justify-center my-8">
+                    <nav aria-label="Pagination" class="inline-flex flex-wrap shadow-lg rounded-lg overflow-hidden max-w-full">
+                        <!-- Previous Button -->
+                        <% if (currentPage > 1) { %>
+                            <a href="?page=<%= currentPage - 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out"
+                               aria-label="Previous page">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        <% } %>
                 
-                        if (this.value === 'custom') {
-                            customRange.classList.remove('hidden');
-                            customEndDate.classList.remove('hidden');
-                        } else {
-                            customRange.classList.add('hidden');
-                            customEndDate.classList.add('hidden');
-                        }
-                    });
+                        <!-- Page Numbers - Limited to 5 visible pages -->
+                        <% 
+                        let startPage = Math.max(1, currentPage - 1);
+                        let endPage = Math.min(totalPages, startPage + 2);
+                        if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+                        
+                        if (startPage > 1) { %>
+                            <a href="?page=1&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out">
+                                1
+                            </a>
+                            <% if (startPage > 2) { %>
+                                <span class="inline-flex items-center px-2 py-2 bg-white border-r border-gray-200 text-gray-400">...</span>
+                            <% } %>
+                        <% } %>
                 
-            
-                </script>
-              <div class="bg-gray-50 p-5 rounded-lg mb-6">
-               <h5 class="text-xl font-semibold mb-4 text-gray-700">
-                Report Summary
-               </h5>
-               <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 evara-green-border">
-                 <p class="text-sm font-medium evara-green-text">
-                  Overall Sales Count:
-                 </p>
-                 <p class="text-lg font-semibold text-gray-900" id="salesCount">
-                  <%=count%>
-                 </p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 evara-blue-border">
-                 <p class="text-sm font-medium evara-blue-text">
-                  Overall Order Amount:
-                 </p>
-                 <p class="text-lg font-semibold text-gray-900" id="orderAmount">
-                    <%=overallamount%>
-                 </p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow-md border-l-4 evara-red-border">
-                 <p class="text-sm font-medium evara-red-text">
-                  Overall Discount:
-                 </p>
-                 <p class="text-lg font-semibold text-gray-900" id="totalDiscount">
-                  <%=overallDiscount%>
-                 </p>
-                </div>
-               </div>
-              </div>
-              <!-- Sales Report Table -->
-              <div class="bg-gray-50 p-5 rounded-lg mb-6">
-               <h5 class="text-xl font-semibold mb-4 text-gray-700">
-                Sales Report Details
-               </h5>
-               <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200">
-                 <thead>
-                  <tr>
-                   <!-- <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Order ID
-                   </th> -->
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Date
-                   </th>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Customer
-                   </th>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Products
-                   </th>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Payment
-                   </th>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Status
-                   </th>
-                   <th class="px-6 py-3 border-b border-gray-200 bg-gray-100 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
-                    Amount
-                   </th>
-                  </tr>
-                 </thead>
-                 <tbody>
-                    <%orders.forEach((item)=>{%>
-
-                   
-                  <tr>
-                    <!-- <td class="px-6 py-4 text-sm text-gray-900">
-                        <%= item.orderId.slice(0, 10) %><br>
-                        <%= item.orderId.slice(10, 20) %><br>
-                        <%= item.orderId.slice(20) %>
-                    </td> -->
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <%=item.createdOn%>
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <%=item.userId?.name%>                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <% for (let key of item.orderedItems) { %>
-                        <%= key.Product.productName %> 
-                        <br>
-                    <% } %>
+                        <% for (let i = startPage; i <= endPage; i++) { %>
+                            <a href="?page=<%= i %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+                               class="inline-flex items-center px-3 py-2 border-r border-gray-200 transition-colors duration-200 ease-in-out
+                                      <%= currentPage === i 
+                                          ? 'bg-green-600 text-white hover:bg-green-700' 
+                                          : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-600' %>"
+                               <%= currentPage === i ? 'aria-current="page"' : '' %>>
+                                <%= i %>
+                            </a>
+                        <% } %>
                 
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                     <%=item.paymentMethod%>
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <%=item.status%>
-                   </td>
-                   <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    <%=item.finalAmount%>
-                   </td>
-                  </tr>
-                  <%})%>
-                 
-                 </tbody>
-                </table>
-               </div>
-              </div>
-              <!-- Pagination -->
-              <div class="flex justify-center mb-6">
-                <nav aria-label="Pagination" class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                    
-                    <% if (currentPage > 1) { %>
-                        <a href="?page=<%= currentPage - 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
-                           class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            <span class="sr-only">Previous</span>
-                            <i class="fas fa-chevron-left"></i>
-                        </a>
-                    <% } %>
-            
-                    <% for (let i = 1; i <= totalPages; i++) { %>
-                        <a href="?page=<%= i %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
-                           class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium <%= currentPage === i ? 'bg-gray-300' : 'hover:bg-gray-50' %>">
-                            <%= i %>
-                        </a>
-                    <% } %>
-            
-                    <% if (currentPage < totalPages) { %>
-                        <a href="?page=<%= currentPage + 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>" 
-                           class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                            <span class="sr-only">Next</span>
-                            <i class="fas fa-chevron-right"></i>
-                        </a>
-                    <% } %>
-                </nav>
+                        <% if (endPage < totalPages) { %>
+                            <% if (endPage < totalPages - 1) { %>
+                                <span class="inline-flex items-center px-2 py-2 bg-white border-r border-gray-200 text-gray-400">...</span>
+                            <% } %>
+                            <a href="?page=<%= totalPages %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out">
+                                <%= totalPages %>
+                            </a>
+                        <% } %>
+                
+                        <!-- Next Button -->
+                        <% if (currentPage < totalPages) { %>
+                            <a href="?page=<%= currentPage + 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
+                               class="inline-flex items-center px-3 py-2 bg-white text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out"
+                               aria-label="Next page">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            </a>
+                        <% } %>
+                    </nav>
+                </div>
+                
             </div>
+        </div>
+        
+        <script>
+        document.getElementById('filterType').addEventListener('change', function() {
+            const customRange = document.getElementById('customDateRange');
+            const customEndDate = document.getElementById('customEndDate');
             
-            
-             </div>
-            </div>
-           </section>
+            if (this.value === 'custom') {
+                customRange.classList.remove('hidden');
+                customEndDate.classList.remove('hidden');
+            } else {
+                customRange.classList.add('hidden');
+                customEndDate.classList.add('hidden');
+            }
+        });
+        
+        function downloadPdf() {
+            // Implement PDF download functionality
+            console.log('Downloading PDF...');
+        }
+        
+        function downloadExcel() {
+            // Implement Excel download functionality
+            console.log('Downloading Excel...');
+        }
+        </script>
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">

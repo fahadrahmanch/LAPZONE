@@ -1,6 +1,8 @@
 const Category = require('../../models/categorySchema');
 const productSchema=require('../../models/productSchema')
 const wishlistSchema=require('../../models/WhislistSchema');
+const Cart=require("../../models/cartSchema")
+
 const loadSingleProduct = async(req,res)=>{
     try{
     const productId=req.query.id;
@@ -67,13 +69,16 @@ productWithOffer.variants.forEach((item) => {
 
 });
 console.log("productWithOfferrrrrrrrrrrrrrrrrr",productWithOffer)
+const cart = await Cart.findOne({ userId }).populate("items.productId");
 
 
     res.render("user/singleProduct",
         {
             products:productWithOffer,
             relatedProducts:relatedProducts||[],
-            message:req.session.user
+            message:req.session.user,
+            cart: cart || { items: [] }
+
         }
     )
     }

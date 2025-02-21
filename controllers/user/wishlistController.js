@@ -1,19 +1,22 @@
 const wishlistSchema = require("../../models/WhislistSchema");
 const userSchema = require("../../models/userSchema");
-
+const Cart=require("../../models/cartSchema")
 const getwishlist = async (req, res) => {
   try {
     let user = req.session.user;
     if (!user) {
       res.json({ success: false, message: "please login" });
     }
+    const cart = await Cart.findOne({ userId:user })
+    .populate("items.productId");
+   console.log("cart",cart)
     const wishlist = await wishlistSchema
     .findOne({ userId: user })
     .populate({
       path: 'products.productId',
       model: 'Product',
       populate: {
-        path: 'category', // Assuming the Product model has a category field
+        path: 'category', 
         model: 'Category'
       }
     })
@@ -31,9 +34,9 @@ const getwishlist = async (req, res) => {
     //   // item.totalPrice=item.price*item.quantity
     // }
       if (!wishlist) {
-        return res.render("user/wishlist", { product: [] });
+        return res.render("user/wishlist", { product: [] ,cart: cart || { items: [] }});
       }
-      console.log("gdfsjlksdgf",wishlist.products)
+      // console.log("gdfsjlksdgf",wishlist.products)
       wishlist.products = wishlist.products.map((item) => {
         const variantId = item.variants;
         const productVariants = item.productId.variants; 
@@ -52,8 +55,8 @@ const getwishlist = async (req, res) => {
       
         return item; 
       });
-      console.log("wishlist.products",wishlist.products)
-      console.log(wishlist)
+      // console.log("wishlist.products",wishlist.products)
+      // console.log(wishlist)
       wishlist.products.map((item)=>{
         console.log('item',item)
         const originalPrice=item.variants.salePrice
@@ -73,11 +76,12 @@ const getwishlist = async (req, res) => {
       })
       // console.log("wishlist",wishlist.products)
 
-     if(!wishlist){
-        return res.render("user/wishlist", { product: [] });
-     }
+    //  if(!wishlist){
+    //   console.log("hlo")
+    //     return res.render("user/wishlist", { product: [] });
+    //  }
     
-     res.render("user/wishlist", { product: wishlist.products });
+     res.render("user/wishlist", { product: wishlist.products ,cart: cart || { items: [] } });
 
 
   } catch (error) {

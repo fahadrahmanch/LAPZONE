@@ -6,6 +6,7 @@ const nodemailer = require("nodemailer");
 const product = require("../../models/productSchema");
 const Order=require('../../models/orderSchema')
 const walletSchema=require("../../models/walletSchema")
+const Cart=require("../../models/cartSchema")
 const editMyaccount = async (req, res) => {
  
   try {
@@ -132,6 +133,7 @@ const myaccount = async (req, res) => {
     const totalPages = Math.ceil(totalOrders / limit);
 
     const addresses = addressData ? addressData.address : [];
+    const cart = await Cart.findOne({ userId }).populate("items.productId");
 
     res.render("user/my-account", { 
       users, 
@@ -142,7 +144,8 @@ const myaccount = async (req, res) => {
       currentPage: page, 
       totalWalletPages,
       currentWalletPage: walletPage,
-      message: req.session.user || "" 
+      message: req.session.user || "" ,
+      cart: cart || { items: [] }
     });
 
   } catch (error) {

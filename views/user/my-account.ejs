@@ -86,13 +86,13 @@
                   <li>
                     <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                       <i class="icon-heart"></i>
-                      <span class="item-count">3</span>
+                      <!-- <span class="item-count">3</span> -->
                     </a>
                   </li>
                   <li>
                     <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                       <i class="icon-bag"></i>
-                      <span class="item-count">3</span>
+                      <!-- <span class="item-count">3</span> -->
                     </a>
                   </li>
                   <li>
@@ -152,13 +152,13 @@
                 <li>
                   <a href="#offcanvas-wishlish" class="offcanvas-toggle">
                     <i class="icon-heart"></i>
-                    <span class="item-count">3</span>
+                    <!-- <span class="item-count">3</span> -->
                   </a>
                 </li>
                 <li>
                   <a href="#offcanvas-add-cart" class="offcanvas-toggle">
                     <i class="icon-bag"></i>
-                    <span class="item-count">3</span>
+                    <!-- <span class="item-count">3</span> -->
                   </a>
                 </li>
                 <li>
@@ -344,77 +344,34 @@
       <!-- Start  Offcanvas Addcart Wrapper -->
       <div class="offcanvas-add-cart-wrapper">
         <h4 class="offcanvas-title">Shopping Cart</h4>
-        <!-- <ul class="offcanvas-cart">
-          <li class="offcanvas-cart-item-single">
-            <div class="offcanvas-cart-item-block">
-              <a href="#" class="offcanvas-cart-item-image-link">
-                <img
-                  src="assets/images/product/default/home-1/default-1.jpg"
-                  alt=""
-                  class="offcanvas-cart-image"
-                />
-              </a>
-              <div class="offcanvas-cart-item-content">
-                <a href="#" class="offcanvas-cart-item-link">Car Wheel</a>
-                <div class="offcanvas-cart-item-details">
-                  <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                  <span class="offcanvas-cart-item-details-price">$49.00</span>
-                </div>
-              </div>
-            </div>
-            <div class="offcanvas-cart-item-delete text-right">
-              <a href="#" class="offcanvas-cart-item-delete"
-                ><i class="fa fa-trash-o"></i
-              ></a>
-            </div>
-          </li>
-          <li class="offcanvas-cart-item-single">
-            <div class="offcanvas-cart-item-block">
-              <a href="#" class="offcanvas-cart-item-image-link">
-                <img
-                  src="assets/images/product/default/home-2/default-1.jpg"
-                  alt=""
-                  class="offcanvas-cart-image"
-                />
-              </a>
-              <div class="offcanvas-cart-item-content">
-                <a href="#" class="offcanvas-cart-item-link">Car Vails</a>
-                <div class="offcanvas-cart-item-details">
-                  <span class="offcanvas-cart-item-details-quantity">3 x </span>
-                  <span class="offcanvas-cart-item-details-price">$500.00</span>
-                </div>
-              </div>
-            </div>
-            <div class="offcanvas-cart-item-delete text-right">
-              <a href="#" class="offcanvas-cart-item-delete"
-                ><i class="fa fa-trash-o"></i
-              ></a>
-            </div>
-          </li>
-          <li class="offcanvas-cart-item-single">
-            <div class="offcanvas-cart-item-block">
-              <a href="#" class="offcanvas-cart-item-image-link">
-                <img
-                  src="assets/images/product/default/home-3/default-1.jpg"
-                  alt=""
-                  class="offcanvas-cart-image"
-                />
-              </a>
-              <div class="offcanvas-cart-item-content">
-                <a href="#" class="offcanvas-cart-item-link">Shock Absorber</a>
-                <div class="offcanvas-cart-item-details">
-                  <span class="offcanvas-cart-item-details-quantity">1 x </span>
-                  <span class="offcanvas-cart-item-details-price">$350.00</span>
-                </div>
-              </div>
-            </div>
-            <div class="offcanvas-cart-item-delete text-right">
-              <a href="#" class="offcanvas-cart-item-delete"
-                ><i class="fa fa-trash-o"></i
-              ></a>
-            </div>
-          </li>
-        </ul> -->
+        <%if(cart.items.length!=0){%>
+          <ul class="offcanvas-cart">
+              <%for(let i=0;i<cart.items.length;i++){%>
+
+          
+             <li class="offcanvas-cart-item-single">
+                  <div class="offcanvas-cart-item-block">
+                      <a href="/cart" class="offcanvas-cart-item-image-link">
+                          <img src="/uploads/<%=cart.items[i].productId.productImage[0]%>" alt=""
+                              class="offcanvas-cart-image">
+                      </a>
+                      <div class="offcanvas-cart-item-content">
+                          <a href="#" class="offcanvas-cart-item-link"><%=cart.items[i].productId.productName%></a>
+                          <div class="offcanvas-cart-item-details">
+                              <!-- <span class="offcanvas-cart-item-details-quantity"><%=cart.items[i].quantity%> x </span>
+                              <span class="offcanvas-cart-item-details-price">$(<%=cart.items[i].totalPrice%>)</span> -->
+                          </div>
+                      </div>
+                  </div>
+                  <div class="offcanvas-cart-item-delete text-right">
+                      <!-- <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a> -->
+                  </div>
+              </li>
+              <%}%>
+       
+  
+            <%}%>
+          </ul>
         <!-- <div class="offcanvas-cart-total-price">
           <span class="offcanvas-cart-total-price-text">Subtotal:</span>
           <span class="offcanvas-cart-total-price-value">$170.00</span>
@@ -632,7 +589,7 @@
                     href="#account-details"
                     data-bs-toggle="tab"
                     class="nav-link btn btn-block btn-md btn-black-default-hover"
-                    >Account details</a
+                    >Refferal</a
                   >
                 </li>
                 <li>
@@ -931,17 +888,18 @@
               
               let isValid=true
               
-                if(name===''){
-                     
-                      name_error.innerHTML="Name is required"
-                      isValid=false
-                    }else if(name.length<3){
-                      name_error.innerHTML="Name must be at least 3 characters"
-                      isValid=false
-                    }
-                    else{
-                      name_error.innerHTML=""
-                    }
+               if (name === '') {
+  name_error.innerHTML = "Name is required";
+  isValid = false;
+} else if (name.length < 3) {
+  name_error.innerHTML = "Name must be at least 3 characters";
+  isValid = false;
+} else if (!/^[A-Za-z]/.test(name)) {  
+  name_error.innerHTML = "Name must start with a letter";
+  isValid = false;
+} else {
+  name_error.innerHTML = "";
+}
                     if(email===''){
                       email_error.innerHTML='email is required'
                       isValid=false
@@ -1271,25 +1229,38 @@
                 }
 
                 // Validation function for the new password
-                function validatenewpass() {
-                  let isValid = true;
-                  const password = document.getElementById("password");
-                  const passwordError =
-                    document.getElementById("password_error");
+              
+function validatenewpass() {
+    let isValid = true;
+    const password = document.getElementById("password");
+    const passwordError = document.getElementById("password_error");
 
-                  passwordError.textContent = "";
+    passwordError.textContent = "";
 
-                  if (password.value.trim() === "") {
-                    passwordError.textContent = "New password is required.";
-                    isValid = false;
-                  } else if (password.value.trim().length < 6) {
-                    passwordError.textContent =
-                      "New password must be at least 6 characters.";
-                    isValid = false;
-                  }
+    const passwordValue = password.value.trim();
 
-                  return isValid;
-                }
+    if (passwordValue === "") {
+        passwordError.textContent = "New password is required.";
+        isValid = false;
+    } else if (passwordValue.length < 8) {
+        passwordError.textContent = "New password must be at least 8 characters long.";
+        isValid = false;
+    } else if (!/[A-Z]/.test(passwordValue)) {
+        passwordError.textContent = "New password must contain at least one uppercase letter.";
+        isValid = false;
+    } else if (!/[a-z]/.test(passwordValue)) {
+        passwordError.textContent = "New password must contain at least one lowercase letter.";
+        isValid = false;
+    } else if (!/[0-9]/.test(passwordValue)) {
+        passwordError.textContent = "New password must contain at least one number.";
+        isValid = false;
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(passwordValue)) {
+        passwordError.textContent = "New password must contain at least one special character.";
+        isValid = false;
+    }
+
+    return isValid;
+}
 
                 // Validation function for confirm password
                 function validateconfirmpass() {
