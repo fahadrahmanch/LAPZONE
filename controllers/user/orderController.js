@@ -573,7 +573,7 @@ const razorpayInstance = new Razorpay({
       
       // console.log("order",order)
 console.log('orders',order)
-     res.render('user/viewOrders',{order})
+     res.render('user/viewOrders',{order,message:req.session.user||""})
     }
     catch(error){
 console.log(error)

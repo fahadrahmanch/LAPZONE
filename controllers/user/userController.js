@@ -8,6 +8,7 @@ const categorySchema=require('../../models/categorySchema')
 const walletSchema=require('../../models/walletSchema')
 const Cart = require("../../models/cartSchema")
 const wishlistSchema=require('../../models/walletSchema')
+
 const pageNotFound=async (req,res)=>{
     try{
       await res.render("user/pageNotFound")
@@ -18,7 +19,7 @@ const pageNotFound=async (req,res)=>{
 }
 const loadHomepage=async(req,res)=>{
     try{
-      const userId=req.session.user;
+      const userId=req.session.user||null;
       const products= await product.find({ isListed: true,})
       const productWithoffer=products.map(product=>{
         const productOffer=product.productOffer||0
@@ -52,13 +53,17 @@ const loadHomepage=async(req,res)=>{
         // console.log("finalproductttt",finalProduct,product)
         return finalProduct;
        })
-       const cart = await Cart.findOne({ userId }).populate("items.productId");
+      let cart=null
+      if(userId){
+       cart = await Cart.findOne({ userId }).populate("items.productId")
+      }
       //  const wishlist= await wishlistSchema.findOne({userId}). 
-       console.log(cart)
-       console.log(cart?.items)
+      //  console.log(cart)
+      //  console.log(cart?.items)
       //  console.log("productWithoffer",productWithoffer[0].variants)
       // console.log(products)
       
+      // console.log("products",productWithoffer)
     await res.render("user/home",{message:req.session.user,
       products:productWithoffer,
       cart: cart || { items: [] } 
@@ -157,7 +162,7 @@ const signup = async(req,res)=>{
 }
 const otp = async(req,res)=>{
   try{
-   await res.render('user/otp')
+   await res.render('user/otp',{message:req.session.user})
   }
   catch(error){
 
@@ -184,9 +189,10 @@ const verifyOtp=async(req,res)=>{
         phone:user.phone,
         password:passwordHash
       })
-      
       await saveUserData.save();
+
       req.session.user=saveUserData._id
+      console.log("userID",req.session.user)
     if(req.session.code){
       console.log("inside req.session.code")
       const user = await User.findOne({referralOfferCode:req.session.code}).lean()
@@ -216,11 +222,13 @@ const verifyOtp=async(req,res)=>{
                   });
                   await Wallet.save()
         }
-    }
+    
 console.log("req.session.user",req.session.user)
-const newUser= await User.findOne({_id:req.session.user})
+const newUser= await User.findOne({_id:req.session.user.toString()})
+console.log('newUSER',newUser);
 if(newUser){
-  const Wallet=await walletSchema.findOne({userId:req.session.user})
+  console.log("inside")
+  const Wallet=await walletSchema.findOne({userId:req.session.user.toString()})
   console.log('wallet ',Wallet)
   if(!Wallet){
     const newWallet= new walletSchema({
@@ -246,8 +254,8 @@ if(newUser){
               await Wallet.save()
     }
 }
-
-console.log("newUser",newUser)
+    }
+// console.log("newUser",newUser)
       // return res.redirect("/login")
       // console.log(req.session.user)
       

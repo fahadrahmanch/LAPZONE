@@ -1,190 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .dashboard-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        .chart-container, .table-container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        .chart-container:hover, .table-container:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .table-container {
-            height: 100%;
-        }
-        .table-dark {
-            background-color: #343a40;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        h2, h5 {
-            color: #343a40;
-        }
-        .table {
-            font-size: 0.9rem;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard-container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Admin Dashboard</h2>
-            <a class="btn btn-primary" href="/admin/salesreport">Sales Report</a>
-        </div>
+<div class="" id="wishlistModal">
+    <!-- <h3>Wishlist</h3> -->
+    <p>Cart is empty. Please log in.</p>
+    <a class="btn" href="/login" >Login</a>
+    <a class="btn" href="signup" >Signup</a>
 
-        <!-- Sales Statistics Chart -->
-        <div class="chart-container p-4 mb-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0">Sales Statistics</h5>
-                <select id="salesFilter" class="form-select w-auto">
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="yearly">Yearly</option>
-                </select>
-            </div>
-            <canvas id="salesChart"></canvas>
-        </div>
+    
+</div>
+<style>
 
-        <!-- Tables Section -->
-        <div class="row g-4">
-            <!-- Top 10 Products -->
-            <div class="col-md-4">
-                <div class="table-container p-3">
-                    <h5 class="text-center mb-3">Top 10 Products</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Sales</th>
-                                    <th>Revenue</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for (let i = 0; i < topProducts.length; i++) { %>
-                                <tr>
-                                    <td><%= topProducts[i].name %></td>
-                                    <td><%= topProducts[i].totalQuantity %></td>
-                                    <td>$<%= topProducts[i].totalRevenue.toFixed(2) %></td>
-                                </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top 10 Categories -->
-            <div class="col-md-4">
-                <div class="table-container p-3">
-                    <h5 class="text-center mb-3">Top 10 Categories</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Category</th>
-                                    <th>Sales Amount</th>
-                                    <th>Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for (let i = 0; i < topCategory.length; i++) { %>
-                                    <% if(topCategory[i].totalQuantity != 0) { %>
-                                    <tr>
-                                        <td><%= topCategory[i].name %></td>
-                                        <td>$<%= topCategory[i].totalSales.toFixed(2) %></td>
-                                        <td><%= topCategory[i].totalQuantity %></td>
-                                    </tr>
-                                    <% } %>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Top Brands -->
-            <div class="col-md-4">
-                <div class="table-container p-3">
-                    <h5 class="text-center mb-3">Top Brands</h5>
-                    <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>Brand</th>
-                                    <th>Products</th>
-                                    <th>Sales</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for (let i = 0; i < topBrands.length; i++) { %>
-                                <tr>
-                                    <td><%= topBrands[i].name %></td>
-                                    <td><%= topBrands[i].totalQuantity %></td>
-                                    <td>$<%= topBrands[i].totalSales.toFixed(2) %></td>
-                                </tr>
-                                <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Initialize Chart.js
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        const salesChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Sales',
-                    data: [12, 19, 3, 5, 2, 3, 10, 15, 8, 12, 17, 20],
-                    borderColor: 'rgb(75, 192, 192)',
-                    tension: 0.1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-
-        // Handle sales filter change
-        document.getElementById('salesFilter').addEventListener('change', function() {
-            // Update chart data based on selected filter
-            // This is where you would typically fetch new data from the server
-            console.log('Filter changed to:', this.value);
-        });
-    </script>
-</body>
-</html>
-
+    .modal {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        text-align: center;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #fef5ef;
+        color: rgb(4, 4, 4);
+        font-weight: bold;
+        cursor: pointer;
+    }
+   
+</style>

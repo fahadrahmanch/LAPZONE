@@ -18,6 +18,8 @@ const getCheckout=async (req,res)=>{
         const cart=await Cart.findOne({userId:user}).populate({
             path: "items.productId",
             model: "Product",
+            match: { isListed: true },
+
             populate: {
               path: "category", 
               model: "Category",
@@ -25,6 +27,8 @@ const getCheckout=async (req,res)=>{
           })
           .lean();
          if(!cart){return res.redirect('/')}
+         cart.items = cart.items.filter((item)=>item.productId)
+
           cart.items = cart.items.map((item) => {
           
             const variantId = item.variantId;

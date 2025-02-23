@@ -309,6 +309,7 @@ const deleteAddress = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
+    req.session.user=null
     res.render("user/forgot-password");
   } catch (error) {
     res.redirect("user/pageNotFound");
@@ -330,7 +331,8 @@ const forgetEmailpassword=async(req,res)=>{
  } 
  req.session.otp=otp;
  req.session.email=email
- res.render('user/forget-otp')
+ res.render('user/forget-otp',{        messag:req.session.user
+ })
 }
 function generateOtp(){
   return Math.floor(100000+Math.random()*900000).toString();

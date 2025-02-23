@@ -5,7 +5,8 @@ const getwishlist = async (req, res) => {
   try {
     let user = req.session.user;
     if (!user) {
-      res.json({ success: false, message: "please login" });
+      // res.json({ success: false, message: "please login" });
+      return res.redirect("/")
     }
     const cart = await Cart.findOne({ userId:user })
     .populate("items.productId");
@@ -15,6 +16,8 @@ const getwishlist = async (req, res) => {
     .populate({
       path: 'products.productId',
       model: 'Product',
+      match: { isListed: true }, 
+
       populate: {
         path: 'category', 
         model: 'Category'
@@ -23,20 +26,12 @@ const getwishlist = async (req, res) => {
     .lean();
   console.log("wishlist",wishlist)
  
-    // for (let item of wishlist.products) {
-      
-    //   let offer = 0;
-    //   let originalPrice = item.variants.salePrice;
-    //   console.log(originalPrice)
-     
-    
-    //   // item.price = originalPrice - (originalPrice * offer) / 100;
-    //   // item.totalPrice=item.price*item.quantity
-    // }
+  
       if (!wishlist) {
         return res.render("user/wishlist", { product: [] ,cart: cart || { items: [] }});
       }
       // console.log("gdfsjlksdgf",wishlist.products)
+      wishlist.products=await wishlist.products.filter((item)=>item.productId)
       wishlist.products = wishlist.products.map((item) => {
         const variantId = item.variants;
         const productVariants = item.productId.variants; 
@@ -81,7 +76,7 @@ const getwishlist = async (req, res) => {
     //     return res.render("user/wishlist", { product: [] });
     //  }
     
-     res.render("user/wishlist", { product: wishlist.products ,cart: cart || { items: [] } });
+     res.render("user/wishlist", { message:req.session.user,product: wishlist.products ,cart: cart || { items: [] } });
 
 
   } catch (error) {

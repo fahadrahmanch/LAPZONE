@@ -181,7 +181,7 @@
                 </form>
             </div>
             <div class="col-nav">
-                <!-- <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button> -->
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
                 <ul class="nav">
                     <li class="nav-item">
                         <a class="nav-link btn-icon" href="#">
@@ -293,7 +293,7 @@
 
 <section class="dashboard-container container-fluid py-4">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
             <h2 class="fw-bold">Admin Dashboard</h2>
             <a class="btn btn-primary" href="/admin/salesreport">View Sales Report</a>
         </div>
@@ -302,7 +302,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="chart-container p-4 border rounded bg-white shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center">
                         <h5 class="fw-semibold">Sales Statistics</h5>
                         <select id="salesFilter" class="form-select w-auto">
                             <option value="daily">Daily</option>
@@ -319,85 +319,90 @@
         <!-- Tables Section -->
         <div class="row mt-4">
             <!-- Top 10 Products -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="table-container p-4 border rounded bg-white shadow-sm">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="table-container p-4 border rounded bg-white shadow-sm w-100">
                     <h5 class="text-center fw-semibold">Top 10 Products</h5>
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Product</th>
-                                <th>Sales</th>
-                                <th>Revenue</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (let i = 0; i < topProducts.length; i++) { %>
-                            <tr>
-                                <td><%= topProducts[i].name %></td>
-                                <td><%= topProducts[i].totalQuantity %></td>
-                                <td>$<%= topProducts[i].totalRevenue %></td>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Sales</th>
+                                    <th>Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topProducts.length; i++) { %>
+                                <tr>
+                                    <td><%= topProducts[i].name %></td>
+                                    <td><%= topProducts[i].totalQuantity %></td>
+                                    <td>$<%= topProducts[i].totalRevenue %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Top 10 Categories -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="table-container p-4 border rounded bg-white shadow-sm">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="table-container p-4 border rounded bg-white shadow-sm w-100">
                     <h5 class="text-center fw-semibold">Top 10 Categories</h5>
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Category</th>
-                                <th>Sales Amount</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (let i = 0; i < topCategory.length; i++) { %>
-                                <% if(topCategory[i].totalQuantity != 0) { %>
-                            <tr>
-                                <td><%= topCategory[i].name %></td>
-                                <td>$<%= topCategory[i].totalSales %></td>
-                                <td><%= topCategory[i].totalQuantity %></td>
-                            </tr>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Sales Amount</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topCategory.length; i++) { %>
+                                    <% if(topCategory[i].totalQuantity != 0) { %>
+                                <tr>
+                                    <td><%= topCategory[i].name %></td>
+                                    <td>$<%= topCategory[i].totalSales %></td>
+                                    <td><%= topCategory[i].totalQuantity %></td>
+                                </tr>
+                                    <% } %>
                                 <% } %>
-                            <% } %>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             <!-- Top Brands -->
-            <div class="col-lg-4 col-md-12 mb-4">
-                <div class="table-container p-4 border rounded bg-white shadow-sm">
+            <div class="col-lg-4 col-md-12 col-sm-12 mb-4 d-flex">
+                <div class="table-container p-4 border rounded bg-white shadow-sm w-100">
                     <h5 class="text-center fw-semibold">Top Brands</h5>
-                    <table class="table table-striped table-hover">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>Brand</th>
-                                <th>Products</th>
-                                <th>Sales</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for (let i = 0; i < topBrands.length; i++) { %>
-                            <tr>
-                                <td><%= topBrands[i].name %></td>
-                                <td><%= topBrands[i].totalQuantity %></td>
-                                <td>$<%= topBrands[i].totalSales %></td>
-                            </tr>
-                            <% } %>
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Products</th>
+                                    <th>Sales</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i = 0; i < topBrands.length; i++) { %>
+                                <tr>
+                                    <td><%= topBrands[i].name %></td>
+                                    <td><%= topBrands[i].totalQuantity %></td>
+                                    <td>$<%= topBrands[i].totalSales %></td>
+                                </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
    

@@ -5,7 +5,7 @@ const wishlistSchema=require("../../models/WhislistSchema")
 const Cart=require("../../models/cartSchema")
 const loadShop = async (req, res) => {
   try {
-    let user=req.session.user
+    let user=req.session.user||null
      console.log(user)
   
  
@@ -59,7 +59,7 @@ const loadShop = async (req, res) => {
 
     // console.log('products',products)
     if (products.length === 0) {
-      return res.render("user/Shop", {
+      return res.render("user/shop", {
         products: [],
         cat: await categorySchema.find({}),
         catt: catt,
