@@ -123,7 +123,7 @@ const loadShop = async (req, res) => {
 // console.log('finalProduct.isInWishlist',productWithoffer)
 // console.log("productWithoffer",productWithoffer[0].variants)
 console.log("productwithoffer",productWithoffer)
-    res.render("user/Shop", {
+    res.render("user/shop", {
       products: productWithoffer,
       cat: cat,
       catt:catt,
