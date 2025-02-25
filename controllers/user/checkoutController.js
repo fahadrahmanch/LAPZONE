@@ -4,7 +4,7 @@ const Address = require("../../models/addressSchema");
 const Coupon=require('../../models/coupenSchema')
 const productSchema = require("../../models/productSchema");
 const Coupen = require("../../models/coupenSchema");
-
+const Wallet = require("../../models/walletSchema")
 const getCheckout=async (req,res)=>{
   const DELIVERY_CHARGE = 50;
     try{
@@ -114,10 +114,15 @@ const getCheckout=async (req,res)=>{
       //   console.log(activeCoupens)
       // console.log("cart aanye",cart)
       console.log("checkoutwithoffer",checkoutwithoffer)
+      
+      const wallet= await Wallet.findOne({userId:user})
+
+
         res.render('user/checkout', { 
           cart:checkoutwithoffer, 
           activeCoupens,
           addressData, 
+          walletBalance:wallet.totalBalance||0,
           totalAmount:totalAmount+DELIVERY_CHARGE,
           coupenAmount:req.session.Coupenamount||0,
           Disount: req.session.totalDiscount ||0,

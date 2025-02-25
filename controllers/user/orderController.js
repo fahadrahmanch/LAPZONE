@@ -572,6 +572,7 @@ const razorpayInstance = new Razorpay({
 
       
       // console.log("order",order)
+      console.log("order details")
 console.log('orders',order)
      res.render('user/viewOrders',{order,message:req.session.user||""})
     }
