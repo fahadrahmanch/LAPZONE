@@ -178,7 +178,7 @@ const getSalesreport = async (req, res) => {
 
 const downloadExcel = async (req, res) => {
     try {
-        const filterQuery = {}; 
+        const filterQuery = {status:"Delivered"}; 
         const period=req.query.period||"all"
         const startDate=req.query.startDate
         const endDate = req.query.endDate;
