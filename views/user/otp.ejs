@@ -172,8 +172,8 @@
                       
                         </li>
                       
-                        <li><a href="/">About Us</a></li>
-                        <li><a href="/">Contact Us</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <!-- <div class="onhover-show-div user fa fa-user">  -->
                             <ul > 
       
@@ -366,11 +366,16 @@
                                     maxlength="6" 
                                     required>
                                 <div id="otp_error" class="form-text text-danger"></div>
-                                <small id="otp_timer" class="text-muted d-block mt-1">Expires in <span id="countdown">30</span> seconds</small>
+                                <small id="otp_timer" class="text-muted d-block mt-1 " style="color: red;" >Expires in <span id="countdown" style="color: red;">30</span> seconds</small>
+                                
+                                <script>
+                                  const value=  document.getElementById("countdown").value
+                                  console.log(value)
+                                </script>
                             </div>
                         
                             <div class="d-flex justify-content-between gap-2">
-                                <button class="btn btn-dark btn-lg w-100" type="submit">Confirm OTP</button>
+                                <button class=" btn btn-dark btn-lg w-100" id="confirm-btn" type="submit">Confirm OTP</button>
                                 <!-- <a
                                     class="btn btn-outline-dark btn-lg w-100" 
                                     id="resend_button"
@@ -386,209 +391,9 @@
                             </div>
                         </form>
 
-                        <!-- <script>
-                           
-        let countdown = 5;
-        const timerElement = document.getElementById('countdown');
-        const resendButton = document.getElementById('resend_button');
-
-        function updateTimer() {
-            timerElement.textContent = countdown;
-            if (countdown > 0) {
-                countdown--;
-                resendButton.setAttribute('disabled', true);
-
-                setTimeout(updateTimer, 1000);
-            } else {
-                document.getElementById('otp_timer').style.display = 'none';
-                resendButton.removeAttribute('disabled');
-            }
-        }
-
-        updateTimer();
-
-        function verifyOTP(event) {
-            event.preventDefault();
-            console.log("verify function")
-            
-            const otp = document.getElementById('otp').value;
-            $.ajax({
-                type:"POST",
-                url:"/otp",
-                data:{otp:otp},
-                success: function(response){
-                    if(response.success){
-                        Swal.fire({
-                         
-                        icon: "success",
-                        title: "OTP Verified Successfully",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then(()=>{
-                        window.location.href=response.redirectUrl;
-                    })
-
-                    }else{
-                        Swal.fire({
-                            icon:"error",
-                            title:Error,
-                            text:response.message
-                        })
-                    }
-       
-                },
-                error:function(){
-                    swal.fire({
-                        icon:"error",
-                        title:"Invalid OTP",
-                        text:"Please try again"
-                    })
-                }
-            })
-          return false
-        }
-
-        function sendOTP() {
-            console.log('Resending OTP');
-        //    const email=document.getElementById('email').value;
-           $.ajax({
-            type:"POST",
-            url:"/resend-Otp",
-            // data:{email:email},
-            success:function(response){
-                if(response.success){
-                    countdown=120;
-                    updateTimer();
-                    document.getElementById("otp_timer").style.display='block';
-                    // resendButton.disabled=false;
-                    swal.fire({
-                        icon:"success",
-                        title:"OTP Resent Successfully",
-                        showConfirmButton:false,
-                        timer:1500
-                    })
-                }else{
-                    swal.fire({
-                        icon:"error",
-                        title:"Error",
-                        text:response.message
-                    })
-                }
-            },
-            error:function(){
-                swal.fire({
-                    icon:"error",
-                    title:"An error occured",
-                    text:"Please try again"
-                })
-            }
-           })
-         
-        }
-    </script> -->
-    <script>
-        let countdown = 120; // Countdown in seconds
-        const timerElement = document.getElementById('countdown');
-        const resendButton = document.getElementById('resend_button');
-    
-        function updateTimer() {
-            if (countdown > 0) {
-                timerElement.textContent = countdown;
-                countdown--;
-                resendButton.style.pointerEvents = "none";
-                resendButton.style.opacity = "0.6";
-                setTimeout(updateTimer, 1000);
-            } else {
-                timerElement.textContent = "0";
-                document.getElementById('otp_timer').style.display = 'none';
-                resendButton.style.pointerEvents = "auto";
-                resendButton.style.opacity = "1";
-            }
-        }
-    
-        function verifyOTP(event) {
-            event.preventDefault();
-            console.log("Verify OTP triggered");
-    
-            const otp = document.getElementById('otp').value;
-    
-            $.ajax({
-                type: "POST",
-                url: "/otp",
-                data: { otp: otp },
-                success: function (response) {
-                    if (response.success) {
-                        Swal.fire({
-                            icon: "success",
-                            title: "OTP Verified Successfully",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then(() => {
-                            window.location.href = response.redirectUrl;
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: response.message
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Invalid OTP",
-                        text: "Please try again"
-                    });
-                }
-            });
-    
-            // Disable "Resend OTP" button
-            // countdown = 0;
-            // resendButton.style.pointerEvents = "none";
-            // resendButton.style.opacity = "0.6";
-    
-            return false;
-        }
-    
-        function sendOTP() {
-            console.log("Resending OTP");
-    
-            $.ajax({
-                type: "POST",
-                url: "/resend-Otp",
-                success: function (response) {
-                    if (response.success) {
-                        countdown = 120; // Reset countdown
-                        updateTimer();
-                        document.getElementById("otp_timer").style.display = "block";
-                        Swal.fire({
-                            icon: "success",
-                            title: "OTP Resent Successfully",
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: response.message
-                        });
-                    }
-                },
-                error: function () {
-                    Swal.fire({
-                        icon: "error",
-                        title: "An error occurred",
-                        text: "Please try again"
-                    });
-                }
-            });
-        }
-    
-        // Initialize the timer
-        updateTimer();
-    </script>
+                       
+  
+  
                         
                     </div>
                 </div>
@@ -815,10 +620,13 @@
         </div>
     </div> <!-- End Modal Quickview cart -->
 
-    <script src="assets/js/vendor/vendor.min.js"></script>
-    <script src="assets/js/plugins/plugins.min.js"></script>
-    <!-- Main JS -->
-    <script src="assets/js/main.js"></script>
+    <script src="/assets/js/vendor/vendor.min.js"></script>
+    <script src="/assets/js/plugins/plugins.min.js"></script>
+    <!-- Main JS /-->
+    <script src="/assets/js/main.js"></script>
+
+    <!-- otp script  -->
+    <script src="/js_folder/otp.js"></script>
     
 
 </body>

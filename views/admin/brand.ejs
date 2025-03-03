@@ -495,16 +495,20 @@
                 <form id="brandForm" action="/admin/addBrand" method="POST" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Brand Name</label>
-                        <input type="text" placeholder="Enter brand name" name='name' required>
+                        <input type="text" id="brandName" placeholder="Enter brand name" name="name" >
+                        <span id="brandNameError" class="error-message"></span>
                     </div>
+                
                     <div class="form-group">
                         <label>Brand Logo</label>
                         <div class="file-upload">
                             <button type="button" onclick="document.getElementById('fileInput').click()">Choose File</button>
                             <span id="fileName">No file chosen</span>
                             <input type="file" id="fileInput" hidden accept="image/*" name="image">
+                            <span id="fileError" class="error-message text-danger"></span>
                         </div>
                     </div>
+                
                     <button type="submit" class="add-brand-btn">ADD BRAND</button>
                 </form>
             </div>
@@ -606,6 +610,53 @@
             </div>
         </footer>
     </main>
+    <script>
+        document.getElementById("brandForm").addEventListener("submit", function(event) {
+            let isValid = true;
+        
+            document.querySelectorAll(".error-message").forEach(el => el.textContent = "");
+        
+            const brandNameInput = document.getElementById("brandName");
+            const brandName = brandNameInput.value.trim();
+            if (brandName.length < 3) {
+                document.getElementById("brandNameError").textContent = "Brand Name must be at least 3 characters.";
+                isValid = false;
+            }
+        
+            const fileInput = document.getElementById("fileInput");
+            const fileError = document.getElementById("fileError");
+            if (!fileInput.files.length) {
+                fileError.textContent = "Please select a brand logo.";
+                isValid = false;
+            } else {
+                const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+                if (!allowedTypes.includes(fileInput.files[0].type)) {
+                    fileError.textContent = "Only JPG, PNG, WEBP, or GIF files are allowed.";
+                    isValid = false;
+                }
+            }
+        
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+        
+
+        document.getElementById("fileInput").addEventListener("change", function() {
+            const fileNameDisplay = document.getElementById("fileName");
+            fileNameDisplay.textContent = this.files.length ? this.files[0].name : "No file chosen";
+        });
+        </script>
+        
+        <style>
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 5px;
+            display: block;
+        }
+        </style>
+        
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
     <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
     <script src="assets/js/vendors/select2.min.js"></script>

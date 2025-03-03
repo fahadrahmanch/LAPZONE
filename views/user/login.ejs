@@ -36,10 +36,10 @@
                                             </div> -->
                                         </li>
                                         <li>
-                                            <a href="">About Us</a>
+                                            <a href="/about">About Us</a>
                                         </li>
                                         <li>
-                                            <a href="">Contact Us</a>
+                                            <a href="/contact">Contact Us</a>
                                         </li>
                                         <div class="onhover-show-div user fa fa-user"> 
                                             <ul > 
@@ -173,13 +173,13 @@
                         </li>
                       
                         
-                        <li><a href="/">About Us</a></li>
-                        <li><a href="/">Contact Us</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <!-- <div class="onhover-show-div user fa fa-user">  -->
                             <ul > 
       
                                <% if(message) { %>
-                                <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                                <li><a class="text-decoration-none" href="/account">Account</a></li>
                                 <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                               <% } else { %>
       
@@ -385,7 +385,7 @@
                             </div>
                             <div class="default-form-box">
                                 <label>Passwords <span>*</span></label>
-                                <input type="password" name="password" id="password" oninput="validatePassword()">
+                                <input type="text" name="password" id="password" oninput="validatePassword()">
                                 <span id="password_error" class="text-danger"></span>
                             </div>
                             <div class="login_submit">
@@ -397,7 +397,7 @@
                               
                                 <a href="/signup">Don't Have an Account?</a>
                                 <div class="form-group d-flex justify-content-end">
-                                    <a href="/forget-password">forget password ?</a>
+                                    <a href="/password/forgot">forget password ?</a>
                                 </div>
                             </div>
                         </form>

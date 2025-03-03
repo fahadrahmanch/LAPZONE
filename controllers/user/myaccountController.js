@@ -4,33 +4,34 @@ const bcrypt = require("bcrypt");
 const env = require("dotenv").config();
 const nodemailer = require("nodemailer");
 const product = require("../../models/productSchema");
-const Order=require('../../models/orderSchema')
-const walletSchema=require("../../models/walletSchema")
-const Cart=require("../../models/cartSchema")
-const editMyaccount = async (req, res) => {
- 
+const Order = require("../../models/orderSchema");
+const walletSchema = require("../../models/walletSchema");
+const Cart = require("../../models/cartSchema");
+const { MESSAGES, STATUS_CODES, ERROR } = require("../../utils/constants");
+
+
+//edit profile
+
+const editProfile = async (req, res) => {
   try {
     const usersId = req.params.id;
-    console.log(usersId);
     const { name, email, phone } = req.body;
-    console.log(name, email, phone);
 
     const existemail = await User.findOne({
       email: email,
       _id: { $ne: usersId },
     });
-    console.log(existemail);
     if (existemail) {
-      return res.status(400).json({
+      return res.status(STATUS_CODES.BAD_REQUEST).json({
         success: false,
-        message: "user already exists with this email",
+        message: MESSAGES.USER_ALREADY_EXISTS,
       });
     }
     const user = User.find({ _id: usersId });
     if (!user) {
       return res
-        .status(400)
-        .json({ success: false, message: "user not found" });
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ success: false, message: MESSAGES.USER_NOT_FOUND });
     }
     const updateUser = await User.findByIdAndUpdate(
       usersId,
@@ -42,86 +43,60 @@ const editMyaccount = async (req, res) => {
       { new: true }
     );
     if (updateUser) {
-      
       res
-        .status(200)
-        .json({ success: true, message: "edit user successfully" });
-      // res.redirect('/myaccount')
+        .status(STATUS_CODES.OK)
+        .json({ success: true, message: MESSAGES.EDIT_USER_SUCCESS });
     } else {
       return res
-        .status(400)
-        .json({ success: false, message: "edit user is failed" });
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ success: false, message: MESSAGES.EDIT_USER_FAILED });
     }
   } catch (error) {
     console.log(error);
 
     return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+      .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: ERROR.INTERNAL_SERVER_ERROR });
   }
 };
-// const myaccount = async (req, res) => {
-//   try {
-//     const userId = req.session.user;
-//     const users = await User.findById(userId);
-//     const addressData = await addressSchema.findOne({ userId: userId });
-//     const wallet = await walletSchema.findOne({ userId }).lean();
 
-//     if (wallet && wallet.transactions) {
-//         wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date)); 
-//     }   
-//      if(!wallet){
-//       const newWallet= new walletSchema({userId })
-//       await newWallet.save()
-//     }
-//     // console.log("wallet",wallet)
-//     if (!users) {
-//        return res.redirect('/')
-//     }
-   
-//     // const orders= await Order.find({userId});
-//     const orders = await Order.find({ userId:userId }).sort({ createdAt:-1 });  
-//     // console.log(orders)
-//     const addresses = addressData ? addressData.address : [];
-//     res.render("user/my-account", { users: users, addressData: addresses ,orders,wallet:wallet,message:req.session.user||""});
-//   } catch (error) {
-//     console.log("error fetching user data", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// };
+
+//render my account page
+
 const myaccount = async (req, res) => {
   try {
     const userId = req.session.user;
     const users = await User.findById(userId);
     const addressData = await addressSchema.findOne({ userId: userId });
     const wallet = await walletSchema.findOne({ userId }).lean();
-
+    if (!userId) {
+      return res.redirect("/");
+    }
     if (!wallet) {
       const newWallet = new walletSchema({ userId });
       await newWallet.save();
     }
 
     if (!users) {
-      return res.redirect('/');
+      return res.redirect("/");
     }
 
-    
     if (wallet && wallet.transactions) {
       wallet.transactions.sort((a, b) => new Date(b.date) - new Date(a.date));
     }
 
-    const walletPage = parseInt(req.query.walletPage) || 1; 
+    const walletPage = parseInt(req.query.walletPage) || 1;
     const walletLimit = 10;
     const walletSkip = (walletPage - 1) * walletLimit;
     const totalTransactions = wallet ? wallet.transactions.length : 0;
-    const paginatedTransactions = wallet 
-      ? wallet.transactions.slice(walletSkip, walletSkip + walletLimit) 
+    const paginatedTransactions = wallet
+      ? wallet.transactions.slice(walletSkip, walletSkip + walletLimit)
       : [];
 
     const totalWalletPages = Math.ceil(totalTransactions / walletLimit);
 
-    const page = parseInt(req.query.page) || 1; 
-    const limit = 10; 
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
     const skip = (page - 1) * limit;
     const totalOrders = await Order.countDocuments({ userId });
 
@@ -135,63 +110,65 @@ const myaccount = async (req, res) => {
     const addresses = addressData ? addressData.address : [];
     const cart = await Cart.findOne({ userId }).populate("items.productId");
 
-    res.render("user/my-account", { 
-      users, 
-      addressData: addresses, 
-      orders, 
-      wallet: { ...wallet, transactions: paginatedTransactions }, 
-      totalPages, 
-      currentPage: page, 
+    res.render("user/my-account", {
+      users,
+      addressData: addresses,
+      orders,
+      wallet: { ...wallet, transactions: paginatedTransactions },
+      totalPages,
+      currentPage: page,
       totalWalletPages,
       currentWalletPage: walletPage,
-      message: req.session.user || "" ,
-      cart: cart || { items: [] }
+      message: req.session.user || "",
+      cart: cart || { items: [] },
     });
-
   } catch (error) {
     console.log("Error fetching user data", error);
-    res.status(500).send("Internal Server Error");
+    res.status(STATUS_CODES.INTERNAL_SERVER_ERROR).send(ERROR.INTERNAL_SERVER_ERROR);
   }
 };
 
+
+//CHANGE PASSWORD 
 
 const changePassword = async (req, res) => {
   try {
     let userId = req.params.id;
-    console.log(userId);
     const { currentpassword, newpassword } = req.body;
     let user = await User.findById(userId);
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(STATUS_CODES.UNAUTHORIZED).send(MESSAGES.USER_NOT_FOUND);
     }
     const Match = await bcrypt.compare(currentpassword, user.password);
-    console.log(Match);
     if (!Match) {
       return res
-        .status(400)
-        .json({ success: false, message: "old password is incorrect" });
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ success: false, message: MESSAGES.OLD_PASSWORD_INCORRECT });
     }
     const hashedPassword = await bcrypt.hash(newpassword, 10);
     user.password = hashedPassword;
     await user.save();
-    res.json({ success: true, message: "Password changed successfully!" });
+    res.json({ success: true, message: MESSAGES.PASSWORD_CHANGED_SUCCESS });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    res.status(ERROR.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: "Internal server error. Please try again later.",
+      message: MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
 };
 
+
+//ADD ADDRESS
+
+
 const addAddress = async (req, res) => {
-  
   try {
     const userId = req.session.user;
     if (!userId) {
       return res
-        .status(401)
-        .json({ success: false, message: "User not logged in" });
+        .status(STATUS_CODES.UNAUTHORIZED)
+        .json({ success: false, message: MESSAGES.USER_NOT_LOGGED_IN });
     }
 
     const { name, city, landmark, state, pincode, phone, streetaddress } =
@@ -207,16 +184,16 @@ const addAddress = async (req, res) => {
       !streetaddress
     ) {
       return res
-        .status(400)
-        .json({ success: false, message: "All fields are required" });
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ success: false, message: MESSAGES.ALL_FIELDS_REQUIRED });
     }
 
     const userData = await User.findById(userId);
 
     if (!userData) {
       return res
-        .status(404)
-        .json({ success: false, message: "User not found" });
+        .status(STATUS_CODES.NOT_FOUND)
+        .json({ success: false, message: MESSAGES.USER_NOT_FOUND });
     }
 
     const userAddress = await addressSchema.findOne({ userId });
@@ -245,21 +222,22 @@ const addAddress = async (req, res) => {
   } catch (error) {
     console.error("Error adding address:", error);
     return res
-      .status(500)
-      .json({ success: false, message: "Internal server error" });
+      .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
+      .json({ success: false, message: ERROR.INTERNAL_SERVER_ERROR });
   }
 };
 
+
+//EDIT ADDRESS
+
+
 const editAddress = async (req, res) => {
-  console.log("sfjhjs")
   try {
     const { id, name, streetaddress, landmark, city, state, pincode, phone } =
       req.body;
-    console.log(id);
     const findAddress = await addressSchema.findOne({ "address._id": id });
-    console.log(findAddress);
     if (!findAddress) {
-      return res.status(400).json({ message: "user is not exists" });
+      return res.status(STATUS_CODES.BAD_REQUEST).json({ message: MESSAGES.USER_NOT_LOGGED_IN });
     }
     const newAddress = await addressSchema.updateOne(
       { "address._id": id },
@@ -279,11 +257,15 @@ const editAddress = async (req, res) => {
       }
     );
 
-    return res.status(200).json({ address: newAddress });
+    return res.status(STATUS_CODES.OK).json({ address: newAddress });
   } catch (error) {
     console.log(error);
   }
 };
+
+
+// DELETE ADDRESS
+
 
 const deleteAddress = async (req, res) => {
   try {
@@ -297,130 +279,138 @@ const deleteAddress = async (req, res) => {
     );
 
     if (deleteAddress) {
-      res.status(200).json({ deletedAddressId: addressId });
+      res.status(STATUS_CODES.OK).json({ deletedAddressId: addressId });
     } else {
-      res.status(404).json({ message: "Address not found" });
+      res.status(STATUS_CODES.NOT_FOUND).json({ message: MESSAGES.ADDRESS_NOT_FOUND });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: ERROR.INTERNAL_SERVER_ERROR });
   }
 };
 
+
+// FORGOT PASSWORD PAGE RENDER
+
 const forgotPassword = async (req, res) => {
   try {
-    req.session.user=null
+    console.log("hlo")
+    req.session.user = null;
     res.render("user/forgot-password");
   } catch (error) {
     res.redirect("user/pageNotFound");
   }
 };
-const forgetEmailpassword=async(req,res)=>{
-  const {email}=req.body;
-  console.log(email)
-  const findemail=await User.findOne({email:email});
-  if(!findemail){
-    return res.status(400).json("email not found")
+
+
+// FORGET PASSWORD
+
+const forgetEmailpassword = async (req, res) => {
+  console.log("hy")
+  const { email } = req.body;
+  const findemail = await User.findOne({ email: email });
+  if (!findemail) {
+    return res.status(STATUS_CODES.BAD_REQUEST).json(MESSAGES.EMAIL_NOT_FOUND);
   }
-  const otp =generateOtp()
-  console.log(otp)
-  
- const verifyemail=sendVerificationEmailpassword(email,otp)
- if(!verifyemail){
-  return res.json("email-error") ;
- } 
- req.session.otp=otp;
- req.session.email=email
- res.render('user/forget-otp',{        messag:req.session.user
- })
+  const otp = generateOtp();
+  console.log(otp);
+
+  const verifyemail = sendVerificationEmailpassword(email, otp);
+  if (!verifyemail) {
+    return res.json(MESSAGES.EMAIL_ERROR);
+  }
+  req.session.otp = otp;
+  req.session.email = email;
+  res.render("user/forget-otp", { messag: req.session.user });
+};
+function generateOtp() {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 }
-function generateOtp(){
-  return Math.floor(100000+Math.random()*900000).toString();
-}
-async function sendVerificationEmailpassword(email,otp){
-  console.log(email,"inverify")
-  try{
-    const transporter=nodemailer.createTransport({
-      service:"gmail",
-      port:587,
-      secure:false,
-      requireTLS:true,
-      auth:{
-        user:process.env.NODEMAILER_EMAIL,
-        pass:process.env.NODEMAILER_PASSWORD
-      }
-    })
-    const info =await transporter.sendMail({
-      from:process.env.NODEMAILER_EMAIL,
-      to:email,
-      subject:"Verify your account",
-      text:`<b>Your OTP ${otp}</b>`,
-      html:`<b>Your OTP ${otp}</b>`      
-    })
-   console.log(info.accepted.length,"inf0")
-    return info.accepted.length>0
-  }catch(error){
-    console.log("Error sending email",error)
-    return false
+async function sendVerificationEmailpassword(email, otp) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.NODEMAILER_EMAIL,
+        pass: process.env.NODEMAILER_PASSWORD,
+      },
+    });
+    const info = await transporter.sendMail({
+      from: process.env.NODEMAILER_EMAIL,
+      to: email,
+      subject: "Verify your account",
+      text: `<b>Your OTP ${otp}</b>`,
+      html: `<b>Your OTP ${otp}</b>`,
+    });
+    return info.accepted.length > 0;
+  } catch (error) {
+    console.log("Error sending email", error);
+    return false;
   }
 }
+
+
+// OTP VERIFIED
+
 const verifyOtpemail = async (req, res) => {
   try {
     const { otp } = req.body;
 
     if (otp === req.session.otp) {
-      // Redirect to the change password page
-      // return res.status(200).json({ redirectUrl: "/resetpassword" });
       return res.render("user/changepassword", {
         success: true,
-        message: "OTP verified successfully",
+        message: MESSAGES.OTP_VERIFIED_SUCCESS,
       });
     } else {
-      return res.status(400).json({
+      return res.status(STATUS_CODES.BAD_REQUEST).json({
         success: false,
-        message: "Invalid OTP. Please try again."
+        message: MESSAGES.INVALID_OTP,
       });
     }
   } catch (error) {
     console.error("Error verifying OTP", error);
-    res.status(500).json({
+    res.status(ERROR.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: "An error occurred while verifying OTP"
+      message: MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
 };
+
+
+//RESET PASSWORD
 
 const resetPassword = async (req, res) => {
   try {
-    let findemail = await User.findOne({email:req.session.email})
-    
-    console.log("hii")
-    console.log(findemail);
-    const {  newpassword } = req.body;
-    console.log(req.body)
-   
+    let findemail = await User.findOne({ email: req.session.email });
+
+    const { newpassword } = req.body;
+
     if (!findemail) {
-      return res.status(404).send("User not found");
+      return res.status(STATUS_CODES.NOT_FOUND).send(MESSAGES.USER_NOT_FOUND);
     }
- 
+
     const hashedPassword = await bcrypt.hash(newpassword, 10);
     findemail.password = hashedPassword;
     await findemail.save();
-    return res.json({ success: true, message: "Password changed successfully!"});
-    // return res.redirect('/')
+    return res.json({
+      success: true,
+      message: MESSAGES.PASSWORD_CHANGED_SUCCESS,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
+    res.status(ERROR.INTERNAL_SERVER_ERROR).json({
       success: false,
-      message: "Internal server error. Please try again later.",
+      message: MESSAGES.INTERNAL_SERVER_ERROR,
     });
   }
 };
 
-
 module.exports = {
   myaccount,
-  editMyaccount,
+  editProfile,
   changePassword,
   addAddress,
   deleteAddress,
@@ -428,6 +418,5 @@ module.exports = {
   forgotPassword,
   forgetEmailpassword,
   verifyOtpemail,
-  resetPassword ,
- 
+  resetPassword,
 };

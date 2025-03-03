@@ -1,33 +1,98 @@
-<div class="" id="wishlistModal">
-    <!-- <h3>Wishlist</h3> -->
-    <p>Cart is empty. Please log in.</p>
-    <a class="btn" href="/login" >Login</a>
-    <a class="btn" href="signup" >Signup</a>
 
-    
-</div>
-<style>
+// const express = require("express")
+// const router = express.Router()
+// const passport = require("passport")
+// const auth = require('../middlewares/auth')
+// const userController = require("../controllers/user/userController")
+// const singleProductController = require("../controllers/user/singleProudctController")
+// const myaccountController = require("../controllers/user/myaccountController")
+// const cartController = require('../controllers/user/cartController')
+// const shopController = require('../controllers/user/shopController')
+// const checkoutController = require('../controllers/user/checkoutController')
+// const orderController = require('../controllers/user/orderController')
+// const users = require('../models/userSchema')
+// const wishlistController = require('../controllers/user/wishlistController')
 
-    .modal {
-        width: 300px;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        background: #fff;
-        text-align: center;
-    }
-    .btn {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border: none;
-        border-radius: 5px;
-        background-color: #fef5ef;
-        color: rgb(4, 4, 4);
-        font-weight: bold;
-        cursor: pointer;
-    }
-   
-</style>
+// // Error pages
+// router.get('/error/not-found', userController.pageNotFound)
+
+// // Home
+// router.get('/', userController.loadHomepage)
+
+// // Authentication routes
+// router.get('/auth/login', auth.userAuth, userController.loadLoginPage)
+// router.get('/auth/register', auth.userAuth, userController.loadregisterPage)
+// router.post('/auth/register', userController.signup)
+// router.post('/auth/login', userController.login)
+// router.post('/auth/otp/resend', userController.resendOtp)
+// router.post('/auth/otp/verify', userController.verifyOtp)
+// router.get('/auth/logout', userController.logout)
+
+// // Google OAuth
+// router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }))
+// router.get('/auth/google/callback', passport.authenticate('google', {
+//     failureRedirect: '/auth/register', 
+// }), async (req, res) => {
+//     const user = await users.findOne({googleId: req.user.googleId});
+//     if(user.isBlocked){
+//         return res.status(400).send("your account is blocked");
+//     }
+//     req.session.user = req.session.passport.user
+//     res.redirect('/'); 
+// })
+
+// // Shop routes
+// router.get('/shop', auth.userBLock, shopController.loadShop)
+// router.get('/shop/product', auth.userBLock, singleProductController.loadSingleProduct)
+
+// // User account routes
+// router.get('/user/account', auth.userBLock, myaccountController.myaccount)
+// router.post('/user/profile/update/:id', myaccountController.editProfile)
+// router.post('/user/password/change/:id', myaccountController.changePassword)
+// router.get('/user/password/forgot', auth.userBLock, myaccountController.forgotPassword)
+// router.post('/user/password/forgot', myaccountController.forgetEmailpassword)
+// router.post('/user/password/otp/verify', myaccountController.verifyOtpemail)
+// router.post('/user/password/reset', myaccountController.resetPassword)
+
+// // Address management
+// router.post('/user/address/add', myaccountController.addAddress)
+// router.post('/user/address/edit', myaccountController.editAddress)
+// router.post('/user/address/delete', myaccountController.deleteAddress)
+
+// // Cart routes
+// router.get('/cart', auth.userBLock, cartController.getCart)
+// router.post('/cart/add', cartController.addCart)
+// router.post('/cart/quantity/update', cartController.updateCartqty)
+// router.post('/cart/product/delete', cartController.deleteCartProduct)
+
+// // Checkout routes
+// router.get('/checkout', auth.userBLock, checkoutController.getCheckout)
+// router.post('/checkout/coupon/apply', checkoutController.applyCoupen)
+
+// // Order routes
+// router.post('/order/create', orderController.createOrder)
+// router.get('/order/confirm/:id', auth.userBLock, orderController.renderConfirmorder)
+// router.post('/order/wallet/create', orderController.walletOrder)
+// router.get('/order/view/:id', auth.userBLock, orderController.orderDetails)
+// router.post('/order/cancel', orderController.cancelOrder)
+// router.post('/order/return/submit', orderController.refund)
+// router.post('/order/product/cancel', orderController.productCancel)
+// router.post('/order/product/return', orderController.returnproduct)
+// router.get('/order/invoice/:orderId', orderController.pdf)
+
+// // Wishlist routes
+// router.get('/wishlist', auth.userBLock, wishlistController.getwishlist)
+// router.post('/wishlist/add', wishlistController.addWishlist)
+// router.post('/wishlist/remove', wishlistController.removeWishlist)
+
+// // Payment routes
+// router.post('/payment/razorpay/create', orderController.raz)
+// router.post('/payment/razorpay/verify', orderController.verifyRazorpay)
+// router.post('/payment/razorpay/fail', orderController.failRazorpayOrder)
+// router.post('/payment/razorpay/retry', orderController.retryRazorpayOrder)
+
+// // Static pages
+// router.get('/about', userController.aboutPage)
+// router.get('/contact', userController.contactPage)
+
+// module.exports = router

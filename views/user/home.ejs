@@ -43,17 +43,17 @@
                                         </li>
                                      
                                         <li>
-                                            <a href="">About Us</a>
+                                            <a href="/about">About Us</a>
                                         </li>
                                         <li>
-                                            <a href="">Contact Us</a>
+                                            <a href="/contact">Contact Us</a>
                                         </li>
                                     
                                     <div class="onhover-show-div user fa fa-user"> 
                                         <ul > 
                   
                                            <% if(message) { %>
-                                            <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                                            <li><a class="text-decoration-none" href="/account">Account</a></li>
                                             <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                                           <% } else { %>
                   
@@ -187,10 +187,10 @@
                         </li>
                        
                     
-                        <li><a href="/">About Us</a></li>
-                        <li><a href="/">Contact Us</a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact Us</a></li>
                         <% if(message) { %>
-                            <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                            <li><a class="text-decoration-none" href="/account">Account</a></li>
                             <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                           <% } else { %>
   
@@ -579,7 +579,7 @@
     <div class="banner-section section-top-gap-100">
         <div class="banner-wrapper clearfix">
             <!-- Start Banner Single Item -->
-            <a href="product-details-default.html">
+            <a href="/shop">
                 <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="0" style="position: relative;">
                     <div class="image">
                         <img class="img-fluid" src="/video/lenovo (2) 1.png" alt="">
@@ -587,35 +587,35 @@
                         <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
                             <h2 class="text-white">Ultra Portable</h2>
                             <h3 class="text-white">Experience the Lenovo</h3>
-                            <button class="buy-now-btn">Buy Now</button>
+                            <a href="/shop" class="buy-now-btn">Buy Now</a>
                         </div>
                     </div>
                 </div>
             </a>
             
             <!-- Second Banner -->
-            <a href="product-details-default.html">
+            <a href="/shop">
                 <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="200">
                     <div class="image">
                         <img class="img-fluid" src="/video/DELL 1.png" alt="">
                         <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
                             <h2 class="text-white">Explore the Power</h2>
                             <h3 class="text-white">Dell XPS 13</h3>
-                            <button class="buy-now-btn">Buy Now</button>
+                            <a  href="/shop" class="buy-now-btn">Buy Now</a>
                         </div>
                     </div>
                 </div>
             </a>
             
             <!-- Third Banner -->
-            <a href="product-details-default.html">
+            <a href="/shop">
                 <div class="banner-single-item banner-style-7 banner-animation banner-color--green float-left" data-aos="fade-up" data-aos-delay="400">
                     <div class="image">
                         <img class="img-fluid" src="/video/apple 1.png" alt="">
                         <div class="text-overlay" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); text-align: center; color: white;">
                             <h2 class="text-white">Innovation in Design</h2>
                             <h3 class="text-white">Apple MacBook Pro</h3>
-                            <button class="buy-now-btn">Buy Now</button>
+                            <a href="/shop" class="buy-now-btn">Buy Now</a>
                         </div>
                     </div>
                 </div>
@@ -636,7 +636,7 @@
                     font-size: 18px; /* Slightly larger text */
                     font-weight: bold; /* Bold text for emphasis */
                     cursor: pointer;
-                    transition: all 0.3s ease;
+                    /* transition: all 0.3s ease; */
                     text-transform: uppercase; /* Uppercase text */
                     letter-spacing: 1px; /* Slight space between letters */
                     display: inline-block; /* Center the button */
@@ -688,7 +688,12 @@
                                      <%for(let i=0;i<8;i++){%>
                                     <div class="product-default-single-item product-color--pink swiper-slide">
                                         <div class="image-box">
-                                            <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
+                                            <%if(products[i].bestOffer >0){%>
+                                                <div class="offer-badge">
+                                                    <span><%= products[i].bestOffer %>% OFF</span>
+                                                </div>
+                                            <%}%>
+                                            <a href="/shop/product'?id=<%=products[i]._id%>" class="image-link">
                                                 
                                                 <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
                                                 <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
@@ -752,12 +757,12 @@ margin-left: 0.5rem;
                                     <%for(let i=8;i<10;i++){%>
                                         <div class="product-default-single-item product-color--pink swiper-slide">
                                             <div class="image-box">
-                                                <%if(products[i].productOffer >0){%>
+                                                <%if(products[i].bestOffer >0){%>
                                                     <div class="offer-badge">
-                                                        <span><%= products[i].productOffer %>% OFF</span>
+                                                        <span><%= products[i].bestOffer %>% OFF</span>
                                                     </div>
                                                 <%}%>
-                                                <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
+                                                <a href="/shop/product?id=<%=products[i]._id%>" class="image-link">
                                                     <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
                                                     <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
                                                 </a>
@@ -825,7 +830,7 @@ margin-left: 0.5rem;
       <div class="banner-section section-top-gap-100">
         <div class="banner-wrapper clearfix">
             <!-- Start Banner Single Item -->
-            <a href="product-details-default.html">
+            <a href="/shop">
                 <div class="banner-single-item banner-style-8 banner-animation banner-color--green float-left"
                     data-aos="fade-up" data-aos-delay="0">
                     <div class="image">
@@ -835,7 +840,7 @@ margin-left: 0.5rem;
             </a>
             <!-- End Banner Single Item -->
             <!-- Start Banner Single Item -->
-            <a href="product-details-default.html">
+            <a href="/shop">
                 <div class="banner-single-item banner-style-8 banner-animation banner-color--green float-left"
                     data-aos="fade-up" data-aos-delay="200">
                     <div class="image">
@@ -882,12 +887,12 @@ margin-left: 0.5rem;
                                     <!-- Start Product Default Single Item -->
                                     <div class="product-default-single-item product-color--pink swiper-slide">
                                         <div class="image-box">
-                                            <%if(products[i].productOffer >0){%>
+                                            <%if(products[i].bestOffer >0){%>
                                                 <div class="offer-badge">
-                                                    <span><%= products[i].productOffer %>% OFF</span>
+                                                    <span><%= products[i].bestOffer %>% OFF</span>
                                                 </div>
                                             <%}%>
-                                            <a href="/productdetails?id=<%=products[i]._id%>" class="image-link">
+                                            <a href="/shop/product?id=<%=products[i]._id%>" class="image-link">
                                                 <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
                                                 <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
                                             </a>
@@ -1430,7 +1435,7 @@ margin-left: 0.5rem;
         try {
             console.log(productDetails)
             const productData = JSON.parse(productDetails);
-            const response = await fetch('/addToCart', {
+            const response = await fetch('/cart/add', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

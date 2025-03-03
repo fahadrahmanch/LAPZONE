@@ -225,56 +225,86 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <script>
-                                        document.getElementById("submit").addEventListener("click", (event) => {
-                                          event.preventDefault(); 
-                                      
-                                         
-                                          const name = document.getElementById("name").value.trim();
-                                          const description = document.getElementById("description").value.trim();
-                                      
-                                          
-                                          const nameError = document.getElementById("name_error");
-                                          const descriptionError = document.getElementById("description_error");
-                                      
-                                          
-                                          nameError.textContent = "";
-                                          descriptionError.textContent = "";
-                                      
-                                          let isValid = true;
-                                      
-                                         
-                                          if (!name) {
-                                            nameError.textContent = "Name is required.";
-                                            nameError.style.color = "red";
-                                            isValid = false;
-                                          } else if (name.length < 3) {
-                                            nameError.textContent = "Name must be at least 3 characters.";
-                                            nameError.style.color = "red";
-                                            isValid = false;
-                                          }
-                                      
-                                        
-                                          if (!description) {
-                                            descriptionError.textContent = "Description is required.";
-                                            descriptionError.style.color = "red";
-                                            isValid = false;
-                                          } else if (description.length < 10) {
-                                            descriptionError.textContent = "Description must be at least 10 characters.";
-                                            descriptionError.style.color = "red";
-                                            isValid = false;
-                                          }
-                                      
-                                         
-                                          if (isValid) {
-                                            console.log("Form is valid");
-                                            console.log({ name, description });
-                                            
-                                          }
-                                        });
-                                      </script>
-                                      
-                                        <script src="/js_folder/addcategory.js"> </script>
+                                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.getElementById("submit").addEventListener("click", async (event) => {
+    event.preventDefault(); 
+
+    // Get input values
+    const name = document.getElementById("name").value.trim();
+    const description = document.getElementById("description").value.trim();
+
+    // Error elements
+    const nameError = document.getElementById("name_error");
+    const descriptionError = document.getElementById("description_error");
+
+    // Clear previous errors
+    nameError.textContent = "";
+    descriptionError.textContent = "";
+
+    let isValid = true;
+
+    // Name validation
+    if (!name) {
+        nameError.textContent = "Name is required.";
+        nameError.style.color = "red";
+        isValid = false;
+    } else if (name.length < 3) {
+        nameError.textContent = "Name must be at least 3 characters.";
+        nameError.style.color = "red";
+        isValid = false;
+    }
+
+    // Description validation
+    if (!description) {
+        descriptionError.textContent = "Description is required.";
+        descriptionError.style.color = "red";
+        isValid = false;
+    } else if (description.length < 10) {
+        descriptionError.textContent = "Description must be at least 10 characters.";
+        descriptionError.style.color = "red";
+        isValid = false;
+    }
+
+    // If validation fails, stop execution
+    if (!isValid) return;
+
+    try {
+        const response = await fetch('/admin/addCategory', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, description }),
+        });
+
+        const result = await response.json(); // Read response JSON
+
+        if (response.ok) {
+            Swal.fire({
+                icon: "success",
+                title: result.message || "Category added successfully!",
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                location.reload(); // Reload after success
+            });
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: result.message || "Something went wrong!",
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: error.message || "An error occurred!",
+        });
+    }
+});
+</script>
+
+
                                         <script src="/js_folder/editcategory.js"> </script>
                                        
                                        

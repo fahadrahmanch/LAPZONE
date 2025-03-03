@@ -546,88 +546,189 @@
 
 
 
+// function validateAndSubmit() {
+//     // Clear all previous error messages
+//     document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
+    
+//     let isValid = true;
+
+//     // Validate Product Name
+//     const productName = document.getElementById('product_name').value.trim();
+//     if (!productName) {
+//         document.getElementById('productName-error').innerHTML = 'Product name is required';
+//         isValid = false;
+//     }
+
+//     // Validate Category
+//     const category = document.querySelector('select[name="category"]').value.trim();
+//     if (!category) {
+//         document.getElementById('category-error').innerHTML = 'Category is required';
+//         isValid = false;
+//     }
+
+//     // Validate Brand
+//     const brand = document.querySelector('select[name="brand"]').value.trim();
+//     if (!brand) {
+//         document.getElementById('brand-error').innerHTML = 'Brand is required';
+//         isValid = false;
+//     }
+
+//     // Validate Description
+//     const description = document.getElementById('descriptionid').value.trim();
+//     if (!description) {
+//         document.getElementById('description-error').innerHTML = 'Description is required';
+//         isValid = false;
+//     }
+
+//     // Validate Variants
+//     const variantSections = document.querySelectorAll('.variant-section');
+//     if (variantSections.length === 0) {
+//         alert('At least one variant is required');
+//         isValid = false;
+//     }
+
+//     // Validate each variant
+//     variantSections.forEach((section, index) => {
+//         // Remove existing error messages before validation
+//         section.querySelectorAll('.error-message').forEach(el => el.remove());
+
+//         // RAM validation
+//         const ramInput = section.querySelector(`#ram-${index}`);
+//         if (!ramInput.value.trim()) {
+//             ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
+//             isValid = false;
+//         }
+
+//         // Processor validation
+//         const processorInput = section.querySelector(`#processor-${index}`);
+//         if (!processorInput.value.trim()) {
+//             processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
+//             isValid = false;
+//         }
+
+//         // Storage validation
+//         const storageInput = section.querySelector(`#storage-${index}`);
+//         if (!storageInput.value.trim()) {
+//             storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
+//             isValid = false;
+//         }
+
+//         // Regular Price validation
+//         const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
+//         if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
+//             regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
+//             isValid = false;
+//         }
+
+//         // Sale Price validation
+//         const salePriceInput = section.querySelector(`#salePrice-${index}`);
+//         if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
+//             salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
+//             isValid = false;
+//         }
+
+//         // Stock validation
+//         const stockInput = section.querySelector(`#stock-${index}`);
+//         if (!stockInput.value || Number(stockInput.value) < 0) {
+//             stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
+//             isValid = false;
+//         }
+//     });
+
+//     // Image validation
+//     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+//     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
+//     let hasImage = existingImages.length > 0;
+
+//     // Check if new images are uploaded
+//     imageInputs.forEach(input => {
+//         if (input.files.length > 0) {
+//             hasImage = true;
+//         }
+//     });
+
+//     if (!hasImage) {
+//         document.getElementById('images-error').innerHTML = 'At least one image is required';
+//         isValid = false;
+//     }
+
+//     // Prevent form submission if validation fails
+//     return isValid;
+// }
+
+
 function validateAndSubmit() {
-    // Clear all previous error messages
     document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
     
     let isValid = true;
 
-    // Validate Product Name
     const productName = document.getElementById('product_name').value.trim();
     if (!productName) {
         document.getElementById('productName-error').innerHTML = 'Product name is required';
         isValid = false;
     }
 
-    // Validate Category
     const category = document.querySelector('select[name="category"]').value.trim();
     if (!category) {
         document.getElementById('category-error').innerHTML = 'Category is required';
         isValid = false;
     }
 
-    // Validate Brand
     const brand = document.querySelector('select[name="brand"]').value.trim();
     if (!brand) {
         document.getElementById('brand-error').innerHTML = 'Brand is required';
         isValid = false;
     }
 
-    // Validate Description
     const description = document.getElementById('descriptionid').value.trim();
     if (!description) {
         document.getElementById('description-error').innerHTML = 'Description is required';
         isValid = false;
     }
 
-    // Validate Variants
     const variantSections = document.querySelectorAll('.variant-section');
     if (variantSections.length === 0) {
         alert('At least one variant is required');
         isValid = false;
     }
 
-    // Validate each variant
     variantSections.forEach((section, index) => {
-        // Remove existing error messages before validation
         section.querySelectorAll('.error-message').forEach(el => el.remove());
 
-        // RAM validation
         const ramInput = section.querySelector(`#ram-${index}`);
         if (!ramInput.value.trim()) {
             ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
             isValid = false;
         }
 
-        // Processor validation
         const processorInput = section.querySelector(`#processor-${index}`);
         if (!processorInput.value.trim()) {
             processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
             isValid = false;
         }
 
-        // Storage validation
         const storageInput = section.querySelector(`#storage-${index}`);
         if (!storageInput.value.trim()) {
             storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
             isValid = false;
         }
 
-        // Regular Price validation
         const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
         if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
             regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
             isValid = false;
         }
 
-        // Sale Price validation
         const salePriceInput = section.querySelector(`#salePrice-${index}`);
         if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
             salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
             isValid = false;
         }
-
-        // Stock validation
+        
+        if (salePriceInput.value && Number(salePriceInput.value) <=Number(0)) {
+            salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid sale price is required</div>`);
+            isValid = false;
+        }
         const stockInput = section.querySelector(`#stock-${index}`);
         if (!stockInput.value || Number(stockInput.value) < 0) {
             stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
@@ -635,12 +736,10 @@ function validateAndSubmit() {
         }
     });
 
-    // Image validation
     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-    const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
+    const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); 
     let hasImage = existingImages.length > 0;
 
-    // Check if new images are uploaded
     imageInputs.forEach(input => {
         if (input.files.length > 0) {
             hasImage = true;
@@ -652,9 +751,20 @@ function validateAndSubmit() {
         isValid = false;
     }
 
-    // Prevent form submission if validation fails
+    if (!isValid) {
+        const firstError = document.querySelector('.error-message:not(:empty)');
+        if (firstError) {
+            if (!firstError.hasAttribute('tabindex')) {
+                firstError.setAttribute('tabindex', '-1');
+            }
+            firstError.focus();
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+
     return isValid;
 }
+
 
 const style = document.createElement('style');
 style.textContent = `
@@ -678,7 +788,6 @@ document.head.appendChild(style);
                 document.getElementById("productName-error").innerText = "";
               }
 
-              // Add more validation checks for other fields (category, description, prices, etc.)
 
               return isValid;
             }
@@ -691,7 +800,6 @@ document.head.appendChild(style);
                     const image = document.getElementById("imgView" + index);
                     image.src = dataURL;
 
-                    // Initialize cropper
                     const cropper = new Cropper(image, {
                         aspectRatio: 1,
                         guides: true,
@@ -727,7 +835,7 @@ document.head.appendChild(style);
                 };
 
                 reader.onerror = function () {
-                    // alert("Failed to read the image file.");
+                    
                 };
 
                 reader.readAsDataURL(input.files[0]);

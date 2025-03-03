@@ -39,25 +39,29 @@ document.addEventListener('DOMContentLoaded', function() {
    
 
 
-
-
-
-      function validateUsername(){
+    function validateUsername() {
       let isValid = true;
       
-        let username = document.getElementById('name');
-        let usernameError = document.getElementById('name_error');
-        name_error.textContent = "";
-        //Username validation
-        if (username.value.trim() === "") {
-           name_error.textContent = "Username is required.";
-           isValid = false;
-         }else if (username.value.trim().length < 3) {
-           name_error.textContent = "Username must be at least 3 characters.";
-           isValid = false;
-        }
-        return isValid;
-      } 
+      let username = document.getElementById('name');
+      let usernameError = document.getElementById('name_error');
+      usernameError.textContent = "";
+  
+      // Username validation
+      if (username.value.trim() === "") {
+          usernameError.textContent = "Username is required.";
+          isValid = false;
+      } else if (username.value.trim().length < 3) {
+          usernameError.textContent = "Username must be at least 3 characters.";
+          isValid = false;
+      } else if (!/^[A-Za-z\s]+$/.test(username.value.trim())) {
+          usernameError.textContent = "Username must contain only letters and spaces.";
+          isValid = false;
+      }
+  
+      return isValid;
+  }
+  
+  
     
       function validateEmail(){
         let isValid = true;

@@ -16,33 +16,33 @@ button.addEventListener('click',async ()=>{
         const {status}=result
         
         if(response.ok){
-            if(status==='unlist'){
-                console.log("changing to unlist")
-                console.log(result.status);
-                // console.log('hi')
-                badge.textContent='Unlisted'
-                badge.classList.remove('alert-success');
-                badge.classList.add('alert-danger')
-                button.textContent='unlist';
-                button.classList.remove('btn-success');
-                button.classList.add('btn-danger');
-                button.setAttribute('data-list','unlist')
+            // if(status==='unlist'){
+            //     console.log("changing to unlist")
+            //     console.log(result.status);
+            //     // console.log('hi')
+            //     badge.textContent='Unlisted'
+            //     badge.classList.remove('alert-success');
+            //     badge.classList.add('alert-danger')
+            //     button.textContent='unlist';
+            //     button.classList.remove('btn-success');
+            //     button.classList.add('btn-danger');
+            //     button.setAttribute('data-list','unlist')
                 
-            }else{  
-                // console.log("listing")
-                button.textContent='list';
-                button.classList.remove('btn-danger')
-                button.classList.add('btn-success');
-                button.setAttribute('data-list','list')
-                badge.textContent='Listed'
-                badge.classList.remove('alert-danger');
-                badge.classList.add('alert-success')
+            // }else{  
+            //     // console.log("listing")
+            //     button.textContent='list';
+            //     button.classList.remove('btn-danger')
+            //     button.classList.add('btn-success');
+            //     button.setAttribute('data-list','list')
+            //     badge.textContent='Listed'
+            //     badge.classList.remove('alert-danger');
+            //     badge.classList.add('alert-success')
               
-                // console.log('hii')
+            //     // console.log('hii')
 
 
-            }
-            
+            // }
+            window.location.reload()
         }else{
                console.log(result.message)
                console.log("error")

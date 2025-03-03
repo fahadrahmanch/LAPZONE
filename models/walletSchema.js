@@ -50,9 +50,17 @@ const walletSchema = new mongoose.Schema({
                 required: false
             },
             date: {
-                type: Date,
-                default: Date.now
+                type: String,
+                default: () => {
+                    const now = new Date();
+                    
+                    return String.toISOString().split('T')[0]; // Get the date part only
+                },             
+                   required: true,
             }
+            
+            
+            
         }
     ],
 },{timestamps:true});

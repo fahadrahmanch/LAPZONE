@@ -46,10 +46,35 @@ const  isLogin=(req,res,next)=>{
         next();
     }
 }
+const userBLock= async (req, res, next) => {
+    try {
+        if (!req.session.user) {
+            return next(); // Proceed if no user session exists
+        }
+
+        const user = await User.findById(req.session.user);
+        if (!user) {
+            req.session.user = null;
+            return res.redirect('/');
+        }
+
+        if (user.isBlocked) {
+            req.session.user = null;
+            return res.redirect('/');
+        }
+
+        next(); 
+    } catch (error) {
+        console.error("Error in userBlock middleware:", error);
+    }
+};
+
+
 
 
 module.exports={
     userAuth,
     checkSession,
-    isLogin
+    isLogin,
+    userBLock
 }

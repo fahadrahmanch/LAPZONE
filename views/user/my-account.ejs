@@ -69,16 +69,16 @@
                       </li>
 
                       <li>
-                        <a href="">About Us</a>
+                        <a href="/about">About Us</a>
                       </li>
                       <li>
-                        <a href="">Contact Us</a>
+                        <a href="/contact">Contact Us</a>
                       </li>
                       <div class="onhover-show-div user fa fa-user"> 
                         <ul > 
   
                            <% if(message) { %>
-                            <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                            <li><a class="text-decoration-none" href="/account">Account</a></li>
                             <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                           <% } else { %>
   
@@ -224,15 +224,15 @@
                 <a href="/shop"><span>Shop</span></a>
               </li>
 
-              <li><a href="/">About Us</a></li>
-              <li><a href="/">Contact Us</a></li>
+              <li><a href="/about">About Us</a></li>
+              <li><a href="/contact">Contact Us</a></li>
             
             </ul>
             <!-- <div class="onhover-show-div user fa fa-user">  -->
               <ul > 
 
                  <% if(message) { %>
-                  <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                  <li><a class="text-decoration-none" href="/account">Account</a></li>
                   <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                 <% } else { %>
 
@@ -276,11 +276,7 @@
           /></a>
         </div>
 
-        <address class="address">
-          <span>Address: Your address goes here.</span>
-          <span>Call Us: 0123456789, 0123456789</span>
-          <span>Email: demo@example.com</span>
-        </address>
+       
 
         <ul class="social-link">
           <li>
@@ -573,7 +569,7 @@
                 </li>
                 <li>
                   <a
-                    href="login.html"
+                    href="/logout"
                     class="nav-link btn btn-block btn-md btn-black-default-hover"
                     >logout</a
                   >
@@ -867,18 +863,19 @@
               
               let isValid=true
               
-               if (name === '') {
+              if (name === '') {
   name_error.innerHTML = "Name is required";
   isValid = false;
 } else if (name.length < 3) {
   name_error.innerHTML = "Name must be at least 3 characters";
   isValid = false;
-} else if (!/^[A-Za-z]/.test(name)) {  
-  name_error.innerHTML = "Name must start with a letter";
+} else if (!/^[A-Za-z\s]+$/.test(name.trim())) {  // Allows spaces between words
+  name_error.innerHTML = "Name must contain only letters (A-Z, a-z) .";
   isValid = false;
 } else {
   name_error.innerHTML = "";
 }
+
                     if(email===''){
                       email_error.innerHTML='email is required'
                       isValid=false
@@ -908,7 +905,7 @@
                  
                     try {
                       const response = await fetch(
-                        `/update-user/<%=users._id%>`,
+                        `/account/update-user/<%=users._id%>`,
                         {
                           method: "POST",
                           headers: {
@@ -1141,7 +1138,7 @@
                     try {
                       // Make the fetch request
                       const response = await fetch(
-                        `/change-password/<%=users._id%>`,
+                        '/account/password/change/<%=users._id%>',
                         {
                           method: "POST",
                           headers: {
@@ -1367,7 +1364,7 @@ function validatenewpass() {
                                         text: 'Your payment has been verified.',
                                         confirmButtonText: 'Proceed to Order Details',
                                       }).then(() => {
-                                        window.location.href = `/orderConfirm/${paymentData.newOrder._id}`; 
+                                        window.location.href = `/order/confirm/${paymentData.newOrder._id}`; 
                                       });
                                     } else {
                                       Swal.fire({
@@ -1511,7 +1508,14 @@ function validatenewpass() {
                               <div class="transaction-item">
                                   <div class="transaction-info">
                                       <span class="transaction-type credit"><%=wallet.transactions[i].type%></span>
-                                      <span class="transaction-date"><%=wallet.transactions[i].date%></span>
+                                      <span class="transaction-date">
+                                        <%= new Date(wallet.transactions[i].date).toLocaleDateString("en-US", { 
+                                             weekday: "long", 
+                                             year: "numeric", 
+                                             month: "long", 
+                                             day: "numeric" 
+                                        }) %>
+                                      </span>
                                   </div>
                                   <%if(wallet.transactions[i].type=='Withdrawal'){%>
                                   <span class="transaction-amount credit">-₹<%=wallet.transactions[i].amount%></span>
@@ -2018,7 +2022,7 @@ function validatenewpass() {
         const addressId = event.target.getAttribute('data-id');
 
         
-        const response = await fetch('/deleteAddress', {
+        const response = await fetch('/address/delete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2202,7 +2206,7 @@ function validatenewpass() {
       };
 
       try {
-        const response = await fetch("/addAddress", {
+        const response = await fetch("/address/add", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
@@ -2433,7 +2437,7 @@ function validatenewpass() {
     };
 
     try {
-      const response = await fetch("/editAddress", {
+      const response = await fetch("/address/edit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(Data),
@@ -2625,177 +2629,8 @@ function validatenewpass() {
     <!-- ...:::: End Account Dashboard Section:::... -->
 
     <!-- Start Footer Section -->
-    <footer class="footer-section footer-bg section-top-gap-100">
-      <div class="footer-wrapper">
-        <!-- Start Footer Top -->
-        <div class="footer-top">
-          <div class="container">
-            <div class="row mb-n6">
-              <div class="col-lg-3 col-sm-6 mb-6">
-                <!-- Start Footer Single Item -->
-                <div
-                  class="footer-widget-single-item footer-widget-color--golden"
-                  data-aos="fade-up"
-                  data-aos-delay="0"
-                >
-                  <h5 class="title">INFORMATION</h5>
-                  <ul class="footer-nav">
-                    <li><a href="#">Delivery Information</a></li>
-                    <li><a href="#">Terms & Conditions</a></li>
-                    <li><a href="contact-us.html">Contact</a></li>
-                    <li><a href="#">Returns</a></li>
-                  </ul>
-                </div>
-                <!-- End Footer Single Item -->
-              </div>
-              <div class="col-lg-3 col-sm-6 mb-6">
-                <!-- Start Footer Single Item -->
-                <div
-                  class="footer-widget-single-item footer-widget-color--golden"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <h5 class="title">MY ACCOUNT</h5>
-                  <ul class="footer-nav">
-                    <li><a href="my-account.html">My account</a></li>
-                    <li><a href="wishlist.html">Wishlist</a></li>
-                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
-                    <li><a href="faq.html">Frequently Questions</a></li>
-                    <li><a href="#">Order History</a></li>
-                  </ul>
-                </div>
-                <!-- End Footer Single Item -->
-              </div>
-              <div class="col-lg-3 col-sm-6 mb-6">
-                <!-- Start Footer Single Item -->
-                <div
-                  class="footer-widget-single-item footer-widget-color--golden"
-                  data-aos="fade-up"
-                  data-aos-delay="400"
-                >
-                  <h5 class="title">CATEGORIES</h5>
-                  <ul class="footer-nav">
-                    <li><a href="#">Decorative</a></li>
-                    <li><a href="#">Kitchen utensils</a></li>
-                    <li><a href="#">Chair & Bar stools</a></li>
-                    <li><a href="#">Sofas and Armchairs</a></li>
-                    <li><a href="#">Interior lighting</a></li>
-                  </ul>
-                </div>
-                <!-- End Footer Single Item -->
-              </div>
-              <div class="col-lg-3 col-sm-6 mb-6">
-                <!-- Start Footer Single Item -->
-                <div
-                  class="footer-widget-single-item footer-widget-color--golden"
-                  data-aos="fade-up"
-                  data-aos-delay="600"
-                >
-                  <h5 class="title">ABOUT US</h5>
-                  <div class="footer-about">
-                    <p>
-                      We are a team of designers and developers that create high
-                      quality Magento, Prestashop, Opencart.
-                    </p>
+    <%- include('../partials/user/footer_1.ejs') %>    
 
-                    <address class="address">
-                      <span>Address: Your address goes here.</span>
-                      <span>Email: demo@example.com</span>
-                    </address>
-                  </div>
-                </div>
-                <!-- End Footer Single Item -->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- End Footer Top -->
-
-        <!-- Start Footer Center -->
-        <div class="footer-center">
-          <div class="container">
-            <div class="row mb-n6">
-              <div class="col-xl-3 col-lg-4 col-md-6 mb-6">
-                <div
-                  class="footer-social"
-                  data-aos="fade-up"
-                  data-aos-delay="0"
-                >
-                  <h4 class="title">FOLLOW US</h4>
-                  <ul class="footer-social-link">
-                    <li>
-                      <a href="#"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa fa-instagram"></i></a>
-                    </li>
-                    <li>
-                      <a href="#"><i class="fa fa-linkedin"></i></a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-xl-7 col-lg-6 col-md-6 mb-6">
-                <div
-                  class="footer-newsletter"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                >
-                  <h4 class="title">DON'T MISS OUT ON THE LATEST</h4>
-                  <div class="form-newsletter">
-                    <form action="#" method="post">
-                      <div
-                        class="form-fild-newsletter-single-item input-color--golden"
-                      >
-                        <input
-                          type="email"
-                          placeholder="Your email address..."
-                          required
-                        />
-                        <button type="submit">SUBSCRIBE!</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Start Footer Center -->
-
-        <!-- Start Footer Bottom -->
-        <div class="footer-bottom">
-          <div class="container">
-            <div
-              class="row justify-content-between align-items-center align-items-center flex-column flex-md-row mb-n6"
-            >
-              <div class="col-auto mb-6">
-                <div class="footer-copyright">
-                  <p class="copyright-text">
-                    &copy; 2021 <a href="index.html">therankme</a>. Made with
-                    <i class="fa fa-heart text-danger"></i> by
-                    <a href="https://therankme.com/" target="_blank"
-                      >therankme</a
-                    >
-                  </p>
-                </div>
-              </div>
-              <div class="col-auto mb-6">
-                <div class="footer-payment">
-                  <div class="image">
-                    <img src="assets/images/company-logo/payment.png" alt="" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Start Footer Bottom -->
-      </div>
-    </footer>
     <!-- End Footer Section -->
 
     <!-- material-scrolltop button -->

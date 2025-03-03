@@ -40,16 +40,16 @@
                       <div class="mega-menu"></div>
                     </li>
                     <li>
-                      <a href="/">About Us</a>
+                      <a href="/about">About Us</a>
                     </li>
                     <li>
-                      <a href="/">Contact Us</a>
+                      <a href="/contact">Contact Us</a>
                     </li>
                       <div class="onhover-show-div user fa fa-user"> 
                                             <ul > 
                       
                                                <% if(messag) { %>
-                                                <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                                                <li><a class="text-decoration-none" href="/account">Account</a></li>
                                                 <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                                               <% } else { %>
                       
@@ -191,12 +191,12 @@
             </li>
            
             
-            <li><a href="/">About Us</a></li>
-            <li><a href="/">Contact Us</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact Us</a></li>
             <ul > 
                       
               <% if(messag) { %>
-               <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+               <li><a class="text-decoration-none" href="/account">Account</a></li>
                <li><a class="text-decoration-none" href="/logout">Logout</a></li>
              <% } else { %>
 
@@ -465,7 +465,7 @@
                 const otp = document.getElementById("otp").value;
 
                 try {
-                  const response = await fetch("/Otpemail", {
+                  const response = await fetch("/password/otp/verify", {
                     method: "POST",
                     headers: {
                       "Content-Type": "application/json",
@@ -902,10 +902,10 @@
   </div>
   <!-- End Modal Quickview cart -->
 
-  <script src="assets/js/vendor/vendor.min.js"></script>
-  <script src="assets/js/plugins/plugins.min.js"></script>
+  <script src="/assets/js/vendor/vendor.min.js"></script>
+  <script src="/assets/js/plugins/plugins.min.js"></script>
   <!-- Main JS -->
-  <script src="assets/js/main.js"></script>
+  <script src="/assets/js/main.js"></script>
 </body>
 
 <%- include('../partials/user/footer') %>

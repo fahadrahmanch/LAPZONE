@@ -70,7 +70,7 @@
                                             <ul > 
                       
                                                <% if(message) { %>
-                                                <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                                                <li><a class="text-decoration-none" href="/account">Account</a></li>
                                                 <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                                               <% } else { %>
                       
@@ -208,7 +208,7 @@
                         <ul > 
                       
                             <% if(message) { %>
-                             <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                             <li><a class="text-decoration-none" href="/account">Account</a></li>
                              <li><a class="text-decoration-none" href="/logout">Logout</a></li>
                            <% } else { %>
    
@@ -885,7 +885,7 @@
                 confirmButtonText: 'OK'
             }).then(() => {
      
-                window.location.href = '/myaccount'; 
+                window.location.href = '/account'; 
 
             });
         } else {

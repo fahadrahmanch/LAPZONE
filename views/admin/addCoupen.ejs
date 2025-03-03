@@ -167,67 +167,33 @@
                 </div>
                 <form method="post" action="/admin/addCoupen" onsubmit="return validateForm()">
                     <div class="form-group">
+                        <span class="text-danger"><%=message%></span>
                       <label for="coupon-name">Coupon Name</label>
-                      <input type="text" id="coupon-name" name="name" placeholder="Only letters and numbers, no spaces or special characters" pattern="[A-Za-z0-9]+" >
+                      <input type="text" id="coupon-name" name="name" placeholder="Only letters and numbers, no spaces or special characters" >
                       <span id="coupon-name-error" class="error-message" style="color: red; font-size: 14px;"></span>
                     </div>
                     <div class="form-group">
                       <label for="offer-price">Offer Price (₹)</label>
-                      <input type="number" id="offer-price" name="price" placeholder="Enter the offer price" min="0" >
+                      <input type="number" id="offer-price" name="price" placeholder="Enter the offer price"  >
                       <span id="offer-price-error" class="error-message" style="color: red; font-size: 14px;"></span>
                     </div>
                     <div class="form-group">
                       <label for="min-price">Minimum Purchase Amount (₹)</label>
-                      <input type="number" id="min-price" name="Amount" placeholder="Enter the minimum amount" min="0" >
+                      <input type="number" id="min-price" name="Amount" placeholder="Enter the minimum amount"  >
                       <span id="min-price-error" class="error-message" style="color: red; font-size: 14px;"></span>
                     </div>
                     <div class="form-group">
                       <label for="expiry-date">Expiry Date</label>
-                      <input type="date" id="expiry-date" name="date" >
+                      <input type="date" id="expiry-date" name="date" keydown >
                       <span id="expiry-date-error" class="error-message" style="color: red; font-size: 14px;"></span>
-                      <% if (messag) { %>
-                        <p style="color: red; font-size: 14px;"><%= messag %></p>
-                      <% } %>
+                      <!-- <% if (message) { %>
+                        <p style="color: red; font-size: 14px;"><%= message %></p>
+                      <% } %> -->
                     </div>
                     <button type="submit" class="create-btn">Create Coupon</button>
                   </form>
                   
-                  <script>
-                    function validateForm() {
-                      let isValid = true;
-                  
-                      document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-                  
-                      const couponName = document.getElementById('coupon-name').value;
-                      const couponNamePattern = /^[A-Za-z0-9]+$/;
-                      if (!couponNamePattern.test(couponName)) {
-                        document.getElementById('coupon-name-error').textContent = 'Coupon Name should only contain letters and numbers.';
-                        isValid = false;
-                      }
-                  
-                      const offerPrice = document.getElementById('offer-price').value;
-                      if (offerPrice <= 0) {
-                        document.getElementById('offer-price-error').textContent = 'Offer Price should be a positive number.';
-                        isValid = false;
-                      }
-                  
-                      const minPrice = document.getElementById('min-price').value;
-                      if (minPrice <= 0) {
-                        document.getElementById('min-price-error').textContent = 'Minimum Purchase Amount should be a positive number.';
-                        isValid = false;
-                      }
-                  
-                      const expiryDate = document.getElementById('expiry-date').value;
-                      const today = new Date();
-                      const selectedDate = new Date(expiryDate);
-                      if (selectedDate <= today) {
-                        document.getElementById('expiry-date-error').textContent = 'Expiry Date should be in the future.';
-                        isValid = false;
-                      }
-                  
-                      return isValid; 
-                    }
-                  </script>
+                 
               </div>
             </body>
         </section>
@@ -261,130 +227,31 @@
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
 
+    <!-- form validation  -->
+     <script src="/js_folder/coupenValidation.js"></script>
 
 
-
-
-
-
- <!-- <script>
-    function validateAndSubmit(event) {
-    // Prevent form submission if validation fails
-    event.preventDefault();
-
-    // Clear previous error messages
-    clearErrors();
-
-    // Get form fields
-    const productName = document.getElementById('product_name');
-    const category = document.querySelector('[name="category"]');
-    const description = document.getElementById('descriptionid');
-    const variants = document.querySelectorAll('[id^="ram-"]'); // Select all variant inputs
-
-    // Validation flag
-    let isValid = true;
-
-    // Validate Product Name
-    if (productName.value.trim() === "") {
-        isValid = false;
-        displayError('productName-error', 'Product Name is required.');
-    }
-
-    // Validate Category
-    if (category.value === "") {
-        isValid = false;
-        displayError('brand-error', 'Category is required.');
-    }
-
-    // Validate Description
-    if (description.value.trim() === "") {
-        isValid = false;
-        displayError('description-error', 'Description is required.');
-    }
-
-    // Validate Variant Fields
-    variants.forEach((variant, index) => {
-        const ram = document.getElementById(`ram-${index}`);
-        const storage = document.getElementById(`storage-${index}`);
-        const processor = document.getElementById(`processor-${index}`);
-        const regularPrice = document.getElementById(`regularPrice-${index}`);
-        const salePrice = document.getElementById(`salePrice-${index}`);
-        const stock = document.getElementById(`stock-${index}`);
-
-        // Validate variant fields
-        if (ram.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-ram-error`, 'RAM is required.');
-        }
-        if (storage.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-storage-error`, 'Storage is required.');
-        }
-        if (processor.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-processor-error`, 'Processor is required.');
-        }
-        if (regularPrice.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-regularPrice-error`, 'Regular Price is required.');
-        }
-        if (salePrice.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-salePrice-error`, 'Sale Price is required.');
-        }
-        if (stock.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-stock-error`, 'Stock quantity is required.');
-        }
-    });
-
-    // If valid, submit the form
-    if (isValid) {
-        document.querySelector('form').submit();
-    }
-}
-
-// Function to display error messages
-function displayError(elementId, message) {
-    const errorElement = document.getElementById(elementId);
-    errorElement.textContent = message;
-    errorElement.style.display = 'block';
-}
-
-// Function to clear previous error messages
-function clearErrors() {
-    const errorMessages = document.querySelectorAll('.error-message');
-    errorMessages.forEach(error => {
-        error.textContent = '';
-        error.style.display = 'none';
-    });
-}
-
- </script> -->
 
 
  <style>
-    /* General body styling */
   body {
     font-family: Arial, sans-serif;
-    background-color: #f8fafc; /* Light background */
+    background-color: #f8fafc;
     margin: 0;
     padding: 0px;
-    color: #333; /* Dark text for readability */
+    color: #333;
   }
   
-  /* Form container styling */
   .form-container {
     max-width: 600px;
     margin: 50px auto;
-    background-color: #ffffff; /* White card */
+    background-color: #ffffff; 
     padding: 25px 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    border: 1px solid #e5e7eb; /* Light gray border */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    border: 1px solid #e5e7eb; 
   }
   
-  /* Header styling */
   .form-header {
     display: flex;
     justify-content: space-between;
@@ -395,27 +262,26 @@ function clearErrors() {
   .form-header h1 {
     font-size: 22px;
     font-weight: bold;
-    color: #374151; /* Neutral gray text */
+    color: #374151; 
     margin: 0;
   }
   
   .back-btn {
     text-decoration: none;
     font-size: 14px;
-    color: #059669; /* Green for "Back to Coupons" */
-    background-color: #e7f7ef; /* Light green background */
+    color: #059669; 
+    background-color: #e7f7ef;
     padding: 8px 15px;
     border-radius: 8px;
-    border: 1px solid #34d399; /* Soft green border */
+    border: 1px solid #34d399; 
     font-weight: 500;
   }
   
   .back-btn:hover {
-    background-color: #34d399; /* Green hover */
-    color: #ffffff; /* White text */
+    background-color: #34d399; 
+    color: #ffffff; 
   }
   
-  /* Form group styling */
   .form-group {
     margin-bottom: 20px;
   }
@@ -425,33 +291,32 @@ function clearErrors() {
     font-weight: bold;
     margin-bottom: 8px;
     font-size: 14px;
-    color: #374151; /* Neutral gray text */
+    color: #374151; 
   }
   
   .form-group input {
     width: 100%;
     padding: 12px;
     font-size: 14px;
-    border: 1px solid #d1d5db; /* Light gray border */
+    border: 1px solid #d1d5db; 
     border-radius: 8px;
-    background-color: #f9fafb; /* Light gray background */
+    background-color: #f9fafb; 
     transition: border-color 0.3s;
   }
   
   .form-group input:focus {
-    border-color: #059669; /* Green border focus */
+    border-color: #059669; 
     outline: none;
   }
   
-  /* Create button styling */
   .create-btn {
     display: block;
     width: 100%;
     padding: 14px;
     font-size: 16px;
     font-weight: bold;
-    color: #ffffff; /* White text */
-    background-color: #059669; /* Green background */
+    color: #ffffff; 
+    background-color: #059669; 
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -459,7 +324,7 @@ function clearErrors() {
   }
   
   .create-btn:hover {
-    background-color: #047857; /* Darker green hover */
+    background-color: #047857; 
   }
   
   </style>

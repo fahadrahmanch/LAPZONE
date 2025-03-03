@@ -340,118 +340,6 @@
         
         
         <script>
-//            function validateAndSubmit() {
-//     // Clear all previous error messages
-//     const errorElements = document.querySelectorAll('.error-message');
-//     errorElements.forEach(element => element.innerHTML = '');
-
-//     let isValid = true;
-
-//     // Validate Product Name
-//     const productName = document.getElementById('product_name').value;
-//     if (!productName.trim()) {
-//         document.getElementById('productName-error').innerHTML = 'Product name is required';
-//         isValid = false;
-//     }
-
-//     // Validate Description
-//     const description = document.getElementById('descriptionid').value;
-//     if (!description.trim()) {
-//         document.getElementById('description-error').innerHTML = 'Description is required';
-//         isValid = false;
-//     }
-
-//     // Validate Variants
-//     const variantSections = document.querySelectorAll('.variant-section');
-//     if (variantSections.length === 0) {
-//         alert('At least one variant is required');
-//         isValid = false;
-//     }
-
-//     // Validate each variant
-//     variantSections.forEach((section, index) => {
-//         // RAM validation
-//         const ram = section.querySelector(`#ram-${index}`).value;
-//         if (!ram.trim()) {
-//             section.querySelector(`#ram-${index}`).insertAdjacentHTML(
-//                 'afterend',
-//                 `<div class="error-message" style="color: red;">RAM is required</div>`
-//             );
-//             isValid = false;
-//         }
-
-//         // Processor validation
-//         const processor = section.querySelector(`#processor-${index}`).value;
-//         if (!processor.trim()) {
-//             section.querySelector(`#processor-${index}`).insertAdjacentHTML(
-//                 'afterend',
-//                 `<div class="error-message" style="color: red;">Processor is required</div>`
-//             );
-//             isValid = false;
-//         }
-
-//         // Storage validation
-//         const storage = section.querySelector(`#storage-${index}`).value;
-//         if (!storage.trim()) {
-//             section.querySelector(`#storage-${index}`).insertAdjacentHTML(
-//                 'afterend',
-//                 `<div class="error-message" style="color: red;">Storage is required</div>`
-//             );
-//             isValid = false;
-//         }
-
-//         // Regular Price validation
-//         const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
-//         if (!regularPrice || regularPrice <= 0) {
-//             section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-//                 'beforeend',
-//                 `<div class="error-message" style="color: red;">Valid regular price is required</div>`
-//             );
-//             isValid = false;
-//         }
-
-//         // Sale Price validation
-//         const salePrice = section.querySelector(`#salePrice-${index}`).value;
-//         if (salePrice && Number(salePrice) >= Number(regularPrice)) {
-//             section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-//                 'beforeend',
-//                 `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
-//             );
-//             isValid = false;
-//         }
-
-//         // Stock validation
-//         const stock = section.querySelector(`#stock-${index}`).value;
-//         if (!stock || stock < 0) {
-//             section.querySelector(`#stock-${index}`).insertAdjacentHTML(
-//                 'afterend',
-//                 `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
-//             );
-//             isValid = false;
-//         }
-//     });
-
-//     // Image validation
-//     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-//     let hasImage = false;
-//     imageInputs.forEach(input => {
-//         if (input.files.length > 0) {
-//             hasImage = true;
-//         }
-//     });
-
-//     if (!hasImage) {
-//         document.getElementById('images-error').innerHTML = 'At least one image is required';
-//         isValid = false;
-//     }
-
-//     // Prevent form submission if validation fails
-//     if (!isValid) {
-//         alert('Please correct the errors before submitting.');
-//     }
-
-//     return isValid;
-// }
 
 function validateAndSubmit() {
     clearErrors();
@@ -480,14 +368,62 @@ function clearErrors() {
 
 function showError(elementId, message) {
     const errorElement = document.getElementById(elementId);
+    console.log("Error element:", errorElement);
+    
     if (errorElement) {
         errorElement.innerHTML = message;
-        const inputElement = document.getElementById(elementId.replace('-error', ''));
+        
+        const errorBase = elementId.replace('-error', '');
+        
+        const possibleIds = [
+            errorBase,                    
+            errorBase.replace(/([A-Z])/g, '_$1').toLowerCase(), 
+            'input' + errorBase.charAt(0).toUpperCase() + errorBase.slice(1), 
+            errorBase + 'id'               
+        ];
+        
+        let inputElement = null;
+        
+        // Try each possible ID format
+        for (const id of possibleIds) {
+            const element = document.getElementById(id);
+            if (element) {
+                inputElement = element;
+                console.log("Found input element with ID:", id);
+                break;
+            }
+        }
+        
+        // If we still don't have an input element, try to find it by name
+        if (!inputElement) {
+            const nameElements = document.getElementsByName(errorBase);
+            if (nameElements.length > 0) {
+                inputElement = nameElements[0];
+                console.log("Found input element by name:", errorBase);
+            }
+        }
+        
+        // If input element exists
         if (inputElement) {
+            // Add invalid class
             inputElement.classList.add('is-invalid');
+            
+            // Focus on the input element
+            console.log("Attempting to focus on:", inputElement);
+            inputElement.focus();
+            
+            // Scroll the element into view if needed
+            inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            return true; // Successfully focused
+        } else {
+            console.error("Could not find input element for error:", elementId);
+            return false; // Failed to focus
         }
     }
-}
+    return false;
+} 
+
 
 function validateBasicInfo() {
     let isValid = true;
@@ -567,7 +503,10 @@ function validateVariants() {
             addVariantError(section, `regularPrice-${index}`, 'Valid regular price is required');
             isValid = false;
         }
-
+       if(salePrice<=0){
+        addVariantError(section, `salePrice-${index}`, 'Valid sale price is required');
+            isValid = false;
+       }
         if (salePrice && Number(salePrice) > Number(regularPrice)) {
             addVariantError(section, `salePrice-${index}`, 'Sale price must be less than regular price');
             isValid = false;
@@ -586,12 +525,18 @@ function validateVariants() {
 
 function addVariantError(section, inputId, message) {
     const input = section.querySelector(`#${inputId}`);
-    input.classList.add('is-invalid');
-    const errorDiv = document.createElement('div');
-    errorDiv.className = 'error-message text-danger mt-1';
-    errorDiv.innerHTML = message;
-    input.parentNode.appendChild(errorDiv);
+    if (input) {
+        input.classList.add('is-invalid');
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message text-danger mt-1';
+        errorDiv.innerHTML = message;
+        
+        input.parentNode.appendChild(errorDiv);
+        input.focus(); // Focus on the first error field in the variants section
+    }
 }
+
 
 function validateImages() {
     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
@@ -610,30 +555,6 @@ function validateImages() {
 
     return true;
 }
-
-// Add event listeners for dynamic variant addition
-// document.getElementById('addVariantBtn').addEventListener('click', function() {
-//     const variantsContainer = document.getElementById('variantsContainer');
-//     const variantCount = variantsContainer.children.length;
-    
-//     // Clone the first variant section and update its IDs and labels
-//     const newVariant = variantsContainer.children[0].cloneNode(true);
-//     newVariant.querySelector('h5').textContent = `Variant ${variantCount + 1}`;
-    
-//     // Update all IDs and names in the new variant
-//     updateVariantIds(newVariant, variantCount);
-    
-//     // Clear all input values
-//     newVariant.querySelectorAll('input').forEach(input => {
-//         input.value = '';
-//         input.classList.remove('is-invalid');
-//     });
-    
-//     // Clear any error messages
-//     newVariant.querySelectorAll('.error-message').forEach(error => error.remove());
-    
-//     variantsContainer.appendChild(newVariant);
-// });
 
 function updateVariantIds(variantElement, index) {
     const inputs = variantElement.querySelectorAll('input');
@@ -794,109 +715,6 @@ document.head.appendChild(style);
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
-
-
-
-
-
-
-
- <!-- <script>
-    function validateAndSubmit(event) {
-    // Prevent form submission if validation fails
-    event.preventDefault();
-
-    // Clear previous error messages
-    clearErrors();
-
-    // Get form fields
-    const productName = document.getElementById('product_name');
-    const category = document.querySelector('[name="category"]');
-    const description = document.getElementById('descriptionid');
-    const variants = document.querySelectorAll('[id^="ram-"]'); // Select all variant inputs
-
-    // Validation flag
-    let isValid = true;
-
-    // Validate Product Name
-    if (productName.value.trim() === "") {
-        isValid = false;
-        displayError('productName-error', 'Product Name is required.');
-    }
-
-    // Validate Category
-    if (category.value === "") {
-        isValid = false;
-        displayError('brand-error', 'Category is required.');
-    }
-
-    // Validate Description
-    if (description.value.trim() === "") {
-        isValid = false;
-        displayError('description-error', 'Description is required.');
-    }
-
-    // Validate Variant Fields
-    variants.forEach((variant, index) => {
-        const ram = document.getElementById(`ram-${index}`);
-        const storage = document.getElementById(`storage-${index}`);
-        const processor = document.getElementById(`processor-${index}`);
-        const regularPrice = document.getElementById(`regularPrice-${index}`);
-        const salePrice = document.getElementById(`salePrice-${index}`);
-        const stock = document.getElementById(`stock-${index}`);
-
-        // Validate variant fields
-        if (ram.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-ram-error`, 'RAM is required.');
-        }
-        if (storage.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-storage-error`, 'Storage is required.');
-        }
-        if (processor.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-processor-error`, 'Processor is required.');
-        }
-        if (regularPrice.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-regularPrice-error`, 'Regular Price is required.');
-        }
-        if (salePrice.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-salePrice-error`, 'Sale Price is required.');
-        }
-        if (stock.value.trim() === "") {
-            isValid = false;
-            displayError(`variant-${index}-stock-error`, 'Stock quantity is required.');
-        }
-    });
-
-    // If valid, submit the form
-    if (isValid) {
-        document.querySelector('form').submit();
-    }
-}
-
-// Function to display error messages
-function displayError(elementId, message) {
-    const errorElement = document.getElementById(elementId);
-    errorElement.textContent = message;
-    errorElement.style.display = 'block';
-}
-
-// Function to clear previous error messages
-function clearErrors() {
-    const errorMessages = document.querySelectorAll('.error-message');
-    errorMessages.forEach(error => {
-        error.textContent = '';
-        error.style.display = 'none';
-    });
-}
-
- </script> -->
-
-
 
 
 </body>

@@ -8,6 +8,7 @@ button.addEventListener('click', async (e) => {
     const description = document.getElementById('description').value;
 
     try {
+        alert("hlo")
         const response = await fetch('/admin/addCategory', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -17,6 +18,12 @@ button.addEventListener('click', async (e) => {
         if (!response.ok) {
             // Handle error response
             const result = await response.json();
+            Swal.fire({ 
+                icon: "success",
+                title:result.message,
+                showConfirmButton: false,
+                timer: 2000})
+            location.reload()
             
         } else {
             // Handle success response
@@ -33,3 +40,4 @@ button.addEventListener('click', async (e) => {
         alert(`Error: ${error.message || 'An error occurred'}`);
     }
 });
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

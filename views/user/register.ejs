@@ -32,10 +32,10 @@
                                             <a href="/shop">Shop </a>
                                            
                                         <li>
-                                            <a href="">About Us</a>
+                                            <a href="/about">About Us</a>
                                         </li>
                                         <li>
-                                            <a href="">Contact Us</a>
+                                            <a href="/contact">Contact Us</a>
                                             
                                         </li>
                                         <div class="onhover-show-div user fa fa-user"> 
@@ -172,8 +172,8 @@
                                 
                             </li>
                             
-                            <li><a href="/">About Us</a></li>
-                            <li><a href="/">Contact Us</a></li>
+                            <li><a href="/about">About Us</a></li>
+                            <li><a href="/contact">Contact Us</a></li>
                             <ul > 
       
                              
@@ -375,7 +375,7 @@
                         <form action="/signup" method="post" id="signupForm" target="_self">
                             <!-- Registration Form -->
                             <div class="form-group mb-3">
-                               <small class="text-danger"><%= message %></small> <br>
+                               <small class="text-danger"><%= msg %></small> <br>
                                 <label for="name" class="mb-2">Your name <span class="text-danger">*</span></label>
                                 <input type="text" name="name" class="form-control" id="name" placeholder="Enter your name" oninput="validateUsername()">
                                 <small id="name_error" class="text-danger"></small>

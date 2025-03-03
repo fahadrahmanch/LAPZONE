@@ -12,66 +12,64 @@ const orderController=require('../controllers/user/orderController')
 const users=require('../models/userSchema')
 const whishlistController=require('../controllers/user/wishlistController')
 
-router.get('/pagenotfound',userController.pageNotFound)
+router.get('/404',userController.pageNotFound)
+
 router.get('/',userController.loadHomepage)
 router.get('/login',auth.userAuth,userController.loadLoginPage)
 router.get('/signup',auth.userAuth,userController.loadregisterPage)
 router.post('/signup',userController.signup)
 router.post('/login', userController.login)
-// router.get('/otp',userController.otp)
-router.get('/shop',shopController.loadShop)
-router.post('/resend-Otp', userController.resendOtp);
-router.get('/productdetails',singleProductController.loadSingleProduct)
-// router.get('/filer',shopController.filter)
+
+router.get('/shop',auth.userBLock,shopController.loadShop)
+router.post('/resend-otp', userController.resendOtp);
+ router.get('/shop/product',auth.userBLock,singleProductController.loadSingleProduct)
 
 
-router.post("/variant",singleProductController.variant)
 router.post('/otp',userController.verifyOtp)
 router.get('/auth/google',passport.authenticate('google',{scope:['profile','email']}))
 
-router.get('/myaccount',myaccountController.myaccount)
-router.post('/update-user/:id',myaccountController.editMyaccount)
-router.post('/change-password/:id',myaccountController.changePassword)
-router.get('/forget-password',myaccountController.forgotPassword)
-router.post('/forget-password',myaccountController.forgetEmailpassword)
-router.post('/Otpemail',myaccountController.verifyOtpemail)
+router.get('/account',auth.userBLock,myaccountController.myaccount)
+router.post('/account/update-user/:id',myaccountController.editProfile)
+router.post('/account/password/change/:id',myaccountController.changePassword)
+router.get('/password/forgot',auth.userBLock,myaccountController.forgotPassword)
+router.post('/password/forgot',myaccountController.forgetEmailpassword)
+router.post('/password/otp/verify',myaccountController.verifyOtpemail)
   
-// router.get('/resetpassword',myaccountController.resetPasswordpage)
-router.post('/resetpassword',myaccountController.resetPassword)
+router.post('/password/reset',myaccountController.resetPassword)
 
-router.post('/addAddress',myaccountController.addAddress)
-router.post('/editAddress',myaccountController.editAddress)
+router.post('/address/add',myaccountController.addAddress)
+router.post('/address/edit',myaccountController.editAddress)
 
-router.post("/deleteAddress",myaccountController.deleteAddress)
+router.post("/address/delete",myaccountController.deleteAddress)
 
 
 //cart
-router.get("/cart",cartController.getCart)
-router.post('/addToCart',cartController.postCart)
-router.post('/cart/update-quantity',cartController.updateqty)
-router.post('/cart/delete-product',cartController.deleteCartProduct)
+router.get("/cart",auth.userBLock,cartController.getCart)
+router.post('/cart/add',cartController.addCart)
+router.post('/cart/quantity/update',cartController.updateCartqty)
+router.post('/cart/product/delete',cartController.deleteCartProduct)
 
 //checkout
-router.get('/checkout',checkoutController.getCheckout)
-router.post('/createOrder',orderController.createOrder)
-router.get("/orderConfirm/:id",orderController.renderConfirmorder)
-router.post('/createOrderwallet',orderController.walletOrder)
+router.get('/checkout',auth.userBLock,checkoutController.getCheckout)
+router.post('/order/create',orderController.createOrder)
+router.get("/order/confirm/:id",auth.userBLock,orderController.renderConfirmorder)
+router.post('/order/wallet/create',orderController.walletOrder)
 router.post("/apply-coupon",checkoutController.applyCoupen)
 
 
 //whishlist
-router.get('/wishlist',whishlistController.getwishlist)
+router.get('/wishlist',auth.userBLock,whishlistController.getwishlist)
 router.post('/wishlist/add',whishlistController.addWishlist);
 router.post('/wishlist/remove',whishlistController.removeWishlist);
 
 
 //razorpay
 router.post('/createRazorpayOrder',orderController.raz)
-router.post('/verifyPayment',orderController.verRaz)
+router.post('/verifyPayment',orderController.verifyRazorpay)
 router.post('/failRazorpayOrder',orderController.failRazorpayOrder)
 router.post('/retryRazorpayOrder',orderController.retryRazorpayOrder)
 //orderDetails
-router.get('/viewOrders/:id',orderController.orderDetails)
+router.get('/viewOrders/:id',auth.userBLock,orderController.orderDetails)
 router.post('/cancelorder',orderController.cancelOrder)
 router.post('/api/submit-return',orderController.refund)
 // router.get('/search',shopController.searchInfo)
@@ -87,9 +85,10 @@ router.get('/download-pdf/:orderId',orderController.pdf)
   
 
 router.get('/logout',userController.logout)
-// router.get('/auth/google/callback',passport.authenticate('google',{failureRedirect:'/signup'}),(req,res)=>{
-//     res.redirect('/')
-// })
+
+router.get('/about',userController.aboutPage)
+router.get('/contact',userController.contactPage)
+
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
 router.get('/auth/google/callback', passport.authenticate('google', {
@@ -103,4 +102,15 @@ router.get('/auth/google/callback', passport.authenticate('google', {
     res.redirect('/'); 
 });
 
+
+
 module.exports=router
+
+
+
+
+
+
+
+
+

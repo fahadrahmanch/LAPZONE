@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>HONO - Multi Purpose HTML Template</title>
+
+    <!-- ::::::::::::::Favicon icon::::::::::::::-->
+    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/png">
+
+    <!-- ::::::::::::::All CSS Files here :::::::::::::: -->
+    <!-- Vendor CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/ionicons.css">
+    <link rel="stylesheet" href="assets/css/vendor/simple-line-icons.css">
+    <link rel="stylesheet" href="assets/css/vendor/jquery-ui.min.css"> -->
+
+    <!-- Plugin CSS -->
+    <!-- <link rel="stylesheet" href="assets/css/plugins/swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/nice-select.css">
+    <link rel="stylesheet" href="assets/css/plugins/venobox.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/jquery.lineProgressbar.css">
+    <link rel="stylesheet" href="assets/css/plugins/aos.min.css"> -->
+
+    <!-- Main CSS -->
+    <!-- <link rel="stylesheet" href="assets/sass/style.css"> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <link rel="stylesheet" href="assets/css/vendor/vendor.min.css">
+    <link rel="stylesheet" href="assets/css/plugins/plugins.min.css">
+    <link rel="stylesheet" href="assets/css/style.min.css">
+
+</head>
+
+<body>
+    <!-- Start Header Area -->
+    <header class="header-section d-none d-xl-block">
+        <div class="header-wrapper">
+          <div
+            class="header-bottom header-bottom-color--golden section-fluid sticky-header sticky-color--golden"
+          >
+            <div class="container-fluid">
+              <div class="row">
+                <div
+                  class="col-12 d-flex align-items-center justify-content-between"
+                >
+                  <!-- Start Header Logo -->
+                  <div class="header-logo">
+                    <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                      <!-- Laptop Icon -->
+                      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                          <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                          <path d="M2 18h20"></path>
+                      </svg>
+                      
+                      <span>LapZone</span>
+                  </div>
+                  </div>
+                  <!-- End Header Logo -->
+  
+                  <!-- Start Header Main Menu -->
+                  <div
+                    class="main-menu menu-color--black menu-hover-color--golden"
+                  >
+                    <nav>
+                      <ul>
+                        <li>
+                          <a class="active main-menu-link" href="/"
+                            >Home <i></i
+                          ></a>
+                        </li>
+                        <li class="has-dropdown has-megaitem">
+                          <a href="/shop">Shop <i></i></a>
+                          <!-- Mega Menu -->
+                        </li>
+  
+                        <li>
+                          <a href="/about">About Us</a>
+                        </li>
+                        <li>
+                          <a href="/contact">Contact Us</a>
+                        </li>
+                        <div class="onhover-show-div user fa fa-user"> 
+                          <ul > 
+    
+                             <% if(message) { %>
+                              <li><a class="text-decoration-none" href="/account">Account</a></li>
+                              <li><a class="text-decoration-none" href="/logout">Logout</a></li>
+                            <% } else { %>
+    
+                              <li><a class="text-decoration-none" href="/login">Login</a></li>
+                              <li><a class="text-decoration-none" href="/signup">Register</a></li> 
+                              <% } %>
+    
+                            </ul>
+                        </div>
+                      </ul>
+                      
+                    </nav>
+                  </div>
+                  <!-- End Header Main Menu Start -->
+  
+                  <!-- Start Header Action Link -->
+                  <ul
+                    class="header-action-link action-color--black action-hover-color--golden"
+                  >
+                    <li>
+                      <a href="#offcanvas-wishlish" class="offcanvas-toggle">
+                        <i class="icon-heart"></i>
+                        <!-- <span class="item-count">3</span> -->
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#offcanvas-add-cart" class="offcanvas-toggle">
+                        <i class="icon-bag"></i>
+                        <!-- <span class="item-count">3</span> -->
+                      </a>
+                    </li>
+                    <li>
+                      <!-- <a href="#search">
+                        <i class="icon-magnifier"></i>
+                      </a> -->
+                    </li>
+                    <li>
+                      <!-- <a
+                        href="#offcanvas-about"
+                        class="offacnvas offside-about offcanvas-toggle"
+                      >
+                        <i class="icon-menu"></i>
+                      </a> -->
+                    </li>
+                  </ul>
+                  <!-- End Header Action Link -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+    <!-- Start Header Area -->
+
+    <!-- Start Mobile Header -->
+    <div
+    class="mobile-header mobile-header-bg-color--golden section-fluid d-lg-block d-xl-none"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-12 d-flex align-items-center justify-content-between">
+          <!-- Start Mobile Left Side -->
+          <div class="mobile-header-left">
+            <ul class="mobile-menu-logo">
+              <li>
+                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                  <!-- Laptop Icon -->
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                      <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+                      <path d="M2 18h20"></path>
+                  </svg>
+                  
+                  <span>LapZone</span>
+              </div>
+  
+              </li>
+            </ul>
+          </div>
+          <!-- End Mobile Left Side -->
+
+          <!-- Start Mobile Right Side -->
+          <div class="mobile-right-side">
+            <ul
+              class="header-action-link action-color--black action-hover-color--golden"
+            >
+              <li>
+                <!-- <a href="#search">
+                  <i class="icon-magnifier"></i>
+                </a> -->
+              </li>
+              <li>
+                <a href="#offcanvas-wishlish" class="offcanvas-toggle">
+                  <i class="icon-heart"></i>
+                  <!-- <span class="item-count">3</span> -->
+                </a>
+              </li>
+              <li>
+                <a href="#offcanvas-add-cart" class="offcanvas-toggle">
+                  <i class="icon-bag"></i>
+                  <!-- <span class="item-count">3</span> -->
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#mobile-menu-offcanvas"
+                  class="offcanvas-toggle offside-menu"
+                >
+                  <i class="icon-menu"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- End Mobile Right Side -->
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- End Mobile Header -->
+
+    <!--  Start Offcanvas Mobile Menu Section -->
+    <div
+    id="mobile-menu-offcanvas"
+    class="offcanvas offcanvas-rightside offcanvas-mobile-menu-section"
+  >
+    <!-- Start Offcanvas Header -->
+    <div class="offcanvas-header text-right">
+      <button class="offcanvas-close">
+        <i class="ion-android-close"></i>
+      </button>
+    </div>
+    <!-- End Offcanvas Header -->
+    <!-- Start Offcanvas Mobile Menu Wrapper -->
+    <div class="offcanvas-mobile-menu-wrapper">
+      <!-- Start Mobile Menu  -->
+      <div class="mobile-menu-bottom">
+        <!-- Start Mobile Menu Nav -->
+        <div class="offcanvas-menu">
+          <ul>
+            <li>
+              <a href="/"><span>Home</span></a>
+            </li>
+            <li>
+              <a href="/shop"><span>Shop</span></a>
+            </li>
+
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+          
+          </ul>
+          <!-- <div class="onhover-show-div user fa fa-user">  -->
+            <ul > 
+
+               <% if(message) { %>
+                <li><a class="text-decoration-none" href="/myaccount">Account</a></li>
+                <li><a class="text-decoration-none" href="/logout">Logout</a></li>
+              <% } else { %>
+
+                <li><a class="text-decoration-none" href="/login">Login</a></li>
+                <li><a class="text-decoration-none" href="/signup">Register</a></li> 
+                <% } %>
+
+              </ul>
+<!--           </div> -->
+        </div>
+        <!-- End Mobile Menu Nav -->
+      </div>
+      <!-- End Mobile Menu -->
+
+      <!-- Start Mobile contact Info -->
+     
+      <!-- End Mobile contact Info -->
+    </div>
+    <!-- End Offcanvas Mobile Menu Wrapper -->
+  </div>
+    <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
+
+    <!-- Start Offcanvas Mobile Menu Section -->
+    <div id="offcanvas-about" class="offcanvas offcanvas-rightside offcanvas-mobile-about-section">
+        <!-- Start Offcanvas Header -->
+        <div class="offcanvas-header text-right">
+            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
+        </div> <!-- End Offcanvas Header -->
+        <!-- Start Offcanvas Mobile Menu Wrapper -->
+        <!-- Start Mobile contact Info -->
+        <div class="mobile-contact-info">
+            <div class="logo">
+                <a href="index.html"><img src="assets/images/logo/logo_white.png" alt=""></a>
+            </div>
+
+            <address class="address">
+                <span>Address: Your address goes here.</span>
+                <span>Call Us: 0123456789, 0123456789</span>
+                <span>Email: demo@example.com</span>
+            </address>
+
+            <ul class="social-link">
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+
+            <ul class="user-link">
+                <li><a href="wishlist.html">Wishlist</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="checkout.html">Checkout</a></li>
+            </ul>
+        </div>
+        <!-- End Mobile contact Info -->
+    </div> <!-- ...:::: End Offcanvas Mobile Menu Section:::... -->
+
+    <!-- Start Offcanvas Addcart Section -->
+    <div id="offcanvas-add-cart" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
+        <!-- Start Offcanvas Header -->
+        <div class="offcanvas-header text-right">
+            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
+        </div> <!-- End Offcanvas Header -->
+
+        <!-- Start  Offcanvas Addcart Wrapper -->
+        <div class="offcanvas-add-cart-wrapper">
+            <h4 class="offcanvas-title">Shopping Cart</h4>
+        <%if(message){%>
+            <%if(cart?.items?.length!=0){%>
+                <ul class="offcanvas-cart">
+                    <%for(let i=0;i<cart.items.length;i++){%>
+    
+                
+                   <li class="offcanvas-cart-item-single">
+                        <div class="offcanvas-cart-item-block">
+                            <a href="/cart" class="offcanvas-cart-item-image-link">
+                                <img src="/uploads/<%=cart.items[i].productId.productImage[0]%>" alt=""
+                                    class="offcanvas-cart-image">
+                            </a>
+                            <div class="offcanvas-cart-item-content">
+                                <a href="#" class="offcanvas-cart-item-link"><%=cart.items[i].productId.productName%></a>
+                                <div class="offcanvas-cart-item-details">
+                                    <!-- <span class="offcanvas-cart-item-details-quantity"><%=cart.items[i].quantity%> x </span>
+                                    <span class="offcanvas-cart-item-details-price">$(<%=cart.items[i].totalPrice%>)</span> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="offcanvas-cart-item-delete text-right">
+                            <!-- <a href="#" class="offcanvas-cart-item-delete"><i class="fa fa-trash-o"></i></a> -->
+                        </div>
+                    </li>
+                    <%}%>
+             
+        
+                  <%}%>
+                </ul>
+            <!-- <div class="offcanvas-cart-total-price">
+                <span class="offcanvas-cart-total-price-text">Subtotal:</span>
+                <span class="offcanvas-cart-total-price-value">$170.00</span>
+            </div> -->
+            <ul class="offcanvas-cart-action-button">
+                <li><a href="/cart" class="btn btn-block btn-golden">View Cart</a></li>
+                <li><a href="/checkout" class=" btn btn-block btn-golden mt-5">Checkout</a></li>
+            </ul>
+            <%}else{%>
+                
+
+<div class="" id="wishlistModal">
+    <!-- <h3>Wishlist</h3> -->
+    <p>Cart is empty. Please log in.</p>
+    <a class="btn" href="/login" >Login</a>
+    <a class="btn" href="signup" >Signup</a>
+
+    
+</div>
+<%}%>
+<style>
+
+    .modal {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        text-align: center;
+    }
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #fef5ef;
+        color: rgb(4, 4, 4);
+        font-weight: bold;
+        cursor: pointer;
+    }
+   
+</style>
+        </div>
+        <!-- End  Offcanvas Addcart Wrapper -->
+
+    </div>
+     <!-- End  Offcanvas Addcart Section -->
+
+    <!-- Start Offcanvas Mobile Menu Section -->
+    <div id="offcanvas-wishlish" class="offcanvas offcanvas-rightside offcanvas-add-cart-section">
+        <!-- Start Offcanvas Header -->
+        <div class="offcanvas-header text-right">
+            <button class="offcanvas-close"><i class="ion-android-close"></i></button>
+        </div> <!-- ENd Offcanvas Header -->
+
+        <!-- Start Offcanvas Mobile Menu Wrapper -->
+        <div class="offcanvas-wishlist-wrapper">
+            <h4 class="offcanvas-title">Wishlist</h4>
+            <%if(message){%>
+            <!-- <ul class="offcanvas-wishlist">
+                <li class="offcanvas-wishlist-item-single">
+                    <div class="offcanvas-wishlist-item-block">
+                        <a href="#" class="offcanvas-wishlist-item-image-link">
+                            <img src="assets/images/product/default/home-1/default-1.jpg" alt=""
+                                class="offcanvas-wishlist-image">
+                        </a>
+                        <div class="offcanvas-wishlist-item-content">
+                            <a href="#" class="offcanvas-wishlist-item-link">Car Wheel</a>
+                            <div class="offcanvas-wishlist-item-details">
+                                <span class="offcanvas-wishlist-item-details-quantity">1 x </span>
+                                <span class="offcanvas-wishlist-item-details-price">$49.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offcanvas-wishlist-item-delete text-right">
+                        <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                </li>
+                <li class="offcanvas-wishlist-item-single">
+                    <div class="offcanvas-wishlist-item-block">
+                        <a href="#" class="offcanvas-wishlist-item-image-link">
+                            <img src="assets/images/product/default/home-2/default-1.jpg" alt=""
+                                class="offcanvas-wishlist-image">
+                        </a>
+                        <div class="offcanvas-wishlist-item-content">
+                            <a href="#" class="offcanvas-wishlist-item-link">Car Vails</a>
+                            <div class="offcanvas-wishlist-item-details">
+                                <span class="offcanvas-wishlist-item-details-quantity">3 x </span>
+                                <span class="offcanvas-wishlist-item-details-price">$500.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offcanvas-wishlist-item-delete text-right">
+                        <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                </li>
+                <li class="offcanvas-wishlist-item-single">
+                    <div class="offcanvas-wishlist-item-block">
+                        <a href="#" class="offcanvas-wishlist-item-image-link">
+                            <img src="assets/images/product/default/home-3/default-1.jpg" alt=""
+                                class="offcanvas-wishlist-image">
+                        </a>
+                        <div class="offcanvas-wishlist-item-content">
+                            <a href="#" class="offcanvas-wishlist-item-link">Shock Absorber</a>
+                            <div class="offcanvas-wishlist-item-details">
+                                <span class="offcanvas-wishlist-item-details-quantity">1 x </span>
+                                <span class="offcanvas-wishlist-item-details-price">$350.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="offcanvas-wishlist-item-delete text-right">
+                        <a href="#" class="offcanvas-wishlist-item-delete"><i class="fa fa-trash-o"></i></a>
+                    </div>
+                </li>
+            </ul> -->
+            <ul class="offcanvas-wishlist-action-button">
+                <li><a href="/wishlist" class="btn btn-block btn-golden">View wishlist</a></li>
+            </ul>
+            <%}else{%>
+                <div class="" id="wishlistModal">
+                    <!-- <h3>Wishlist</h3> -->
+                    <p>Wishlist is empty. Please log in.</p>
+                    <a class="btn" href="/login">Login</a>
+                    <a class="btn" href="/signup" >Signup</a>
+            
+                    
+                </div>
+                <%}%>
+                <style>
+           
+                    .modal {
+                        width: 300px;
+                        padding: 20px;
+                        border: 1px solid #ddd;
+                        border-radius: 8px;
+                        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                        background: #fff;
+                        text-align: center;
+                    }
+                    .btn {
+                        display: block;
+                        width: 100%;
+                        padding: 10px;
+                        margin-top: 10px;
+                        border: none;
+                        border-radius: 5px;
+                        background-color: #fef5ef;
+                        color: rgb(4, 4, 4);
+                        font-weight: bold;
+                        cursor: pointer;
+                    }
+                   
+                </style>
+        </div> 
+         <!-- End Offcanvas Mobile Menu Wrapper -->
+
+    </div> <!-- End Offcanvas Mobile Menu Section -->
+
+    <!-- Start Offcanvas Search Bar Section -->
+    <div id="search" class="search-modal">
+        <button type="button" class="close">×</button>
+        <form>
+            <input type="search" placeholder="type keyword(s) here" />
+            <button type="submit" class="btn btn-lg btn-golden">Search</button>
+        </form>
+    </div>
+    <!-- End Offcanvas Search Bar Section -->
+
+    <!-- Offcanvas Overlay -->
+    <div class="offcanvas-overlay"></div>
+
+    <!-- ...:::: Start Breadcrumb Section:::... -->
+    <div class="breadcrumb-section breadcrumb-bg-color--golden">
+        <div class="breadcrumb-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="breadcrumb-title">About Us</h3>
+                        <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li><a href="/">Home</a></li>
+                                    <!-- <li><a href="#">Pages</a></li> -->
+                                    <li class="active" aria-current="page">About Us</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <!-- ...:::: End Breadcrumb Section:::... -->
+
+    <!-- Start About Top -->
+    <div class="about-top">
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-between d-sm-column">
+                <div class="col-md-6">
+                    <div class="about-img" data-aos="fade-up" data-aos-delay="0">
+                        <div class="img-responsive">
+                            <img src="/video/banner lenvo.png" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="content" data-aos="fade-up" data-aos-delay="200">
+                        <h3 class="title">ABOUT OUR LAPZONE STORE</h3>
+                        <h5 class="semi-title">We believe that every laptop is designed to enhance productivity and innovation.</h5>
+<p>For this reason, each laptop we offer is crafted with precision and cutting-edge technology. Our commitment to quality is reflected in every detail, ensuring performance, durability, and style. We go the extra mile to provide devices that meet the demands of professionals, gamers, and creatives alike. Every feature is carefully considered to deliver the best experience. With our dedication to excellence, we aim to empower you with the perfect laptop for your needs. Elevate your digital journey with reliability and performance—because the right laptop makes all the difference.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End About Top -->
+
+    <!-- Start Slill Progress -->
+    <div class="progressbar-section section-top-gap-100 section-inner-bg">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="content" data-aos="fade-up" data-aos-delay="0">
+                        <h4 class="title">Performance Meets Perfection</h4>
+<p>In today’s fast-paced world, having a reliable laptop is essential for work, creativity, and entertainment. The perfect blend of power, speed, and efficiency ensures that every task is handled seamlessly. Whether you're a professional, gamer, or student, the right laptop enhances productivity and keeps you ahead in the digital age. As technology evolves, we strive to offer cutting-edge devices that deliver exceptional performance, durability, and innovation.</p>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="custom-progress m-t-40">
+                        <div class="skill-progressbar" data-aos="fade-up" data-aos-delay="0">
+                            <h6 class="font--semi-bold m-b-15">Performance</h6>
+                            <div class="line-progressbar" data-percentage="75" data-progress-color="#b19361"></div>
+                        </div>
+                        <div class="skill-progressbar" data-aos="fade-up" data-aos-delay="200">
+                            <h6 class="font--semi-bold m-b-15">Battery Life</h6>
+                            <div class="line-progressbar" data-percentage="86" data-progress-color="#b19361"></div>
+                        </div>
+                        <div class="skill-progressbar" data-aos="fade-up" data-aos-delay="400">
+                            <h6 class="font--semi-bold m-b-15">Display Quality</h6>
+                            <div class="line-progressbar" data-percentage="97" data-progress-color="#b19361"></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Slill Progress -->
+
+    <!-- Start Service Section -->
+    <div class="service-promo-section section-top-gap-100">
+        <div class="service-wrapper">
+            <div class="container">
+                <div class="row">
+                    <!-- Start Service Promo Single Item -->
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="0">
+                            <div class="image">
+                                <img src="/video/Powerful_Performance.webp" alt="Powerful Performance">
+                            </div>
+                            <div class="content">
+                                <h6 class="title">Powerful Performance</h6>
+                                <p>Experience high-speed processing with the latest processors and optimized performance for multitasking.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Service Promo Single Item -->
+                    <!-- Start Service Promo Single Item -->
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="200">
+                            <div class="image">
+                                <img src="/video/Sleek&Durable Design.webp" alt="Sleek & Durable Design">
+                            </div>
+                            <div class="content">
+                                <h6 class="title">Sleek & Durable Design</h6>
+                                <p>Enjoy premium build quality with lightweight, durable, and stylish designs that fit your lifestyle.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Service Promo Single Item -->
+                    <!-- Start Service Promo Single Item -->
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="400">
+                            <div class="image">
+                                <img src="/video/Long-lasting_Battery.webp" alt="Long-lasting Battery">
+                            </div>
+                            <div class="content">
+                                <h6 class="title">Long-lasting Battery</h6>
+                                <p>Stay productive all day with powerful battery life and fast-charging capabilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Service Promo Single Item -->
+                    <!-- Start Service Promo Single Item -->
+                    <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="service-promo-single-item" data-aos="fade-up" data-aos-delay="600">
+                            <div class="image">
+                                <img src="/video/dsfa.webp" alt="Stunning Display">
+                            </div>
+                            <div class="content">
+                                <h6 class="title">Stunning Display</h6>
+                                <p>Enjoy crystal-clear visuals with high-resolution screens, vibrant colors, and smooth refresh rates.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Service Promo Single Item -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- End Service Section -->
+
+    <!--  Start  Team Section    -->
+    <div class="team-section section-top-gap-100 secton-fluid section-inner-bg">
+        <!-- Start Section Content Text Area -->
+        <div class="section-title-wrapper" data-aos="fade-up" data-aos-delay="0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="section-content-gap">
+                            <div class="secton-content text-center">
+                                <h3 class="section-title">Meet Our Team</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Section Content Text Area -->
+        <div class="team-wrapper">
+            <div class="container">
+                <div class="row mb-n6">
+                    <div class="col-xl-3 mb-5">
+                        <div class="team-single" data-aos="fade-up" data-aos-delay="0">
+                            <div class="team-img">
+                                <img class="img-fluid" src="/video/man1.jpg" alt="">
+                            </div>
+                            <div class="team-content">
+                                <h6 class="team-name font--bold mt-5">Ms. Veronica</h6>
+                                <span class="team-title">Web Designer</span>
+                                <ul class="team-social pos-absolute">
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-rss"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 mb-5">
+                        <div class="team-single" data-aos="fade-up" data-aos-delay="200">
+                            <div class="team-img">
+                                <img class="img-fluid" src="/video/man2.jpg" alt="">
+                            </div>
+                            <div class="team-content">
+                                <h6 class="team-name font--bold mt-5">Missa Santos</h6>
+                                <span class="team-title">CEO Founder</span>
+                                <ul class="team-social pos-absolute">
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-rss"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 mb-5">
+                        <div class="team-single" data-aos="fade-up" data-aos-delay="400">
+                            <div class="team-img">
+                                <img class="img-fluid" src="/video/man3.jpg" alt="">
+                            </div>
+                            <div class="team-content">
+                                <h6 class="team-name font--bold mt-5">Missa Santos</h6>
+                                <span class="team-title">Chief Officer</span>
+                                <ul class="team-social pos-absolute">
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-rss"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 mb-5">
+                        <div class="team-single" data-aos="fade-up" data-aos-delay="600">
+                            <div class="team-img">
+                                <img class="img-fluid" src="/video/man4.jpg" alt="">
+                            </div>
+                            <div class="team-content">
+                                <h6 class="team-name font--bold mt-5">Lisa Antonia</h6>
+                                <span class="team-title">CTO</span>
+                                <ul class="team-social pos-absolute">
+                                    <li><a href="#"><i class="ion-social-facebook"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-instagram"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-linkedin"></i></a></li>
+                                    <li><a href="#"><i class="ion-social-rss"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--   End  Team Section   -->
+
+    <!-- Start Company Logo Section -->
+   
+    <!-- End Company Logo Section -->
+
+    <!-- Start Footer Section -->
+    <%- include('../partials/user/footer_1.ejs') %>    
+
+    <!-- End Footer Section -->
+
+    <!-- material-scrolltop button -->
+    <button class="material-scrolltop" type="button"></button>
+
+    <!-- Start Modal Add cart -->
+    <div class="modal fade" id="modalAddcart" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="close modal-close" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true"> <i class="fa fa-times"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="modal-add-cart-product-img">
+                                            <img class="img-fluid"
+                                                src="assets/images/product/default/home-1/default-1.jpg" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="modal-add-cart-info"><i class="fa fa-check-square"></i>Added to cart
+                                            successfully!</div>
+                                        <div class="modal-add-cart-product-cart-buttons">
+                                            <a href="cart.html">View Cart</a>
+                                            <a href="checkout.html">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 modal-border">
+                                <ul class="modal-add-cart-product-shipping-info">
+                                    <li> <strong><i class="icon-shopping-cart"></i> There Are 5 Items In Your
+                                            Cart.</strong></li>
+                                    <li> <strong>TOTAL PRICE: </strong> <span>$187.00</span></li>
+                                    <li class="modal-continue-button"><a href="#" data-bs-dismiss="modal">CONTINUE
+                                            SHOPPING</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Modal Add cart -->
+
+    <!-- Start Modal Quickview cart -->
+    <div class="modal fade" id="modalQuickview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog  modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col text-right">
+                                <button type="button" class="close modal-close" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true"> <i class="fa fa-times"></i></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-details-gallery-area mb-7">
+                                    <!-- Start Large Image -->
+                                    <div class="product-large-image modal-product-image-large swiper-container">
+                                        <div class="swiper-wrapper">
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-1.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-2.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-3.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-4.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-5.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-large-image swiper-slide img-responsive">
+                                                <img src="assets/images/product/default/home-1/default-6.jpg" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- End Large Image -->
+                                    <!-- Start Thumbnail Image -->
+                                    <div
+                                        class="product-image-thumb modal-product-image-thumb swiper-container pos-relative mt-5">
+                                        <div class="swiper-wrapper">
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-1.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-2.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-3.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-4.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-5.jpg" alt="">
+                                            </div>
+                                            <div class="product-image-thumb-single swiper-slide">
+                                                <img class="img-fluid"
+                                                    src="assets/images/product/default/home-1/default-6.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <!-- Add Arrows -->
+                                        <div class="gallery-thumb-arrow swiper-button-next"></div>
+                                        <div class="gallery-thumb-arrow swiper-button-prev"></div>
+                                    </div>
+                                    <!-- End Thumbnail Image -->
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="modal-product-details-content-area">
+                                    <!-- Start  Product Details Text Area-->
+                                    <div class="product-details-text">
+                                        <h4 class="title">Nonstick Dishwasher PFOA</h4>
+                                        <div class="price"><del>$70.00</del>$80.00</div>
+                                    </div> <!-- End  Product Details Text Area-->
+                                    <!-- Start Product Variable Area -->
+                                    <div class="product-details-variable">
+                                        <!-- Product Variable Single Item -->
+                                        <div class="variable-single-item">
+                                            <span>Color</span>
+                                            <div class="product-variable-color">
+                                                <label for="modal-product-color-red">
+                                                    <input name="modal-product-color" id="modal-product-color-red"
+                                                        class="color-select" type="radio" checked>
+                                                    <span class="product-color-red"></span>
+                                                </label>
+                                                <label for="modal-product-color-tomato">
+                                                    <input name="modal-product-color" id="modal-product-color-tomato"
+                                                        class="color-select" type="radio">
+                                                    <span class="product-color-tomato"></span>
+                                                </label>
+                                                <label for="modal-product-color-green">
+                                                    <input name="modal-product-color" id="modal-product-color-green"
+                                                        class="color-select" type="radio">
+                                                    <span class="product-color-green"></span>
+                                                </label>
+                                                <label for="modal-product-color-light-green">
+                                                    <input name="modal-product-color"
+                                                        id="modal-product-color-light-green" class="color-select"
+                                                        type="radio">
+                                                    <span class="product-color-light-green"></span>
+                                                </label>
+                                                <label for="modal-product-color-blue">
+                                                    <input name="modal-product-color" id="modal-product-color-blue"
+                                                        class="color-select" type="radio">
+                                                    <span class="product-color-blue"></span>
+                                                </label>
+                                                <label for="modal-product-color-light-blue">
+                                                    <input name="modal-product-color"
+                                                        id="modal-product-color-light-blue" class="color-select"
+                                                        type="radio">
+                                                    <span class="product-color-light-blue"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <!-- Product Variable Single Item -->
+                                        <div class="d-flex align-items-center flex-wrap">
+                                            <div class="variable-single-item ">
+                                                <span>Quantity</span>
+                                                <div class="product-variable-quantity">
+                                                    <input min="1" max="100" value="1" type="number">
+                                                </div>
+                                            </div>
+
+                                            <div class="product-add-to-cart-btn">
+                                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddcart">Add To
+                                                    Cart</a>
+                                            </div>
+                                        </div>
+                                    </div> <!-- End Product Variable Area -->
+                                    <div class="modal-product-about-text">
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste
+                                            laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam
+                                            in quos qui nemo ipsum numquam, reiciendis maiores quidem aperiam, rerum vel
+                                            recusandae</p>
+                                    </div>
+                                    <!-- Start  Product Details Social Area-->
+                                    <div class="modal-product-details-social">
+                                        <span class="title">SHARE THIS PRODUCT</span>
+                                        <ul>
+                                            <li><a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
+                                            <li><a href="#" class="pinterest"><i class="fa fa-pinterest"></i></a></li>
+                                            <li><a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+                                            </li>
+                                            <li><a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a></li>
+                                        </ul>
+
+                                    </div> <!-- End  Product Details Social Area-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Modal Quickview cart -->
+
+    <!-- ::::::::::::::All JS Files here :::::::::::::: -->
+    <!-- Global Vendor, plugins JS -->
+    <!-- <script src="assets/js/vendor/modernizr-3.11.2.min.js"></script>
+    <script src="assets/js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="assets/js/vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/jquery-ui.min.js"></script>  -->
+
+    <!--Plugins JS-->
+    <!-- <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+    <script src="assets/js/plugins/material-scrolltop.js"></script>
+    <script src="assets/js/plugins/jquery.nice-select.min.js"></script>
+    <script src="assets/js/plugins/jquery.zoom.min.js"></script>
+    <script src="assets/js/plugins/venobox.min.js"></script>
+    <script src="assets/js/plugins/jquery.waypoints.js"></script>
+    <script src="assets/js/plugins/jquery.lineProgressbar.js"></script>
+    <script src="assets/js/plugins/aos.min.js"></script>
+    <script src="assets/js/plugins/jquery.instagramFeed.js"></script>
+    <script src="assets/js/plugins/ajax-mail.js"></script> -->
+
+    <!-- Use the minified version files listed below for better performance and remove the files listed above -->
+    <script src="assets/js/vendor/vendor.min.js"></script>
+    <script src="assets/js/plugins/plugins.min.js"></script>
+
+    <!-- Main JS -->
+    <script src="assets/js/main.js"></script>
+</body>
+<style>
+    .onhover-show-div {
+position: relative; /* Ensure dropdown is positioned relative to this container */
+display: inline-block;
+}
+
+.onhover-show-div ul {
+display: none; /* Hidden initially */
+position: absolute; /* Position relative to .onhover-show-div */
+top: 100%; /* Show below the hover element */
+left: 0;
+background-color: white;
+box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add shadow for visibility */
+z-index: 1000; /* Ensure it appears above other content */
+list-style: none; /* Remove default bullet points */
+padding: 10px;
+margin: 0;
+max-height: none; /* Prevent height restrictions */
+overflow: visible; /* Allow full dropdown to display */
+}
+
+.onhover-show-div:hover ul {
+display: block; /* Show dropdown on hover */
+}
+
+.onhover-show-div ul li {
+padding: 5px 10px; /* Add spacing between items */
+white-space: nowrap; /* Prevent line breaks */
+line-height: 1.5; /* Add spacing for better visibility */
+}
+
+.onhover-show-div ul li a {
+text-decoration: none; /* Remove underline */
+color: black; /* Default text color */
+}
+
+.onhover-show-div ul li a:hover {
+color: rgb(14, 15, 12); /* Change color on hover */
+}
+
+/* New rule for the icon inside the .onhover-show-div */
+.onhover-show-div > i {
+color: rgb(0, 0, 0); /* Change icon color to white */
+}
+
+ </style>
+
+
+</html>
