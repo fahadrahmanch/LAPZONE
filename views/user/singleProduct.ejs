@@ -293,10 +293,21 @@
                 <span class="offcanvas-cart-total-price-text">Subtotal:</span>
                 <span class="offcanvas-cart-total-price-value">$170.00</span>
             </div> -->
+            <%if(message){%>
             <ul class="offcanvas-cart-action-button">
                 <li><a href="/cart" class="btn btn-block btn-golden">View Cart</a></li>
                 <li><a href="/checkout" class=" btn btn-block btn-golden mt-5">Checkout</a></li>
             </ul>
+            <%}else{%>
+                <div class="" id="wishlistModal">
+                    <!-- <h3>Wishlist</h3> -->
+                    <p>Cart is empty. Please log in.</p>
+                    <a class="btn" href="/login" >Login</a>
+                    <a class="btn" href="/signup" >Signup</a>
+                
+                    
+                </div>
+                <%}%>
         </div> 
         <!-- End  Offcanvas Addcart Wrapper -->
 
@@ -368,11 +379,47 @@
                     </div>
                 </li>
             </ul> -->
+            <%if(message){%>
+
             <ul class="offcanvas-wishlist-action-button">
                 <li><a href="#" class="btn btn-block btn-golden">View wishlist</a></li>
             </ul>
+            <%}else{%>
+                <div class="" id="wishlistModal">
+                    <!-- <h3>Wishlist</h3> -->
+                    <p>Cart is empty. Please log in.</p>
+                    <a class="btn" href="/login" >Login</a>
+                    <a class="btn" href="/signup" >Signup</a>
+                
+                    
+                </div>
+                <%}%>
         </div> <!-- End Offcanvas Mobile Menu Wrapper -->
-
+        <style>
+           
+            .modal {
+                width: 300px;
+                padding: 20px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                background: #fff;
+                text-align: center;
+            }
+            .btn {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                margin-top: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #fef5ef;
+                color: rgb(4, 4, 4);
+                font-weight: bold;
+                cursor: pointer;
+            }
+           
+        </style>
     </div> <!-- End Offcanvas Mobile Menu Section -->
 
     <!-- Start Offcanvas Search Bar Section -->
@@ -562,16 +609,17 @@ margin-left: 0.5rem;
                                    Add to Wishlist
                                  </a>
                                  
-                                      <style>
-                                      .wishlist-heart.red {
-  fill: red;
+                                  
+                                <!-- <a href="" class="icon-space-right"><i class="icon-refresh"></i>Compare</a> -->
+                            </div>
+                             <!-- End  Product Details Meta Area-->
+                        </div> <!-- End Product Variable Area -->
+                        <style>
+                            .wishlist-heart.red {
+fill: red;
 }
 
-                                      </style>
-                                <!-- <a href="" class="icon-space-right"><i class="icon-refresh"></i>Compare</a> -->
-                            </div> <!-- End  Product Details Meta Area-->
-                        </div> <!-- End Product Variable Area -->
-
+                            </style>
                         <!-- Start  Product Details Catagories Area-->
                         <!-- <div class="product-details-catagory mb-2">
                             <span class="title">CATEGORIES:</span>
@@ -906,7 +954,7 @@ margin-left: 0.5rem;
                                      <%for(let i=0;i<relatedProducts.length;i++){%>
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
-                                            <a href="product-details-default.html" class="image-link">
+                                            <a href="/shop/product?id=<%= relatedProducts[i]._id%>" class="image-link">
                                                 <img src="/uploads/<%= relatedProducts[i].productImage[0] %>" alt="">
                                                 <img src="/uploads/<%= relatedProducts[i].productImage[1] %>" alt="">
                                             </a>
@@ -915,13 +963,7 @@ margin-left: 0.5rem;
                                                     <a href="" onclick="addToCart('<%=products._id%>')" data-bs-toggle="modal"
                                                         data-bs-target="#modalAddcart">Add to Cart</a>
                                                 </div>
-                                                <div class="action-link-right">
-                                                    <a href="#" data-bs-toggle="modal"
-                                                        data-bs-target="#modalQuickview"><i
-                                                            class="icon-magnifier"></i></a>
-                                                    <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                    <a href="compare.html"><i class="icon-shuffle"></i></a>
-                                                </div>
+                                              
                                             </div>
                                         </div>
                                         <div class="content">
@@ -936,7 +978,7 @@ margin-left: 0.5rem;
                                                 </ul>
                                             </div>
                                             <div class="content-right">
-                                                <span class="price">$68</span>
+                                                <span class="price"><%= relatedProducts[i].variants[0].salePrice%></span>
                                             </div>
 
                                         </div>

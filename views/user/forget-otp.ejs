@@ -420,7 +420,7 @@
               </div>
 
               <div class="d-flex justify-content-between gap-2">
-                <button class="btn btn-dark btn-lg w-100" type="submit">
+                <button id="confirm" class="btn btn-dark btn-lg w-100" type="submit">
                   Confirm OTP
                 </button>
                 <!-- <a
@@ -440,18 +440,22 @@
             </form>
 
             <script>
-              let countdown = 120; // Countdown in seconds
+              let countdown = 60; // Countdown in seconds
               const timerElement = document.getElementById("countdown");
               const resendButton = document.getElementById("resend_button");
-
+              const confirmButton = document.getElementById('confirm') 
               function updateTimer() {
                 if (countdown > 0) {
+                  confirmButton.style.pointerEvents = "auto";
+                  confirmButton.style.opacity = "1";
                   timerElement.textContent = countdown;
                   countdown--;
                   resendButton.style.pointerEvents = "none";
                   resendButton.style.opacity = "0.6";
                   setTimeout(updateTimer, 1000);
                 } else {
+                  confirmButton.style.pointerEvents = "none";
+                  confirmButton.style.opacity = "0.6";
                   timerElement.textContent = "0";
                   document.getElementById("otp_timer").style.display = "none";
                   resendButton.style.pointerEvents = "auto";
@@ -509,10 +513,10 @@
 
                 $.ajax({
                   type: "POST",
-                  url: "/resend-Otp",
+                  url: "/resend-otp",
                   success: function (response) {
                     if (response.success) {
-                      countdown = 120; // Reset countdown
+                      countdown = 60; // Reset countdown
                       updateTimer();
                       document.getElementById("otp_timer").style.display =
                         "block";

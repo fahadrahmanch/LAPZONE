@@ -1,4 +1,4 @@
-        let countdown = 10; // Countdown in seconds
+        let countdown = 60; // Countdown in seconds
 
         const timerElement = document.getElementById('countdown');
         const resendButton = document.getElementById('resend_button');
@@ -80,7 +80,7 @@
                 url: "/resend-otp",
                 success: function (response) {
                     if (response.success) {
-                        countdown = 10; // Reset countdown
+                        countdown = 60; // Reset countdown
                         updateTimer();
                         document.getElementById("otp_timer").style.display = "block";
                         Swal.fire({

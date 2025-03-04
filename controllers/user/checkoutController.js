@@ -58,7 +58,7 @@ const getCheckout = async (req, res) => {
       cart: checkoutwithoffer,
       activeCoupens,
       addressData,
-      walletBalance: wallet.totalBalance || 0,
+      walletBalance: wallet?.totalBalance || 0,
       totalAmount: totalAmount + DELIVERY_CHARGE,
       coupenAmount: req.session.Coupenamount || 0,
       Disount: req.session.totalDiscount || 0,

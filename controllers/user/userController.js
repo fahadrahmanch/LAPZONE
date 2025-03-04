@@ -94,7 +94,7 @@ const loadregisterPage = async (req, res) => {
 };
 
 function generateOtp() {
-  return Math.floor(10000 + Math.random() * 900000).toString();
+  return Math.floor(100000 + Math.random() * 900000).toString();
 }
 async function sendVerificationEmail(email, otp) {
   try {
@@ -256,13 +256,13 @@ const verifyOtp = async (req, res) => {
       return res.json({ success: true, redirectUrl: "/" });
     } else {
       return res
-        .status(MESSAGES.BAD_REQUEST)
+        .status(STATUS_CODES.BAD_REQUEST)
         .json({ success: false, message: MESSAGES.INVALID_OTP });
     }
   } catch (error) {
     console.log("Error verufying OTP", error);
     res
-      .status(MESSAGES.INTERNAL_SERVER_ERROR)
+      .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: MESSAGES.SOMETHING_WENT_WRONG });
   }
 };
@@ -280,15 +280,18 @@ const resendOtp = async (req, res) => {
     }
     const otp = generateOtp();
     console.log("resend", otp);
-    const emailSent = sendVerificationEmail(email, otp);
+    const emailSent = await sendVerificationEmail(email, otp);
     if (!emailSent) {
       return res
         .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
         .json({ success: false, message: MESSAGES.EMAIL_SEND_ERROR });
     }
-    req.session.userOtp = otp;
+    
+    req.session.otp=otp // this is for my forgot password otp
+    req.session.userOtp = otp; 
     return res.json({ success: true, message: MESSAGES.OTP_SENT_SUCCESS });
   } catch (error) {
+    console.log("error",error)
     res
       .status(STATUS_CODES.INTERNAL_SERVER_ERROR)
       .json({ success: false, message: MESSAGES.INTERNAL_SERVER_ERROR });

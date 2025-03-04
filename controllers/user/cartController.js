@@ -131,7 +131,6 @@ const updateCartqty = async (req, res) => {
   const userId = req.session.user;
   try {
     const product = await productSchema.find({ _id: productId });
-    console.log("product", product);
     const vr = String(variantId);
 
     if (quantity < 1 || quantity > 5) {

@@ -294,9 +294,10 @@ const deleteAddress = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
-    console.log("hlo")
     req.session.user = null;
-    res.render("user/forgot-password");
+    const errorMessage = req.session.error;
+    req.session.error = null;
+    res.render("user/forgot-password",{message: errorMessage});
   } catch (error) {
     res.redirect("user/pageNotFound");
   }
@@ -306,11 +307,12 @@ const forgotPassword = async (req, res) => {
 // FORGET PASSWORD
 
 const forgetEmailpassword = async (req, res) => {
-  console.log("hy")
   const { email } = req.body;
+  req.session.userData=req.body
   const findemail = await User.findOne({ email: email });
   if (!findemail) {
-    return res.status(STATUS_CODES.BAD_REQUEST).json(MESSAGES.EMAIL_NOT_FOUND);
+    req.session.error='email not found'
+    return res.redirect('/password/forgot')
   }
   const otp = generateOtp();
   console.log(otp);
@@ -353,12 +355,13 @@ async function sendVerificationEmailpassword(email, otp) {
 }
 
 
-// OTP VERIFIED
+// OTP VERIFIED for forget password
 
 const verifyOtpemail = async (req, res) => {
   try {
     const { otp } = req.body;
-
+    console.log("inputotp",otp)
+    console.log("req.session.otp",req.session.otp)
     if (otp === req.session.otp) {
       return res.render("user/changepassword", {
         success: true,
