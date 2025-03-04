@@ -113,15 +113,15 @@ const editcategory = async (req, res) => {
 
 const postcategory = async (req, res) => {
   try {
-    const categoryId = req.params.id;
+    const id = req.params.id;
     
     const { name, description } = req.body;
     const existingCategory = await categorySchema.findOne({ name: name });
-    if (existingCategory&& existingCategory._id.toString() !== categoryId) {
+    if (existingCategory&& existingCategory._id.toString() !== id) {
   
       req.session.error=MESSAGES.CATEGORY_ALREADY_EXISTS
 
-     return res.redirect(`/admin/editCategory?id=${categoryId}`)
+     return res.redirect(`/admin/editCategory?id=${id}`)
     }
     const updateCategory = await categorySchema.findByIdAndUpdate(
       id,
