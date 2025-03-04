@@ -1931,6 +1931,8 @@ let num=1;
         // console.log("jskahfs",couponSelect)
         const totalAMount = AMount||'<%=totalAmount%>';
         const Disount='<%=Disount%>'
+
+
         try {
             if (selectPayment === 'razorpay') {
                 // alert("hi")
@@ -1969,6 +1971,7 @@ let num=1;
             }),
           })
           const paymentData = await paymentResult.json();
+          console.log("paymentData",paymentData)
           if (paymentData.success) {
             Swal.fire({
               icon: 'success',
