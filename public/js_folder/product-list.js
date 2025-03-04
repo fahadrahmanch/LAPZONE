@@ -17,26 +17,26 @@ button.addEventListener('click',async ()=>{
         const {status}=result
         
         if(response.ok){
-            if(status==='unlist'){
-                console.log("changing to unlist")
-                console.log(result.status);
-                // console.log('hi')
-                button.textContent='unlist';
-                button.classList.remove('btn-success');
-                button.classList.add('btn-danger');
-                button.setAttribute('data-list','unlist')
+            // if(status==='unlist'){
+            //     console.log("changing to unlist")
+            //     console.log(result.status);
+            //     // console.log('hi')
+            //     button.textContent='unlist';
+            //     button.classList.remove('btn-success');
+            //     button.classList.add('btn-danger');
+            //     button.setAttribute('data-list','unlist')
                 
-            }else{  
-                // console.log("listing")
-                button.textContent='list';
-                button.classList.remove('btn-danger')
-                button.classList.add('btn-success');
-                button.setAttribute('data-list','list')
-                          // console.log('hii')
+            // }else{  
+            //     // console.log("listing")
+            //     button.textContent='list';
+            //     button.classList.remove('btn-danger')
+            //     button.classList.add('btn-success');
+            //     button.setAttribute('data-list','list')
+            //               // console.log('hii')
 
 
-            }
-            
+            // }
+            window.location.reload()
         }else{
                console.log(result.message)
                console.log("error")
