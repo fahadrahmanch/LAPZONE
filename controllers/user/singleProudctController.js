@@ -18,21 +18,42 @@ const loadSingleProduct = async (req, res) => {
         category: findCategory._id,
         _id: { $ne: productId },
       })
+      .populate("category")
       .limit(5);
-
+      const relatedProductsWithOffer = relatedProducts.map((relatedProduct) => {
+        let bestoffer =
+          relatedProduct.productOffer > relatedProduct.category.categoryOffer
+            ? relatedProduct.productOffer
+            : relatedProduct.category.categoryOffer;
+        
+        const productData = JSON.parse(JSON.stringify(relatedProduct.toObject()));
+        productData.bestoffer = bestoffer;
+  
+        if (bestoffer > 0) {
+          productData.variants.forEach((variant) => {
+            variant.salePrice = variant.salePrice - variant.salePrice * (bestoffer / 100);
+          });
+        }
+  
+        return productData;
+      });
+    console.log("relatedproducts",relatedProducts)
     const userWishlist = await wishlistSchema.findOne({ userId });
     const productWithOffer = JSON.parse(JSON.stringify(product.toObject()));
-
+    
     let bestoffer;
-    if (productWithOffer.productOffer > productWithOffer.category.offerPrice) {
+    if (productWithOffer.productOffer > productWithOffer.category.categoryOffer) {
       bestoffer = productWithOffer.productOffer;
+      productWithOffer.bestoffer=bestoffer
     } else {
-      bestoffer = productWithOffer.category.offerPrice;
+      bestoffer = productWithOffer.category.categoryOffer;
+      productWithOffer.bestoffer=bestoffer
     }
 
     if (bestoffer > 0) {
       productWithOffer.variants.map((item) => {
         item.salePrice = item.salePrice - item.salePrice * (bestoffer / 100);
+        
       });
     }
 
@@ -58,10 +79,9 @@ const loadSingleProduct = async (req, res) => {
       }
     });
     const cart = await Cart.findOne({ userId }).populate("items.productId");
-
     res.render("user/singleProduct", {
       products: productWithOffer,
-      relatedProducts: relatedProducts || [],
+      relatedProducts: relatedProductsWithOffer || [],
       message: req.session.user||"",
       cart: cart || { items: [] },
     });

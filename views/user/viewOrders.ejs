@@ -853,17 +853,19 @@
 <script>
  async function cancel(id) {
     try {
-        // Swal.fire({
-        //     title: 'Please wait...',
-        //     text: 'Attempting to cancel the order...',
-        //     icon: 'info',
-        //     allowOutsideClick: false,
-        //     showConfirmButton: false,
-        //     didOpen: () => {
-        //         Swal.showLoading();
-        //     }
-        // });
+        const confirmation = await Swal.fire({
+            title: 'Are you sure?',
+            text: "Do you really want to cancel this order?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Cancel it!',
+            cancelButtonText: 'No, Keep it',
+            reverseButtons: true
+        });
 
+        if (!confirmation.isConfirmed) {
+            return; // If the user cancels, do nothing
+        }
         const response = await fetch('/cancelorder', {
             method: 'POST',
             headers: {

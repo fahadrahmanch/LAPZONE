@@ -14,7 +14,7 @@ const whishlistController=require('../controllers/user/wishlistController')
 
 router.get('/404',userController.pageNotFound)
 
-router.get('/',userController.loadHomepage)
+router.get('/',auth.userBLock,userController.loadHomepage)
 router.get('/login',auth.userAuth,userController.loadLoginPage)
 router.get('/signup',auth.userAuth,userController.loadregisterPage)
 router.post('/signup',userController.signup)

@@ -619,10 +619,13 @@ input[type="radio"]:checked:after {
     <div class="input-group">
         <select id="couponSelect" class="form-control">
             <option value="" selected>Select a coupon</option>
-            <% for(let i = 0; i < activeCoupens.length; i++) { %>
-                <option value="<%= activeCoupens[i].name %>"><%= activeCoupens[i].name %></option>
+            <% for (let i = 0; i < activeCoupens.length; i++) { %>
+                <option value="<%= activeCoupens[i].name %>">
+                    <%= activeCoupens[i].name %> - ₹<%= activeCoupens[i].offerPrice %> (Min: ₹<%= activeCoupens[i].minimumPrice %>)
+                </option>
             <% } %>
         </select>
+        
         <button id="couponButton" class="btn btn-md btn-black-default-hover" type="button">Apply</button>
     </div>
     <small id="couponFeedback" class="mt-2 d-block"></small>
@@ -1555,9 +1558,9 @@ color: rgb(0, 0, 0); /* Change icon color to white */
                     },
                     body: JSON.stringify({ totalAmount, selectedCoupon })
                 });
-
+                console.log("response",response)
                 const result = await response.json();
-
+                console.log(result)
                 if (result.success) {
                     await Swal.fire({
                         title: 'Success!',

@@ -80,16 +80,17 @@ const applyCoupen = async (req, res) => {
     const { totalAmount, selectedCoupon } = req.body;
     const discount = await Coupen.findOne({ name: selectedCoupon });
     if (discount.minimumPrice >= totalAmount) {
+   
       return res.status(STATUS_CODES.UNAUTHORIZED).json({
         success: false,
-        message: DISCOUNT_MESSAGES.MINIMUM_PURCHASE
+        message: DISCOUNT_MESSAGES.MINIMUM_PURCHASE(discount.minimumPrice)
       });
     }
     if (totalAmount < discount.offerPrice) {
-      return res.json({
+      return res.status(400).json({
         success: false,
-        message: DISCOUNT_MESSAGES.DISCOUNT_EXCEEDS_TOTAL,
-      });
+        message: DISCOUNT_MESSAGES.DISCOUNT_EXCEEDS_TOTAL
+    });
     }
     const totalDiscountAmount =
       (req.session.totalDiscount || 0) + discount.offerPrice;

@@ -60,7 +60,8 @@ const userBLock= async (req, res, next) => {
 
         if (user.isBlocked) {
             req.session.user = null;
-            return res.redirect('/');
+            req.session.error='user is blocked'
+            return res.redirect('/login');
         }
 
         next(); 

@@ -466,16 +466,37 @@
                         <!-- Start Large Image -->
                         <div class="product-large-image product-large-image-horaizontal swiper-container">
                             <div class="swiper-wrapper">
+                               
                                 <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <%if(products.bestoffer >0){%>
+                                        <div class="offer-badge">
+                                            <span><%= products.bestoffer %>% OFF,</span>
+                                        </div>       
+                                    <%}%>
                                     <img src="/uploads/<%=products.productImage[0]%>" alt="">
                                 </div>
                                 <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <%if(products.bestoffer >0){%>
+                                        <div class="offer-badge">
+                                            <span><%= products.bestoffer %>% OFF,</span>
+                                        </div>       
+                                    <%}%>
                                     <img src="/uploads/<%=products.productImage[1]%>" alt="">
                                 </div>
                                 <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <%if(products.bestoffer >0){%>
+                                        <div class="offer-badge">
+                                            <span><%= products.bestoffer %>% OFF,</span>
+                                        </div>       
+                                    <%}%>
                                     <img src="/uploads/<%=products.productImage[2]%>" alt="">
                                 </div>
                                 <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
+                                    <%if(products.bestoffer >0){%>
+                                        <div class="offer-badge">
+                                            <span><%= products.bestoffer %>% OFF,</span>
+                                        </div>       
+                                    <%}%>
                                     <img src="/uploads/<%=products.productImage[3]%>" alt="">
                                 </div>
                                 <!-- <div class="product-image-large-image swiper-slide zoom-image-hover img-responsive">
@@ -489,9 +510,12 @@
                         <!-- End Large Image -->
                         <!-- Start Thumbnail Image -->
                         <div
+                        
                             class="product-image-thumb product-image-thumb-horizontal swiper-container pos-relative mt-5">
+                         
                             <div class="swiper-wrapper">
                                 <div class="product-image-thumb-single swiper-slide">
+                                    
                                     <img class="img-fluid" src="/uploads/<%=products.productImage[0]%>"
                                         alt="">
                                 </div>
@@ -523,6 +547,7 @@
                         <!-- End Thumbnail Image -->
                     </div>
                 </div>
+             
                 <div class="col-xl-7 col-lg-6">
                     <div class="product-details-content-area product-details--golden" data-aos="fade-up"
                         data-aos-delay="200">
@@ -541,7 +566,14 @@
                                 <a href="#" class="customer-review ml-2">(customer review )</a>
                             </div>
                             
-                            <div class="price" id="saleprice">₹  <%= products.variants[0].salePrice%></div>
+                            <div class="price" id="saleprice">₹  <%= products.variants[0].salePrice%>
+                                <% if (products.bestoffer) { %>
+                                    <span class="old-price"> 
+                                        <%= products.variants[0].regularPrice %>
+                                    </span>
+                                <% } %>
+                            </div>
+                         
                             <p><%=products.description%></p>
                         </div> <!-- End  Product Details Text Area-->
                         <!-- Start Product Variable Area -->
@@ -954,6 +986,11 @@ fill: red;
                                      <%for(let i=0;i<relatedProducts.length;i++){%>
                                     <div class="product-default-single-item product-color--golden swiper-slide">
                                         <div class="image-box">
+                                            <%if(products.bestoffer >0){%>
+                                                <div class="offer-badge">
+                                                    <span><%= products.bestoffer %>% OFF,</span>
+                                                </div>       
+                                            <%}%>
                                             <a href="/shop/product?id=<%= relatedProducts[i]._id%>" class="image-link">
                                                 <img src="/uploads/<%= relatedProducts[i].productImage[0] %>" alt="">
                                                 <img src="/uploads/<%= relatedProducts[i].productImage[1] %>" alt="">
@@ -978,9 +1015,16 @@ fill: red;
                                                 </ul>
                                             </div>
                                             <div class="content-right">
-                                                <span class="price"><%= relatedProducts[i].variants[0].salePrice%></span>
+                                                <span class="price" ><%= relatedProducts[i].variants[0].salePrice%></span>
+                                              
                                             </div>
-
+                                            <div>
+                                            <% if ( relatedProducts[i].bestoffer) { %>
+                                                <span class="old-price"> 
+                                                    <%= relatedProducts[i].variants[0].regularPrice %>
+                                                </span>
+                                            <% } %>
+                                        </div>
                                         </div>
                                     </div>
                                     <%}%>
@@ -1542,6 +1586,33 @@ else {
 </script>
 <script src="/assets/js/plugins/icon.js"></script>
 </body>
+<style>
+    .offer-badge {
+    position: absolute;
+    top: 5px;  /* Adjust as needed */
+    left: 3px; /* Ensures it's placed on the left */
+    background-color: rgb(12, 81, 16);
+    color: white;
+    padding: 5px 5px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 85px;
+    height: 40px;
 
+    z-index: 10; /* Ensures it stays on top */
+}
+
+   
+       .offer-badge span {
+           font-weight: bold;
+           font-size: 0.9rem;
+       }
+   
+       .offer-badge small {
+           font-size: 0.7rem;
+           opacity: 0.9
+       }
+                                                                </style>
 
 </html>
