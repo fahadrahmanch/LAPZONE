@@ -91,7 +91,7 @@ const addCart = async (req, res) => {
       if (newQuantity > productqty) {
         return res.status(STATUS_CODES.BAD_REQUEST).json({
           success: false,
-          message: CART.ONLY_FEW_LEFT,
+          message: CART.PRODUCT_OUT_OF_STOCK,
         });
       }
       existingItem.quantity = newQuantity;
@@ -130,9 +130,18 @@ const updateCartqty = async (req, res) => {
   const { productId, quantity, variantId } = req.body;
   const userId = req.session.user;
   try {
-    const product = await productSchema.find({ _id: productId });
+    const product = await productSchema.findOne({ _id: productId });
     const vr = String(variantId);
-
+    console.log("product",product)
+    console.log("variant ",vr)
+    const productVariant= await product.variants.find((item)=>item._id.toString()===vr.toString())
+    if(productVariant.stock<quantity){
+      return res
+        .status(STATUS_CODES.BAD_REQUEST)
+        .json({ success: false, message: CART.PRODUCT_OUT_OF_STOCK });
+      
+    }
+    console.log("productvariant",productVariant)
     if (quantity < 1 || quantity > 5) {
       return res
         .status(STATUS_CODES.BAD_REQUEST)
