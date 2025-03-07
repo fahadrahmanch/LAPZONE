@@ -34,7 +34,9 @@ const CategoryInfo = async (req, res) => {
 const addCategory = async (req, res) => {
   const { name, description } = req.body;
   try {
-    const existingCategory = await categorySchema.findOne({ name });
+    const existingCategory = await categorySchema.findOne({
+      name: { $regex: `^${name}$`, $options: "i" } 
+  });
     if (existingCategory) {
       
       return res
