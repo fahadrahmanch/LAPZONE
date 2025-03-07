@@ -54,9 +54,14 @@ const userSchema =new Schema({
         type:Schema.Types.ObjectId,
         ref:"Order"
     }],
-    createdOn:{
-        type:Date,
-        default:new Date(),
+    createdOn: {
+        type: String,
+        default: () => {
+            const now = new Date();
+            
+            return now.toISOString().split('T')[0]; // Get the date part only
+        },
+        required: true,
     },
     referalCode:{
         type:String
