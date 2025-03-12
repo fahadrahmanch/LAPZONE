@@ -596,12 +596,20 @@
                    <% })%>
                    </tbody>
                    <tfoot>
-                    <tr>
+                    <!-- <tr>
                      <td class="p-2 border border-gray-300 font-bold" colspan="3">
                       Subtotal
                      </td>
                      <td class="p-2 border border-gray-300">
                         <%=orderDetails.finalAmount%>
+                     </td>
+                    </tr> -->
+                    <tr>
+                     <td class="p-2 border border-gray-300 font-bold" colspan="3">
+                      Coupon Discount
+                     </td>
+                     <td class="p-2 border border-gray-300">
+                        <%=orderDetails.couponAmount%>
                      </td>
                     </tr>
                     <tr>
@@ -609,7 +617,7 @@
                       Shipping
                      </td> -->
                      <td class="p-2 border border-gray-300 font-bold" colspan="3">
-                      Disount
+                     Total Disount
                      </td>
                      <td class="p-2 border border-gray-300">
                         <%=orderDetails.discount%>

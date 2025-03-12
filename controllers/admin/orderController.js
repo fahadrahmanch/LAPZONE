@@ -48,6 +48,7 @@ const orderDetails = async (req, res) => {
       .populate({ path: "orderedItems.Product", model: "Product" });
 
     res.render("admin/orderDetails", { details });
+    console.log(details)
   } catch (error) {
     console.log(error);
   }

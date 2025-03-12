@@ -132,8 +132,6 @@ const updateCartqty = async (req, res) => {
   try {
     const product = await productSchema.findOne({ _id: productId });
     const vr = String(variantId);
-    console.log("product",product)
-    console.log("variant ",vr)
     const productVariant= await product.variants.find((item)=>item._id.toString()===vr.toString())
     if(productVariant.stock<quantity){
       return res

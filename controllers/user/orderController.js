@@ -134,6 +134,13 @@ const createOrder = async (req, res) => {
 
     const addressObject = address.address[0];
 
+
+    const coupon = await Coupon.findOne({ name: couponSelect });
+    if (coupon) {
+      coupon.userId.push(userId);
+      await coupon.save();
+    }
+ console.log("coupon",coupon)
     //CREATE NEW ORDER
 
     const newOrder = new Order({
@@ -153,6 +160,7 @@ const createOrder = async (req, res) => {
       paymentMethod: selectPayment,
       discount: req.session.totalDiscount,
       DeliveryCharge: DELIVERY_CHARGE,
+      couponAmount:coupon.offerPrice||0
     });
 
     await newOrder.save();
@@ -162,11 +170,7 @@ const createOrder = async (req, res) => {
     await STOCK_MANAGEMENT(cart, userId);
     //COUPON FIND
 
-    const coupon = await Coupon.findOne({ name: couponSelect });
-    if (coupon) {
-      coupon.userId.push(userId);
-      await coupon.save();
-    }
+  
 
     res.status(STATUS_CODES.OK).json({ success: true, newOrder });
   } catch (error) {
@@ -285,7 +289,11 @@ const verifyRazorpay = async (req, res) => {
       const addressObject = address.address[0];
 
       // NEW ORDER
-
+      const coupon = await Coupon.findOne({ name: couponSelect });
+      if (coupon) {
+        coupon.userId.push(userId);
+        await coupon.save();
+      }
       const newOrder = new Order({
         userId: userId,
         orderedItems,
@@ -306,6 +314,7 @@ const verifyRazorpay = async (req, res) => {
         paymentMethod: selectPayment,
         discount: req.session.totalDiscount,
         DeliveryCharge: DELIVERY_CHARGE,
+        couponAmount:coupon?.offerPrice||0
       });
 
       await newOrder.save();
@@ -314,11 +323,7 @@ const verifyRazorpay = async (req, res) => {
 
       await STOCK_MANAGEMENT(cart, userId);
 
-      const coupon = await Coupon.findOne({ name: couponSelect });
-      if (coupon) {
-        coupon.userId.push(userId);
-        await coupon.save();
-      }
+    
 
       return res.json({
         success: true,
@@ -775,6 +780,13 @@ const walletOrder = async (req, res) => {
 
       const addressObject = address.address[0];
 
+
+      const coupon = await Coupon.findOne({ name: couponSelect });
+      if (coupon) {
+        coupon.userId.push(userId);
+        await coupon.save();
+      }
+
       // NEW ORDER
 
       const newOrder = new Order({
@@ -794,6 +806,7 @@ const walletOrder = async (req, res) => {
         paymentMethod: selectPayment,
         discount: req.session.totalDiscount,
         DeliveryCharge: DELIVERY_CHARGE,
+        couponAmount:coupon?.offerPrice||0
       });
 
       await newOrder.save();
@@ -804,11 +817,7 @@ const walletOrder = async (req, res) => {
 
       // FIND COUPON
 
-      const coupon = await Coupon.findOne({ name: couponSelect });
-      if (coupon) {
-        coupon.userId.push(userId);
-        await coupon.save();
-      }
+     
       wallet.totalBalance = wallet.totalBalance - totalAMount;
       wallet.transactions.push({
         type: "Withdrawal",

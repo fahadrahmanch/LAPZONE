@@ -1,0 +1,222 @@
+[33mcommit 94bf619c7c27c6a75b4b44411ec5b0c58de9b9b5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mpending[m[33m)[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Mar 7 08:07:59 2025 +0530
+
+    stock management in cart - bug
+     fixed
+
+[33mcommit 258fdced0de0636381fd6962d8802f830b90ebe7[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Mar 7 07:33:54 2025 +0530
+
+    unique categories
+
+[33mcommit 9131e7f274bd03e8adf6d7ca3eb12da8b52ce7cb[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Mar 7 07:25:52 2025 +0530
+
+    format date time
+
+[33mcommit 525008420e9351670f5498acf6070532c55d31f0[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Mar 7 07:16:35 2025 +0530
+
+    sign In with google should be there in Login page
+
+[33mcommit e38c650bd3103847a7ea8c7c12b66cb4b6260a83[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Wed Mar 5 00:40:27 2025 +0530
+
+    completed
+
+[33mcommit ce4d97392c84ca625b032e5ce7158f524215a7df[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 23:51:36 2025 +0530
+
+    complete
+
+[33mcommit 2d41e7f83657ce70421bd2e91e217e0be75d6e9b[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 22:31:32 2025 +0530
+
+    complete
+
+[33mcommit 756e177fa3dda3743fc70b5c534544027de4d125[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 20:57:28 2025 +0530
+
+    complete
+
+[33mcommit cacce517205b5da0cc255046b41b2270f45fc282[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 18:58:41 2025 +0530
+
+    complete
+
+[33mcommit 80c42c912b03fd801758af4c732c8e3a7a9271cd[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 18:48:07 2025 +0530
+
+    complete
+
+[33mcommit 6bebbe790d896dea68cab8bbf6c28accde12f8a4[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 17:48:26 2025 +0530
+
+    completed
+
+[33mcommit 57f7880969b040b69e6e790aa5cba301f29a0441[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Mar 4 03:27:54 2025 +0530
+
+    ALL COMPLETED
+
+[33mcommit 8858cec4c7af810605372755ba0bf2189f6c9833[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Feb 25 19:23:19 2025 +0530
+
+    salesreport fix
+
+[33mcommit 008da11f3bf2e3e7409eb3fd0ffe41744768f763[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Feb 25 19:21:11 2025 +0530
+
+    salesController bug fix
+
+[33mcommit 183b50c020993cce2929c701d526e509057892db[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Feb 25 18:47:36 2025 +0530
+
+    google authentication set
+
+[33mcommit 917dd011940e89f7e43457aa3856d2af0dbe7292[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Feb 25 10:52:33 2025 +0530
+
+    In checkout wallet balance added
+
+[33mcommit e1d38fa9714845bb0c47e49b9f8afbd478b219af[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Mon Feb 24 17:55:10 2025 +0530
+
+    modified shopcontroller
+
+[33mcommit 0dd942b7f9a3f6cab5be1060d79eee7f327e3ce7[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Feb 23 16:45:00 2025 +0530
+
+    complete
+
+[33mcommit 8b5b90a54324d1e7fae11cd8bd631bde979d4483[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Feb 21 16:03:27 2025 +0530
+
+    complete
+
+[33mcommit 33076a0544b52fd736bcb2f521dfc4f3faa4bddb[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Feb 16 19:35:27 2025 +0530
+
+    11 week completed
+
+[33mcommit f86eaad668874c1b3525913de884b242571f894f[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Feb 9 20:48:33 2025 +0530
+
+    10 complete
+
+[33mcommit 32ab5a8df73b254533595a55f8c7be10016f8b55[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Feb 9 19:50:02 2025 +0530
+
+    10 week complete
+
+[33mcommit 9fb4097f7afd6047856fb8a0ee264f235f9baefb[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Feb 4 08:39:57 2025 +0530
+
+    half complete
+
+[33mcommit b0cbf4b87fb198fbdc86158aa52ebb862dfd6013[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Thu Jan 30 17:54:12 2025 +0530
+
+    half complete
+
+[33mcommit 7a150442b4146add203644518fb8428e95b1af2d[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sat Jan 25 01:44:08 2025 +0530
+
+    10 th week
+
+[33mcommit de984992745fbb93753fd541393d3bcc12aae746[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Jan 21 21:37:22 2025 +0530
+
+    half complete
+
+[33mcommit 57241f284d08e9691b0db190c8d9bfe98b648a52[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Mon Jan 20 13:52:59 2025 +0530
+
+    wallet complete
+
+[33mcommit 6e99ccd4a34889ddb665e40de93f3ff04d41e888[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sat Jan 18 10:11:05 2025 +0530
+
+    half completed
+
+[33mcommit 9106539f63455f6ca6c0a9d73980b620be962d92[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Fri Jan 17 18:48:21 2025 +0530
+
+    half completed
+
+[33mcommit e17c9be5e8d07f4472f3a787405b55eade111adf[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Jan 14 14:05:30 2025 +0530
+
+    9 th week completed
+
+[33mcommit e765a18f254506e2bc284c13591ad03de254ae04[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Jan 12 23:39:45 2025 +0530
+
+    half complete
+
+[33mcommit f2b4cf99bb8261337c7229022e9deffb1649266c[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Sun Jan 12 19:09:32 2025 +0530
+
+    EDIT ADDRESS
+
+[33mcommit 37eb62fea0e5a29314bb38b36ec0d21f998c0c54[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Tue Jan 7 22:19:43 2025 +0530
+
+    POSTCART
+
+[33mcommit 3fc8936d3c4e4ae49bb7476f0c1dc0aaf77899c7[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Mon Jan 6 10:17:55 2025 +0530
+
+    half complete product variant
+
+[33mcommit 7e9157dbcafef162fb31fae7fba34686653cbe5e[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Thu Jan 2 02:04:07 2025 +0530
+
+    try tp fix reset password
+
+[33mcommit e758dd18a7517b5c1a584349236b5b4a68c64e02[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Wed Jan 1 15:00:50 2025 +0530
+
+    first commit
+
+[33mcommit 12099ecb9e73505d180f1cc06b52500d7198f871[m
+Author: fahadrahmanch <ff865880@gmail.com>
+Date:   Wed Jan 1 14:51:02 2025 +0530
+
+    i complete address edit

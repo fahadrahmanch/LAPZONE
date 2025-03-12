@@ -245,7 +245,7 @@
                                     <td><%= data[i].phone %></td>
                                     
                                     <!-- Registration Date -->
-                                    <td><%= data[i].createdOn %></td>
+                                    <td><%= new Date(data[i].createdOn).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %></td>
                                     
                                     <!-- Action Button -->
                                     <td class="text-end">

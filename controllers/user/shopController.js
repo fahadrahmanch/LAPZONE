@@ -9,71 +9,36 @@ const loadShop = async (req, res) => {
   try {
     let user = req.session.user || null;
     const search = req.query.search || "";
-    const page = req.query.page || 1;
+    const page = parseInt(req.query.page) || 1;
     const limit = 12;
     const sort = req.query.sort || "";
     const catt = req.query.cat;
 
-    let sortCriteria = {};
-    switch (sort) {
-      case "a-z":
-        sortCriteria = { productName: 1 };
-        break;
-      case "z-a":
-        sortCriteria = { productName: -1 };
-        break;
-      case "price-asc":
-        sortCriteria = { "variants.salePrice": 1 };
-        break;
-      case "price-desc":
-        sortCriteria = { "variants.salePrice": -1 };
-        break;
-
-      case "new-arrivals":
-        sortCriteria = { createdAt: -1 };
-        break;
-    }
+    // Get cart and wishlist
     const cart = await Cart.findOne({ userId: user }).populate(
       "items.productId"
     );
-
     const userWishlist = await wishlistSchema.findOne({ userId: user });
+
+    
     let filterQuery = {
       isListed: true,
-      productName: { $regex: new RegExp(".*" + search + ".*", "i") },
+      productName: { $regex: new RegExp("." + search + ".", "i") },
     };
     if (catt) {
       const categoryArray = catt.split(",");
       filterQuery.category = { $in: categoryArray };
     }
 
+    
     const count = await product.countDocuments(filterQuery);
-    const products = await product
+    
+
+    const allProducts = await product
       .find(filterQuery)
-      .sort(sortCriteria)
-      .skip((page - 1) * limit)
-      .limit(limit)
       .populate("category", "categoryOffer");
-
-    if (products.length === 0) {
-      return res.render("user/shop", {
-        products: [],
-        cat: await categorySchema.find({}),
-        catt: catt,
-        cart: cart || { items: [] },
-
-        sort: sort || "",
-        search: search || "",
-        message: req.session.user || null,
-        limit: limit,
-        currentPage: page,
-        totalPages: Math.ceil(count / limit),
-      });
-    }
-
-    const cat = await categorySchema.find({});
-
-    const productWithoffer = products.map((product) => {
+    
+    const allProductsWithOffer = allProducts.map((product) => {
       const productOffer = product.productOffer || 0;
       const categoryOffer = product.category?.categoryOffer || 0;
       const bestOffer = Math.max(productOffer, categoryOffer);
@@ -92,18 +57,61 @@ const loadShop = async (req, res) => {
       };
 
       if (bestOffer > 0) {
-        for (let i = 0; i < product.variants.length; i++) {
-          const offerPrice =
-            product.variants[i].salePrice -
-            product.variants[i].salePrice * (bestOffer / 100);
-          finalProduct.variants[i].salePrice = offerPrice;
-        }
+        finalProduct.variants = finalProduct.variants.map(variant => {
+          const originalPrice = variant.salePrice;
+          const discountedPrice = originalPrice - (originalPrice * (bestOffer / 100));
+          return {
+            ...variant,
+            originalPrice: originalPrice,
+            salePrice: discountedPrice
+          };
+        });
       }
 
       return finalProduct;
     });
+
+    let sortedProducts = [...allProductsWithOffer];
+    switch (sort) {
+      case "a-z":
+        sortedProducts.sort((a, b) => a.productName.localeCompare(b.productName));
+        break;
+      case "z-a":
+        sortedProducts.sort((a, b) => b.productName.localeCompare(a.productName));
+        break;
+      case "price-asc":
+        sortedProducts.sort((a, b) => a.variants[0].salePrice - b.variants[0].salePrice);
+        break;
+      case "price-desc":
+        sortedProducts.sort((a, b) => b.variants[0].salePrice - a.variants[0].salePrice);
+        break;
+      case "new-arrivals":
+        sortedProducts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+    }
+    
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedProducts = sortedProducts.slice(startIndex, endIndex);
+
+    const cat = await categorySchema.find({});
+
+    if (paginatedProducts.length === 0) {
+      return res.render("user/shop", {
+        products: [],
+        cat: cat,
+        catt: catt,
+        cart: cart || { items: [] },
+        sort: sort || "",
+        search: search || "",
+        message: req.session.user || null,
+        limit: limit,
+        currentPage: page,
+        totalPages: Math.ceil(sortedProducts.length / limit),
+      });
+    }
     res.render("user/shop", {
-      products: productWithoffer,
+      products: paginatedProducts,
       cat: cat,
       catt: catt,
       sort: sort || "",
@@ -111,12 +119,12 @@ const loadShop = async (req, res) => {
       message: req.session.user || null,
       limit: limit,
       currentPage: page,
-      totalPages: Math.ceil(count / limit),
+      totalPages: Math.ceil(sortedProducts.length / limit),
       cart: cart || { items: [] },
     });
   } catch (error) {
     console.log(error);
+    res.status(500).render("error", { message: "Something went wrong" });
   }
 };
-
-module.exports = { loadShop };
+module.exports={loadShop}
