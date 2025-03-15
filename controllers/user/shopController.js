@@ -20,10 +20,10 @@ const loadShop = async (req, res) => {
     );
     const userWishlist = await wishlistSchema.findOne({ userId: user });
 
-    
+    let searchQuery = search.trim(); // Remove extra spaces
     let filterQuery = {
       isListed: true,
-      productName: { $regex: new RegExp("." + search + ".", "i") },
+      productName: { $regex: new RegExp(`^${searchQuery}`, "i") }, // Matches only from the start
     };
     if (catt) {
       const categoryArray = catt.split(",");
