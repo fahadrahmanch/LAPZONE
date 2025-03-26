@@ -542,34 +542,7 @@
                     <!-- Start Sidebar Area -->
                     <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
-                        <!-- Start Single Sidebar Widget -->
-                        <div class="sidebar-single-widget">
-                            <h6 class="sidebar-title">SELECT BY CATEGORIES</h6>
-                            <div class="sidebar-content">
-                              <div class="filter-type-select">
-                                <ul id="category-filters">
-                                  <% for (let i = 0; i < cat.length; i++) { %>
-                                    <% if (cat[i].isListed) { %>
-                                      <li>
-                                        <label class="checkbox-default">
-                                            
-                                          <input 
-                                            type="checkbox" 
-                                            class="category-checkbox" 
-                                            
-                                            <% if (catt && catt.split(',').includes(cat[i]._id.toString())) { %> 
-                                              checked
-                                              <% } %>
-                                            value="<%= cat[i]._id %>">
-                                          <span><%= cat[i].name %></span>
-                                        </label>
-                                      </li>
-                                    <% } %>
-                                  <% } %>
-                                </ul>
-                              </div>
-                            </div>
-                          </div>
+                     
                           
                           <!-- Price Range Filter -->
                           <!-- <div class="sidebar-single-widget">
