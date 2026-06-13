@@ -1,4 +1,3 @@
-
 <head>
     <meta charset="utf-8">
     <title>Evara Dashboard</title>
@@ -22,15 +21,19 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="index.html" class="brand-wrap">
-                <div style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
+                <div
+                    style="display: flex; align-items: center; font-family: 'Arial', sans-serif; font-size: 24px; font-weight: bold; color: #333;">
                     <!-- Laptop Icon -->
-                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5"
+                        stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
                         <rect x="3" y="4" width="18" height="12" rx="2"></rect>
                         <path d="M2 18h20"></path>
                     </svg>
-                    
+
                     <span>LapZone</span>
-                </div>            </a>
+                        
+                </div>
+            </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i>
                 </button>
@@ -71,7 +74,7 @@
                     <a class="menu-link" href="/admin/orders"> <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
-                   
+
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/coupen">
@@ -164,92 +167,130 @@
                     <div class="content-header">
                         <h2 class="content-title">Edit Product</h2>
                     </div>
-                    
+
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form method="POST" action="/admin/editProduct/<%=product._id%>" enctype="multipart/form-data" onsubmit="return validateAndSubmit()">
+                            <form method="POST" action="/admin/editProduct/<%=product._id%>"
+                                enctype="multipart/form-data" onsubmit="return validateAndSubmit(event)">
                                 <!-- Basic Information -->
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="product_name" class="form-label">Product Name</label>
-                                        <input type="text" placeholder="Type here" name="productName" class="form-control" id="product_name" value="<%=product.productName%>">
+                                        <input type="text" placeholder="Type here" name="productName"
+                                            class="form-control" id="product_name" value="<%=product.productName%>">
                                         <div id="productName-error" class="error-message text-danger"></div>
                                     </div>
-                                    
+
                                     <div class="col-md-3 mb-4">
                                         <label class="form-label">Category</label>
                                         <select class="form-select" name="category">
-                                            <option value="<%= product.category.name %>" selected><%= product.category.name %></option>
+                                            <option value="<%= product.category.name %>" selected>
+                                                <%= product.category.name %>
+                                            </option>
                                             <%for(let i=0;i<cat.length;i++){%>
-                                                <option value="<%= cat[i].name %>"><%= cat[i].name %></option>
-                                            <%}%>
+                                                <option value="<%= cat[i].name %>">
+                                                    <%= cat[i].name %>
+                                                </option>
+                                                <%}%>
                                         </select>
                                         <div id="category-error" class="error-message text-danger"></div>
                                     </div>
-                                    
+
                                     <div class="col-md-3 mb-4">
                                         <label class="form-label">Brand</label>
                                         <select class="form-select" name="brand">
                                             <%for(let i=0;i<brand.length;i++){%>
-                                                <option value="<%= brand[i].brandName %>"><%= brand[i].brandName %></option>
-                                            <%}%>
+                                                <option value="<%= brand[i].brandName %>">
+                                                    <%= brand[i].brandName %>
+                                                </option>
+                                                <%}%>
                                         </select>
                                         <div id="brand-error" class="error-message text-danger"></div>
                                     </div>
                                 </div>
-        
+
                                 <div class="row">
                                     <div class="col-12 mb-4">
                                         <label class="form-label">Full description</label>
-                                        <textarea placeholder="Type here" id="descriptionid" name="description" class="form-control" rows="4"><%=product.description%></textarea>
+                                        <textarea placeholder="Type here" id="descriptionid" name="description"
+                                            class="form-control" rows="4"><%=product.description%></textarea>
                                         <div id="description-error" class="error-message text-danger"></div>
                                     </div>
                                 </div>
-        
+
                                 <!-- Variants Section -->
                                 <div class="row">
                                     <div class="col-12">
                                         <h4 class="mb-3">Product Variants</h4>
                                         <div id="variantsContainer">
-                                            <% for (let i = 0; i < product.variants.length; i++) { %>
+                                            <% for (let i=0; i < product.variants.length; i++) { %>
                                                 <div class="variant-section card p-3 mb-3">
-                                                    <h5>Variant <%= i + 1 %></h5>
+                                                    <h5>Variant <%= i + 1 %>
+                                                    </h5>
                                                     <div class="row">
                                                         <div class="col-md-4 mb-3">
                                                             <label for="ram-<%= i %>" class="form-label">RAM</label>
-                                                            <input type="text" class="form-control" name="variants[<%= i %>][ram]" id="ram-<%= i %>" value="<%= product.variants[i].ram %>" placeholder="Enter RAM (e.g., 8GB)">
+                                                            <input type="text" class="form-control"
+                                                                name="variants[<%= i %>][ram]" id="ram-<%= i %>"
+                                                                value="<%= product.variants[i].ram %>"
+                                                                placeholder="Enter RAM (e.g., 8GB)">
                                                         </div>
                                                         <div class="col-md-4 mb-3">
-                                                            <label for="storage-<%= i %>" class="form-label">Storage</label>
-                                                            <input type="text" class="form-control" name="variants[<%= i %>][storage]" id="storage-<%= i %>" value="<%= product.variants[i].storage %>" placeholder="Enter Storage (e.g., 512GB SSD)">
+                                                            <label for="storage-<%= i %>"
+                                                                class="form-label">Storage</label>
+                                                            <input type="text" class="form-control"
+                                                                name="variants[<%= i %>][storage]" id="storage-<%= i %>"
+                                                                value="<%= product.variants[i].storage %>"
+                                                                placeholder="Enter Storage (e.g., 512GB SSD)">
                                                         </div>
                                                         <div class="col-md-4 mb-3">
-                                                            <label for="processor-<%= i %>" class="form-label">Processor</label>
-                                                            <input type="text" class="form-control" name="variants[<%= i %>][processor]" id="processor-<%= i %>" value="<%= product.variants[i].processor %>" placeholder="Enter Processor (e.g., Intel i5)">
+                                                            <label for="processor-<%= i %>"
+                                                                class="form-label">Processor</label>
+                                                            <input type="text" class="form-control"
+                                                                name="variants[<%= i %>][processor]"
+                                                                id="processor-<%= i %>"
+                                                                value="<%= product.variants[i].processor %>"
+                                                                placeholder="Enter Processor (e.g., Intel i5)">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-4 mb-3">
-                                                            <label for="regularPrice-<%= i %>" class="form-label">Regular Price</label>
-                                                            <input type="number" class="form-control" name="variants[<%= i %>][regularPrice]" id="regularPrice-<%= i %>" value="<%= product.variants[i].regularPrice %>" placeholder="Enter regular price">
+                                                            <label for="regularPrice-<%= i %>"
+                                                                class="form-label">Regular Price</label>
+                                                            <input type="number" class="form-control"
+                                                                name="variants[<%= i %>][regularPrice]"
+                                                                id="regularPrice-<%= i %>"
+                                                                value="<%= product.variants[i].regularPrice %>"
+                                                                placeholder="Enter regular price">
                                                         </div>
                                                         <div class="col-md-4 mb-3">
-                                                            <label for="salePrice-<%= i %>" class="form-label">Sale Price</label>
-                                                            <input type="number" class="form-control" name="variants[<%= i %>][salePrice]" id="salePrice-<%= i %>" value="<%= product.variants[i].salePrice %>" placeholder="Enter sale price">
+                                                            <label for="salePrice-<%= i %>" class="form-label">Sale
+                                                                Price</label>
+                                                            <input type="number" class="form-control"
+                                                                name="variants[<%= i %>][salePrice]"
+                                                                id="salePrice-<%= i %>"
+                                                                value="<%= product.variants[i].salePrice %>"
+                                                                placeholder="Enter sale price">
                                                         </div>
                                                         <div class="col-md-4 mb-3">
                                                             <label for="stock-<%= i %>" class="form-label">Stock</label>
-                                                            <input type="number" class="form-control" name="variants[<%= i %>][stock]" id="stock-<%= i %>" value="<%= product.variants[i].stock %>" placeholder="Enter stock quantity">
+                                                            <input type="number" class="form-control"
+                                                                name="variants[<%= i %>][stock]" id="stock-<%= i %>"
+                                                                value="<%= product.variants[i].stock %>"
+                                                                placeholder="Enter stock quantity">
                                                         </div>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove Variant</button>
+                                                    <button type="button"
+                                                        class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove
+                                                        Variant</button>
                                                 </div>
-                                            <% } %>
+                                                <% } %>
                                         </div>
-                                        <button type="button" class="btn btn-secondary mb-4" id="addVariantBtn">Add Another Variant</button>
+                                        <button type="button" class="btn btn-secondary mb-4" id="addVariantBtn">Add
+                                            Another Variant</button>
                                     </div>
                                 </div>
-        
+
                                 <!-- Images Section -->
                                 <div class="row">
                                     <div class="col-12">
@@ -263,35 +304,41 @@
                                                     <% for(let i=0; i<product.productImage.length; i++) { %>
                                                         <div class="col-md-3 mb-3">
                                                             <div class="position-relative">
-                                                                <img class="img-fluid rounded" src="/uploads/<%= product.productImage[i] %>" alt="Product image">
-                                                                <button type="button" onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2">
+                                                                <img class="img-fluid rounded"
+                                                                    src="/uploads/<%= product.productImage[i] %>"
+                                                                    alt="Product image">
+                                                                <button type="button"
+                                                                    onclick="deleteSingleImage('<%=product.productImage[i]%>','<%=product._id%>')"
+                                                                    class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2">
                                                                     <i class="fa-thin fa-x"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                    <% } %>
+                                                        <% } %>
                                                 </div>
-                                                
+
                                                 <!-- New Images Upload -->
                                                 <div id="addedImagesContainer" class="row mb-3"></div>
                                                 <div class="row">
-                                                    <% for(let i = 1; i <= 4; i++) { %>
+                                                    <% for(let i=1; i <=4; i++) { %>
                                                         <div class="col-md-3 mb-3">
                                                             <div class="image-upload-container">
-                                                                <img src="" alt="" id="imgView<%= i %>" class="img-preview mb-2">
-                                                                <input class="form-control" type="file" name="images" id="input<%= i %>"
+                                                                <img src="" alt="" id="imgView<%= i %>"
+                                                                    class="img-preview mb-2">
+                                                                <input class="form-control" type="file" name="images"
+                                                                    id="input<%= i %>"
                                                                     accept="image/png, image/jpeg, image/jpg"
-                                                                    onchange="viewImage<%= i %>(event), viewImage(event, <%= i %>)">
+                                                                    onchange="viewImage(event, '<%= i %>')">
                                                             </div>
                                                         </div>
-                                                    <% } %>
+                                                        <% } %>
                                                 </div>
                                                 <div id="images-error" class="error-message text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <!-- Submit Button -->
                                 <div class="row">
                                     <div class="col-12">
@@ -304,17 +351,17 @@
                 </div>
             </div>
         </section>
-        
+
         <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            let variantCount = <%= product.variants.length %>; 
-            const addVariantBtn = document.getElementById("addVariantBtn");
-            const variantsContainer = document.getElementById("variantsContainer");
-        
-            addVariantBtn.addEventListener("click", () => {
-                const newVariant = document.createElement("div");
-                newVariant.className = "variant-section card p-3 mb-3";
-                newVariant.innerHTML = `
+            document.addEventListener("DOMContentLoaded", () => {
+                let variantCount = parseInt('<%= product.variants.length %>', 10);
+                const addVariantBtn = document.getElementById("addVariantBtn");
+                const variantsContainer = document.getElementById("variantsContainer");
+
+                addVariantBtn.addEventListener("click", () => {
+                    const newVariant = document.createElement("div");
+                    newVariant.className = "variant-section card p-3 mb-3";
+                    newVariant.innerHTML = `
                     <h5>Variant ${variantCount + 1}</h5>
                     <div class="row">
                         <div class="col-md-4 mb-3">
@@ -346,26 +393,26 @@
                     </div>
                     <button type="button" class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove Variant</button>
                 `;
-                variantsContainer.appendChild(newVariant);
-                variantCount++;
+                    variantsContainer.appendChild(newVariant);
+                    variantCount++;
+                });
+
+                variantsContainer.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("remove-variant-btn")) {
+                        e.target.closest(".variant-section").remove();
+                    }
+                });
             });
-        
-            variantsContainer.addEventListener("click", (e) => {
-                if (e.target.classList.contains("remove-variant-btn")) {
-                    e.target.closest(".variant-section").remove();
-                }
-            });
-        });
         </script>
-        
+
         <script>
             const variantsContainer = document.getElementById('variants-container');
             const addVariantBtn = document.getElementById('add-variant-btn');
             let variantIndex = 0; // Track variant count
-        
+
             // Add a new variant row
             function addVariant() {
-               
+
                 const variantRow = `
                  
                     <div class="row mb-3" id="variant-${variantIndex}">
@@ -394,9 +441,9 @@
                 `;
                 variantsContainer.insertAdjacentHTML('beforeend', variantRow);
                 variantIndex++; // Increment index for the next variant
-                
+
             }
-        
+
             // Remove a specific variant row
             function removeVariant(index) {
                 // alert(index)
@@ -405,22 +452,22 @@
                     variantRow.remove();
                 }
             }
-        
+
             // Attach event to the "Add Variant" button
             addVariantBtn.addEventListener('click', addVariant);
-        
+
             // Add the first variant row by default
             addVariant();
         </script>
-        
+
         <script>
-            function deleteSingleImage(imageId,productId){
+            function deleteSingleImage(imageId, productId) {
                 $.ajax({
-                    url:"/admin/deleteImage",
-                    method:'post',
-                    data:{imageNameToServer:imageId,productIdToServer:productId},
-                    success:((response)=>{
-                        if(response.status===true){
+                    url: "/admin/deleteImage",
+                    method: 'post',
+                    data: { imageNameToServer: imageId, productIdToServer: productId },
+                    success: ((response) => {
+                        if (response.status === true) {
                             window.location.reload()
                         }
                     })
@@ -428,368 +475,404 @@
             }
         </script>
         <script>
-    //         function validateAndSubmit() {
-    //     // Clear all previous error messages
-    //     const errorElements = document.querySelectorAll('.error-message');
-    //     errorElements.forEach(element => element.innerHTML = '');
+            //         function validateAndSubmit() {
+            //     // Clear all previous error messages
+            //     const errorElements = document.querySelectorAll('.error-message');
+            //     errorElements.forEach(element => element.innerHTML = '');
 
-    //     let isValid = true;
+            //     let isValid = true;
 
-    //     // Validate Product Name
-    //     const productName = document.getElementById('product_name').value;
-    //     if (!productName.trim()) {
-    //         document.getElementById('productName-error').innerHTML = 'Product name is required';
-    //         isValid = false;
-    //     }
+            //     // Validate Product Name
+            //     const productName = document.getElementById('product_name').value;
+            //     if (!productName.trim()) {
+            //         document.getElementById('productName-error').innerHTML = 'Product name is required';
+            //         isValid = false;
+            //     }
 
-    //     // Validate Description
-    //     const description = document.getElementById('descriptionid').value;
-    //     if (!description.trim()) {
-    //         document.getElementById('description-error').innerHTML = 'Description is required';
-    //         isValid = false;
-    //     }
+            //     // Validate Description
+            //     const description = document.getElementById('descriptionid').value;
+            //     if (!description.trim()) {
+            //         document.getElementById('description-error').innerHTML = 'Description is required';
+            //         isValid = false;
+            //     }
 
-    //     // Validate Variants
-    //     const variantSections = document.querySelectorAll('.variant-section');
-    //     if (variantSections.length === 0) {
-    //         // alert('At least one variant is required');
-    //         isValid = false;
-    //     }
+            //     // Validate Variants
+            //     const variantSections = document.querySelectorAll('.variant-section');
+            //     if (variantSections.length === 0) {
+            //         // alert('At least one variant is required');
+            //         isValid = false;
+            //     }
 
-    //     // Validate each variant
-    //     variantSections.forEach((section, index) => {
-    //         // RAM validation
-    //         const ram = section.querySelector(`#ram-${index}`).value;
-    //         if (!ram.trim()) {
-    //             section.querySelector(`#ram-${index}`).insertAdjacentHTML(
-    //                 'afterend',
-    //                 `<div class="error-message" style="color: red;">RAM is required</div>`
-    //             );
-    //             isValid = false;
-    //         }
+            //     // Validate each variant
+            //     variantSections.forEach((section, index) => {
+            //         // RAM validation
+            //         const ram = section.querySelector(`#ram-${index}`).value;
+            //         if (!ram.trim()) {
+            //             section.querySelector(`#ram-${index}`).insertAdjacentHTML(
+            //                 'afterend',
+            //                 `<div class="error-message" style="color: red;">RAM is required</div>`
+            //             );
+            //             isValid = false;
+            //         }
 
-    //         const processor = section.querySelector(`#processor-${index}`).value;
-    //         if (!processor.trim()) {
-    //             section.querySelector(`#processor-${index}`).insertAdjacentHTML(
-    //                 'afterend',
-    //                 `<div class="error-message" style="color: red;">Processor is required</div>`
-    //             );
-    //             isValid = false;
-    //         }
+            //         const processor = section.querySelector(`#processor-${index}`).value;
+            //         if (!processor.trim()) {
+            //             section.querySelector(`#processor-${index}`).insertAdjacentHTML(
+            //                 'afterend',
+            //                 `<div class="error-message" style="color: red;">Processor is required</div>`
+            //             );
+            //             isValid = false;
+            //         }
 
-    //         const storage = section.querySelector(`#storage-${index}`).value;
-    //         if (!storage.trim()) {
-    //             section.querySelector(`#storage-${index}`).insertAdjacentHTML(
-    //                 'afterend',
-    //                 `<div class="error-message" style="color: red;">Storage is required</div>`
-    //             );
-    //             isValid = false;
-    //         }
+            //         const storage = section.querySelector(`#storage-${index}`).value;
+            //         if (!storage.trim()) {
+            //             section.querySelector(`#storage-${index}`).insertAdjacentHTML(
+            //                 'afterend',
+            //                 `<div class="error-message" style="color: red;">Storage is required</div>`
+            //             );
+            //             isValid = false;
+            //         }
 
-    //         const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
-    //         if (!regularPrice || regularPrice <= 0) {
-    //             section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-    //                 'beforeend',
-    //                 `<div class="error-message" style="color: red;">Valid regular price is required</div>`
-    //             );
-    //             isValid = false;
-    //         }
+            //         const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
+            //         if (!regularPrice || regularPrice <= 0) {
+            //             section.querySelector(`#regularPrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+            //                 'beforeend',
+            //                 `<div class="error-message" style="color: red;">Valid regular price is required</div>`
+            //             );
+            //             isValid = false;
+            //         }
 
-    //         const salePrice = section.querySelector(`#salePrice-${index}`).value;
-    //         if (salePrice && Number(salePrice) > Number(regularPrice)) {
-    //             section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
-    //                 'beforeend',
-    //                 `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
-    //             );
-    //             isValid = false;
-    //         }
+            //         const salePrice = section.querySelector(`#salePrice-${index}`).value;
+            //         if (salePrice && Number(salePrice) > Number(regularPrice)) {
+            //             section.querySelector(`#salePrice-${index}`).closest('.col-md-6').insertAdjacentHTML(
+            //                 'beforeend',
+            //                 `<div class="error-message" style="color: red;">Sale price must be less than regular price</div>`
+            //             );
+            //             isValid = false;
+            //         }
 
-    //         const stock = section.querySelector(`#stock-${index}`).value;
-    //         if (!stock || stock < 0) {
-    //             section.querySelector(`#stock-${index}`).insertAdjacentHTML(
-    //                 'afterend',
-    //                 `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
-    //             );
-    //             isValid = false;
-    //         }
-    //     });
+            //         const stock = section.querySelector(`#stock-${index}`).value;
+            //         if (!stock || stock < 0) {
+            //             section.querySelector(`#stock-${index}`).insertAdjacentHTML(
+            //                 'afterend',
+            //                 `<div class="error-message" style="color: red;">Valid stock quantity is required</div>`
+            //             );
+            //             isValid = false;
+            //         }
+            //     });
 
-    //     // Image validation
-    //     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-    //     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
-    //     let hasImage = false;
+            //     // Image validation
+            //     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+            //     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
+            //     let hasImage = false;
 
-    //     // Check if new images are uploaded
-    //     imageInputs.forEach(input => {
-    //         if (input.files.length > 0) {
-    //             hasImage = true;
-    //         }
-    //     });
+            //     // Check if new images are uploaded
+            //     imageInputs.forEach(input => {
+            //         if (input.files.length > 0) {
+            //             hasImage = true;
+            //         }
+            //     });
 
-    //     // Check if existing images are present
-    //     if (!hasImage && existingImages.length === 0) {
-    //         document.getElementById('images-error').innerHTML = 'At least one image is required';
-    //         isValid = false;
-    //     }
+            //     // Check if existing images are present
+            //     if (!hasImage && existingImages.length === 0) {
+            //         document.getElementById('images-error').innerHTML = 'At least one image is required';
+            //         isValid = false;
+            //     }
 
-    //     // Prevent form submission if validation fails
-    //     if (!isValid) {
-    //         // alert('Please correct the errors before submitting.');
-    //     }
+            //     // Prevent form submission if validation fails
+            //     if (!isValid) {
+            //         // alert('Please correct the errors before submitting.');
+            //     }
 
-    //     return isValid;
-    // }
-
-
-// Add this CSS to your stylesheet
+            //     return isValid;
+            // }
 
 
+            // Add this CSS to your stylesheet
 
 
-// function validateAndSubmit() {
-//     // Clear all previous error messages
-//     document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
-    
-//     let isValid = true;
-
-//     // Validate Product Name
-//     const productName = document.getElementById('product_name').value.trim();
-//     if (!productName) {
-//         document.getElementById('productName-error').innerHTML = 'Product name is required';
-//         isValid = false;
-//     }
-
-//     // Validate Category
-//     const category = document.querySelector('select[name="category"]').value.trim();
-//     if (!category) {
-//         document.getElementById('category-error').innerHTML = 'Category is required';
-//         isValid = false;
-//     }
-
-//     // Validate Brand
-//     const brand = document.querySelector('select[name="brand"]').value.trim();
-//     if (!brand) {
-//         document.getElementById('brand-error').innerHTML = 'Brand is required';
-//         isValid = false;
-//     }
-
-//     // Validate Description
-//     const description = document.getElementById('descriptionid').value.trim();
-//     if (!description) {
-//         document.getElementById('description-error').innerHTML = 'Description is required';
-//         isValid = false;
-//     }
-
-//     // Validate Variants
-//     const variantSections = document.querySelectorAll('.variant-section');
-//     if (variantSections.length === 0) {
-//         alert('At least one variant is required');
-//         isValid = false;
-//     }
-
-//     // Validate each variant
-//     variantSections.forEach((section, index) => {
-//         // Remove existing error messages before validation
-//         section.querySelectorAll('.error-message').forEach(el => el.remove());
-
-//         // RAM validation
-//         const ramInput = section.querySelector(`#ram-${index}`);
-//         if (!ramInput.value.trim()) {
-//             ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
-//             isValid = false;
-//         }
-
-//         // Processor validation
-//         const processorInput = section.querySelector(`#processor-${index}`);
-//         if (!processorInput.value.trim()) {
-//             processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
-//             isValid = false;
-//         }
-
-//         // Storage validation
-//         const storageInput = section.querySelector(`#storage-${index}`);
-//         if (!storageInput.value.trim()) {
-//             storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
-//             isValid = false;
-//         }
-
-//         // Regular Price validation
-//         const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
-//         if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
-//             regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
-//             isValid = false;
-//         }
-
-//         // Sale Price validation
-//         const salePriceInput = section.querySelector(`#salePrice-${index}`);
-//         if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
-//             salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
-//             isValid = false;
-//         }
-
-//         // Stock validation
-//         const stockInput = section.querySelector(`#stock-${index}`);
-//         if (!stockInput.value || Number(stockInput.value) < 0) {
-//             stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
-//             isValid = false;
-//         }
-//     });
-
-//     // Image validation
-//     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-//     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
-//     let hasImage = existingImages.length > 0;
-
-//     // Check if new images are uploaded
-//     imageInputs.forEach(input => {
-//         if (input.files.length > 0) {
-//             hasImage = true;
-//         }
-//     });
-
-//     if (!hasImage) {
-//         document.getElementById('images-error').innerHTML = 'At least one image is required';
-//         isValid = false;
-//     }
-
-//     // Prevent form submission if validation fails
-//     return isValid;
-// }
 
 
-function validateAndSubmit() {
-    document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
-    
-    let isValid = true;
+            // function validateAndSubmit() {
+            //     // Clear all previous error messages
+            //     document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
 
-    const productName = document.getElementById('product_name').value.trim();
-    if (!productName) {
-        document.getElementById('productName-error').innerHTML = 'Product name is required';
-        isValid = false;
-    }
+            //     let isValid = true;
 
-    const category = document.querySelector('select[name="category"]').value.trim();
-    if (!category) {
-        document.getElementById('category-error').innerHTML = 'Category is required';
-        isValid = false;
-    }
+            //     // Validate Product Name
+            //     const productName = document.getElementById('product_name').value.trim();
+            //     if (!productName) {
+            //         document.getElementById('productName-error').innerHTML = 'Product name is required';
+            //         isValid = false;
+            //     }
 
-    const brand = document.querySelector('select[name="brand"]').value.trim();
-    if (!brand) {
-        document.getElementById('brand-error').innerHTML = 'Brand is required';
-        isValid = false;
-    }
+            //     // Validate Category
+            //     const category = document.querySelector('select[name="category"]').value.trim();
+            //     if (!category) {
+            //         document.getElementById('category-error').innerHTML = 'Category is required';
+            //         isValid = false;
+            //     }
 
-    const description = document.getElementById('descriptionid').value.trim();
-    if (!description) {
-        document.getElementById('description-error').innerHTML = 'Description is required';
-        isValid = false;
-    }
+            //     // Validate Brand
+            //     const brand = document.querySelector('select[name="brand"]').value.trim();
+            //     if (!brand) {
+            //         document.getElementById('brand-error').innerHTML = 'Brand is required';
+            //         isValid = false;
+            //     }
 
-    const variantSections = document.querySelectorAll('.variant-section');
-    if (variantSections.length === 0) {
-        alert('At least one variant is required');
-        isValid = false;
-    }
+            //     // Validate Description
+            //     const description = document.getElementById('descriptionid').value.trim();
+            //     if (!description) {
+            //         document.getElementById('description-error').innerHTML = 'Description is required';
+            //         isValid = false;
+            //     }
 
-    variantSections.forEach((section, index) => {
-        section.querySelectorAll('.error-message').forEach(el => el.remove());
+            //     // Validate Variants
+            //     const variantSections = document.querySelectorAll('.variant-section');
+            //     if (variantSections.length === 0) {
+            //         alert('At least one variant is required');
+            //         isValid = false;
+            //     }
 
-        const ramInput = section.querySelector(`#ram-${index}`);
-        if (!ramInput.value.trim()) {
-            ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
-            isValid = false;
-        }
+            //     // Validate each variant
+            //     variantSections.forEach((section, index) => {
+            //         // Remove existing error messages before validation
+            //         section.querySelectorAll('.error-message').forEach(el => el.remove());
 
-        const processorInput = section.querySelector(`#processor-${index}`);
-        if (!processorInput.value.trim()) {
-            processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
-            isValid = false;
-        }
+            //         // RAM validation
+            //         const ramInput = section.querySelector(`#ram-${index}`);
+            //         if (!ramInput.value.trim()) {
+            //             ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
+            //             isValid = false;
+            //         }
 
-        const storageInput = section.querySelector(`#storage-${index}`);
-        if (!storageInput.value.trim()) {
-            storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
-            isValid = false;
-        }
+            //         // Processor validation
+            //         const processorInput = section.querySelector(`#processor-${index}`);
+            //         if (!processorInput.value.trim()) {
+            //             processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
+            //             isValid = false;
+            //         }
 
-        const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
-        if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
-            regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
-            isValid = false;
-        }
+            //         // Storage validation
+            //         const storageInput = section.querySelector(`#storage-${index}`);
+            //         if (!storageInput.value.trim()) {
+            //             storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
+            //             isValid = false;
+            //         }
 
-        const salePriceInput = section.querySelector(`#salePrice-${index}`);
-        if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
-            salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
-            isValid = false;
-        }
-        
-        if (salePriceInput.value && Number(salePriceInput.value) <=Number(0)) {
-            salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid sale price is required</div>`);
-            isValid = false;
-        }
-        const stockInput = section.querySelector(`#stock-${index}`);
-        if (!stockInput.value || Number(stockInput.value) < 0) {
-            stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
-            isValid = false;
-        }
-    });
+            //         // Regular Price validation
+            //         const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
+            //         if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
+            //             regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
+            //             isValid = false;
+            //         }
 
-    const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-    const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); 
-    let hasImage = existingImages.length > 0;
+            //         // Sale Price validation
+            //         const salePriceInput = section.querySelector(`#salePrice-${index}`);
+            //         if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
+            //             salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
+            //             isValid = false;
+            //         }
 
-    imageInputs.forEach(input => {
-        if (input.files.length > 0) {
-            hasImage = true;
-        }
-    });
+            //         // Stock validation
+            //         const stockInput = section.querySelector(`#stock-${index}`);
+            //         if (!stockInput.value || Number(stockInput.value) < 0) {
+            //             stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
+            //             isValid = false;
+            //         }
+            //     });
 
-    if (!hasImage) {
-        document.getElementById('images-error').innerHTML = 'At least one image is required';
-        isValid = false;
-    }
+            //     // Image validation
+            //     const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+            //     const existingImages = document.querySelectorAll('img[src^="/uploads/"]'); // Check existing images
+            //     let hasImage = existingImages.length > 0;
 
-    if (!isValid) {
-        const firstError = document.querySelector('.error-message:not(:empty)');
-        if (firstError) {
-            if (!firstError.hasAttribute('tabindex')) {
-                firstError.setAttribute('tabindex', '-1');
+            //     // Check if new images are uploaded
+            //     imageInputs.forEach(input => {
+            //         if (input.files.length > 0) {
+            //             hasImage = true;
+            //         }
+            //     });
+
+            //     if (!hasImage) {
+            //         document.getElementById('images-error').innerHTML = 'At least one image is required';
+            //         isValid = false;
+            //     }
+
+            //     // Prevent form submission if validation fails
+            //     return isValid;
+            // }
+
+
+            async function validateAndSubmit(event) {
+                if (event) event.preventDefault();
+                document.querySelectorAll('.error-message').forEach(el => el.innerHTML = '');
+
+                let isValid = true;
+
+                const productName = document.getElementById('product_name').value.trim();
+                if (!productName) {
+                    document.getElementById('productName-error').innerHTML = 'Product name is required';
+                    isValid = false;
+                }
+
+                const category = document.querySelector('select[name="category"]').value.trim();
+                if (!category) {
+                    document.getElementById('category-error').innerHTML = 'Category is required';
+                    isValid = false;
+                }
+
+                const brand = document.querySelector('select[name="brand"]').value.trim();
+                if (!brand) {
+                    document.getElementById('brand-error').innerHTML = 'Brand is required';
+                    isValid = false;
+                }
+
+                const description = document.getElementById('descriptionid').value.trim();
+                if (!description) {
+                    document.getElementById('description-error').innerHTML = 'Description is required';
+                    isValid = false;
+                }
+
+                const variantSections = document.querySelectorAll('.variant-section');
+                if (variantSections.length === 0) {
+                    alert('At least one variant is required');
+                    isValid = false;
+                }
+
+                variantSections.forEach((section, index) => {
+                    section.querySelectorAll('.error-message').forEach(el => el.remove());
+
+                    const ramInput = section.querySelector(`#ram-${index}`);
+                    if (!ramInput.value.trim()) {
+                        ramInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">RAM is required</div>`);
+                        isValid = false;
+                    }
+
+                    const processorInput = section.querySelector(`#processor-${index}`);
+                    if (!processorInput.value.trim()) {
+                        processorInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Processor is required</div>`);
+                        isValid = false;
+                    }
+
+                    const storageInput = section.querySelector(`#storage-${index}`);
+                    if (!storageInput.value.trim()) {
+                        storageInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Storage is required</div>`);
+                        isValid = false;
+                    }
+
+                    const regularPriceInput = section.querySelector(`#regularPrice-${index}`);
+                    if (!regularPriceInput.value || Number(regularPriceInput.value) <= 0) {
+                        regularPriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid regular price is required</div>`);
+                        isValid = false;
+                    }
+
+                    const salePriceInput = section.querySelector(`#salePrice-${index}`);
+                    if (salePriceInput.value && Number(salePriceInput.value) > Number(regularPriceInput.value)) {
+                        salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Sale price must be less than regular price</div>`);
+                        isValid = false;
+                    }
+
+                    if (salePriceInput.value && Number(salePriceInput.value) <= Number(0)) {
+                        salePriceInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid sale price is required</div>`);
+                        isValid = false;
+                    }
+                    const stockInput = section.querySelector(`#stock-${index}`);
+                    if (!stockInput.value || Number(stockInput.value) < 0) {
+                        stockInput.insertAdjacentHTML('afterend', `<div class="error-message text-danger">Valid stock quantity is required</div>`);
+                        isValid = false;
+                    }
+                });
+
+                const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+                const existingImages = document.querySelectorAll('img[src^="/uploads/"]');
+                let hasImage = existingImages.length > 0;
+
+                imageInputs.forEach(input => {
+                    if (input.files.length > 0) {
+                        hasImage = true;
+                    }
+                });
+
+                if (!hasImage) {
+                    document.getElementById('images-error').innerHTML = 'At least one image is required';
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    const firstError = document.querySelector('.error-message:not(:empty)');
+                    if (firstError) {
+                        if (!firstError.hasAttribute('tabindex')) {
+                            firstError.setAttribute('tabindex', '-1');
+                        }
+                        firstError.focus();
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                    return false;
+                }
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                        } else {
+                            window.location.href = '/admin/products';
+                        }
+                    } else {
+                        const result = await response.json();
+                        Swal.fire({
+                            title: 'Error!',
+                            text: result.message || result.error || 'Failed to edit product',
+                            icon: 'error',
+                            confirmButtonColor: '#ff0000'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An unexpected error occurred. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff0000'
+                    });
+                }
+
+                return false;
             }
-            firstError.focus();
-            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-    }
-
-    return isValid;
-}
 
 
-const style = document.createElement('style');
-style.textContent = `
+            const style = document.createElement('style');
+            style.textContent = `
     .error-message {
         color: red;
         font-size: 0.875rem;
         margin-top: 0.25rem;
     }
 `;
-document.head.appendChild(style);
+            document.head.appendChild(style);
             function validateForm() {
-                
+
                 let isValid = true;
-            
-              const productName = document.getElementById("product_name").value;
-              
-              if (!productName.trim()) {
-                 productName.innerHTML='product name is'
-                isValid = false;
-              } else {
-                document.getElementById("productName-error").innerText = "";
-              }
+
+                const productName = document.getElementById("product_name").value;
+
+                if (!productName.trim()) {
+                    productName.innerHTML = 'product name is'
+                    isValid = false;
+                } else {
+                    document.getElementById("productName-error").innerText = "";
+                }
 
 
-              return isValid;
+                return isValid;
             }
 
             function viewImage(event, index) {
@@ -835,7 +918,7 @@ document.head.appendChild(style);
                 };
 
                 reader.onerror = function () {
-                    
+
                 };
 
                 reader.readAsDataURL(input.files[0]);
@@ -907,6 +990,7 @@ document.head.appendChild(style);
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

@@ -581,8 +581,8 @@
                 <%for(let i=0;i<order.orderedItems.length;i++){%>
                     <tr>
                         <td class="py-2 px-4 border-b flex items-center">
-                            <img alt="Image of Product 1" class="w-12 h-12 mr-4" src="/uploads/<%= order.orderedItems[i].Product.productImage[0] %>">
-                            <p><%= order.orderedItems[i].Product.productName %></p>
+                            <img alt="Image of Product 1" class="mr-4" style="width: 50px; height: 50px; object-fit: cover;" src="/uploads/<%= order.orderedItems[i].Product.productImage[0] %>">
+                            <p style="margin: 0;"><%= order.orderedItems[i].Product.productName %></p>
                         </td>
                         <td class="py-2 px-4 border-b">
                             <%= order.orderedItems[i].quantity %>
