@@ -38,6 +38,14 @@ app.use(passport.session())
 app.use("/",userRouter)
 app.use('/admin',adminRouter)
 app.use(userAuth)
+app.use((err, req, res, next) => {
+    if (err.message === 'Only JPEG, JPG, and PNG files are allowed!' || err.name === 'MulterError') {
+        return res.status(400).json({ error: err.message || 'File upload error' });
+    }
+    console.error(err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
+});
+
 app.listen(process.env.PO_RT,()=>{
     console.log("server is running")
 })

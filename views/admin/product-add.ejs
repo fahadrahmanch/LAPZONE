@@ -66,7 +66,7 @@
                     <a class="menu-link" href="/admin/orders"> <i class="icon material-icons md-shopping_cart"></i>
                         <span class="text">Orders</span>
                     </a>
-                   
+
                 </li>
                 <li class="menu-item">
                     <a class="menu-link" href="/admin/coupen">
@@ -159,49 +159,56 @@
                     <div class="content-header">
                         <h2 class="content-title">Add New Product</h2>
                     </div>
-                    
+
                     <div class="card mb-4">
                         <div class="card-body">
-                            <form method="POST" action="/admin/addProducts" enctype="multipart/form-data" onsubmit="return validateAndSubmit()">
+                            <form method="POST" action="/admin/addProducts" enctype="multipart/form-data"
+                                onsubmit="return validateAndSubmit(event)">
                                 <!-- Basic Information -->
                                 <div class="row">
                                     <div class="col-md-6 mb-4">
                                         <label for="product_name" class="form-label">Product Name</label>
-                                        <input type="text" placeholder="Type here" name="productName" class="form-control" id="product_name">
+                                        <input type="text" placeholder="Type here" name="productName"
+                                            class="form-control" id="product_name">
                                         <div id="productName-error" class="error-message text-danger"></div>
                                     </div>
-                                    
+
                                     <div class="col-md-3 mb-4">
                                         <label class="form-label">Category</label>
                                         <select class="form-select" name="category">
                                             <option value="" selected></option>
                                             <%for(let i=0;i<cat.length;i++){%>
-                                                <option value="<%= cat[i].name %>"><%= cat[i].name %></option>
-                                            <%}%>
+                                                <option value="<%= cat[i].name %>">
+                                                    <%= cat[i].name %>
+                                                </option>
+                                                <%}%>
                                         </select>
                                         <div id="category-error" class="error-message text-danger"></div>
                                     </div>
-                                    
+
                                     <div class="col-md-3 mb-4">
                                         <label class="form-label">Brand</label>
                                         <select class="form-select" name="brand">
                                             <option value="" selected></option>
                                             <%for(let i=0;i<brand.length;i++){%>
-                                                <option value="<%= brand[i].brandName %>"><%= brand[i].brandName %></option>
-                                            <%}%>
+                                                <option value="<%= brand[i].brandName %>">
+                                                    <%= brand[i].brandName %>
+                                                </option>
+                                                <%}%>
                                         </select>
                                         <div id="brand-error" class="error-message text-danger"></div>
                                     </div>
                                 </div>
-        
+
                                 <div class="row">
                                     <div class="col-12 mb-4">
                                         <label class="form-label">Full description</label>
-                                        <textarea placeholder="Type here" id="descriptionid" name="description" class="form-control" rows="4"></textarea>
+                                        <textarea placeholder="Type here" id="descriptionid" name="description"
+                                            class="form-control" rows="4"></textarea>
                                         <div id="description-error" class="error-message text-danger"></div>
                                     </div>
                                 </div>
-        
+
                                 <!-- Variants Section -->
                                 <div class="row">
                                     <div class="col-12">
@@ -212,38 +219,53 @@
                                                 <div class="row">
                                                     <div class="col-md-4 mb-3">
                                                         <label for="ram-0" class="form-label">RAM</label>
-                                                        <input type="text" class="form-control" name="variants[0][ram]" id="ram-0" placeholder="Enter RAM (e.g., 8GB)">
+                                                        <input type="text" class="form-control" name="variants[0][ram]"
+                                                            id="ram-0" placeholder="Enter RAM (e.g., 8GB)">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label for="storage-0" class="form-label">Storage</label>
-                                                        <input type="text" class="form-control" name="variants[0][storage]" id="storage-0" placeholder="Enter Storage (e.g., 512GB SSD)">
+                                                        <input type="text" class="form-control"
+                                                            name="variants[0][storage]" id="storage-0"
+                                                            placeholder="Enter Storage (e.g., 512GB SSD)">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label for="processor-0" class="form-label">Processor</label>
-                                                        <input type="text" class="form-control" name="variants[0][processor]" id="processor-0" placeholder="Enter Processor (e.g., Intel i5)">
+                                                        <input type="text" class="form-control"
+                                                            name="variants[0][processor]" id="processor-0"
+                                                            placeholder="Enter Processor (e.g., Intel i5)">
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-4 mb-3">
-                                                        <label for="regularPrice-0" class="form-label">Regular Price</label>
-                                                        <input type="number" class="form-control" name="variants[0][regularPrice]" id="regularPrice-0" placeholder="Enter regular price">
+                                                        <label for="regularPrice-0" class="form-label">Regular
+                                                            Price</label>
+                                                        <input type="number" class="form-control"
+                                                            name="variants[0][regularPrice]" id="regularPrice-0"
+                                                            placeholder="Enter regular price">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label for="salePrice-0" class="form-label">Sale Price</label>
-                                                        <input type="number" class="form-control" name="variants[0][salePrice]" id="salePrice-0" placeholder="Enter sale price">
+                                                        <input type="number" class="form-control"
+                                                            name="variants[0][salePrice]" id="salePrice-0"
+                                                            placeholder="Enter sale price">
                                                     </div>
                                                     <div class="col-md-4 mb-3">
                                                         <label for="stock-0" class="form-label">Stock</label>
-                                                        <input type="number" class="form-control" name="variants[0][stock]" id="stock-0" placeholder="Enter stock quantity">
+                                                        <input type="number" class="form-control"
+                                                            name="variants[0][stock]" id="stock-0"
+                                                            placeholder="Enter stock quantity">
                                                     </div>
                                                 </div>
-                                                <button type="button" class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove Variant</button>
+                                                <button type="button"
+                                                    class="btn btn-danger btn-sm align-self-start remove-variant-btn">Remove
+                                                    Variant</button>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn btn-secondary mb-4" id="addVariantBtn">Add Another Variant</button>
+                                        <button type="button" class="btn btn-secondary mb-4" id="addVariantBtn">Add
+                                            Another Variant</button>
                                     </div>
                                 </div>
-        
+
                                 <!-- Images Section -->
                                 <div class="row">
                                     <div class="col-12">
@@ -254,23 +276,25 @@
                                             <div class="card-body">
                                                 <div id="addedImagesContainer" class="row mb-3"></div>
                                                 <div class="row">
-                                                    <% for(let i = 1; i <= 4; i++) { %>
-                                                    <div class="col-md-3 mb-3">
-                                                        <div class="image-upload-container">
-                                                            <img src="" alt="" id="imgView<%= i %>" class="img-preview mb-2">
-                                                            <input class="form-control" type="file" name="images" id="input<%= i %>"
-                                                                accept="image/png, image/jpeg, image/jpg"
-                                                                onchange="viewImage<%= i %>(event), viewImage(event, <%= i %>)">
+                                                    <% for(let i=1; i <=4; i++) { %>
+                                                        <div class="col-md-3 mb-3">
+                                                            <div class="image-upload-container">
+                                                                <img src="" alt="" id="imgView<%= i %>"
+                                                                    class="img-preview mb-2">
+                                                                <input class="form-control" type="file" name="images"
+                                                                    id="input<%= i %>"
+                                                                    accept="image/png, image/jpeg, image/jpg"
+                                                                    onchange="viewImage(event, '<%= i %>')">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <% } %>
+                                                        <% } %>
                                                 </div>
                                                 <div id="images-error" class="error-message text-danger"></div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-        
+
                                 <!-- Submit Button -->
                                 <div class="row">
                                     <div class="col-12">
@@ -285,15 +309,15 @@
         </section>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-              let variantCount = 1; // Start at 1 since the first variant is already there
-          
-              const addVariantBtn = document.getElementById("addVariantBtn");
-              const variantsContainer = document.getElementById("variantsContainer");
-          
-              addVariantBtn.addEventListener("click", () => {
-                const newVariant = document.createElement("div");
-                newVariant.className = "variant-section";
-                newVariant.innerHTML = `
+                let variantCount = 1; // Start at 1 since the first variant is already there
+
+                const addVariantBtn = document.getElementById("addVariantBtn");
+                const variantsContainer = document.getElementById("variantsContainer");
+
+                addVariantBtn.addEventListener("click", () => {
+                    const newVariant = document.createElement("div");
+                    newVariant.className = "variant-section";
+                    newVariant.innerHTML = `
                   <h5>Variant ${variantCount + 1}</h5>
                   <div class="mb-3">
                     <label for="ram-${variantCount}" class="form-label">RAM</label>
@@ -323,281 +347,314 @@
                   </div>
                   <button type="button" class="btn btn-danger btn-sm remove-variant-btn">Remove Variant</button>
                 `;
-                variantsContainer.appendChild(newVariant);
-                variantCount++; // Increment only once after adding a new variant
-              });
-          
-              variantsContainer.addEventListener("click", (e) => {
-                if (e.target.classList.contains("remove-variant-btn")) {
-                  e.target.closest(".variant-section").remove();
-                }
-              });
-            });
-          </script>
-          
+                    variantsContainer.appendChild(newVariant);
+                    variantCount++; // Increment only once after adding a new variant
+                });
 
-      
-        
-        
+                variantsContainer.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("remove-variant-btn")) {
+                        e.target.closest(".variant-section").remove();
+                    }
+                });
+            });
+        </script>
+
+
+
+
+
         <script>
 
-function validateAndSubmit() {
-    clearErrors();
-    let isValid = true;
+            async function validateAndSubmit(event) {
+                if (event) event.preventDefault();
+                clearErrors();
+                let isValid = true;
 
-    // Basic Information Validation
-    isValid = validateBasicInfo() && isValid;
-    
-    // Variants Validation
-    isValid = validateVariants() && isValid;
-    
-    // Images Validation
-    isValid = validateImages() && isValid;
+                // Basic Information Validation
+                isValid = validateBasicInfo() && isValid;
 
-    return isValid;
-}
+                // Variants Validation
+                isValid = validateVariants() && isValid;
 
-function clearErrors() {
-    document.querySelectorAll('.error-message').forEach(element => {
-        element.innerHTML = '';
-    });
-    document.querySelectorAll('.is-invalid').forEach(element => {
-        element.classList.remove('is-invalid');
-    });
-}
+                // Images Validation
+                isValid = validateImages() && isValid;
 
-function showError(elementId, message) {
-    const errorElement = document.getElementById(elementId);
-    console.log("Error element:", errorElement);
-    
-    if (errorElement) {
-        errorElement.innerHTML = message;
-        
-        const errorBase = elementId.replace('-error', '');
-        
-        const possibleIds = [
-            errorBase,                    
-            errorBase.replace(/([A-Z])/g, '_$1').toLowerCase(), 
-            'input' + errorBase.charAt(0).toUpperCase() + errorBase.slice(1), 
-            errorBase + 'id'               
-        ];
-        
-        let inputElement = null;
-        
-        // Try each possible ID format
-        for (const id of possibleIds) {
-            const element = document.getElementById(id);
-            if (element) {
-                inputElement = element;
-                console.log("Found input element with ID:", id);
-                break;
+                if (!isValid) return false;
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                try {
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        window.location.href = '/admin/products';
+                    } else {
+                        const result = await response.json();
+                        Swal.fire({
+                            title: 'Error!',
+                            text: result.message || result.error || 'Failed to add product',
+                            icon: 'error',
+                            confirmButtonColor: '#ff0000'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Error submitting form:', error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'An unexpected error occurred. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#ff0000'
+                    });
+                }
+
+                return false;
             }
-        }
-        
-        // If we still don't have an input element, try to find it by name
-        if (!inputElement) {
-            const nameElements = document.getElementsByName(errorBase);
-            if (nameElements.length > 0) {
-                inputElement = nameElements[0];
-                console.log("Found input element by name:", errorBase);
+
+            function clearErrors() {
+                document.querySelectorAll('.error-message').forEach(element => {
+                    element.innerHTML = '';
+                });
+                document.querySelectorAll('.is-invalid').forEach(element => {
+                    element.classList.remove('is-invalid');
+                });
             }
-        }
-        
-        // If input element exists
-        if (inputElement) {
-            // Add invalid class
-            inputElement.classList.add('is-invalid');
-            
-            // Focus on the input element
-            console.log("Attempting to focus on:", inputElement);
-            inputElement.focus();
-            
-            // Scroll the element into view if needed
-            inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            
-            return true; // Successfully focused
-        } else {
-            console.error("Could not find input element for error:", elementId);
-            return false; // Failed to focus
-        }
-    }
-    return false;
-} 
+
+            function showError(elementId, message) {
+                const errorElement = document.getElementById(elementId);
+                console.log("Error element:", errorElement);
+
+                if (errorElement) {
+                    errorElement.innerHTML = message;
+
+                    const errorBase = elementId.replace('-error', '');
+
+                    const possibleIds = [
+                        errorBase,
+                        errorBase.replace(/([A-Z])/g, '_$1').toLowerCase(),
+                        'input' + errorBase.charAt(0).toUpperCase() + errorBase.slice(1),
+                        errorBase + 'id'
+                    ];
+
+                    let inputElement = null;
+
+                    // Try each possible ID format
+                    for (const id of possibleIds) {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            inputElement = element;
+                            console.log("Found input element with ID:", id);
+                            break;
+                        }
+                    }
+
+                    // If we still don't have an input element, try to find it by name
+                    if (!inputElement) {
+                        const nameElements = document.getElementsByName(errorBase);
+                        if (nameElements.length > 0) {
+                            inputElement = nameElements[0];
+                            console.log("Found input element by name:", errorBase);
+                        }
+                    }
+
+                    // If input element exists
+                    if (inputElement) {
+                        // Add invalid class
+                        inputElement.classList.add('is-invalid');
+
+                        // Focus on the input element
+                        console.log("Attempting to focus on:", inputElement);
+                        inputElement.focus();
+
+                        // Scroll the element into view if needed
+                        inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        return true; // Successfully focused
+                    } else {
+                        console.error("Could not find input element for error:", elementId);
+                        return false; // Failed to focus
+                    }
+                }
+                return false;
+            }
 
 
-function validateBasicInfo() {
-    let isValid = true;
+            function validateBasicInfo() {
+                let isValid = true;
 
-    // Product Name
-    const productName = document.getElementById('product_name').value;
-    if (!productName.trim()) {
-        showError('productName-error', 'Product name is required');
-        isValid = false;
-    }
+                // Product Name
+                const productName = document.getElementById('product_name').value;
+                if (!productName.trim()) {
+                    showError('productName-error', 'Product name is required');
+                    isValid = false;
+                }
 
-    // Category
-    const category = document.querySelector('select[name="category"]').value;
-    if (!category) {
-        showError('category-error', 'Category is required');
-        isValid = false;
-    }
+                // Category
+                const category = document.querySelector('select[name="category"]').value;
+                if (!category) {
+                    showError('category-error', 'Category is required');
+                    isValid = false;
+                }
 
-    // Brand
-    const brand = document.querySelector('select[name="brand"]').value;
-    if (!brand) {
-        showError('brand-error', 'Brand is required');
-        isValid = false;
-    }
+                // Brand
+                const brand = document.querySelector('select[name="brand"]').value;
+                if (!brand) {
+                    showError('brand-error', 'Brand is required');
+                    isValid = false;
+                }
 
-    // Description
-    const description = document.getElementById('descriptionid').value;
-    if (!description.trim()) {
-        showError('description-error', 'Description is required');
-        isValid = false;
-    }
+                // Description
+                const description = document.getElementById('descriptionid').value;
+                if (!description.trim()) {
+                    showError('description-error', 'Description is required');
+                    isValid = false;
+                }
 
-    return isValid;
-}
+                return isValid;
+            }
 
-function validateVariants() {
-    let isValid = true;
-    const variantSections = document.querySelectorAll('.variant-section');
+            function validateVariants() {
+                let isValid = true;
+                const variantSections = document.querySelectorAll('.variant-section');
 
-    if (variantSections.length === 0) {
-    Swal.fire({
-        icon: 'warning',
-        title: 'Oops...',
-        text: 'At least one variant is required'
-    });
-    return false;
-}
-
-
-    variantSections.forEach((section, index) => {
-        // Validate RAM
-        const ram = section.querySelector(`#ram-${index}`).value;
-        if (!ram.trim()) {
-            addVariantError(section, `ram-${index}`, 'RAM is required');
-            isValid = false;
-        }
-
-        // Validate Storage
-        const storage = section.querySelector(`#storage-${index}`).value;
-        if (!storage.trim()) {
-            addVariantError(section, `storage-${index}`, 'Storage is required');
-            isValid = false;
-        }
-
-        // Validate Processor
-        const processor = section.querySelector(`#processor-${index}`).value;
-        if (!processor.trim()) {
-            addVariantError(section, `processor-${index}`, 'Processor is required');
-            isValid = false;
-        }
-
-        // Validate Prices
-        const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
-        const salePrice = section.querySelector(`#salePrice-${index}`).value;
-
-        if (!regularPrice || regularPrice <= 0) {
-            addVariantError(section, `regularPrice-${index}`, 'Valid regular price is required');
-            isValid = false;
-        }
-       if(salePrice<=0){
-        addVariantError(section, `salePrice-${index}`, 'Valid sale price is required');
-            isValid = false;
-       }
-        if (salePrice && Number(salePrice) > Number(regularPrice)) {
-            addVariantError(section, `salePrice-${index}`, 'Sale price must be less than regular price');
-            isValid = false;
-        }
-
-        // Validate Stock
-        const stock = section.querySelector(`#stock-${index}`).value;
-        if (!stock || stock < 0) {
-            addVariantError(section, `stock-${index}`, 'Valid stock quantity is required');
-            isValid = false;
-        }
-    });
-
-    return isValid;
-}
-
-function addVariantError(section, inputId, message) {
-    const input = section.querySelector(`#${inputId}`);
-    if (input) {
-        input.classList.add('is-invalid');
-        
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'error-message text-danger mt-1';
-        errorDiv.innerHTML = message;
-        
-        input.parentNode.appendChild(errorDiv);
-        input.focus(); // Focus on the first error field in the variants section
-    }
-}
+                if (variantSections.length === 0) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Oops...',
+                        text: 'At least one variant is required'
+                    });
+                    return false;
+                }
 
 
-function validateImages() {
-    const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
-    let hasImage = false;
+                variantSections.forEach((section, index) => {
+                    // Validate RAM
+                    const ram = section.querySelector(`#ram-${index}`).value;
+                    if (!ram.trim()) {
+                        addVariantError(section, `ram-${index}`, 'RAM is required');
+                        isValid = false;
+                    }
 
-    imageInputs.forEach(input => {
-        if (input.files.length > 0) {
-            hasImage = true;
-        }
-    });
+                    // Validate Storage
+                    const storage = section.querySelector(`#storage-${index}`).value;
+                    if (!storage.trim()) {
+                        addVariantError(section, `storage-${index}`, 'Storage is required');
+                        isValid = false;
+                    }
 
-    if (!hasImage) {
-        showError('images-error', 'At least one product image is required');
-        return false;
-    }
+                    // Validate Processor
+                    const processor = section.querySelector(`#processor-${index}`).value;
+                    if (!processor.trim()) {
+                        addVariantError(section, `processor-${index}`, 'Processor is required');
+                        isValid = false;
+                    }
 
-    return true;
-}
+                    // Validate Prices
+                    const regularPrice = section.querySelector(`#regularPrice-${index}`).value;
+                    const salePrice = section.querySelector(`#salePrice-${index}`).value;
 
-function updateVariantIds(variantElement, index) {
-    const inputs = variantElement.querySelectorAll('input');
-    inputs.forEach(input => {
-        const oldId = input.id;
-        const newId = oldId.replace(/\d+/, index);
-        input.id = newId;
-        input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
-        
-        const label = variantElement.querySelector(`label[for="${oldId}"]`);
-        if (label) {
-            label.setAttribute('for', newId);
-        }
-    });
-}
+                    if (!regularPrice || regularPrice <= 0) {
+                        addVariantError(section, `regularPrice-${index}`, 'Valid regular price is required');
+                        isValid = false;
+                    }
+                    if (salePrice <= 0) {
+                        addVariantError(section, `salePrice-${index}`, 'Valid sale price is required');
+                        isValid = false;
+                    }
+                    if (salePrice && Number(salePrice) > Number(regularPrice)) {
+                        addVariantError(section, `salePrice-${index}`, 'Sale price must be less than regular price');
+                        isValid = false;
+                    }
 
-// Handle variant removal
-document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('remove-variant-btn')) {
-        const variantsContainer = document.getElementById('variantsContainer');
-        if (variantsContainer.children.length > 1) {
-            e.target.closest('.variant-section').remove();
-            // Update variant numbers
-            variantsContainer.querySelectorAll('.variant-section').forEach((section, index) => {
-                section.querySelector('h5').textContent = `Variant ${index + 1}`;
-                updateVariantIds(section, index);
+                    // Validate Stock
+                    const stock = section.querySelector(`#stock-${index}`).value;
+                    if (!stock || stock < 0) {
+                        addVariantError(section, `stock-${index}`, 'Valid stock quantity is required');
+                        isValid = false;
+                    }
+                });
+
+                return isValid;
+            }
+
+            function addVariantError(section, inputId, message) {
+                const input = section.querySelector(`#${inputId}`);
+                if (input) {
+                    input.classList.add('is-invalid');
+
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message text-danger mt-1';
+                    errorDiv.innerHTML = message;
+
+                    input.parentNode.appendChild(errorDiv);
+                    input.focus(); // Focus on the first error field in the variants section
+                }
+            }
+
+
+            function validateImages() {
+                const imageInputs = document.querySelectorAll('input[type="file"][name="images"]');
+                let hasImage = false;
+
+                imageInputs.forEach(input => {
+                    if (input.files.length > 0) {
+                        hasImage = true;
+                    }
+                });
+
+                if (!hasImage) {
+                    showError('images-error', 'At least one product image is required');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function updateVariantIds(variantElement, index) {
+                const inputs = variantElement.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const oldId = input.id;
+                    const newId = oldId.replace(/\d+/, index);
+                    input.id = newId;
+                    input.name = input.name.replace(/\[\d+\]/, `[${index}]`);
+
+                    const label = variantElement.querySelector(`label[for="${oldId}"]`);
+                    if (label) {
+                        label.setAttribute('for', newId);
+                    }
+                });
+            }
+
+            // Handle variant removal
+            document.addEventListener('click', function (e) {
+                if (e.target.classList.contains('remove-variant-btn')) {
+                    const variantsContainer = document.getElementById('variantsContainer');
+                    if (variantsContainer.children.length > 1) {
+                        e.target.closest('.variant-section').remove();
+                        // Update variant numbers
+                        variantsContainer.querySelectorAll('.variant-section').forEach((section, index) => {
+                            section.querySelector('h5').textContent = `Variant ${index + 1}`;
+                            updateVariantIds(section, index);
+                        });
+                    } else {
+                        alert('At least one variant is required');
+                    }
+                }
             });
-        } else {
-            alert('At least one variant is required');
-        }
-    }
-});
-const style = document.createElement('style');
-style.textContent = `
+            const style = document.createElement('style');
+            style.textContent = `
     .error-message {
         color: red;
         font-size: 0.875rem;
         margin-top: 0.25rem;
     }
 `;
-document.head.appendChild(style);
-           
-       
+            document.head.appendChild(style);
+
+
 
             function viewImage(event, index) {
                 const input = event.target;
@@ -715,10 +772,7 @@ document.head.appendChild(style);
     <!-- Main Script -->
     <script src="assets/js/main.js" type="text/javascript"></script>
     <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
-
-

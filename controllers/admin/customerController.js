@@ -9,7 +9,6 @@ const customerInfo = async (req, res) => {
     if (req.query.search) {
       search = req.query.search;
     }
-    
     let page = 1;
     if (req.query.page) {
       page = req.query.page;

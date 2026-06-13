@@ -93,11 +93,10 @@ const userSchema =new Schema({
     }]
 
 })
-userSchema.pre("save", function (next) {
+userSchema.pre("save", async function () {
     if (!this.referralOfferCode) {
         this.referralOfferCode = crypto.randomBytes(5).toString("hex").toUpperCase();
     }
-    next();
 });
 const User=mongoose.model("User",userSchema);
 module.exports=User;

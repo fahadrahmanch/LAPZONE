@@ -688,22 +688,22 @@
                                      <%for(let i=0;i<8;i++){%>
                                     <div class="product-default-single-item product-color--pink swiper-slide">
                                         <div class="image-box">
-                                            <%if(products[i].bestOffer >0){%>
+                                            <%if(products[i]?.bestOffer >0){%>
                                                 <div class="offer-badge">
                                                     <span><%= products[i].bestOffer %>% OFF</span>
                                                 </div>
                                             <%}%>
-                                            <a href="/shop/product?id=<%=products[i]._id%>" class="image-link">
+                                            <a href="/shop/product?id=<%=products[i]?._id%>" class="image-link">
                                                 
-                                                <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
-                                                <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
+                                                <img src="/uploads/<%= products[i]?.productImage[0] %>" alt="">
+                                                <img src="/uploads/<%= products[i]?.productImage[1] %>" alt="">
                                             </a>
                                             <div class="tag">
                                                 <span>sale</span>
                                             </div>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a onclick="addToCart('<%= products[i]._id %>', 1, `<%= JSON.stringify(products[i]).replace(/`/g, '\\`') %>`)" 
+                                                    <a onclick="addToCart('<%= products[i]?._id %>', 1, `<%= JSON.stringify(products[i])?.replace(/`/g, '\\`') %>`)" 
                                                         href="#" 
                                                         data-bs-toggle="modal" 
                                                         data-bs-target="#modalAddcart">
@@ -721,7 +721,7 @@
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><%=products[i].productName%></h6>
+                                                <h6 class="title"><%=products[i]?.productName%></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -731,11 +731,11 @@
                                                 </ul>
                                             </div>
                                             <div class="price-container">
-                                                <span class="sale-price">₹ <%= products[i].variants[0].salePrice %></span>
+                                                <span class="sale-price">₹ <%= products[i]?.variants[0]?.salePrice %></span>
                                                
-                                                <% if (products[i].bestOffer) { %>
+                                                <% if (products[i]?.bestOffer) { %>
                                                     <span class="old-price"> 
-                                                        <%= products[i].variants[0].regularPrice %>
+                                                        <%= products[i]?.variants[0]?.regularPrice %>
                                                     </span>
                                                 <% } %>
                                             </div>
@@ -757,18 +757,18 @@ margin-left: 0.5rem;
                                     <%for(let i=8;i<10;i++){%>
                                         <div class="product-default-single-item product-color--pink swiper-slide">
                                             <div class="image-box">
-                                                <%if(products[i].bestOffer >0){%>
+                                                <%if(products[i]?.bestOffer >0){%>
                                                     <div class="offer-badge">
-                                                        <span><%= products[i].bestOffer %>% OFF</span>
+                                                        <span><%= products[i]?.bestOffer %>% OFF</span>
                                                     </div>
                                                 <%}%>
-                                                <a href="/shop/product?id=<%=products[i]._id%>" class="image-link">
-                                                    <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
-                                                    <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
+                                                <a href="/shop/product?id=<%=products[i]?._id%>" class="image-link">
+                                                    <img src="/uploads/<%= products[i]?.productImage[0] %>" alt="">
+                                                    <img src="/uploads/<%= products[i]?.productImage[1] %>" alt="">
                                                 </a>
                                                 <div class="action-link">
                                                     <div class="action-link-left">
-                                                        <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="" data-bs-toggle="modal"
+                                                        <a onclick="addToCart('<%=products[i]?._id%>',1,'<%=JSON.stringify(products[i])%>')" href="" data-bs-toggle="modal"
                                                             data-bs-target="#modalAddcart">Add to Cart</a>
                                                     </div>
                                                     <div class="action-link-right">
@@ -782,7 +782,7 @@ margin-left: 0.5rem;
                                             </div>
                                             <div class="content">
                                                 <div class="content-left">
-                                                    <h6 class="title"><a href=""><%=products[i].productName%></a></h6>
+                                                    <h6 class="title"><a href=""><%=products[i]?.productName%></a></h6>
                                                     <ul class="review-star">
                                                         <li class="fill"><i class="ion-android-star"></i></li>
                                                         <li class="fill"><i class="ion-android-star"></i></li>
@@ -792,11 +792,11 @@ margin-left: 0.5rem;
                                                     </ul>
                                                 </div>
                                                 <div class="price-container">
-                                                    <span class="sale-price">₹ <%= products[i].variants[0].salePrice %></span>
+                                                    <span class="sale-price">₹ <%= products[i]?.variants[0]?.salePrice %></span>
                                                    
-                                                    <% if (products[i].bestOffer) { %>
+                                                    <% if (products[i]?.bestOffer) { %>
                                                         <span class="old-price"> 
-                                                            <%= products[i].variants[0].regularPrice %>
+                                                            <%= products[i]?.variants[0]?.regularPrice %>
                                                         </span>
                                                     <% } %>
                                                 </div>
@@ -887,18 +887,18 @@ margin-left: 0.5rem;
                                     <!-- Start Product Default Single Item -->
                                     <div class="product-default-single-item product-color--pink swiper-slide">
                                         <div class="image-box">
-                                            <%if(products[i].bestOffer >0){%>
+                                            <%if(products[i]?.bestOffer >0){%>
                                                 <div class="offer-badge">
                                                     <span><%= products[i].bestOffer %>% OFF</span>
                                                 </div>
                                             <%}%>
-                                            <a href="/shop/product?id=<%=products[i]._id%>" class="image-link">
-                                                <img src="/uploads/<%= products[i].productImage[0] %>" alt="">
-                                                <img src="/uploads/<%= products[i].productImage[1] %>" alt="">
+                                            <a href="/shop/product?id=<%=products[i]?._id%>" class="image-link">
+                                                <img src="/uploads/<%= products[i]?.productImage[0] %>" alt="">
+                                                <img src="/uploads/<%= products[i]?.productImage[1] %>" alt="">
                                             </a>
                                             <div class="action-link">
                                                 <div class="action-link-left">
-                                                    <a onclick="addToCart('<%=products[i]._id%>',1,'<%=JSON.stringify(products[i])%>')" href="" data-bs-toggle="modal"
+                                                    <a onclick="addToCart('<%=products[i]?._id%>',1,'<%=JSON.stringify(products[i])%>')" href="" data-bs-toggle="modal"
                                                         data-bs-target="#modalAddcart">Add to Cart</a>
                                                 </div>
                                                 <div class="action-link-right">
@@ -906,10 +906,10 @@ margin-left: 0.5rem;
                                                         data-bs-target="#modalQuickview"><i
                                                             class="icon-magnifier"></i></a> -->
                                                             <!-- <a href="wishlist.html" class="wishlist-link" 
-                                                            data-product-id="<%= products[i]._id %>" 
-                                                            data-variant-id="<%= products[i].variants[0]._id %>"
-                                                            data-in-wishlist="<%= products[i].isInWishlist %>">
-                                                           <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="<%= products[i].isInWishlist ? 'red' : 'none' %>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            data-product-id="<%= products[i]?._id %>" 
+                                                            data-variant-id="<%= products[i]?.variants[0]._id %>"
+                                                            data-in-wishlist="<%= products[i]?.isInWishlist %>">
+                                                           <svg xmlns="http://www.w3.org/2000/svg" class="wishlist-heart" width="24" height="24" viewBox="0 0 24 24" fill="<%= products[i]?.isInWishlist ? 'red' : 'none' %>" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
                                                            </svg>
                                                          </a> -->
@@ -929,7 +929,7 @@ margin-left: 0.5rem;
                                         </div>
                                         <div class="content">
                                             <div class="content-left">
-                                                <h6 class="title"><a href=""><%=products[i].productName%></a></h6>
+                                                <h6 class="title"><a href=""><%=products[i]?.productName%></a></h6>
                                                 <ul class="review-star">
                                                     <li class="fill"><i class="ion-android-star"></i></li>
                                                     <li class="fill"><i class="ion-android-star"></i></li>
@@ -939,11 +939,11 @@ margin-left: 0.5rem;
                                                 </ul>
                                             </div>
                                             <div class="price-container">
-                                                <span class="sale-price">₹ <%= products[i].variants[0].salePrice %></span>
+                                                <span class="sale-price">₹ <%= products[i]?.variants[0].salePrice %></span>
                                                
-                                                <% if (products[i].bestOffer) { %>
+                                                <% if (products[i]?.bestOffer) { %>
                                                     <span class="old-price"> 
-                                                        <%= products[i].variants[0].regularPrice %>
+                                                        <%= products[i]?.variants[0].regularPrice %>
                                                     </span>
                                                 <% } %>
                                             </div>

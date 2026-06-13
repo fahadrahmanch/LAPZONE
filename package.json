@@ -1,41 +1,39 @@
 {
   "name": "first-project",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "test": "nodemon app.js"
+  "description": "��#\u0000 \u0000L\u0000A\u0000P\u0000Z\u0000O\u0000N\u0000E\u0000\r\u0000 \u0000#\u0000 \u0000L\u0000A\u0000P\u0000Z\u0000O\u0000N\u0000E\u0000\r\u0000 \u0000",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "busboy": "^1.6.0",
-    "cloudinary": "^2.5.1",
-    "dotenv": "^16.4.7",
-    "ejs": "^3.1.10",
+    "bcrypt": "^6.0.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
     "exceljs": "^4.4.0",
-    "express": "^4.21.2",
-    "express-session": "^1.18.1",
-    "git": "^0.1.5",
-    "html2canvas": "^1.4.1",
-    "jquery": "^3.7.1",
-    "jspdf": "^2.5.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "moment": "^2.30.1",
-    "mongoose": "^8.8.4",
-    "multer": "^1.4.5-lts.1",
+    "mongoose": "^9.5.0",
+    "multer": "^2.1.1",
     "nocache": "^4.0.0",
-    "nodemailer": "^6.9.16",
-    "nodemon": "^3.1.7",
+    "nodemailer": "^8.0.5",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
-    "pdfkit": "^0.16.0",
+    "passport-local": "^1.0.0",
+    "pdfkit": "^0.18.0",
     "pdfkit-table": "^0.1.99",
-    "pdfmake": "^0.2.18",
-    "razorpay": "^2.9.5",
-    "sharp": "^0.33.5",
-    "sweetalert2": "^11.14.5",
-    "uuidv4": "^6.2.13"
+    "razorpay": "^2.9.6",
+    "sharp": "^0.34.5",
+    "uuid": "^14.0.0"
   }
 }
