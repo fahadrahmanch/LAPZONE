@@ -727,14 +727,20 @@
                             <% if (products.variants && products.variants.length> 0) { %>
                                 <div class="mb-3">
                                     <label for="variantSelect" class="form-label">Choose a variant:</label>
-                                    <select onchange="variantSelect(this, <%= JSON.stringify(products.variants) %>)"
+                                    <script id="product-variants-data" type="application/json">
+                                        <%- JSON.stringify(products.variants) %>
+                                    </script>
+                                    <script>
+                                        var productVariants = JSON.parse(document.getElementById('product-variants-data').textContent);
+                                    </script>
+                                    <select onchange="variantSelect(this, productVariants)"
                                         id="variantSelect" class="form-select">
                                         <% products.variants.forEach((variant, index)=> { %>
 
 
                                             <option value="<%=variant._id%>">
-                                                <%=variant.ram%>%> GB RAM / <%=variant.storage%> GB Storage /
-                                                        <%=variant. processor%> Proccessor
+                                                <%=variant.ram%> GB RAM / <%=variant.storage%> GB Storage /
+                                                        <%=variant.processor%> Proccessor
                                             </option>
 
                                             <% }) %>

@@ -239,12 +239,12 @@
                         </select>
                     </div>
                     
-                    <div class="col-md-3 mb-3" id="customDateRange" style="display: <%= period === 'custom' ? 'block' : 'none' %>;">
+                    <div class="col-md-3 mb-3" id="customDateRange" <%- period === 'custom' ? 'style="display: block;"' : 'style="display: none;"' %>>
                         <label class="form-label">Start Date</label>
                         <input type="date" id="startDate" name="startDate" value="<%= startDate %>" class="form-control">
                     </div>
                     
-                    <div class="col-md-3 mb-3" id="customEndDate" style="display: <%= period === 'custom' ? 'block' : 'none' %>;">
+                    <div class="col-md-3 mb-3" id="customEndDate" <%- period === 'custom' ? 'style="display: block;"' : 'style="display: none;"' %>>
                         <label class="form-label">End Date</label>
                         <input type="date" id="endDate" name="endDate" value="<%= endDate %>" class="form-control">
                     </div>
