@@ -1,58 +1,341 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>LapZoen Dashboard</title>
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="description" content="">
+    <title>LapZone Admin Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:title" content="">
-    <meta property="og:type" content="">
-    <meta property="og:url" content="">
-    <meta property="og:image" content="">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="assets/imgs/theme/favicon.svg">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/admin/assets/imgs/theme/favicon.svg">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #4F46E5;
+            --primary-hover: #4338CA;
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --error-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            color: var(--text-main);
+        }
+
+        /* Dynamic Animated Background Elements */
+        .bg-shape {
+            position: absolute;
+            filter: blur(100px);
+            z-index: 0;
+            animation: float 20s infinite alternate;
+        }
+        
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: rgba(79, 70, 229, 0.3);
+            top: -100px;
+            left: -100px;
+            border-radius: 50%;
+        }
+        
+        .shape-2 {
+            width: 500px;
+            height: 500px;
+            background: rgba(236, 72, 153, 0.2);
+            bottom: -150px;
+            right: -150px;
+            border-radius: 50%;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(50px, 30px) scale(1.1); }
+            100% { transform: translate(-30px, 50px) scale(0.9); }
+        }
+
+        /* Glassmorphism Card */
+        .login-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 440px;
+            z-index: 10;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .login-header p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+            pointer-events: none;
+        }
+
+        .form-control {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 1rem 1rem 1rem 2.8rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        .form-control:focus + .input-icon,
+        .form-control:not(:placeholder-shown) + .input-icon {
+            color: var(--primary);
+        }
+
+        /* Floating labels or error messages */
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: block;
+            min-height: 20px;
+        }
+        
+        .server-error {
+            text-align: center;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Remember Me & Forgot Password */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+
+        .custom-checkbox {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            background: rgba(15, 23, 42, 0.6);
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .custom-checkbox:checked {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .custom-checkbox:checked::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 10px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Login Button */
+        .btn-login {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-login:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -10px rgba(79, 70, 229, 0.5);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+        
+        .btn-login i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-login:hover i {
+            transform: translateX(4px);
+        }
+
+        @media (max-width: 480px) {
+            .login-card {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-white font-roboto">
-    <main class="min-h-screen flex items-center justify-center">
-        <section class="bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md">
-            <h4 class="text-2xl font-bold mb-4">Sign in</h4>
-            <form action="/admin/login" method="POST" id="adminloginForm" >
-                <span class="text-red-500"><%=message%></span>
-                <div class="mb-4">
-                    <input class="w-full p-2 rounded bg-gray-700 text-white" id="email" placeholder="Username or email" type="text" name="email" oninput="validateEmail()">
-                    <span id="email_error" class="text-red-500"></span>
+<body>
+
+    <!-- Animated Background Shapes -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <main class="login-card">
+        <div class="login-header">
+            <h2>LapZone Admin</h2>
+            <p>Sign in to access your dashboard</p>
+        </div>
+
+        <form action="/admin/login" method="POST" id="adminloginForm">
+            
+            <% if (typeof message !== 'undefined' && message) { %>
+                <div class="error-message server-error" id="serverErrorMessage">
+                    <i class="fas fa-exclamation-circle"></i> <%= message %>
                 </div>
-                <div class="mb-4">
-                    <input class="w-full p-2 rounded bg-gray-700 text-white" id="password" placeholder="Password" type="password" name="password" oninput="validatePassword()">
-                    <span id="password_error" class="text-red-500"></span>
-                </div>
-                <div class="mb-4 flex items-center">
-                    <input type="checkbox" class="form-check-input mr-2" checked="">
-                    <span class="form-check-label">Remember</span>
-                </div>
-                <div class="mb-4">
-                    <button type="submit" class="w-full p-2 rounded bg-blue-600 hover:bg-blue-700">Login</button>
-                </div>
-            </form>
-            <script>
-            document.getElementById("adminloginForm").addEventListener("submit", function (event) {
-                event.preventDefault(); 
-                this.submit(); 
-            });
-        </script>
-            <script src="/js_folder/validation.js"></script>
-        </section>
+            <% } %>
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Username or email" oninput="validateEmail()">
+                <i class="fas fa-envelope input-icon"></i>
+                <span id="email_error" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-control" id="password" name="password" placeholder="Password" oninput="validatePassword()">
+                <i class="fas fa-lock input-icon"></i>
+                <span id="password_error" class="error-message"></span>
+            </div>
+
+            <div class="form-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" class="custom-checkbox" checked>
+                    <span>Remember me</span>
+                </label>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <span>Sign In to Dashboard</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+            
+        </form>
     </main>
+
     <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
-    <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>
-    <script src="assets/js/vendors/jquery.fullscreen.min.js"></script>
-    <!-- Main Script -->
-    <script src="assets/js/main.js" type="text/javascript"></script>
+    <script src="/js_folder/validation.js"></script>
+    <script>
+        document.getElementById("adminloginForm").addEventListener("submit", function (event) {
+            // Replicate original script behavior
+            event.preventDefault(); 
+            this.submit(); 
+        });
+        
+        // Hide server error when typing starts
+        const serverError = document.getElementById('serverErrorMessage');
+        if(serverError) {
+            document.querySelectorAll('.form-control').forEach(input => {
+                input.addEventListener('input', () => {
+                    serverError.style.display = 'none';
+                });
+            });
+        }
+    </script>
 </body>
 </html>

@@ -139,7 +139,6 @@ const updateCartqty = async (req, res) => {
         .json({ success: false, message: CART.PRODUCT_OUT_OF_STOCK });
       
     }
-    console.log("productvariant",productVariant)
     if (quantity < 1 || quantity > 5) {
       return res
         .status(STATUS_CODES.BAD_REQUEST)

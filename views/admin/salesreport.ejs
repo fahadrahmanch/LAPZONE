@@ -16,7 +16,7 @@
     <!-- Template CSS -->
     <link href="assets/css/main.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -188,54 +188,21 @@
     <main class="main-wrap">
         <header class="main-header navbar">
             <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                        <option value="Products">
-                        <option value="New orders">
-                        <option value="Apple iphone">
-                        <option value="Ahmed Hassan">
-                    </datalist>
-                </form>
+           
             </div>
             <div class="col-nav">
-                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                
                 <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link btn-icon" href="#">
-                            <i class="material-icons md-notifications animation-shake"></i>
-                            <span class="badge rounded-pill">3</span>
-                        </a>
-                    </li>
+                  
                     <li class="nav-item">
                         <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
                     </li>
+                   
+                 
                     <li class="nav-item">
-                        <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownLanguage" aria-expanded="false"><i class="material-icons md-public"></i></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguage">
-                            <a class="dropdown-item text-brand" href="#"><img src="assets/imgs/theme/flag-us.png" alt="English">English</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-fr.png" alt="Français">Français</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-jp.png" alt="Français">日本語</a>
-                            <a class="dropdown-item" href="#"><img src="assets/imgs/theme/flag-cn.png" alt="Français">中国人</a>
-                        </div>
-                    </li>
-                    <li class="dropdown nav-item">
-                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="assets/imgs/people/avatar2.jpg" alt="User"></a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                            <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
-                            <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
-                        </div>
+                        <a class="nav-link text-danger" href="/admin/logout" style="display: flex; align-items: center; gap: 5px;">
+                            <i class="material-icons md-exit_to_app"></i> Logout
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -243,223 +210,175 @@
         
            
            
-           <div class="min-h-screen bg-gray-100 py-8">
-            <div class="container mx-auto px-4">
-                <!-- Header Section -->
-                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                        <h1 class="text-3xl font-bold text-gray-900">Sales Report</h1>
-                        <div class="flex flex-col sm:flex-row gap-3">
-                            <button id="downloadPdf" class="inline-flex items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                                </svg>
-                                Download PDF
-                            </button>
-                            <button ID="downloadExcel" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-                                </svg>
-                                Download Excel
-                            </button>
-                        </div>
+           
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Sales Report</h2>
+        </div>
+        <div>
+            <button id="downloadPdf" class="btn btn-primary"><i class="text-muted material-icons md-post_add"></i>Download PDF</button>
+            <button id="downloadExcel" class="btn btn-success"><i class="text-muted material-icons md-post_add"></i>Download Excel</button>
+        </div>
+    </div>
+
+    <!-- Filter Form -->
+    <div class="card mb-4">
+        <header class="card-header">
+            <h4 class="card-title">Filter Sales Report</h4>
+            <form action="/admin/salesreport" method="GET">
+                <div class="row align-items-end">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">Filter By</label>
+                        <select id="filterType" name="period" class="form-select">
+                            <option value="all" <%= period === "all" ? "selected" : "" %>>All Time</option>
+                            <option value="daily" <%= period === "daily" ? "selected" : "" %>>Daily</option>
+                            <option value="weekly" <%= period === "weekly" ? "selected" : "" %>>Weekly</option>
+                            <option value="monthly" <%= period === "monthly" ? "selected" : "" %>>Monthly</option>
+                            <option value="custom" <%= period === "custom" ? "selected" : "" %>>Custom Date Range</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-md-3 mb-3" id="customDateRange" style="display: <%= period === 'custom' ? 'block' : 'none' %>;">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" id="startDate" name="startDate" value="<%= startDate %>" class="form-control">
+                    </div>
+                    
+                    <div class="col-md-3 mb-3" id="customEndDate" style="display: <%= period === 'custom' ? 'block' : 'none' %>;">
+                        <label class="form-label">End Date</label>
+                        <input type="date" id="endDate" name="endDate" value="<%= endDate %>" class="form-control">
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Generate Report</button>
                     </div>
                 </div>
-        
-                <!-- Filters Section -->
-                <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-                    <h2 class="text-xl font-semibold mb-6 text-gray-900">Filter Sales Report</h2>
-                    <form action="/admin/salesreport" method="GET" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="filterType">Filter By</label>
-                                <select id="filterType" name="period" 
-                                        class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                                    <option value="all" <%= period === "all" ? "selected" : "" %>>All Time</option>
-                                    <option value="daily" <%= period === "daily" ? "selected" : "" %>>Daily</option>
-                                    <option value="weekly" <%= period === "weekly" ? "selected" : "" %>>Weekly</option>
-                                    <option value="monthly" <%= period === "monthly" ? "selected" : "" %>>Monthly</option>
-                                    <option value="custom" <%= period === "custom" ? "selected" : "" %>>Custom Date Range</option>
-                                </select>
-                            </div>
-        
-                            <div id="customDateRange" class="<%= period === 'custom' ? '' : 'hidden' %>">
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="startDate">Start Date</label>
-                                <input type="date" id="startDate" name="startDate" value="<%= startDate %>"
-                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                            </div>
-        
-                            <div id="customEndDate" class="<%= period === 'custom' ? '' : 'hidden' %>">
-                                <label class="block text-sm font-medium text-gray-700 mb-2" for="endDate">End Date</label>
-                                <input type="date" id="endDate" name="endDate" value="<%= endDate %>"
-                                       class="w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500">
-                            </div>
-        
-                            <div class="flex items-end">
-                                <button type="submit" class="w-full px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors">
-                                    Generate Report
-                                </button>
-                            </div>
-                        </div>
-                        <% if (dateErr) { %>
-                            <div class="mt-4 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
-                                <%= dateErr %>
-                            </div>
-                        <% } %>
-                    </form>
-                </div>
-        
-                <!-- Summary Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-green-500">
-                        <h3 class="text-sm font-medium text-green-600 mb-2">Overall Sales Count</h3>
-                        <p class="text-2xl font-bold text-gray-900"><%= count %></p>
+                <% if (typeof dateErr !== 'undefined' && dateErr) { %>
+                    <div class="alert alert-danger mt-3"><%= dateErr %></div>
+                <% } %>
+            </form>
+        </header>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-primary-light"><i class="text-primary material-icons md-monetization_on"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Overall Sales Count</h6>
+                        <span><%= count %></span>
                     </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-blue-500">
-                        <h3 class="text-sm font-medium text-blue-600 mb-2">Overall Order Amount</h3>
-                        <p class="text-2xl font-bold text-gray-900"><%= overallamount %></p>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-lg p-6 border-l-4 border-red-500">
-                        <h3 class="text-sm font-medium text-red-600 mb-2">Overall Discount</h3>
-                        <p class="text-2xl font-bold text-gray-900"><%= overallDiscount %></p>
-                    </div>
-                </div>
-        
-                <!-- Sales Table -->
-                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
-                    <div class="p-6 border-b border-gray-200">
-                        <h2 class="text-xl font-semibold text-gray-900">Sales Report Details</h2>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <% orders.forEach((item) => { %>
-                                    <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.createdOn %></td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.userId?.name %></td>
-                                        <td class="px-6 py-4 text-sm text-gray-900">
-                                            <% for (let key of item.orderedItems) { %>
-                                                <%= key.Product.productName %><br>
-                                            <% } %>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.paymentMethod %></td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                                                <%= item.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
-                                                   item.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 
-                                                   'bg-gray-100 text-gray-800' %>">
-                                                <%= item.status %>
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"><%= item.finalAmount %></td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-               
-                <!-- Pagination -->
-                <div class="flex justify-center my-8">
-                    <nav aria-label="Pagination" class="inline-flex flex-wrap shadow-lg rounded-lg overflow-hidden max-w-full">
-                        <!-- Previous Button -->
-                        <% if (currentPage > 1) { %>
-                            <a href="?page=<%= currentPage - 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
-                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out"
-                               aria-label="Previous page">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        <% } %>
-                
-                        <!-- Page Numbers - Limited to 5 visible pages -->
-                        <% 
-                        let startPage = Math.max(1, currentPage - 1);
-                        let endPage = Math.min(totalPages, startPage + 2);
-                        if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
-                        
-                        if (startPage > 1) { %>
-                            <a href="?page=1&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
-                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out">
-                                1
-                            </a>
-                            <% if (startPage > 2) { %>
-                                <span class="inline-flex items-center px-2 py-2 bg-white border-r border-gray-200 text-gray-400">...</span>
-                            <% } %>
-                        <% } %>
-                
-                        <% for (let i = startPage; i <= endPage; i++) { %>
-                            <a href="?page=<%= i %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
-                               class="inline-flex items-center px-3 py-2 border-r border-gray-200 transition-colors duration-200 ease-in-out
-                                      <%= currentPage === i 
-                                          ? 'bg-green-600 text-white hover:bg-green-700' 
-                                          : 'bg-white text-gray-700 hover:bg-green-50 hover:text-green-600' %>"
-                               <%= currentPage === i ? 'aria-current="page"' : '' %>>
-                                <%= i %>
-                            </a>
-                        <% } %>
-                
-                        <% if (endPage < totalPages) { %>
-                            <% if (endPage < totalPages - 1) { %>
-                                <span class="inline-flex items-center px-2 py-2 bg-white border-r border-gray-200 text-gray-400">...</span>
-                            <% } %>
-                            <a href="?page=<%= totalPages %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
-                               class="inline-flex items-center px-3 py-2 bg-white border-r border-gray-200 text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out">
-                                <%= totalPages %>
-                            </a>
-                        <% } %>
-                
-                        <!-- Next Button -->
-                        <% if (currentPage < totalPages) { %>
-                            <a href="?page=<%= currentPage + 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"
-                               class="inline-flex items-center px-3 py-2 bg-white text-gray-700 hover:bg-green-50 hover:text-green-600 transition-colors duration-200 ease-in-out"
-                               aria-label="Next page">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        <% } %>
-                    </nav>
-                </div>
-                
+                </article>
             </div>
         </div>
-        
-        <script>
-        document.getElementById('filterType').addEventListener('change', function() {
-            const customRange = document.getElementById('customDateRange');
-            const customEndDate = document.getElementById('customEndDate');
-            
-            if (this.value === 'custom') {
-                customRange.classList.remove('hidden');
-                customEndDate.classList.remove('hidden');
-            } else {
-                customRange.classList.add('hidden');
-                customEndDate.classList.add('hidden');
-            }
-        });
-        
-        function downloadPdf() {
-            // Implement PDF download functionality
-            console.log('Downloading PDF...');
-        }
-        
-        function downloadExcel() {
-            // Implement Excel download functionality
-            console.log('Downloading Excel...');
-        }
-        </script>
+        <div class="col-lg-4">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-success-light"><i class="text-success material-icons md-local_shipping"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Overall Order Amount</h6>
+                        <span>₹<%= overallamount %></span>
+                    </div>
+                </article>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card card-body mb-4">
+                <article class="icontext">
+                    <span class="icon icon-sm rounded-circle bg-warning-light"><i class="text-warning material-icons md-qr_code"></i></span>
+                    <div class="text">
+                        <h6 class="mb-1 card-title">Overall Discount</h6>
+                        <span>₹<%= overallDiscount %></span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sales Table -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Products</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.forEach((item) => { %>
+                            <tr>
+                                <td><%= item.createdOn %></td>
+                                <td><%= item.userId?.name %></td>
+                                <td>
+                                    <% for (let key of item.orderedItems) { %>
+                                        <%= key.Product.productName %><br>
+                                    <% } %>
+                                </td>
+                                <td><%= item.paymentMethod %></td>
+                                <td>
+                                    <span class="badge rounded-pill <%= item.status === 'Delivered' ? 'alert-success' : item.status === 'Pending' ? 'alert-warning' : 'alert-danger' %>">
+                                        <%= item.status %>
+                                    </span>
+                                </td>
+                                <td>₹<%= item.finalAmount %></td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-area mt-15 mb-50">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-start">
+                <% if (currentPage > 1) { %>
+                    <li class="page-item"><a class="page-link" href="?page=<%= currentPage - 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><i class="material-icons md-chevron_left"></i></a></li>
+                <% } %>
+                
+                <% 
+                let startPage = Math.max(1, currentPage - 1);
+                let endPage = Math.min(totalPages, startPage + 2);
+                if (endPage - startPage < 2) startPage = Math.max(1, endPage - 2);
+                
+                for (let i = startPage; i <= endPage; i++) { %>
+                    <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                        <a class="page-link" href="?page=<%= i %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><%= i %></a>
+                    </li>
+                <% } %>
+                
+                <% if (currentPage < totalPages) { %>
+                    <li class="page-item"><a class="page-link" href="?page=<%= currentPage + 1 %>&period=<%= period %>&startDate=<%= startDate %>&endDate=<%= endDate %>"><i class="material-icons md-chevron_right"></i></a></li>
+                <% } %>
+            </ul>
+        </nav>
+    </div>
+</section>
+
+<script>
+document.getElementById('filterType').addEventListener('change', function() {
+    const customRange = document.getElementById('customDateRange');
+    const customEndDate = document.getElementById('customEndDate');
+    
+    if (this.value === 'custom') {
+        customRange.style.display = 'block';
+        customEndDate.style.display = 'block';
+    } else {
+        customRange.style.display = 'none';
+        customEndDate.style.display = 'none';
+    }
+});
+</script>
+
         <footer class="main-footer font-xs">
             <div class="row pb-30 pt-15">
                 <div class="col-sm-6">

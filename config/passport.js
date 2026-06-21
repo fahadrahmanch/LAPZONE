@@ -5,8 +5,8 @@ const env = require("dotenv").config();
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    // callbackURL:'http://localhost:3001/auth/google/callback'
-    callbackURL: 'https://lapzone.fahadrahman.shop/auth/google/callback'
+    callbackURL:'http://localhost:3000/auth/google/callback'
+    // callbackURL: 'https://lapzone.fahadrahman.shop/auth/google/callback'
 },
     async (accesToken, refreshToke, profile, done) => {
         try {
@@ -14,14 +14,24 @@ passport.use(new GoogleStrategy({
             if (user) {
                 return done(null, user)
             } else {
-                user = new User({
-                    name: profile.displayName,
-                    email: profile.emails[0].value,
-
-                    googleId: profile.id,
-                })
-                await user.save()
-                return done(null, user)
+                // Check if user already exists with this email
+                user = await User.findOne({ email: profile.emails[0].value });
+                if (user) {
+                    // Optional: Link the google account by saving the googleId
+                    if (!user.googleId) {
+                        user.googleId = profile.id;
+                        await user.save();
+                    }
+                    return done(null, user);
+                } else {
+                    user = new User({
+                        name: profile.displayName,
+                        email: profile.emails[0].value,
+                        googleId: profile.id,
+                    })
+                    await user.save()
+                    return done(null, user)
+                }
             }
         }
         catch (error) {

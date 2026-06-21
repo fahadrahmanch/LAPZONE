@@ -8,7 +8,7 @@ const Cart = require("../../models/cartSchema");
 const loadSingleProduct = async (req, res) => {
   try {
     const productId = req.query.id;
-    const userId = req.session.user||null;
+    const userId = req.session.user || null;
     const product = await productSchema
       .findById(productId)
       .populate("category");
@@ -20,40 +20,39 @@ const loadSingleProduct = async (req, res) => {
       })
       .populate("category")
       .limit(5);
-      const relatedProductsWithOffer = relatedProducts.map((relatedProduct) => {
-        let bestoffer =
-          relatedProduct.productOffer > relatedProduct.category.categoryOffer
-            ? relatedProduct.productOffer
-            : relatedProduct.category.categoryOffer;
-        
-        const productData = JSON.parse(JSON.stringify(relatedProduct.toObject()));
-        productData.bestoffer = bestoffer;
-  
-        if (bestoffer > 0) {
-          productData.variants.forEach((variant) => {
-            variant.salePrice = variant.salePrice - variant.salePrice * (bestoffer / 100);
-          });
-        }
-  
-        return productData;
-      });
-    console.log("relatedproducts",relatedProducts)
+    const relatedProductsWithOffer = relatedProducts.map((relatedProduct) => {
+      let bestoffer =
+        relatedProduct.productOffer > relatedProduct.category.categoryOffer
+          ? relatedProduct.productOffer
+          : relatedProduct.category.categoryOffer;
+
+      const productData = JSON.parse(JSON.stringify(relatedProduct.toObject()));
+      productData.bestoffer = bestoffer;
+
+      if (bestoffer > 0) {
+        productData.variants.forEach((variant) => {
+          variant.salePrice = Math.round(variant.salePrice - variant.salePrice * (bestoffer / 100));
+        });
+      }
+
+      return productData;
+    });
     const userWishlist = await wishlistSchema.findOne({ userId });
     const productWithOffer = JSON.parse(JSON.stringify(product.toObject()));
-    
+
     let bestoffer;
     if (productWithOffer.productOffer > productWithOffer.category.categoryOffer) {
       bestoffer = productWithOffer.productOffer;
-      productWithOffer.bestoffer=bestoffer
+      productWithOffer.bestoffer = bestoffer
     } else {
       bestoffer = productWithOffer.category.categoryOffer;
-      productWithOffer.bestoffer=bestoffer
+      productWithOffer.bestoffer = bestoffer
     }
 
     if (bestoffer > 0) {
       productWithOffer.variants.map((item) => {
-        item.salePrice = item.salePrice - item.salePrice * (bestoffer / 100);
-        
+        item.salePrice = Math.round(item.salePrice - item.salePrice * (bestoffer / 100));
+
       });
     }
 
@@ -82,7 +81,7 @@ const loadSingleProduct = async (req, res) => {
     res.render("user/singleProduct", {
       products: productWithOffer,
       relatedProducts: relatedProductsWithOffer || [],
-      message: req.session.user||"",
+      message: req.session.user || "",
       cart: cart || { items: [] },
     });
   } catch (error) {

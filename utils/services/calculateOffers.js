@@ -12,7 +12,7 @@ const calculateOffers = (cart) => {
       const bestOffer = Math.max(categoryOffer, productOffer);
       const originalPrice = item.variant.salePrice;
       const quantity = item.quantity;
-      const discountedPrice = Number(originalPrice - (originalPrice * bestOffer) / 100);
+      const discountedPrice = Math.round(originalPrice - (originalPrice * bestOffer) / 100);
   
       item.variant.salePrice = discountedPrice;
       item.totalPrice = Number(discountedPrice * quantity);

@@ -40,9 +40,10 @@ const loadHomepage = async (req, res) => {
 
       if (bestOffer > 0) {
         for (let i = 0; i < product.variants.length; i++) {
-          const offerPrice =
+          const offerPrice = Math.round(
             product.variants[i].salePrice -
-            product.variants[i].salePrice * (bestOffer / 100);
+            product.variants[i].salePrice * (bestOffer / 100)
+          );
           finalProduct.variants[i].salePrice = offerPrice;
         }
       }
@@ -83,9 +84,7 @@ const loadregisterPage = async (req, res) => {
   try {
     const { code } = req.query || "";
     req.session.code = code;
-    // console.log(code);
     const msg = req.session.err || null;
-    console.log(msg)
     req.session.err = null;
     return res.render("user/register", { msg });
   } catch (error) {
@@ -184,14 +183,21 @@ const verifyOtp = async (req, res) => {
     const { otp } = req.body;
     if (otp === req.session.userOtp) {
       const user = req.session.userData;
-      const passwordHash = await securePassword(user.password);
-      const saveUserData = new User({
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        password: passwordHash,
-      });
-      await saveUserData.save();
+      let existingUser = await User.findOne({ email: user.email });
+      let saveUserData;
+      
+      if (existingUser) {
+        saveUserData = existingUser;
+      } else {
+        const passwordHash = await securePassword(user.password);
+        saveUserData = new User({
+          name: user.name,
+          email: user.email,
+          phone: user.phone,
+          password: passwordHash,
+        });
+        await saveUserData.save();
+      }
 
       req.session.user = saveUserData._id;
       if (req.session.code) {
@@ -253,6 +259,7 @@ const verifyOtp = async (req, res) => {
         }
       }
 
+      req.session.userOtp = null; // Clear OTP on success
       return res.json({ success: true, redirectUrl: "/" });
     } else {
       return res

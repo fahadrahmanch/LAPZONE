@@ -59,7 +59,7 @@ const loadShop = async (req, res) => {
       if (bestOffer > 0) {
         finalProduct.variants = finalProduct.variants.map(variant => {
           const originalPrice = variant.salePrice;
-          const discountedPrice = originalPrice - (originalPrice * (bestOffer / 100));
+          const discountedPrice = Math.round(originalPrice - (originalPrice * (bestOffer / 100)));
           return {
             ...variant,
             originalPrice: originalPrice,

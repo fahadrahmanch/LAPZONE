@@ -4,7 +4,6 @@ click.forEach(button=>{
 button.addEventListener('click',async ()=>{
 //    event.preventDefault()
     const productId=button.getAttribute('data-id');
-    console.log(productId)
     const action=button.getAttribute('data-list')
     // const badge = document.querySelector(`span[data-id="${userId}"]`);
     try{

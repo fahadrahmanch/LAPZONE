@@ -61,8 +61,9 @@ const getwishlist = async (req, res) => {
           ? item.productId.productOffer
           : item.productId.category.categoryOffer;
 
-      item.variants.salePrice =
-        originalPrice - (originalPrice * bestOffer) / 100;
+      item.variants.salePrice = Math.round(
+        originalPrice - (originalPrice * bestOffer) / 100
+      );
     });
 
     res.render("user/wishlist", {
